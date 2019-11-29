@@ -116,7 +116,7 @@ MonoBehaviour:
   m_MinSize: {x: 911, y: 344}
   m_MaxSize: {x: 22006, y: 10022}
   vertical: 0
-  controlID: 92
+  controlID: 141
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -509,9 +509,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      m_SelectedIDs: a4320000
       m_LastClickedID: 0
-      m_ExpandedIDs: 36faffff68faffff26fbffff
+      m_ExpandedIDs: 6cfbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -574,20 +574,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/ServerInterface/Hamaguchi
+    - Assets/Scripts/ServerInterface
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts/ServerInterface/Hamaguchi
+  - Assets/Scripts/ServerInterface
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\s172168\Desktop\NewBteam\Katon_Collection
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 9e350000
-    m_LastClickedID: 13726
-    m_ExpandedIDs: 00000000a62c00003e2d0000762d0000a82d000000ca9a3b
+    m_SelectedIDs: 242e0000
+    m_LastClickedID: 11812
+    m_ExpandedIDs: 000000000a2e0000242e0000482e00007e2e000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -615,7 +615,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000003e2d0000762d0000
+    m_ExpandedIDs: 000000000a2e0000242e0000482e00007e2e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
