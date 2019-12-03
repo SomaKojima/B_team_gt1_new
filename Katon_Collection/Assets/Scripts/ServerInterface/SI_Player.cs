@@ -46,4 +46,16 @@ public class SI_Player : MonoBehaviour
         get { return id; }
         set { id = value; }
     }
+
+    public string Name
+    {
+        get { return name; }
+        set { name = value; }
+    }
+
+    public bool IsExcange
+    {
+        get { return isExcange; }
+        set { isExcange = value; }
+    }
 }
