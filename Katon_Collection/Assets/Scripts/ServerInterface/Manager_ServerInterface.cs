@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Manager_ServerInterface : Photon.MonoBehaviour
 {
+    private bool changeFlag = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,9 +35,9 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
             PhotonNetwork.autoCleanUpPlayerObjects = false;
             RoomOptions roomOptions = new RoomOptions();
 
-            roomOptions.maxPlayers = 4; //部屋の最大人数
-            roomOptions.isOpen = true; //入室許可する
-            roomOptions.isVisible = true; //ロビーから見えるようにする
+            roomOptions.MaxPlayers = 4; //部屋の最大人数
+            roomOptions.IsOpen = true; //入室許可する
+            roomOptions.IsVisible = true; //ロビーから見えるようにする
 
             PhotonNetwork.CreateRoom(roomName, roomOptions, null);
         }
@@ -90,4 +92,42 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
     {
         Debug.Log("サーバーに接続しているクライアント数が上限に達しています");
     }
+
+    //誰かがルームに入室したときに呼ばれるコールバックメソッド
+    void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
+    {
+        Debug.Log(newPlayer.NickName + "　が入室しました");
+        ChangedFlag();
+    }
+
+    //誰かがルームを退室したときに呼ばれるコールバックメソッド
+    void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
+    {
+        Debug.Log(otherPlayer.NickName + "　が退室しました");
+        ChangedFlag();
+    }
+
+    private void ChangedFlag()
+    {
+        if(changeFlag)
+        {
+            changeFlag = false;
+        }
+        else
+        {
+            changeFlag = true;
+        }
+    }
+
+    public bool IsChangedMember()
+    {
+        bool flag = changeFlag;
+        if (changeFlag)
+        {
+            ChangedFlag();
+        }
+
+        return flag;
+    }
+
 }

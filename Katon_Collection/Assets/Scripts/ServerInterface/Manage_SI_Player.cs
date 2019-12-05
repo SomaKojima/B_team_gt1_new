@@ -25,6 +25,19 @@ public class Manage_SI_Player : MonoBehaviour
 
     public void UpdatePlayers()
     {
+        PhotonPlayer[] playerList = PhotonNetwork.playerList;
 
+        if (playerList.Length == 0)
+        {
+            Debug.Log("プレイヤーがいません");
+        }
+        else
+        {
+            for (int i = 0; i < playerList.Length; i++)
+            {
+                players[i].ID = playerList[i].ID;
+                players[i].Name = playerList[i].NickName;
+            }
+        }
     }
 }
