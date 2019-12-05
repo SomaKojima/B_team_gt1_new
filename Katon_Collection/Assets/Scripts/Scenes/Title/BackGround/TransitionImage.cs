@@ -18,30 +18,22 @@ public class TransitionImage : MonoBehaviour
     [SerializeField]
     private float m_fadeTime = 1.0f;
 
+    //フェードの処理を行うためのフラグ
+    bool isProcess = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(TransitionOut());
+       
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    //IEnumerator Transition(bool isinTransition)
-    //{
-    //    if (isinTransition)
-    //    {
-
-    //    }
-    //    return;
-    //}
-
+   
+         
     //フェードイン
     public IEnumerator TransitionIn()
     {
+        
+        isProcess = true;
         yield return Animate(m_transitionIn, m_fadeTime);
 
         yield return new WaitForEndOfFrame();
@@ -50,6 +42,11 @@ public class TransitionImage : MonoBehaviour
     //フェードアウト
     public IEnumerator TransitionOut()
     {
+
+       
+
+        isProcess = true;
+
         yield return Animate(m_transitionOut, m_fadeTime);
 
         yield return new WaitForEndOfFrame();
@@ -72,5 +69,12 @@ public class TransitionImage : MonoBehaviour
             current += Time.deltaTime;
         }
         material.SetFloat("_Alpha", 1);
+        isProcess = false;
+    }
+
+    //取得
+    public bool IsProcess
+    {
+        get { return isProcess; }
     }
 }

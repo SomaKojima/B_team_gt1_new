@@ -5,6 +5,10 @@ using UnityEngine;
 public class Fade_Cloud : MonoBehaviour
 {
 
+    //イメージ画像
+    [SerializeField]
+    RectTransform image;
+
     //インするときの場所
     [SerializeField]
     private RectTransform m_inPosition;
@@ -13,37 +17,71 @@ public class Fade_Cloud : MonoBehaviour
     [SerializeField]
     private RectTransform m_outPosition;
 
-    bool m_inFlag = false;
+    bool m_oneloopFlag = false;
 
-   
+    Vector3 inPosBuf;
+    Vector3 outPosBuf;
+
+    float time = 0;
+    float duringTime = 1.0f;
 
 
     // Start is called before the first frame update
     void Start()
     {
-       
+        inPosBuf = m_inPosition.localPosition;
+        outPosBuf = m_outPosition.localPosition;
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   
+ 
 
     //動き
-    bool Move(bool isFadeIn)
+    public void Move(bool isFadeIn)
     {
+
+        if (m_oneloopFlag != isFadeIn)
+        {
+            time = 0.0f;
+        }
+
+        float t = CulcT();
+
+        //trueだったら
         if (isFadeIn)
         {
-            //動く
-
-
+            image.localPosition = Vector3.Lerp(image.localPosition, inPosBuf, t);
         }
         else
         {
-            //動かない
+            image.localPosition = Vector3.Lerp(image.localPosition, outPosBuf, t);
         }
 
-        return isFadeIn;
+        time += Time.deltaTime;
+
+        if (CulcT() >= 1.0f)
+        {
+            time = duringTime;
+            isFadeIn = !isFadeIn;
+        }
+
+        m_oneloopFlag = isFadeIn;
+
+       // Debug.Log(isFadeIn);
+
+       
+    }
+
+    float CulcT()
+    {
+        if (duringTime == 0.0f)
+        {
+            return 1.0f;
+        }
+        else
+        {
+            return time / duringTime;
+        }
     }
 }

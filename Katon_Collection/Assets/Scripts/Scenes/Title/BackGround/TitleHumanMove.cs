@@ -4,30 +4,43 @@ using UnityEngine;
 
 public class TitleHumanMove : MonoBehaviour
 {
+    //スタートするポジション
     [SerializeField]
-    Transform m_rightPosition;
+    private Vector3 StartPos;
 
+    //終了ポジション
     [SerializeField]
-    Transform m_leftPosition;
+    private Vector3 EndPos;
 
-
+    //時間
     public float time;
-    private Transform deltaPos;
+
+    //経過したポジション
+    private Vector3 deltaPos;
+
+    //経過時間
     private float elapsedTime;
+    
     private bool bStartToEnd = true;
     void Start()
     {
         // StartPosをオブジェクトに初期位置に設定
-        transform.position = m_rightPosition.localPosition;
+        transform.position = StartPos;
         // 1秒当たりの移動量を算出
-        deltaPos.localPosition = (m_rightPosition.localPosition - m_leftPosition.localPosition) / time;
+        deltaPos = (EndPos - StartPos) / time;
         elapsedTime = 0;
     }
 
     void Update()
     {
-       
-        this.transform.position += deltaPos * Time.deltaTime;
+        Move();
+    }
+
+    //往復の動き
+    void Move()
+    {
+        // Time.deltaTimeは前回Updateが呼ばれてからの経過時間
+        transform.position += deltaPos * Time.deltaTime;
         // 往路復路反転用経過時間
         elapsedTime += Time.deltaTime;
         // 移動開始してからの経過時間がtimeを超えると往路復路反転
@@ -35,7 +48,7 @@ public class TitleHumanMove : MonoBehaviour
         {
             if (bStartToEnd)
             {
-                // StartPos→EndPosだったので反転してEndPos→StartPosにする
+
                 // 現在の位置がEndPosなので StartPos - EndPosでEndPos→StartPosの移動量になる
                 deltaPos = (StartPos - EndPos) / time;
                 // 誤差があるとずれる可能性があるので念のためオブジェクトの位置をEndPosに設定
@@ -55,3 +68,6 @@ public class TitleHumanMove : MonoBehaviour
             elapsedTime = 0;
         }
     }
+
+
+}
