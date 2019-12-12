@@ -142,6 +142,7 @@ GameObject:
   - component: {fileID: 6049888733158396379}
   - component: {fileID: 6049888733158396381}
   - component: {fileID: 6049888733158396378}
+  - component: {fileID: 8356532652475083069}
   m_Layer: 5
   m_Name: time
   m_TagString: Untagged
@@ -195,7 +196,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 552978e515b4b304596f65c3be1c71f0, type: 3}
     m_FontSize: 88
     m_FontStyle: 0
     m_BestFit: 0
@@ -210,6 +211,21 @@ MonoBehaviour:
   m_Text: '10:00
 
 '
+--- !u!114 &8356532652475083069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6049888733158396376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 10, y: 10}
+  m_UseGraphicAlpha: 1
 --- !u!1 &8465177510648193248
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,6 +237,7 @@ GameObject:
   - component: {fileID: 2171807862913116120}
   - component: {fileID: 4240988905976658923}
   - component: {fileID: 3837643892468389214}
+  - component: {fileID: 2072161612430063447}
   m_Layer: 5
   m_Name: text
   m_TagString: Untagged
@@ -274,7 +291,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 552978e515b4b304596f65c3be1c71f0, type: 3}
     m_FontSize: 88
     m_FontStyle: 0
     m_BestFit: 0
@@ -287,3 +304,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: New Text
+--- !u!114 &2072161612430063447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8465177510648193248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 10, y: 10}
+  m_UseGraphicAlpha: 1
