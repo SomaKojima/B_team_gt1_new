@@ -5,5 +5,6 @@
     GO_TO_ROAD,
     GO_TO_TARGET,
     COLLECT,
-    STOP
+    STOP,
+    PICK
 }

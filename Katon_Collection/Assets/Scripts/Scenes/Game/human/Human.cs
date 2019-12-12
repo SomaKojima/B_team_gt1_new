@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Human : MonoBehaviour
 {
-    public const float SPEED = 0.1f;
+    public const float SPEED = 0.25f;
     public const float COLLECT_DURING_TIME = 0.5f;
 
     ContextMoveState move = new ContextMoveState();
@@ -15,7 +15,8 @@ public class Human : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        move.Initialize();
+       velocity = new Vector3(Human.SPEED, 0.0f, Human.SPEED);
+        move.Initialize(this);
     }
 
     // Update is called once per frame
@@ -30,9 +31,10 @@ public class Human : MonoBehaviour
         
     }
 
-    public bool IsCollect()
+    public bool IsCollect
     {
-        return isCollect;
+        get { return isCollect; }
+        set { isCollect = value; }
     }
 
     public Vector3 Velocity
