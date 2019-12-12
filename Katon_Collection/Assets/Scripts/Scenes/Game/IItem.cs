@@ -4,8 +4,8 @@ using UnityEngine;
 
 public interface IItem
 {
-    void AddCount(int _count, ItemType.ITEM_TYPE _type);
-    void SubCount(int _count, ItemType.ITEM_TYPE _type);
+    void AddCount(int _count, ITEM_TYPE _type);
+    void SubCount(int _count, ITEM_TYPE _type);
 
-    ItemType.ITEM_TYPE GetItemType();
+    ITEM_TYPE GetItemType();
 }
