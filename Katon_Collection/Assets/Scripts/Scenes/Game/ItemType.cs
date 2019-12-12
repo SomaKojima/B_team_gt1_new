@@ -2,19 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemType
+// 資源の種類
+public enum ITEM_TYPE
 {
-    // 資源の種類
-    public enum ITEM_TYPE
-    {
-        LOOGER,
-        COAL_MINER,
-        ENGINEER,
+    LOOGER,
+    COAL_MINER,
+    ENGINEER,
 
-        WOOD,
-        ORE,
-        PARTS,
+    WOOD,
+    ORE,
+    PARTS,
 
-        NUM
-    }
+    NUM
 }
