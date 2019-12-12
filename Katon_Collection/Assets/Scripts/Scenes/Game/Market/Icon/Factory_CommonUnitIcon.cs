@@ -30,7 +30,7 @@ public class Factory_CommonUnitIcon : MonoBehaviour
     /// <param name="parent"></param>
     /// <param name="type"></param>
     /// <param name="count"></param>
-    public CommonUnitIcon Create(Transform parent, ItemType.ITEM_TYPE type, int count)
+    public CommonUnitIcon Create(Transform parent, ITEM_TYPE type, int count)
     {
         // アイコンの生成
         GameObject obj = Instantiate(iconPrefab, parent);

@@ -30,7 +30,7 @@ public class Factory_MarketUnitIcon : MonoBehaviour
     /// <param name="parent"></param>
     /// <param name="type"></param>
     /// <param name="count"></param>
-    public MarketUnitIcon Create(Transform parent, ItemType type, int count)
+    public MarketUnitIcon Create(Transform parent, ITEM_TYPE type, int count)
     {
         // アイコンの生成
         GameObject obj = Instantiate(iconPrefab, parent);

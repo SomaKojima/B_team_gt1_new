@@ -28,7 +28,7 @@ public class Manager_Item : MonoBehaviour
     /// </summary>
     /// <param name="type">取得するアイテムの種類</param>
     /// <returns>アイテム</returns>
-    public Item GetItem(ItemType.ITEM_TYPE type)
+    public Item GetItem(ITEM_TYPE type)
     {
         return itemList[(int)type].GetItemInstance();
     }
