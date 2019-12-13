@@ -29,14 +29,12 @@ public class UI_FactoryLog : MonoBehaviour
         UI_Log log = instance.GetComponent<UI_Log>();
 
 
+        //変換をしている処理
         int minute = (int)_time / 600;     //分
         float second = _time % 60;   //秒
         int msecond = (int)(_time * 1000 % 1000);
 
         st = minute.ToString() + ":" + second.ToString()+msecond.ToString();
-
-
-
 
 
         log.Initialize(_text,st);
