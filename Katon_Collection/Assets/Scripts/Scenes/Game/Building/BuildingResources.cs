@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildingResources 
+public class BuildingResources : MonoBehaviour
 {
     //アイテムタイプ
     [SerializeField]
