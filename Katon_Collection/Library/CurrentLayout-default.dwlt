@@ -116,7 +116,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 444}
   m_MaxSize: {x: 22012, y: 10022}
   vertical: 0
-  controlID: 42013
+  controlID: 1441
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 444}
   m_MaxSize: {x: 4002, y: 8044}
   vertical: 1
-  controlID: 42019
+  controlID: 1350
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -272,7 +272,7 @@ MonoBehaviour:
   - {fileID: 16}
   - {fileID: 17}
   m_Selected: 0
-  m_LastSelected: 0
+  m_LastSelected: 1
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -392,7 +392,7 @@ MonoBehaviour:
   m_Position:
     m_Target: {x: 1.9359673, y: 7.0863013, z: 62.65625}
     speed: 2
-    m_Value: {x: 634.147, y: 736.00464, z: -16.916668}
+    m_Value: {x: 1.9359673, y: 7.0863013, z: 62.65625}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -423,11 +423,11 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: 0, y: 0, z: 0, w: 1}
     speed: 2
-    m_Value: {x: -0, y: 0, z: -0, w: -1}
+    m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
     m_Target: 72.93016
     speed: 2
-    m_Value: 1709.4685
+    m_Value: 72.93016
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -484,7 +484,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 4859ffff30c6ffff64cbffff6efbffff263500002e350000a6350000c4350000
+      m_ExpandedIDs: 2afaffff0c3a00005e3a0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -547,20 +547,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/test/Resource/prefab/shop
+    - Assets/Resources/Images/Scenes/Game/UI/Market
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/test/Resource/prefab/shop
+  - Assets/Resources/Images/Scenes/Game/UI/Market
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\s172179\Documents\git\GraduateProduct\Katon_Collection
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: d82f0000
-    m_LastClickedID: 12248
-    m_ExpandedIDs: 00000000722e0000de2e0000bc310000fe35000000ca9a3b
+    m_SelectedIDs: 6c320000
+    m_LastClickedID: 12908
+    m_ExpandedIDs: 00000000c62f000032300000f8300000a4310000aa310000fa32000004330000c0330000a43a000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -588,7 +588,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000722e00007c2e0000b42e0000de2e0000fc2e00002c2f00005e300000bc310000ee310000343200008c32000024330000fe35000000ca9a3b
+    m_ExpandedIDs: 00000000c62f000032300000fa320000a43a000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -615,7 +615,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: 122f000014320000f4300000aa31000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -640,7 +640,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 0}
+    m_ScrollPosition: {x: 0, y: 329}
     m_GridSize: 64
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 147
