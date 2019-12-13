@@ -55,7 +55,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4210628268849086451}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 7.8974786, y: 17.770506, z: 1.5911713}
@@ -74,7 +74,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 122
   m_CollisionDetection: 0
 --- !u!1 &4210628268971606164
 GameObject:
@@ -87,7 +87,6 @@ GameObject:
   - component: {fileID: 4210628268971606163}
   - component: {fileID: 4210628268971606160}
   - component: {fileID: 4210628268971606161}
-  - component: {fileID: 4210628268971606162}
   m_Layer: 0
   m_Name: render
   m_TagString: Untagged
@@ -155,20 +154,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &4210628268971606162
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4210628268971606164}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &5577007893389062919
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,7 +165,7 @@ GameObject:
   - component: {fileID: 1204404996593295286}
   - component: {fileID: 8231448068546913827}
   - component: {fileID: 2845914979742664814}
-  - component: {fileID: 3009260162971177033}
+  - component: {fileID: 345919171389045877}
   m_Layer: 0
   m_Name: Quad
   m_TagString: Untagged
@@ -248,17 +233,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &3009260162971177033
-MeshCollider:
+--- !u!114 &345919171389045877
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5577007893389062919}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1cb293648cafb94d931dc502d816725, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wood: {fileID: 2100000, guid: b93239cfb45c019468b1443fb7e49584, type: 2}
+  parts: {fileID: 2100000, guid: a39d898054a4a8942a86314ae5392657, type: 2}
+  ore: {fileID: 2100000, guid: 491b38b2ffa12cc4780c7f89577ad205, type: 2}

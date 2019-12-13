@@ -24,6 +24,7 @@ public class Human : MonoBehaviour
     {
         transform.position += Velocity;
         move.Excute(this);
+        
     }
 
     public void Initialize()
