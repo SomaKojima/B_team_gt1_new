@@ -92,10 +92,10 @@ MonoBehaviour:
     y: 30
     width: 1920
     height: 947
-  m_MinSize: {x: 738, y: 444}
+  m_MinSize: {x: 913, y: 444}
   m_MaxSize: {x: 22008, y: 10022}
   vertical: 0
-  controlID: 150
+  controlID: 162
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 444}
   m_MaxSize: {x: 4002, y: 8044}
   vertical: 1
-  controlID: 54
+  controlID: 31
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -213,14 +213,14 @@ MonoBehaviour:
     y: 0
     width: 672
     height: 947
-  m_MinSize: {x: 102, y: 122}
+  m_MinSize: {x: 277, y: 72}
   m_MaxSize: {x: 4002, y: 4022}
-  m_ActualView: {fileID: 12}
+  m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
   - {fileID: 12}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -330,7 +330,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 6efbffff
+      m_ExpandedIDs: 9ad8ffff8efaffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -431,20 +431,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources/Prefabs/Scenes/Game/Building
+    - Assets/Resources/Prefabs/Scenes/Game/Floor
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Resources/Prefabs/Scenes/Game/Building
+  - Assets/Resources/Prefabs/Scenes/Game/Floor
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\GT1_03\Team_B\Katon_Collection
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 8c420000
-    m_LastClickedID: 17036
-    m_ExpandedIDs: 00000000842e00008e2e0000c82e0000f02e0000102f0000402f0000602f0000b82f00006630000070300000ee3000008e310000d8310000e2310000aa320000ae320000bc320000f6320000203300004a330000d836000000ca9a3b
+    m_SelectedIDs: 4e3d0000
+    m_LastClickedID: 15694
+    m_ExpandedIDs: 00000000422f00004c2f0000942f0000ac2f0000cc2f0000fc2f000072300000223100002c310000a8310000923200009e320000c8320000663300006a33000076330000b2330000dc330000063400008e37000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -472,7 +472,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000842e00008e2e0000f02e0000102f0000b82f000066300000d8310000e2310000aa320000ae320000bc3200004a330000d8360000
+    m_ExpandedIDs: 00000000422f00004c2f0000ac2f0000cc2f00007230000022310000923200009e320000663300006a330000763300008e370000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -645,9 +645,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 233, y: 47, z: 0}
+    m_Target: {x: 222.86833, y: 41.92051, z: -0.73843384}
     speed: 2
-    m_Value: {x: 233, y: 47, z: 0}
+    m_Value: {x: 222.86833, y: 41.92051, z: -0.73843384}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -676,13 +676,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: -0.0063081942, y: 0.02009595, z: -0.0001271975, w: -0.9997828}
+    m_Target: {x: -0.016794566, y: 0.041080415, z: -0.0006910118, w: -0.99901897}
     speed: 2
-    m_Value: {x: -0.006308165, y: 0.020095857, z: -0.00012719691, w: -0.99977815}
+    m_Value: {x: -0.01679449, y: 0.04108023, z: -0.00069100864, w: -0.99901444}
   m_Size:
-    m_Target: 202.1837
+    m_Target: 241.9473
     speed: 2
-    m_Value: 202.1837
+    m_Value: 241.9473
   m_Ortho:
     m_Target: 0
     speed: 2
