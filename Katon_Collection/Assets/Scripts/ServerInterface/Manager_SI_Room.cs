@@ -23,6 +23,11 @@ public class Manager_SI_Room : Photon.MonoBehaviour
         return rooms[index];
     }
 
+    public SI_Room[] GetRooms()
+    {
+        return rooms;
+    }
+
     public void UpdateRooms()
     {
         //ルーム一覧を取る
