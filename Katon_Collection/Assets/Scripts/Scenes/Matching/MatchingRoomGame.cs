@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MatchingRoomGame : MonoBehaviour
 {
@@ -65,6 +66,14 @@ public class MatchingRoomGame : MonoBehaviour
             makeRoom_Window.gameObject.SetActive(false);
             waitRoom_Window.Inititalize(false, makeRoom_Window.GetInputRoomName());
             CreateRoom();
+        }
+
+
+        if(backButton.IsClick())
+        {
+            backButton.OnClickProcess();
+
+            SceneManager.LoadScene("MatchingRoomScene");
         }
     }
 
