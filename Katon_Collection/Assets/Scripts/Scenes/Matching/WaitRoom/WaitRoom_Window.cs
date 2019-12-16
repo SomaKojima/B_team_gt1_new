@@ -59,7 +59,7 @@ public class WaitRoom_Window : MonoBehaviour
     {
         managerGuestName.Clear();
         // ゲスト名の初期化
-        for (int i = 1; i < manager_si_player.GetPlayers().Length; i++)
+        for (int i = 1; i < manager_si_player.GetPlayers().Count; i++)
         {
             string name = manager_si_player.GetPlayer(i).Name;
             managerGuestName.Add(factoryGuestName.Create(name));

@@ -16,6 +16,9 @@ public class MatchingRoomGame : MonoBehaviour
     [SerializeField]
     Manager_ServerInterface serverInterface;
 
+    [SerializeField]
+    UI_Button_RoomMatching backButton;
+
     // Start is called before the first frame update
     void Start()
     {

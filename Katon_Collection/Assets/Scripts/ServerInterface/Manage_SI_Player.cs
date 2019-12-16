@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Manage_SI_Player : MonoBehaviour
 {
-    private SI_Player[] players;
+    private List<SI_Player> players = new List<SI_Player>();
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +23,7 @@ public class Manage_SI_Player : MonoBehaviour
         return players[index];
     }
 
-    public SI_Player[] GetPlayers()
+    public List<SI_Player> GetPlayers()
     {
         return players;
     }
@@ -40,6 +40,10 @@ public class Manage_SI_Player : MonoBehaviour
         {
             for (int i = 0; i < playerList.Length; i++)
             {
+                if (players.Count < i + 1)
+                {
+                    players.Add(new SI_Player());
+                }
                 players[i].ID = playerList[i].ID;
                 players[i].Name = playerList[i].NickName;
             }
