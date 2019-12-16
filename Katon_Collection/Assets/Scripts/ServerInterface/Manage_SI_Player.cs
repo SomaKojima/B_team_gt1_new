@@ -9,18 +9,23 @@ public class Manage_SI_Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public SI_Player GetPlayer(int index)
     {
         return players[index];
+    }
+
+    public SI_Player[] GetPlayers()
+    {
+        return players;
     }
 
     public void UpdatePlayers()

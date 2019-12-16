@@ -29,7 +29,7 @@ public class Manager_RoomNameButton : MonoBehaviour
 
     public void AllDelete()
     {
-
+        buttons.Clear();
     }
 
     public void Add(UI_Button_RoomName button)

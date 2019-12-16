@@ -21,6 +21,11 @@ public class Manager_GuestName : MonoBehaviour
 
     public void Add(GuestName guestName)
     {
+        names.Add(guestName);
+    }
 
+    public void Clear()
+    {
+        names.Clear();
     }
 }

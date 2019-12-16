@@ -21,6 +21,6 @@ public class HostName : MonoBehaviour
 
     public void Inititalize(string _name)
     {
-
+        name = _name;
     }
 }

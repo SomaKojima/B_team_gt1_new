@@ -20,6 +20,6 @@ public class RoomName : MonoBehaviour
     }
     public void Inititalize(string _name)
     {
-
+        name = _name;
     }
 }
