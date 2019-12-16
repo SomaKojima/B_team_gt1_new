@@ -5,6 +5,7 @@ using UnityEngine;
 public class Manager_ServerInterface : Photon.MonoBehaviour
 {
     private bool changeFlag = false;
+    private bool isJoinedLobby = false;
 
     // Start is called before the first frame update
     void Start()
@@ -61,6 +62,7 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
     void OnJoinedLobby()
     {
         Debug.Log("ロビーに接続しました");
+        isJoinedLobby = true;
     }
 
     //ルーム入室した時に呼ばれるコールバックメソッド
@@ -130,4 +132,8 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
         return flag;
     }
 
+    public bool IsJoinedLobby()
+    {
+        return isJoinedLobby;
+    }
 }
