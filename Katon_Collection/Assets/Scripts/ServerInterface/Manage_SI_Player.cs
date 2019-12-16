@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Manage_SI_Player : MonoBehaviour
 {
-    private List<SI_Player> players = new List<SI_Player>();
+    private List<SI_Player> players;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +31,7 @@ public class Manage_SI_Player : MonoBehaviour
     public void UpdatePlayers()
     {
         PhotonPlayer[] playerList = PhotonNetwork.playerList;
+        players.Clear();
 
         if (playerList.Length == 0)
         {

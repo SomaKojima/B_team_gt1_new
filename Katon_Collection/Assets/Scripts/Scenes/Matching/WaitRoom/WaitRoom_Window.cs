@@ -28,7 +28,6 @@ public class WaitRoom_Window : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateGuestName();
     }
 
     public void Inititalize(bool entry, string _roomName)

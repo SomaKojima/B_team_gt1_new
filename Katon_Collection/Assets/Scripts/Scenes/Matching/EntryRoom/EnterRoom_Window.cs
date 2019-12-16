@@ -21,7 +21,6 @@ public class EnterRoom_Window : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        UpdateRooms();
     }
 
     // Update is called once per frame

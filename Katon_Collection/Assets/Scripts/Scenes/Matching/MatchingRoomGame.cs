@@ -23,8 +23,7 @@ public class MatchingRoomGame : MonoBehaviour
     void Start()
     {
         serverInterface.ConnectServer();
-        serverInterface.EnterLobby();
-        
+        //serverInterface.EnterLobby();
     }
 
     // Update is called once per frame
@@ -83,12 +82,14 @@ public class MatchingRoomGame : MonoBehaviour
     void CreateRoom()
     {
         serverInterface.CreateRoom(makeRoom_Window.GetInputRoomName());
+        serverInterface.SetPlayerName(makeRoom_Window.GetInputPlayerName());
     }
 
     // 部屋に入るときの処理
     void EntoryRoom()
     {
         serverInterface.EnterRoom(entryRoom_Window.GetEnterRoomName());
+        serverInterface.SetPlayerName(entryRoom_Window.GetInputPlayerName());
     }
 
 }
