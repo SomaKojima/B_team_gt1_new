@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Manager_SI_Room : Photon.MonoBehaviour
 {
-    private List<SI_Room> rooms;
+    private List<SI_Room> rooms = new List<SI_Room>();
 
     // Start is called before the first frame update
     void Start()

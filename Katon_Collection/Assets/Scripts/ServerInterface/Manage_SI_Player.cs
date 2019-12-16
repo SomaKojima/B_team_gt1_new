@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Manage_SI_Player : MonoBehaviour
 {
-    private List<SI_Player> players;
+    private List<SI_Player> players = new List<SI_Player>();
 
     // Start is called before the first frame update
     void Start()
@@ -15,7 +15,7 @@ public class Manage_SI_Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        UpdatePlayers();
     }
 
     public SI_Player GetPlayer(int index)
