@@ -43,7 +43,6 @@ public class Manage_SI_Player : MonoBehaviour
                 if (players.Count < i + 1)
                 {
                     players.Add(new SI_Player());
-                    Debug.Log(players[i]);
                 }
                 players[i].ID = playerList[i].ID;
                 players[i].Name = playerList[i].NickName;

@@ -41,7 +41,7 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
             !isCreateRoom)
         {
             isCreateRoom = true;
-            PhotonNetwork.autoCleanUpPlayerObjects = false;
+            //PhotonNetwork.autoCleanUpPlayerObjects = false;
             RoomOptions roomOptions = new RoomOptions();
 
             roomOptions.MaxPlayers = 4; //部屋の最大人数
@@ -123,8 +123,12 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
     {
         Debug.Log(otherPlayer.NickName + "　が退室しました");
         ChangedFlag();
-        isJoinedRoom = false;
-        isCreateRoom = false;
+
+        if (otherPlayer == PhotonNetwork.player)
+        {
+            isEnterRoom = false;
+            isCreateRoom = false;
+        }
     }
 
     // 入室に失敗
@@ -132,6 +136,7 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
     {
         isEnterRoom = false;
     }
+    
 
     private void ChangedFlag()
     {

@@ -43,9 +43,8 @@ public class WaitRoom_Window : MonoBehaviour
         roomName.Inititalize(_roomName);
 
         manager_si_player.UpdatePlayers();
-
         // ホスト名の初期化
-        hostName.Inititalize(manager_si_player.GetPlayer(0).Name);
+        hostName.Inititalize(manager_si_player.GetPlayer(manager_si_player.GetPlayers().Count - 1).Name);
 
         // ゲスト名の初期化
         UpdateGuestName();
@@ -61,9 +60,12 @@ public class WaitRoom_Window : MonoBehaviour
     public void UpdateGuestName()
     {
         managerGuestName.AllDelete();
-        // ゲスト名の初期化
+
+        manager_si_player.UpdatePlayers();
         Debug.Log(manager_si_player.GetPlayers().Count);
-        for (int i = 1; i < manager_si_player.GetPlayers().Count; i++)
+
+        // ゲスト名の初期化
+        for (int i = manager_si_player.GetPlayers().Count - 2; 0 <= i; i--)
         {
             string name = manager_si_player.GetPlayer(i).Name;
             managerGuestName.Add(factoryGuestName.Create(name));
