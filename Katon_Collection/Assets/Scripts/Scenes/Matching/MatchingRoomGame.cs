@@ -23,14 +23,15 @@ public class MatchingRoomGame : MonoBehaviour
     void Start()
     {
         serverInterface.ConnectServer();
-        //serverInterface.EnterLobby();
+        serverInterface.EnterLobby();
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        if (selectRoomModeWindow.GetRoomMode() != ROOM_MODE.None)
+        if (selectRoomModeWindow.GetRoomMode() != ROOM_MODE.None &&
+            selectRoomModeWindow.gameObject.activeSelf)
         {
             selectRoomModeWindow.gameObject.SetActive(false);
 
@@ -50,7 +51,8 @@ public class MatchingRoomGame : MonoBehaviour
         }
 
         // 部屋に入る
-        if (entryRoom_Window.GetEnterRoomName() != "")
+        if (entryRoom_Window.GetEnterRoomName() != "" &&
+            entryRoom_Window.gameObject.activeSelf)
         {
             waitRoom_Window.gameObject.SetActive(true);
             entryRoom_Window.gameObject.SetActive(false);
@@ -59,7 +61,8 @@ public class MatchingRoomGame : MonoBehaviour
         }
 
         // 部屋を作る
-        if (makeRoom_Window.IsMakeRoom())
+        if (makeRoom_Window.IsMakeRoom() &&
+            makeRoom_Window.gameObject.activeSelf)
         {
             waitRoom_Window.gameObject.SetActive(true);
             makeRoom_Window.gameObject.SetActive(false);
