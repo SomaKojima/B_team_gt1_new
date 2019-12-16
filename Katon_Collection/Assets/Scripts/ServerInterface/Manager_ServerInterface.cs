@@ -5,7 +5,9 @@ using UnityEngine;
 public class Manager_ServerInterface : Photon.MonoBehaviour
 {
     private bool changeFlag = false;
-    private bool isJoinedLobby = false;
+    private bool isJoinedRoom = false;
+    private bool isCreateRoom = false;
+    private bool isEnterRoom = false;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +19,10 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void Initialize()
+    {
     }
 
     public void ConnectServer()
@@ -31,8 +37,10 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
 
     public void CreateRoom(string roomName)
     {
-        if (roomName != null)
+        if (roomName != null && 
+            !isCreateRoom)
         {
+            isCreateRoom = true;
             PhotonNetwork.autoCleanUpPlayerObjects = false;
             RoomOptions roomOptions = new RoomOptions();
 
@@ -46,10 +54,18 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
 
     public void EnterRoom(string roomName)
     {
-        if (roomName != null)
+        if (roomName != null &&
+            !isEnterRoom)
         {
+            isEnterRoom = true;
             PhotonNetwork.JoinRoom(roomName);
         }
+    }
+
+    public void LeaveRoom()
+    {
+        if (!isEnterRoom) return;
+        PhotonNetwork.LeaveRoom();
     }
 
     public void SetPlayerName(string name)
@@ -62,13 +78,13 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
     void OnJoinedLobby()
     {
         Debug.Log("ロビーに接続しました");
-        isJoinedLobby = true;
     }
 
     //ルーム入室した時に呼ばれるコールバックメソッド
     void OnJoinedRoom()
     {
         Debug.Log("ルームに入りました");
+        isJoinedRoom = true;
     }
 
     //ルーム作成した時に呼ばれるコールバックメソッド
@@ -107,6 +123,14 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
     {
         Debug.Log(otherPlayer.NickName + "　が退室しました");
         ChangedFlag();
+        isJoinedRoom = false;
+        isCreateRoom = false;
+    }
+
+    // 入室に失敗
+    void OnPhotonJoinRoomFailed()
+    {
+        isEnterRoom = false;
     }
 
     private void ChangedFlag()
@@ -132,8 +156,8 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
         return flag;
     }
 
-    public bool IsJoinedLobby()
+    public bool IsJoinedRoom()
     {
-        return isJoinedLobby;
+        return isJoinedRoom;
     }
 }

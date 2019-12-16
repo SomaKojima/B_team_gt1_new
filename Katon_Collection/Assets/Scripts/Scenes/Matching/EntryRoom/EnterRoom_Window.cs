@@ -48,23 +48,19 @@ public class EnterRoom_Window : MonoBehaviour
         return false;
     }
 
-    public string GetEnterRoomName()
+    public UI_Button_RoomName GetEnterRoomName()
     {
-        if (manager_RoomNameButton.GetEnterButtonName() == null)
-        {
-            return "";
-        }
-        return manager_RoomNameButton.GetEnterButtonName().name;
+        return manager_RoomNameButton.GetEnterButtonName();
     }
 
     public void UpdateRooms()
     {
+        manager_si_room.UpdateRooms();
         manager_RoomNameButton.AllDelete();
         foreach (SI_Room room in manager_si_room.GetRooms())
         {
-            manager_RoomNameButton.Add(factory_RoomNameButton.Create(room.name));
+            Debug.Log(room.RoomName);
+            manager_RoomNameButton.Add(factory_RoomNameButton.Create(room.RoomName));
         }
     }
-
-    
 }

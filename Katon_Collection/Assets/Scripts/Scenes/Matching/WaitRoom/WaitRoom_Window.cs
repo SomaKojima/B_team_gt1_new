@@ -28,6 +28,7 @@ public class WaitRoom_Window : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdateGuestName();
     }
 
     public void Inititalize(bool entry, string _roomName)
@@ -41,12 +42,15 @@ public class WaitRoom_Window : MonoBehaviour
         // 部屋名の初期化
         roomName.Inititalize(_roomName);
 
+        manager_si_player.UpdatePlayers();
+
         // ホスト名の初期化
         hostName.Inititalize(manager_si_player.GetPlayer(0).Name);
 
         // ゲスト名の初期化
         UpdateGuestName();
     }
+    
 
 
     public bool IsGameStart()
@@ -56,8 +60,9 @@ public class WaitRoom_Window : MonoBehaviour
 
     public void UpdateGuestName()
     {
-        managerGuestName.Clear();
+        managerGuestName.AllDelete();
         // ゲスト名の初期化
+        Debug.Log(manager_si_player.GetPlayers().Count);
         for (int i = 1; i < manager_si_player.GetPlayers().Count; i++)
         {
             string name = manager_si_player.GetPlayer(i).Name;

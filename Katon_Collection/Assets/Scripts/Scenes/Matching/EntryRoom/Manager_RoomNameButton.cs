@@ -17,7 +17,6 @@ public class Manager_RoomNameButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        enter = null;
         foreach(UI_Button_RoomName button in buttons)
         {
             if(button.IsClick() == true)
@@ -29,6 +28,10 @@ public class Manager_RoomNameButton : MonoBehaviour
 
     public void AllDelete()
     {
+        foreach (UI_Button_RoomName button in buttons)
+        {
+            Destroy(button.gameObject);
+        }
         buttons.Clear();
     }
 

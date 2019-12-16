@@ -27,7 +27,8 @@ public class MakeRoom_Window : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(makeRoomButton.IsClick() == true)
+        isMakeRoom = false;
+        if (makeRoomButton.IsClick() == true)
         {
             makeRoomButton.OnClickProcess();
             isMakeRoom = true;

@@ -15,7 +15,6 @@ public class Manage_SI_Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdatePlayers();
     }
 
     public SI_Player GetPlayer(int index)
@@ -44,6 +43,7 @@ public class Manage_SI_Player : MonoBehaviour
                 if (players.Count < i + 1)
                 {
                     players.Add(new SI_Player());
+                    Debug.Log(players[i]);
                 }
                 players[i].ID = playerList[i].ID;
                 players[i].Name = playerList[i].NickName;

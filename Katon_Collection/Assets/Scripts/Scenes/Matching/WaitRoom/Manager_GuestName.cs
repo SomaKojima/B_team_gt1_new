@@ -24,8 +24,12 @@ public class Manager_GuestName : MonoBehaviour
         names.Add(guestName);
     }
 
-    public void Clear()
+    public void AllDelete()
     {
+        foreach (GuestName name in names)
+        {
+            Destroy(name.gameObject);
+        }
         names.Clear();
     }
 }
