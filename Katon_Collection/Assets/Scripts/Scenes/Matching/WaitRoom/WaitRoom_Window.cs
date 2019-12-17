@@ -62,7 +62,6 @@ public class WaitRoom_Window : MonoBehaviour
         managerGuestName.AllDelete();
 
         manager_si_player.UpdatePlayers();
-        Debug.Log(manager_si_player.GetPlayers().Count);
 
         // ゲスト名の初期化
         for (int i = manager_si_player.GetPlayers().Count - 2; 0 <= i; i--)

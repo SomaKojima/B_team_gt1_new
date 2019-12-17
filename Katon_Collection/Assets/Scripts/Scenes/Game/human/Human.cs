@@ -12,10 +12,15 @@ public class Human : MonoBehaviour
 
     Vector3 velocity = Vector3.zero;
 
+    public void Initialize(ITEM_TYPE _type)
+    {
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-       velocity = new Vector3(Human.SPEED, 0.0f, Human.SPEED);
+        velocity = new Vector3(Human.SPEED, 0.0f, Human.SPEED);
         move.Initialize(this);
     }
 
@@ -24,11 +29,6 @@ public class Human : MonoBehaviour
     {
         transform.position += Velocity;
         move.Excute(this);
-        
-    }
-
-    public void Initialize()
-    {
         
     }
 

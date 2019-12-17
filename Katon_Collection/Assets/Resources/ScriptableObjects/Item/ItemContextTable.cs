@@ -16,6 +16,8 @@ public class ItemContextTable : ScriptableObject
     ItemContext[] items = new ItemContext[(int)ITEM_TYPE.NUM];
 }
 
+
+#if UNITY_EDITOR
 [CustomEditor(typeof(ItemContextTable))]
 public class ItemContextTableEditor : Editor
 {
@@ -30,4 +32,5 @@ public class ItemContextTableEditor : Editor
         return tex;
     }
 }
+#endif // UNITY_EDITORG
 

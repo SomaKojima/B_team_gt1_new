@@ -141,13 +141,12 @@ public class Manager_PlaceBar : MonoBehaviour
         }
 
         //カメラボタンを押したら
+        m_isQRLeader = false;
         if (m_camera.IsClick())
         {
             m_camera.OnClickProcess();
 
             m_isQRLeader = true;
-
-           
         }
     }
 
