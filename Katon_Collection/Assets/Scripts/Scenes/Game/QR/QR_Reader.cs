@@ -16,9 +16,9 @@ public class QR_Reader : MonoBehaviour
     //カメラ起動フラグ
     private bool isPlayCamera = false;
     
-    // QR表示オブジェクト
+    // camera表示オブジェクト
     [SerializeField]
-    RawImage qrImage = null;
+    RawImage cameraImage = null;
 
 
     public void Initialize()
@@ -32,7 +32,10 @@ public class QR_Reader : MonoBehaviour
 
     private void Update()
     {
-        m_infoQR = Read(webCam);
+        if (webCam != null)
+        {
+            m_infoQR = Read(webCam);
+        }
     }
 
 
@@ -75,7 +78,7 @@ public class QR_Reader : MonoBehaviour
 
         // ウェブカメラオブジェクトを生成
         webCam = new WebCamTexture(devices[0].name, Screen.width, Screen.height, 12);
-        qrImage.texture = webCam;
+        cameraImage.texture = webCam;
         // ウェブカメラを起動
         webCam.Play();
         
