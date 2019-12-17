@@ -1060,6 +1060,11 @@ PrefabInstance:
       propertyPath: waitRoom_Window
       value: 
       objectReference: {fileID: 356960506}
+    - target: {fileID: 3798782928101313347, guid: b080bef0f9b67654ba1cbc652418ae63,
+        type: 3}
+      propertyPath: serverInterface
+      value: 
+      objectReference: {fileID: 1401932798}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b080bef0f9b67654ba1cbc652418ae63, type: 3}
 --- !u!114 &1542882127 stripped

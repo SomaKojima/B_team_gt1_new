@@ -9,4 +9,14 @@ public class ItemContext : ScriptableObject
     Sprite sprite;
     [SerializeField]
     Material material;
+
+    public Sprite GetSprite()
+    {
+        return sprite;
+    }
+
+    public Material GetMaterial()
+    {
+        return material;
+    }
 }

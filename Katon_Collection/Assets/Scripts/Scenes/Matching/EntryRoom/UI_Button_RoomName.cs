@@ -7,8 +7,6 @@ public class UI_Button_RoomName : UI_Button_RoomMatching
 {
     [SerializeField]
     Text text;
-
-    private string name;
     
     // Start is called before the first frame update
     void Start()
@@ -24,6 +22,11 @@ public class UI_Button_RoomName : UI_Button_RoomMatching
     public void Initialize(string name)
     {
         text.text = name;
+    }
+
+    public string GetRoomName()
+    {
+        return text.text;
     }
 }
 

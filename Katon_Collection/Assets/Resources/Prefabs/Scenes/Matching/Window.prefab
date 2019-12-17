@@ -333,7 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5684c02ad2022a348ae370359ce366ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
+  name: {fileID: 5333258981168654279}
 --- !u!1 &5333258980045010326
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,6 +395,7 @@ MonoBehaviour:
   managerGuestName: {fileID: 5333258980521951064}
   startButton: {fileID: 5333258980670944270}
   wait: {fileID: 2962859358355879582}
+  manager_si_player: {fileID: 0}
 --- !u!1 &5333258980102146359
 GameObject:
   m_ObjectHideFlags: 0
@@ -1338,6 +1339,8 @@ MonoBehaviour:
   playerNameInput: {fileID: 5333258981398108031}
   factory_RoomNameButton: {fileID: 5333258981284637229}
   manager_RoomNameButton: {fileID: 5333258980796069291}
+  manager_si_room: {fileID: 0}
+  updateButton: {fileID: 0}
 --- !u!1 &5333258981168654281
 GameObject:
   m_ObjectHideFlags: 0
@@ -2099,7 +2102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f98799223d758040a0b278dfbcb4832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
+  text: {fileID: 5333258980454627014}
 --- !u!1 &5333258981398108001
 GameObject:
   m_ObjectHideFlags: 0
