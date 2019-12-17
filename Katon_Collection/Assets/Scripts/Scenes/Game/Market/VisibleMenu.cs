@@ -30,7 +30,7 @@ public class VisibleMenu : MonoBehaviour
     void Update()
     {
         // SALEメニューの表示/非表示
-        if(marketWindow.GetMarketType() == Market_Type.MARKET_TYPE.SALE)
+        if(marketWindow.GetMarketType() == MARKET_TYPE.SALE)
         {
             menuParent.transform.Find(commonMenu.name).gameObject.active = false;
         }
@@ -40,7 +40,7 @@ public class VisibleMenu : MonoBehaviour
         }
 
         // Commonメニューの表示/非表示
-        if (marketWindow.GetMarketType() == Market_Type.MARKET_TYPE.COMMON)
+        if (marketWindow.GetMarketType() == MARKET_TYPE.COMMON)
         {
             menuParent.transform.Find(saleMenu.name).gameObject.active = false;
         }

@@ -5,8 +5,15 @@ using UnityEngine.UI;
 
 public class CommonUnitIcon : MonoBehaviour
 {
-    public Image icon = null;
-    public int count = 0;
+    // アイコン画像
+    [SerializeField]
+    private Image icon = null;
+    // 資材の数
+    [SerializeField]
+    private int count = 0;
+    // 資材の数(テキスト)
+    [SerializeField]
+    private Text numText = null;
 
     // Start is called before the first frame update
     void Start()
@@ -29,5 +36,6 @@ public class CommonUnitIcon : MonoBehaviour
     {
         icon.sprite = sprite;
         count = _count;
+        numText.text = _count.ToString();
     }
 }

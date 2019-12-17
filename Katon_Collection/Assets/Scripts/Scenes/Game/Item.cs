@@ -13,6 +13,21 @@ public class Item : IItem
     public Item GetItemInstance(){    return this;    }
 
     /// <summary>
+    /// アイテムの値を初期化
+    /// </summary>
+    /// <param name="setType">設定するタイプ</param>
+    /// <param name="setCount">設定する個数</param>
+    /// <returns>アイテムのインスタンス</returns>
+    public Item Initialize(ITEM_TYPE setType, int setCount)
+    {
+        Item itm = new Item();
+        itm.type = setType;
+        itm.count = setCount;
+
+        return itm;
+    }
+
+    /// <summary>
     /// 資源を増やす
     /// </summary>
     /// <param name="_count">増やす数量</param>
@@ -38,8 +53,7 @@ public class Item : IItem
         }
     }
 
-    public ITEM_TYPE GetItemType()
-    {
-        return type;
-    }
+    public ITEM_TYPE GetItemType() { return type; }
+
+    public int GetItemCount() { return count; }
 }
