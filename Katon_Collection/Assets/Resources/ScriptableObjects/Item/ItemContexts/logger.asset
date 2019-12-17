@@ -10,5 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7734caf4d38ea8f4ebbb14df47fe9c1f, type: 3}
-  m_Name: wood
+  m_Name: logger
   m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: dc2a9c7b56c290641a11daac95c00fe0, type: 3}
+  material: {fileID: 2100000, guid: c61da8f199d3c3d44ba3582d927cfde9, type: 2}

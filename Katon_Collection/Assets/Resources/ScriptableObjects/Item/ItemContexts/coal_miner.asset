@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7734caf4d38ea8f4ebbb14df47fe9c1f, type: 3}
-  m_Name: ore
+  m_Name: coal_miner
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
-  material: {fileID: 0}
+  sprite: {fileID: 21300000, guid: b3cbb32c9b16f2540af8dd0dd6dac7ce, type: 3}
+  material: {fileID: 2100000, guid: f0dbd519884692347ba2fff01fe5f6cf, type: 2}

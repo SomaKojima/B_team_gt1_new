@@ -7,6 +7,12 @@ public class Human : MonoBehaviour
     public const float SPEED = 0.25f;
     public const float COLLECT_DURING_TIME = 0.5f;
 
+    [SerializeField]
+    ItemContextTable itemContextTable;
+
+    [SerializeField]
+    Renderer renderer;
+
     ContextMoveState move = new ContextMoveState();
     bool isCollect = false;
 
@@ -14,7 +20,7 @@ public class Human : MonoBehaviour
 
     public void Initialize(ITEM_TYPE _type)
     {
-        
+        renderer.material = itemContextTable.GetItemContex(_type).GetMaterial();
     }
 
     // Start is called before the first frame update

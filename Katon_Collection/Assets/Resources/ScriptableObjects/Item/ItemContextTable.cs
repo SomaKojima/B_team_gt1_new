@@ -14,6 +14,11 @@ public class ItemContextTable : ScriptableObject
 
     [SerializeField, EnumListLabel(typeof(ITEM_TYPE))]
     ItemContext[] items = new ItemContext[(int)ITEM_TYPE.NUM];
+
+    public ItemContext GetItemContex(ITEM_TYPE type)
+    {
+        return items[(int)type];
+    }
 }
 
 
