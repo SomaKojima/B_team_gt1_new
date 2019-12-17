@@ -22,7 +22,7 @@ public class Factory_Human : MonoBehaviour
         
     }
 
-    public Human Create(Vector3 position)
+    public Human Create(Vector3 position, ITEM_TYPE type)
     {
         GameObject instance = Instantiate(prefab);
         instance.transform.SetParent(parent);
@@ -30,7 +30,7 @@ public class Factory_Human : MonoBehaviour
 
         Human human = instance.GetComponent<Human>();
 
-        human.Initialize();
+        human.Initialize(type);
 
         return human;
     }
