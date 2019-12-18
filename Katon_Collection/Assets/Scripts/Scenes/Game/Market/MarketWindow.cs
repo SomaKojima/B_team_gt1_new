@@ -43,12 +43,19 @@ public class MarketWindow : MonoBehaviour
         // 仮提示
         List<IItem> items = new List<IItem>();
         Item item = new Item();
-        items.Add(item.Initialize(ITEM_TYPE.PARTS, 20));
-        items.Add(item.Initialize(ITEM_TYPE.WOOD, 10));
+        item.Initialize(20, ITEM_TYPE.PARTS);
+        items.Add(item);
+        item = new Item();
+        item.Initialize(10, ITEM_TYPE.WOOD);
+        items.Add(item);
         managerCmnUntBtn.Add(factoryCmnUntBtn.Create(items, 30));
         List<IItem> items2 = new List<IItem>();
-        items2.Add(item.Initialize(ITEM_TYPE.COAL_MINER, 10));
-        items2.Add(item.Initialize(ITEM_TYPE.ORE, 10));
+        item = new Item();
+        item.Initialize(10, ITEM_TYPE.COAL_MINER);
+        items2.Add(item);
+        item = new Item();
+        item.Initialize(10, ITEM_TYPE.ORE);
+        items2.Add(item);
         managerCmnUntBtn.Add(factoryCmnUntBtn.Create(items2, 20));
 
         // 仮マイアイテム
