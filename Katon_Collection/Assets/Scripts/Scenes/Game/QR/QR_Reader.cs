@@ -52,7 +52,7 @@ public class QR_Reader : MonoBehaviour
         {
             code = Read(webCam);
         }
-        if (!isStop)
+        if (webCam != null && !isStop)
         {
             m_infoQR = Read(webCam);
         }

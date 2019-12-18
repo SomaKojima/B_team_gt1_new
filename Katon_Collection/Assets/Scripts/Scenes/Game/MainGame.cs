@@ -20,8 +20,7 @@ public class MainGame : MonoBehaviour
     Owner_Floor owner_floor;
 
     [SerializeField]
-    CameraMove cameraMove;
-
+    Owner_SignBoard owner_signBoard;
 
 
     // Start is called before the first frame update
@@ -38,11 +37,6 @@ public class MainGame : MonoBehaviour
         if (manager_placeBar.GetIsQRLeader())
         {
             qrReaderWindow.Initialize();
-        }
-
-        if (manager_placeBar.IsChangeCameraPosiiton())
-        {
-            cameraMove.ChangePosition(manager_placeBar.GetchangeType());
         }
 
         // QR読み込み完了
@@ -62,10 +56,12 @@ public class MainGame : MonoBehaviour
             ITEM_TYPE type = (ITEM_TYPE)i;
             owner_human.MatchItemsHumans(manager_item.GetItem(type), false);
         }
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        
+        // 看板が押されたら建築
+        if (owner_signBoard.IsBuilding())
         {
-            owner_floor.Building(Type.cave);
+            Type type = owner_signBoard.GetPlaceType();
+            owner_floor.Building(type);
         }
     }
 
