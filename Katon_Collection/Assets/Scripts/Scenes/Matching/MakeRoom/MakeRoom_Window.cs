@@ -12,7 +12,7 @@ public class MakeRoom_Window : MonoBehaviour
     [SerializeField]
     UI_Button_RoomMatching makeRoomButton;
 
-    private ROOM_MODE mode = ROOM_MODE.None;
+    bool isMakeRoom = false;
 
     // Start is called before the first frame update
     void Start()
@@ -22,16 +22,16 @@ public class MakeRoom_Window : MonoBehaviour
 
     public void Initialize()
     {
-        mode = ROOM_MODE.None;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(makeRoomButton.IsClick() == true)
+        isMakeRoom = false;
+        if (makeRoomButton.IsClick() == true)
         {
             makeRoomButton.OnClickProcess();
-            mode = ROOM_MODE.Wait;
+            isMakeRoom = true;
         }
     }
 
@@ -47,11 +47,6 @@ public class MakeRoom_Window : MonoBehaviour
 
     public bool IsMakeRoom()
     {
-        return false;
-    }
-
-    public ROOM_MODE GetRoomMode()
-    {
-        return mode;
+        return isMakeRoom;
     }
 }

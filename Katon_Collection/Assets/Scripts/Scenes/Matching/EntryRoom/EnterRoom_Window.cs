@@ -11,25 +11,31 @@ public class EnterRoom_Window : MonoBehaviour
     Factory_RoomNameButton factory_RoomNameButton;
     [SerializeField]
     Manager_RoomNameButton manager_RoomNameButton;
+    [SerializeField]
+    Manager_SI_Room manager_si_room;
+    [SerializeField]
+    UI_Button_RoomMatching updateButton;
 
     UI_Button_RoomName entryButton = null;
 
     // Start is called before the first frame update
     void Start()
     {
-        manager_RoomNameButton.Add(factory_RoomNameButton.Create("kojima"));
-        manager_RoomNameButton.Add(factory_RoomNameButton.Create("kojima"));
-        manager_RoomNameButton.Add(factory_RoomNameButton.Create("kojima"));
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (updateButton.IsClick())
+        {
+            updateButton.OnClickProcess();
+            UpdateRooms();
+        }
     }
 
     public void Initialize()
     {
+        UpdateRooms();
     }
 
     public string GetInputPlayerName()
@@ -42,19 +48,19 @@ public class EnterRoom_Window : MonoBehaviour
         return false;
     }
 
-    public string GetEnterRoomName()
+    public UI_Button_RoomName GetEnterRoomName()
     {
-        if (manager_RoomNameButton.GetEnterButtonName() == null)
-        {
-            return "";
-        }
-        return manager_RoomNameButton.GetEnterButtonName().name;
+        return manager_RoomNameButton.GetEnterButtonName();
     }
 
     public void UpdateRooms()
     {
-
+        manager_si_room.UpdateRooms();
+        manager_RoomNameButton.AllDelete();
+        foreach (SI_Room room in manager_si_room.GetRooms())
+        {
+            Debug.Log(room.RoomName);
+            manager_RoomNameButton.Add(factory_RoomNameButton.Create(room.RoomName));
+        }
     }
-
-    
 }

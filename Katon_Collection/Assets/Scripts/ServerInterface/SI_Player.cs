@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SI_Player : MonoBehaviour
+public class SI_Player
 {
     private int[] placePoint;
     private int[] itemCount;

@@ -2,6 +2,5 @@
 {
     None,
     Make,
-    Wait,
     Enter
 }

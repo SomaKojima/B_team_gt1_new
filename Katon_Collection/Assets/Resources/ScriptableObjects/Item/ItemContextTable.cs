@@ -14,8 +14,15 @@ public class ItemContextTable : ScriptableObject
 
     [SerializeField, EnumListLabel(typeof(ITEM_TYPE))]
     ItemContext[] items = new ItemContext[(int)ITEM_TYPE.NUM];
+
+    public ItemContext GetItemContex(ITEM_TYPE type)
+    {
+        return items[(int)type];
+    }
 }
 
+
+#if UNITY_EDITOR
 [CustomEditor(typeof(ItemContextTable))]
 public class ItemContextTableEditor : Editor
 {
@@ -30,4 +37,5 @@ public class ItemContextTableEditor : Editor
         return tex;
     }
 }
+#endif // UNITY_EDITORG
 

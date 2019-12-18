@@ -7,15 +7,28 @@ public class Human : MonoBehaviour
     public const float SPEED = 0.25f;
     public const float COLLECT_DURING_TIME = 0.5f;
 
+    [SerializeField]
+    ItemContextTable itemContextTable;
+
+    [SerializeField]
+    Renderer renderer;
+
     ContextMoveState move = new ContextMoveState();
     bool isCollect = false;
 
     Vector3 velocity = Vector3.zero;
+    ITEM_TYPE type;
+
+    public void Initialize(ITEM_TYPE _type)
+    {
+        type = _type;
+        renderer.material = itemContextTable.GetItemContex(_type).GetMaterial();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-       velocity = new Vector3(Human.SPEED, 0.0f, Human.SPEED);
+        velocity = new Vector3(Human.SPEED, 0.0f, Human.SPEED);
         move.Initialize(this);
     }
 
@@ -24,11 +37,6 @@ public class Human : MonoBehaviour
     {
         transform.position += Velocity;
         move.Excute(this);
-        
-    }
-
-    public void Initialize()
-    {
         
     }
 
@@ -42,5 +50,10 @@ public class Human : MonoBehaviour
     {
         get { return velocity; }
         set { velocity = value; }
+    }
+
+    public ITEM_TYPE GetItemType()
+    {
+        return type;
     }
 }
