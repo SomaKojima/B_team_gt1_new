@@ -23,7 +23,7 @@ public class TitleCameraMove : MonoBehaviour
     //ポジションを切り替える
     public void ChangePosition(Type _placeType)
     {
-        m_camera.transform.position = m_cameraManager.GetPositionOf(_placeType);
+        m_camera.transform.position = m_cameraManager.GetTransformOf(_placeType).position;
     }
 
 }

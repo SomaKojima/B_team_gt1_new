@@ -19,6 +19,10 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     Owner_Floor owner_floor;
 
+    [SerializeField]
+    CameraMove cameraMove;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +38,11 @@ public class MainGame : MonoBehaviour
         if (manager_placeBar.GetIsQRLeader())
         {
             qrReaderWindow.Initialize();
+        }
+
+        if (manager_placeBar.IsChangeCameraPosiiton())
+        {
+            cameraMove.ChangePosition(manager_placeBar.GetchangeType());
         }
 
         // QR読み込み完了

@@ -42,9 +42,7 @@ public class CameraMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ChangePosition(Type.forest) ;
         Scroll();
-       
     }
 
     //初期化
@@ -57,7 +55,7 @@ public class CameraMove : MonoBehaviour
     //ポジションを切り替える
     public void ChangePosition(Type _placeType)
     {
-        m_camera.transform.position = m_cameraManager.GetPositionOf(_placeType);
+        m_camera.transform.position = m_cameraManager.GetTransformOf(_placeType).position;
     }
 
     //スクロール

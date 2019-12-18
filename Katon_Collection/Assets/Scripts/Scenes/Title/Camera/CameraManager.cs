@@ -4,24 +4,12 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    //タイプ
-    Type m_placeType;
-
     //拠点の情報
-    [SerializeField]
-    List<CameraTransform> m_cameraTransform = new List<CameraTransform>(); 
+    [SerializeField, EnumListLabel(typeof(Type))]
+    Transform[] m_cameraTransform = new Transform[(int)Type.Max]; 
 
-    public Vector3 GetPositionOf(Type placetype)
+    public Transform GetTransformOf(Type placetype)
     {
-
-        foreach (CameraTransform ct in m_cameraTransform)
-        {
-            if(ct.GetPlaceType()==placetype)
-            {
-                return ct.transform.position;
-            }
-        }
-
-        return Vector3.zero;
+        return m_cameraTransform[(int)placetype];
     }
 }
