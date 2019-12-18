@@ -237,6 +237,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5333258980045010326, guid: 96949a4be8b846f4d891ce82324f7bd7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5333258981142125923, guid: 96949a4be8b846f4d891ce82324f7bd7,
         type: 3}
       propertyPath: m_IsActive
@@ -262,11 +267,31 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5333258981244692565, guid: 96949a4be8b846f4d891ce82324f7bd7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5333258980045010324, guid: 96949a4be8b846f4d891ce82324f7bd7,
+        type: 3}
+      propertyPath: manager_si_player
+      value: 
+      objectReference: {fileID: 2057680287}
     - target: {fileID: 5333258980796069293, guid: 96949a4be8b846f4d891ce82324f7bd7,
         type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5333258981142125921, guid: 96949a4be8b846f4d891ce82324f7bd7,
+        type: 3}
+      propertyPath: manager_si_room
+      value: 
+      objectReference: {fileID: 368624494}
+    - target: {fileID: 5333258981142125921, guid: 96949a4be8b846f4d891ce82324f7bd7,
+        type: 3}
+      propertyPath: updateButton
+      value: 
+      objectReference: {fileID: 306203491}
     - target: {fileID: 5333258981284637231, guid: 96949a4be8b846f4d891ce82324f7bd7,
         type: 3}
       propertyPath: m_IsActive
@@ -306,31 +331,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: IsClickEnter
-      objectReference: {fileID: 0}
-    - target: {fileID: 5333258980045010324, guid: 96949a4be8b846f4d891ce82324f7bd7,
-        type: 3}
-      propertyPath: manager_si_player
-      value: 
-      objectReference: {fileID: 2057680287}
-    - target: {fileID: 5333258981142125921, guid: 96949a4be8b846f4d891ce82324f7bd7,
-        type: 3}
-      propertyPath: manager_si_room
-      value: 
-      objectReference: {fileID: 368624494}
-    - target: {fileID: 5333258981142125921, guid: 96949a4be8b846f4d891ce82324f7bd7,
-        type: 3}
-      propertyPath: updateButton
-      value: 
-      objectReference: {fileID: 306203491}
-    - target: {fileID: 5333258980045010326, guid: 96949a4be8b846f4d891ce82324f7bd7,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5333258981244692565, guid: 96949a4be8b846f4d891ce82324f7bd7,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 96949a4be8b846f4d891ce82324f7bd7, type: 3}

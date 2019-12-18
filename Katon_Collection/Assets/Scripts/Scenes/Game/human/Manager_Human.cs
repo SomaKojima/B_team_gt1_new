@@ -27,7 +27,7 @@ public class Manager_Human : MonoBehaviour
     void Update()
     {
         all.Clear();
-        for (int i = 0; i < (int)ITEM_TYPE.NONE; i++)
+        for (int i = 0; i < (int)ITEM_TYPE.WOOD; i++)
         {
             all.AddRange(humans[i]);
         }
