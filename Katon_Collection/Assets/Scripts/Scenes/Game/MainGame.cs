@@ -19,6 +19,9 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     Owner_Floor owner_floor;
 
+    [SerializeField]
+    Owner_SignBoard owner_signBoard;
+
 
     // Start is called before the first frame update
     void Start()
@@ -53,10 +56,12 @@ public class MainGame : MonoBehaviour
             ITEM_TYPE type = (ITEM_TYPE)i;
             owner_human.MatchItemsHumans(manager_item.GetItem(type), false);
         }
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        
+        // 看板が押されたら建築
+        if (owner_signBoard.IsBuilding())
         {
-            owner_floor.Building(Type.cave);
+            Type type = owner_signBoard.GetPlaceType();
+            owner_floor.Building(type);
         }
     }
 

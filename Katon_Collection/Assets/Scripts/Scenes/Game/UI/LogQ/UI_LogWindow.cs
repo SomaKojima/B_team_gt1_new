@@ -32,15 +32,14 @@ public class UI_LogWindow : MonoBehaviour
     {
         AddLog("444", 6000);
         AddLog("444", 3000);
-
-
+        
+        UpdateMode(m_logType);
     }
 
     //ロゴを追加する
     public void AddLog(string _text,float _time)
     {
         m_uI_Manager.Add(m_uI_FactoryLog.Create(_text, _time));
-
     }
 
     //クリックイベント
@@ -49,35 +48,35 @@ public class UI_LogWindow : MonoBehaviour
         m_sizeFlag = !m_sizeFlag;
 
 
-        if(m_sizeFlag)
-        {
-            m_logType = LogWindowType.Little;
-        }
-        else
+        if(m_logType == LogWindowType.Little)
         {
             m_logType = LogWindowType.Big;
         }
+        else
+        {
+            m_logType = LogWindowType.Little;
+        }
 
-        if (m_logType == LogWindowType.Little)
+
+        UpdateMode(m_logType);
+    }
+
+    private void UpdateMode(LogWindowType type)
+    {
+        if (type == LogWindowType.Little)
         {
             LittleMode();
         }
 
-        if (m_logType == LogWindowType.Big)
+        if (type == LogWindowType.Big)
         {
             BigMode();
         }
-
-      
-
-
     }
 
     //ビッグモード
     public void BigMode()
     {
-
-
         m_log_Scroll.GetMask.sizeDelta = new Vector2(540, 1447);
 
 
@@ -96,7 +95,6 @@ public class UI_LogWindow : MonoBehaviour
     //スモールモード
     public void LittleMode()
     {
-
         //1447
         m_log_Scroll.GetMask.sizeDelta = new Vector2(540, 160);
 
