@@ -156,6 +156,18 @@ Transform:
   m_Father: {fileID: 515911376}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &118476921 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1437962393, guid: 4a57c9707bbcea048b7e97947b9732df,
+    type: 3}
+  m_PrefabInstance: {fileID: 1722535367}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8ed54fc8da2d3640978f3a45d6542ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &325136695
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,6 +232,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   qrReaderWindow: {fileID: 1086380096}
   manager_placeBar: {fileID: 2024158063}
+  manager_item: {fileID: 1882679173}
+  owner_human: {fileID: 118476921}
 --- !u!4 &343381860
 Transform:
   m_ObjectHideFlags: 0
@@ -1125,6 +1139,49 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1882679172
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1882679174}
+  - component: {fileID: 1882679173}
+  m_Layer: 0
+  m_Name: manager_Item
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1882679173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882679172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4d4574d5946cac47b55555cd8362ef3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1882679174
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882679172}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 144.4678, y: 199.23766, z: -24.37857}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1892243677 stripped
 Transform:

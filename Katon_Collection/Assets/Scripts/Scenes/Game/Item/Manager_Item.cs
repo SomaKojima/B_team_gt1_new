@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Manager_Item : MonoBehaviour
 {
-    private List<Item> itemList = new List<Item>();
+    private Item[] item = new Item[(int)ITEM_TYPE.NUM];
 
     // Start is called before the first frame update
     void Start()
@@ -15,12 +15,15 @@ public class Manager_Item : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
 
-    public void Initialize(Item _item)
+    public void Initialize()
     {
-        itemList.Add(_item);
+        for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
+        {
+            item[i] = new Item();
+            item[i].Initialize(0, (ITEM_TYPE)i);
+        }
     }
 
     /// <summary>
@@ -30,6 +33,6 @@ public class Manager_Item : MonoBehaviour
     /// <returns>アイテム</returns>
     public Item GetItem(ITEM_TYPE type)
     {
-        return itemList[(int)type].GetItemInstance();
+        return item[(int)type];
     }
 }

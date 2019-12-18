@@ -12,10 +12,12 @@ public class QR_ResultWindow : MonoBehaviour
     UI_Button noButton;
 
     bool isClickYes = false;
+    bool isClickNo = false;
 
     public void Initialize()
     {
         isClickYes = false;
+        isClickNo = false;
         gameObject.SetActive(false);
     }
 
@@ -35,8 +37,10 @@ public class QR_ResultWindow : MonoBehaviour
             isClickYes = true;
         }
 
+        isClickNo = false;
         if (noButton.IsClick())
         {
+            isClickNo = true;
             noButton.OnClickProcess();
             gameObject.SetActive(false);
         }
@@ -50,5 +54,9 @@ public class QR_ResultWindow : MonoBehaviour
     public bool IsClickYes()
     {
         return isClickYes;
+    }
+    public bool IsClickNo()
+    {
+        return isClickNo;
     }
 }

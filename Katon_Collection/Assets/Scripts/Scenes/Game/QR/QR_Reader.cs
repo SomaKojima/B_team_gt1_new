@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using ZXing;
 using ZXing.QrCode;
 
+
 public class QR_Reader : MonoBehaviour
 {
     const string ERROR_TEXT = "error";
@@ -20,9 +21,23 @@ public class QR_Reader : MonoBehaviour
     [SerializeField]
     RawImage cameraImage = null;
 
+    bool isStop = false;
+
+    BarcodeReader reader = null;
+
 
     public void Initialize()
     {
+        m_infoQR = "";
+        isStop = false;
+
+        reader = new BarcodeReader() { AutoRotate = true,
+            Options = {
+                PossibleFormats = new[] { BarcodeFormat.QR_CODE }
+            }
+        };
+
+        StartRead();
     }
 
     private void Start()
@@ -32,7 +47,12 @@ public class QR_Reader : MonoBehaviour
 
     private void Update()
     {
+        string code = "";
         if (webCam != null)
+        {
+            code = Read(webCam);
+        }
+        if (!isStop)
         {
             m_infoQR = Read(webCam);
         }
@@ -77,7 +97,7 @@ public class QR_Reader : MonoBehaviour
             return false;
 
         // ウェブカメラオブジェクトを生成
-        webCam = new WebCamTexture(devices[0].name, Screen.width, Screen.height, 12);
+        webCam = new WebCamTexture(devices[0].name, (int)(Screen.width * 0.5f), (int)(Screen.height * 0.5f), 6);
         cameraImage.texture = webCam;
         // ウェブカメラを起動
         webCam.Play();
@@ -94,10 +114,9 @@ public class QR_Reader : MonoBehaviour
     /// </summary>
     /// <param name="tex">WebCamTexture(カメラに映ったテクスチャ)</param>
     /// <returns>読み取り成功=読みとった文字列、読み取り失敗="error"文字列</returns>
-    public static string Read(WebCamTexture tex)
+    public string Read(WebCamTexture tex)
     {
         // コードリーダーオブジェクト生成
-        BarcodeReader reader = new BarcodeReader();
         // テクスチャの幅、高さ、色情報を設定
         int w = tex.width;
         int h = tex.height;
@@ -111,5 +130,21 @@ public class QR_Reader : MonoBehaviour
             return r.Text;
         else
             return ERROR_TEXT;
+    }
+
+
+    public void StartRead()
+    {
+        isStop = false;
+    }
+
+    public void StopRead()
+    {
+        isStop = true;
+    }
+
+    public bool IsStop()
+    {
+        return isStop;
     }
 }
