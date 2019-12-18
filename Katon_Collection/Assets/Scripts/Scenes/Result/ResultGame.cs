@@ -16,6 +16,8 @@ public class ResultGame : MonoBehaviour
     UI_Button_GoToTitle ui_Button_GoToTitle;
     [SerializeField]
     CameraResultMove cameraResultMove;
+    [SerializeField]
+    Owner_Floor owner_Floor;
 
     float time = 0;
     // Start is called before the first frame update
@@ -30,7 +32,7 @@ public class ResultGame : MonoBehaviour
         time++;
         if(time > 60)
         {
-
+            owner_Floor.Building(Type.cave);
             time = 0;
         }
     }
