@@ -10,6 +10,9 @@ public class SignBoard : MonoBehaviour
     [SerializeField]
     CheckClick checkClick;
 
+    [SerializeField]
+    Renderer renderer;
+
     bool isClick = false;
 
     // Start is called before the first frame update
@@ -38,4 +41,5 @@ public class SignBoard : MonoBehaviour
     {
         return placeType;
     }
+    
 }

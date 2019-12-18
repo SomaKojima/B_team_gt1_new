@@ -188,4 +188,9 @@ public class CameraMove : MonoBehaviour
     /// 取得・設定関数
     /// </summary>
     public GameObject MoveObject { get { return moveObject; } set { moveObject = value; } }
+
+    public Camera GetCamera()
+    {
+        return m_camera;
+    }
 }
