@@ -42,7 +42,7 @@ public class CameraMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ChangePosition(Type.factory);
+        ChangePosition(Type.forest) ;
         Scroll();
        
     }
@@ -81,8 +81,24 @@ public class CameraMove : MonoBehaviour
             Vector3 diff = ((mousePos - Input.mousePosition) * 0.05f);
 
             // 横方向のみ移動
-            diff.y = 0.0f;
+            //diff.y = 0.0f;
             diff.z = 0.0f;
+
+
+            if (moveObject.transform.localPosition.y - 10.0f < moveObject.transform.localPosition.y && moveObject.transform.localPosition.y < moveObject.transform.localPosition.y + 10.0f)
+            {
+                moveObject.transform.localPosition = playerPos + diff;
+            }
+            // 座標矯正
+            if (moveObject.transform.localPosition.y > moveObject.transform.localPosition.y + 10.0f)
+            {
+                moveObject.transform.localPosition = CorrectionPosition(moveObject.transform.localPosition.y + 5.0f, moveObject.transform.localPosition.x, moveObject.transform.localPosition.z);
+            }
+            if (moveObject.transform.localPosition.y < moveObject.transform.localPosition.y - 10.0f)
+            {
+                moveObject.transform.localPosition = CorrectionPosition(moveObject.transform.localPosition.y - 5.0f, moveObject.transform.localPosition.x, moveObject.transform.localPosition.z);
+            }
+
             // 移動できる範囲内に限り
             if (moveObject.transform.localPosition.x - 10.0f < moveObject.transform.localPosition.x && moveObject.transform.localPosition.x < moveObject.transform.localPosition.x+10.0f)
             {
@@ -106,6 +122,24 @@ public class CameraMove : MonoBehaviour
         {
             // スワイプ中でないとき、velocityを減衰させる
             velocity *= Mathf.Pow(Attenuation, Time.deltaTime);
+
+            // 移動できる範囲内に限り
+            if (moveObject.transform.localPosition.y - 10.0f < moveObject.transform.localPosition.y && moveObject.transform.localPosition.y < moveObject.transform.localPosition.y + 10.0f)
+            {
+                // プレイヤーを移動する
+                moveObject.transform.localPosition += velocity * Time.deltaTime;
+
+                // 座標矯正
+                if (moveObject.transform.localPosition.y > moveObject.transform.localPosition.y + 10.0f)
+                {
+                    moveObject.transform.localPosition = CorrectionPosition(moveObject.transform.localPosition.y + 5.0f, moveObject.transform.localPosition.x, moveObject.transform.localPosition.z);
+                }
+                if (moveObject.transform.localPosition.y < moveObject.transform.localPosition.y - 10.0f)
+                {
+                    moveObject.transform.localPosition = CorrectionPosition(moveObject.transform.localPosition.y - 5.0f, moveObject.transform.localPosition.x, moveObject.transform.localPosition.z);
+                }
+            }
+
 
             // 移動できる範囲内に限り
             if (moveObject.transform.localPosition.x - 10.0f < moveObject.transform.localPosition.x && moveObject.transform.localPosition.x < moveObject.transform.localPosition.x+10.0f)

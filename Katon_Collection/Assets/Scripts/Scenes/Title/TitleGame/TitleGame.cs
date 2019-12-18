@@ -20,6 +20,6 @@ public class TitleGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        m_backGround_Title.ChangePlace();
     }
 }

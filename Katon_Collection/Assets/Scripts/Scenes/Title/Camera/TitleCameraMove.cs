@@ -26,16 +26,4 @@ public class TitleCameraMove : MonoBehaviour
         m_camera.transform.position = m_cameraManager.GetPositionOf(_placeType);
     }
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

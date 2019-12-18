@@ -2,7 +2,6 @@
 //すべての場所のデータ
 public enum Type
 {
-    none,
     market,         //市場
     fountain,       //噴水
 

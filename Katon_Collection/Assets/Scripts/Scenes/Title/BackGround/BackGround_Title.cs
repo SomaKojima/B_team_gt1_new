@@ -24,7 +24,8 @@ public class BackGround_Title : MonoBehaviour
     //テスト用のフラグ
     bool testFlag = false;
 
-    void Update()
+    //場所を切り替える
+    public void ChangePlace()
     {
         //テスト（ボタン押したらフェードが行われる）
         if (Input.GetMouseButtonDown(0))
@@ -32,10 +33,22 @@ public class BackGround_Title : MonoBehaviour
             testFlag = true;
         }
 
+
+
         //trueならフェード開始
         if (testFlag)
         {
-           
+            //ランダムな値を入れる
+            m_nextValue = m_value;
+
+            //ランダムな値を出して場所を切り替える
+            if (m_nextValue == m_value)
+            {
+                m_value = Random.Range((int)Type.market, (int)Type.farm);
+
+            }
+            m_placeType = (Type)m_value;
+
             //フェードインする
             StartCoroutine(m_fade_CloudEffect.FadeIn());
 
@@ -44,10 +57,10 @@ public class BackGround_Title : MonoBehaviour
             {
                 testFlag = false;
 
-                //ランダムな値を入れる
-                m_nextValue = m_value;
 
-                ChangePlace();
+
+
+
                 m_cameraMove.ChangePosition(m_placeType);
             }
         }
@@ -55,51 +68,15 @@ public class BackGround_Title : MonoBehaviour
         {
             //フェードアウトの処理
             StartCoroutine(m_fade_CloudEffect.FadeOut());
+
+
         }
 
         time += Time.deltaTime;
 
-        //if (time > testtime)
-        //{
-           
-
-        //    if (testFlag)
-        //    {
-        //        //チェンジするタイミングでフェードインをかける
-        //        StartCoroutine(m_fade_CloudEffect.FadeIn());
-        //    }
-           
-
-        //    //フェードインが終わったら
-        //    if (!m_fade_CloudEffect.GetIsProcess)
-        //    {
-        //        testFlag = false;
-        //       // Debug.Log(m_fade_CloudEffect.GetIsProcess);
-              
-        //        ChangePlace();
-        //        m_cameraManager.ChangeCamera(m_placeType);
-        //    }
-        //}
 
 
 
-      
-    }
-
-    //場所を切り替える
-    public void ChangePlace()
-    {
-
-        //ランダムな値を出して場所を切り替える
-        if (m_nextValue == m_value)
-        {
-            m_value = Random.Range((int)Type.none, (int)Type.Max);
-
-        }
-        m_placeType = (Type)m_value;
-
-
-        Debug.Log(m_placeType);
 
 
     } 
