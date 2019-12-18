@@ -1,0 +1,48 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Factory_ChangeItem : MonoBehaviour
+{
+    // 交換アイテムのブレハブ
+    [SerializeField]
+    GameObject changeItemPrefab = null;
+    // プレハブを生成する場所(親オブジェクト)
+    [SerializeField]
+    Transform prefabParent = null;
+
+    // Factory_CommonUnitIconオブジェクト
+    [SerializeField]
+    Factory_CommonUnitIcon factory_CommonUnitIcon;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    /// <summary>
+    /// 交換するアイテムを生成
+    /// </summary>
+    /// <param name="changeItems">交換するアイテムのリスト</param>
+    /// <returns>交換するアイテム(情報)</returns>
+    public CommonUnitIcon Create(ITEM_TYPE type, int count)
+    {
+        // 交換するアイテム(アイコン)(実体)の生成
+        GameObject obj = Instantiate(changeItemPrefab, prefabParent);
+        // オブジェクトからChangeItemのコンポーネントを取得
+        CommonUnitIcon cngItm = obj.GetComponent<CommonUnitIcon>();
+        // 種類に応じたスプライトを適用
+        Sprite sprite = factory_CommonUnitIcon.DependSpriteImage(type);
+        // 交換するアイテムの初期化
+        cngItm.Initialize(sprite, count);
+
+        return cngItm;
+    }
+}

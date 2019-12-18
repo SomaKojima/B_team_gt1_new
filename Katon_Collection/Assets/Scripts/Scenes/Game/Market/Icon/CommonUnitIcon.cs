@@ -38,4 +38,6 @@ public class CommonUnitIcon : MonoBehaviour
         count = _count;
         numText.text = _count.ToString();
     }
+
+    public int GetCount(){ return count; }
 }
