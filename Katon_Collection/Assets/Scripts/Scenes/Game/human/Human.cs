@@ -17,9 +17,11 @@ public class Human : MonoBehaviour
     bool isCollect = false;
 
     Vector3 velocity = Vector3.zero;
+    ITEM_TYPE type;
 
     public void Initialize(ITEM_TYPE _type)
     {
+        type = _type;
         renderer.material = itemContextTable.GetItemContex(_type).GetMaterial();
     }
 
@@ -48,5 +50,10 @@ public class Human : MonoBehaviour
     {
         get { return velocity; }
         set { velocity = value; }
+    }
+
+    public ITEM_TYPE GetItemType()
+    {
+        return type;
     }
 }

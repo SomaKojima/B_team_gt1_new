@@ -9,22 +9,10 @@ public class Item : IItem
     // 資源の個数
     private int count = 0;
 
-    // アイテム取得
-    public Item GetItemInstance(){    return this;    }
-
-    /// <summary>
-    /// アイテムの値を初期化
-    /// </summary>
-    /// <param name="setType">設定するタイプ</param>
-    /// <param name="setCount">設定する個数</param>
-    /// <returns>アイテムのインスタンス</returns>
-    public Item Initialize(ITEM_TYPE setType, int setCount)
+    public void Initialize(int _count, ITEM_TYPE _type)
     {
-        Item itm = new Item();
-        itm.type = setType;
-        itm.count = setCount;
-
-        return itm;
+        count = _count;
+        type = _type;
     }
 
     /// <summary>
@@ -32,28 +20,23 @@ public class Item : IItem
     /// </summary>
     /// <param name="_count">増やす数量</param>
     /// <param name="_type">増やすタイプ</param>
-    public void AddCount(int _count, ITEM_TYPE _type)
+    public void AddCount(int _count)
     {
-        if(type == _type)
+        count += _count;
+
+        if (count < 0)
         {
-            count += _count;
+            count = 0;
         }
     }
 
-    /// <summary>
-    /// 資源を減らす
-    /// </summary>
-    /// <param name="_count">減らす数量</param>
-    /// <param name="_type">減らすタイプ</param>
-    public void SubCount(int _count, ITEM_TYPE _type)
+    public ITEM_TYPE GetItemType()
     {
-        if (type == _type)
-        {
-            count -= _count;
-        }
+        return type;
     }
 
-    public ITEM_TYPE GetItemType() { return type; }
-
-    public int GetItemCount() { return count; }
+    public int GetCount()
+    {
+        return count;
+    }
 }
