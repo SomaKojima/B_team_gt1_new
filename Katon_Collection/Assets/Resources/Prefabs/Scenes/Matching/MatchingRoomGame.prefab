@@ -52,3 +52,5 @@ MonoBehaviour:
   makeRoom_Window: {fileID: 0}
   waitRoom_Window: {fileID: 0}
   entryRoom_Window: {fileID: 0}
+  serverInterface: {fileID: 0}
+  backButton: {fileID: 0}

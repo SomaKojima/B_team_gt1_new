@@ -15,7 +15,6 @@ public class Manage_SI_Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdatePlayers();
     }
 
     public SI_Player GetPlayer(int index)

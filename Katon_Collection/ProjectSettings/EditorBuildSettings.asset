@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MatchingRoomScene.unity
+    guid: 3095079a18707024198fc9a870aafeb0
   m_configObjects: {}

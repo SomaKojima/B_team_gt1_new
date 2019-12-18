@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SI_Room : Photon.MonoBehaviour
+public class SI_Room
 {
     private int currentPlayer;
     private int maxPlayer;

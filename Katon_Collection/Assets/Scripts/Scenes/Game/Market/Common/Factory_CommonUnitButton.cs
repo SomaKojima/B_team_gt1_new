@@ -27,11 +27,19 @@ public class Factory_CommonUnitButton : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// ボタンを生成
+    /// </summary>
+    /// <param name="getItems">入手できるアイテムのリスト</param>
+    /// <param name="requiredNum">要求するアイテムの総数</param>
+    /// <returns>Commonボタン(情報)</returns>
     public CommonUnitButton Create(List<IItem> getItems, int requiredNum)
     {
+        // ボタン(実体)の生成
         GameObject obj = Instantiate(commonUnitPrefab, prefabParent);
-
-        CommonUnitButton cmnUnitBtn = new CommonUnitButton();
+        // オブジェクトからCommonUnitButtonのコンポーネントを取得
+        CommonUnitButton cmnUnitBtn = obj.GetComponent<CommonUnitButton>();
+        // Commonボタンの初期化
         cmnUnitBtn.Initialize(getItems, requiredNum);
 
         return cmnUnitBtn;

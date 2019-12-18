@@ -24,14 +24,17 @@ public class MatchingRoomGame : MonoBehaviour
     void Start()
     {
         serverInterface.ConnectServer();
-        //serverInterface.EnterLobby();
+        serverInterface.EnterLobby();
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        if (selectRoomModeWindow.GetRoomMode() != ROOM_MODE.None)
+        if (selectRoomModeWindow.GetRoomMode() != ROOM_MODE.None &&
+            selectRoomModeWindow.gameObject.activeSelf &&
+            !entryRoom_Window.gameObject.activeSelf &&
+            !makeRoom_Window.gameObject.activeSelf)
         {
             selectRoomModeWindow.gameObject.SetActive(false);
 
@@ -51,12 +54,16 @@ public class MatchingRoomGame : MonoBehaviour
         }
 
         // 部屋に入る
-        if (entryRoom_Window.GetEnterRoomName() != "")
+        if (entryRoom_Window.GetEnterRoomName() != null)
         {
             waitRoom_Window.gameObject.SetActive(true);
             entryRoom_Window.gameObject.SetActive(false);
-            waitRoom_Window.Inititalize(true, entryRoom_Window.GetEnterRoomName());
             EntoryRoom();
+            if (serverInterface.IsJoinedRoom())
+            {
+                entryRoom_Window.GetEnterRoomName().OnClickProcess();
+                waitRoom_Window.Inititalize(true, entryRoom_Window.GetEnterRoomName().GetRoomName());
+            }
         }
 
         // 部屋を作る
@@ -64,8 +71,16 @@ public class MatchingRoomGame : MonoBehaviour
         {
             waitRoom_Window.gameObject.SetActive(true);
             makeRoom_Window.gameObject.SetActive(false);
-            waitRoom_Window.Inititalize(false, makeRoom_Window.GetInputRoomName());
             CreateRoom();
+            if(serverInterface.IsJoinedRoom())
+            {
+                waitRoom_Window.Inititalize(false, makeRoom_Window.GetInputRoomName());
+            }
+        }
+        
+        if (!waitRoom_Window.gameObject.activeSelf)
+        {
+            serverInterface.LeaveRoom();
         }
 
 
@@ -97,8 +112,7 @@ public class MatchingRoomGame : MonoBehaviour
     // 部屋に入るときの処理
     void EntoryRoom()
     {
-        serverInterface.EnterRoom(entryRoom_Window.GetEnterRoomName());
+        serverInterface.EnterRoom(entryRoom_Window.GetEnterRoomName().GetRoomName());
         serverInterface.SetPlayerName(entryRoom_Window.GetInputPlayerName());
     }
-
 }

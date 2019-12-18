@@ -1,14 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CommonUnitButton : UI_Button_Market
 {
-    private List<IItem> getItems = null;
+    // 取得できるアイテムのリスト
+    private List<IItem> getItems = null;    
+    // 要求するアイテムの数量
     private int requiredNum = 0;
-
+    // 要求するアイテムの数量(テキスト)
     [SerializeField]
-    Transform parent;
+    private Text requiredText = null;
+
+    // アイコンを表示するための親オブジェクトの位置
+    [SerializeField]
+    Transform iconParent;
 
     // Factory_CommonUnitIconオブジェクト
     [SerializeField]
@@ -29,18 +36,28 @@ public class CommonUnitButton : UI_Button_Market
         
     }
 
+    /// <summary>
+    /// Commonボタンの初期化
+    /// </summary>
+    /// <param name="_getItems">入手できるアイテムのリスト</param>
+    /// <param name="_requiredNum">要求するアイテムの総数</param>
     public void Initialize(List<IItem> _getItems, int _requiredNum)
     {
+        // 値初期化
         getItems = _getItems;
         requiredNum = _requiredNum;
+        // ボタンのテキスト変更
+        requiredText.text = "必要数\n" + requiredNum.ToString();
 
-        foreach(IItem item in _getItems)
+        // リスト内の数だけ入手できるアイテムを生成する
+        foreach (IItem item in _getItems)
         {
-            factoryCmnIcn.Create(parent, item.GetItemType(), requiredNum);
+            factoryCmnIcn.Create(iconParent, item.GetItemType(), item.GetCount());
         }
     }
 
+    // 要求するアイテムの数量を取得
     public int GetRequiredNum() { return requiredNum; }
-
+    // 取得できるアイテムのリストを取得
     public List<IItem> GetGetItems() { return getItems; }
 }

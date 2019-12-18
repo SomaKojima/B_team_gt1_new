@@ -9,7 +9,7 @@ public class Manager_CommonUnitIcon : MonoBehaviour
 
     // CommonUnitIconオブジェクト
     [SerializeField]
-    CommonUnitIcon mktUnitIcn;
+    CommonUnitIcon cmnUnitIcn;
 
     // Start is called before the first frame update
     void Start()
