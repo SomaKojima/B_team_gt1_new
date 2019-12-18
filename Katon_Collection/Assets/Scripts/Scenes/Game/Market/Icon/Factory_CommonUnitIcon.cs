@@ -40,9 +40,9 @@ public class Factory_CommonUnitIcon : MonoBehaviour
 
         // 種類に応じてスプライトを差し替える
         Sprite sprite = DependSpriteImage(type);
-        obj.transform.FindChild("icon").GetComponent<Image>().sprite = sprite;
+        obj.transform.Find("icon").GetComponent<Image>().sprite = sprite;
         // アイコンの初期化
-        cmnUnitIcn.Initialize(obj.transform.FindChild("icon").GetComponent<Image>().sprite, count);
+        cmnUnitIcn.Initialize(obj.transform.Find("icon").GetComponent<Image>().sprite, count);
 
         return cmnUnitIcn;
     }
