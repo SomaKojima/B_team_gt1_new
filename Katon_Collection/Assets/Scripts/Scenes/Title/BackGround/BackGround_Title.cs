@@ -6,10 +6,10 @@ public class BackGround_Title : MonoBehaviour
 {
 
     [SerializeField]
-    Fade_CloudEffect m_fade_CloudEffect;
+    Fade_CloudEffect m_fade_CloudEffect = null;
 
     [SerializeField]
-    CameraManager m_cameraManager;
+    TitleCameraMove m_cameraMove = null;
 
     Type m_placeType;
 
@@ -48,6 +48,7 @@ public class BackGround_Title : MonoBehaviour
                 m_nextValue = m_value;
 
                 ChangePlace();
+                m_cameraMove.ChangePosition(m_placeType);
             }
         }
         else
