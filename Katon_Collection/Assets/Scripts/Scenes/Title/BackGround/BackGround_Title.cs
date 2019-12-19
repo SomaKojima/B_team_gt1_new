@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BackGround_Title : MonoBehaviour
 {
@@ -24,13 +25,20 @@ public class BackGround_Title : MonoBehaviour
     //テスト用のフラグ
     bool testFlag = false;
 
+    [SerializeField]
+    float m_changeTime = 10.0f;
+
     //場所を切り替える
     public void ChangePlace()
     {
+
+        time += Time.deltaTime;
+
         //テスト（ボタン押したらフェードが行われる）
-        if (Input.GetMouseButtonDown(0))
+        if (time> m_changeTime)
         {
             testFlag = true;
+            time = 0;
         }
 
 
@@ -38,6 +46,7 @@ public class BackGround_Title : MonoBehaviour
         //trueならフェード開始
         if (testFlag)
         {
+
             //ランダムな値を入れる
             m_nextValue = m_value;
 
@@ -62,7 +71,10 @@ public class BackGround_Title : MonoBehaviour
 
 
                 m_cameraMove.ChangePosition(m_placeType);
+
+               
             }
+
         }
         else
         {
@@ -71,13 +83,31 @@ public class BackGround_Title : MonoBehaviour
 
 
         }
+   
+    }
 
-        time += Time.deltaTime;
+    bool m_changeRoby = false;
 
+    public void ChangeRobyScene()
+    {
+        if(m_changeRoby)
+        {
+            //フェードインする
+            StartCoroutine(m_fade_CloudEffect.FadeIn());
 
+            if (!m_fade_CloudEffect.GetIsProcess)
+            {
+                
+                SceneManager.LoadScene(1);
 
+            }
+        }
+    }
 
-
-
-    } 
+    public bool ChangeFlag
+    {
+        get { return m_changeRoby; }
+        set { m_changeRoby = value; }
+    }
+  
 }

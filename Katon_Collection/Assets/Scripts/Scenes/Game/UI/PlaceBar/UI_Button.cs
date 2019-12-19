@@ -12,7 +12,6 @@ public class UI_Button : MonoBehaviour
     public void IsClickEnter()
     {
         m_click = true;
-       // Debug.Log("d");
     }
 
     //クリックし終わった
