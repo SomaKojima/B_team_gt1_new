@@ -43,6 +43,7 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
+*.sdf
 
 # Unity3D generated meta files
 *.pidb.meta
@@ -58,3 +59,5 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+
+Katon_Collection/Assets/Resources/font/sdf/
