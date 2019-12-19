@@ -53,12 +53,12 @@ public class MainGame : MonoBehaviour
         // QR読み込み完了
         if (qrReaderWindow.IsExchange())
         {
-            qrReaderWindow.FinishExchange();
             // アイテムのマネージャに追加・削除
             foreach (IItem item in qrReaderWindow.GetItems())
             {
                 manager_item.GetItem(item.GetItemType()).AddCount(item.GetCount());
             }
+            qrReaderWindow.FinishExchange();
         }
 
         // アイテムのマネージャと人間の数を合わせる

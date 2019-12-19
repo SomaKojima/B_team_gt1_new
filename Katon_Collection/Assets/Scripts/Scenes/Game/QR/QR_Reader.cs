@@ -25,37 +25,52 @@ public class QR_Reader : MonoBehaviour
 
     BarcodeReader reader = null;
 
+    WebCamDevice[] devices = null;
 
-    public void Initialize()
-    {
-        m_infoQR = "";
-        isStop = false;
-
-        reader = new BarcodeReader() { AutoRotate = true,
-            Options = {
-                PossibleFormats = new[] { BarcodeFormat.QR_CODE }
-            }
-        };
-
-        StartRead();
-    }
-
-    private void Start()
-    {
-        ActivationWebCamera();
-    }
+    float readFrame = 0;
+    float readDuring = 2.0f;
 
     private void Update()
     {
-        string code = "";
         if (webCam != null)
         {
-            code = Read(webCam);
+            cameraImage.rectTransform.rotation = Quaternion.AngleAxis(webCam.videoRotationAngle, Vector3.back);
         }
         if (webCam != null && !isStop)
         {
-            m_infoQR = Read(webCam);
+            readFrame += Time.deltaTime;
+            if (readFrame > readDuring)
+            {
+                readFrame = 0;
+                m_infoQR = Read(webCam);
+            }
         }
+    }
+
+    public void Initialize()
+    {
+        Debug.Log("start");
+        m_infoQR = "";
+        isStop = false;
+        if (reader == null)
+        {
+            reader = new BarcodeReader()
+            {
+                AutoRotate = true,
+                Options = {
+                PossibleFormats = new[] { BarcodeFormat.QR_CODE }
+            }
+            };
+        }
+        // ウェブカメラのデバイス数を取得
+        if (devices == null)
+        {
+            devices = WebCamTexture.devices;
+        }
+
+        ActivationWebCamera();
+
+        StartRead();
     }
 
 
@@ -87,21 +102,20 @@ public class QR_Reader : MonoBehaviour
         //}
         //Debug.LogFormat("camera ok.");
 
-        // ウェブカメラのデバイス数を取得
-        WebCamDevice[] devices = WebCamTexture.devices;
 
 
+        Debug.Log(devices);
         // デバイスが存在しなかったら、もしくはすでに起動していたら
         if (devices == null || devices.Length == 0 || isPlayCamera)
             //yield break;
             return false;
-
+        
         // ウェブカメラオブジェクトを生成
-        webCam = new WebCamTexture(devices[0].name, (int)(Screen.width * 0.5f), (int)(Screen.height * 0.5f), 6);
+        webCam = new WebCamTexture(devices[0].name, (int)(Screen.width), (int)(Screen.height), 60);
         cameraImage.texture = webCam;
         // ウェブカメラを起動
         webCam.Play();
-        
+        isPlayCamera = true; 
 
         // 起動成功
         return true;
@@ -116,6 +130,7 @@ public class QR_Reader : MonoBehaviour
     /// <returns>読み取り成功=読みとった文字列、読み取り失敗="error"文字列</returns>
     public string Read(WebCamTexture tex)
     {
+        if (tex == null) return "";
         // コードリーダーオブジェクト生成
         // テクスチャの幅、高さ、色情報を設定
         int w = tex.width;

@@ -5,5 +5,6 @@ using UnityEngine;
 public class UI_Title_Tap : CalcFlash
 {
     
+    
 
 }
