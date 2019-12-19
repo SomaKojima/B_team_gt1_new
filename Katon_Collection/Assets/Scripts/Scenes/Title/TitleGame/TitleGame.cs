@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class TitleGame : MonoBehaviour
 {
@@ -37,7 +36,6 @@ public class TitleGame : MonoBehaviour
         {
             m_backGround_Title.ChangeFlag = true;
             m_uI_Title_Button.OnClickProcess();
-            Debug.Log("fhgrjmgrfj");
            
         }
 
