@@ -23,24 +23,72 @@ public class MainGame : MonoBehaviour
     Owner_SignBoard owner_signBoard;
 
     [SerializeField]
-    Manage_SI_Player manager_SI_Player;
+    CameraMove cameraMove;
 
+    [SerializeField]
+    GameObject obj;
+
+    [SerializeField]
+    Fade_CloudEffect fade_CloudEffect = null;
+
+    //フェード　
+    bool m_fade = false;
+
+    //リザルトに移行したら
+    bool m_switching = false;
 
     // Start is called before the first frame update
     void Start()
     {
         manager_item.Initialize();
         owner_human.Intialize();
+
     }
+
+     
 
     // Update is called once per frame
     void Update()
     {
+       
         // QRリーダーを起動
         if (manager_placeBar.GetIsQRLeader())
         {
             qrReaderWindow.Initialize();
         }
+
+        // カメラを移動
+        if (manager_placeBar.IsChangeCameraPosiiton())
+        {
+            m_fade = true;
+            
+            cameraMove.ChangePosition(manager_placeBar.GetchangeType());
+
+            m_switching = false;
+        }
+
+        if(!m_switching)
+        {
+            if (m_fade)
+            {
+                StartCoroutine(fade_CloudEffect.FadeIn());
+              
+
+                if (!fade_CloudEffect.GetIsProcess)
+                {
+                    m_fade = false;
+                   
+                }
+            }
+            else
+            {
+                //フェードアウトの処理
+                StartCoroutine(fade_CloudEffect.FadeOut());
+            }
+        }
+       
+
+
 
         // QR読み込み完了
         if (qrReaderWindow.IsExchange())
@@ -66,18 +114,22 @@ public class MainGame : MonoBehaviour
             Type type = owner_signBoard.GetPlaceType();
             owner_floor.Building(type);
         }
+
+        if (owner_signBoard.IsSigneBoardInScreen(cameraMove.GetCamera()))
+        {
+            obj.SetActive(true);
+        }
+        else
+        {
+            obj.SetActive(false);
+        }
     }
 
-    private void ChangedItem(int Count,int ItemType)
+    //リザルトに行くときのフェード
+    void ResultStart()
     {
-        for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++) 
-        {
-            if(PhotonNetwork.player.ID == manager_SI_Player.GetPlayer(i).ID)
-            {
-                manager_SI_Player.GetPlayer(i).SetItemCount(Count, ItemType);
-            }
-        }
-    } 
+        m_switching = true;
+        StartCoroutine(fade_CloudEffect.FadeIn());
+    }
 
-    
 }

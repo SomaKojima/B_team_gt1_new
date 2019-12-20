@@ -13,7 +13,7 @@ public class Manager_PlaceBar : MonoBehaviour
 
     [SerializeField]
     Image m_pencil;
-    
+
     [SerializeField]
     //拠点ボタン
     UI_Button m_bases;
@@ -39,14 +39,13 @@ public class Manager_PlaceBar : MonoBehaviour
 
     //アクティブな状態か
     bool m_active = false;
-    
+
 
 
     // Update is called once per frame
-    void Update(){
+    void Update() {
 
 
-        
         ClickEvent();
     }
 
@@ -63,7 +62,7 @@ public class Manager_PlaceBar : MonoBehaviour
 
             for (int i = 0; i < BASE_NUM; i++)
             {
-                if(m_active)
+                if (m_active)
                 {
                     m_placeButtons[i].gameObject.SetActive(true);
                     m_pencil.gameObject.SetActive(true);
@@ -73,11 +72,13 @@ public class Manager_PlaceBar : MonoBehaviour
                     m_placeButtons[i].gameObject.SetActive(false);
                     m_pencil.gameObject.SetActive(false);
                 }
-               
+
             }
 
         }
 
+
+        m_placeType = Type.none;
         //森
         if (m_placeButtons[0].IsClick())
         {
@@ -103,7 +104,7 @@ public class Manager_PlaceBar : MonoBehaviour
         {
             m_placeButtons[2].OnClickProcess();
 
-            m_placeType =Type.factory;
+            m_placeType = Type.factory;
 
             Debug.Log(m_placeType);
         }
@@ -155,6 +156,12 @@ public class Manager_PlaceBar : MonoBehaviour
     public Type GetchangeType()
     {
         return m_placeType;
+    }
+
+    public bool IsChangeCameraPosiiton()
+    {
+        if (m_placeType != Type.none) return true;
+        return false;
     }
 
     //カメラを起動したかを取得

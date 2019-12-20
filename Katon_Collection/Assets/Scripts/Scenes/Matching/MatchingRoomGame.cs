@@ -20,11 +20,15 @@ public class MatchingRoomGame : MonoBehaviour
     [SerializeField]
     UI_Button_RoomMatching backButton;
 
+    [SerializeField]
+    Fade_CloudEffect fade_CloudEffect = null;
+
     // Start is called before the first frame update
     void Start()
     {
         serverInterface.ConnectServer();
         serverInterface.EnterLobby();
+        StartCoroutine(fade_CloudEffect.FadeOut());
     }
 
     // Update is called once per frame
@@ -128,5 +132,10 @@ public class MatchingRoomGame : MonoBehaviour
     void StartGameMaster()
     {
         serverInterface.OthersGameStartFlagSet(true);
+    }
+
+    void GameStart()
+    {
+        StartCoroutine(fade_CloudEffect.FadeIn());
     }
 }
