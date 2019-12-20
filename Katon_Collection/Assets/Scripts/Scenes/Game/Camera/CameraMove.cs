@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraMove : MonoBehaviour
 {
+    
 
     [SerializeField]
     private Camera m_camera;
@@ -32,6 +33,8 @@ public class CameraMove : MonoBehaviour
     [Range(0.0f, 1.0f)]
     public float Attenuation = 0.5f;
 
+    bool isStop = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +45,10 @@ public class CameraMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Scroll();
+        if (!isStop)
+        {
+            Scroll();
+        }
     }
 
     //初期化
@@ -214,5 +220,15 @@ public class CameraMove : MonoBehaviour
     public Camera GetCamera()
     {
         return m_camera;
+    }
+    
+    public void StopMove()
+    {
+        isStop = true;
+    }
+
+    public void StartMove()
+    {
+        isStop = false;
     }
 }

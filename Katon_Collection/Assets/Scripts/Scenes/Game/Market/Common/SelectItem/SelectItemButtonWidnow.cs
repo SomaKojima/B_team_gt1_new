@@ -15,6 +15,8 @@ public class SelectItemButtonWidnow : MonoBehaviour
 
     Manager_Item managerItem = null;
 
+    Manager_Item refItem = null;
+
     public void Initialize(Manager_Item _managerItem)
     {
         managerItem = _managerItem;
@@ -52,11 +54,15 @@ public class SelectItemButtonWidnow : MonoBehaviour
 
         // 合計値を更新する
         totalItemNumText.text = owner_selectItemButton.GetTotal().ToString();
-
     }
 
     public int GetTotal()
     {
         return owner_selectItemButton.GetTotal();
+    }
+
+    public Manager_Item GetManagerItem()
+    {
+        return owner_selectItemButton.GetManagerItem();
     }
 }

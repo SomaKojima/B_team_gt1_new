@@ -55,7 +55,7 @@ public class CommonUnitButton : UI_Button_Market
         // リスト内の数だけ入手できるアイテムを生成する
         foreach (IItem item in _getItems)
         {
-            factoryCmnIcn.Create(iconParent, item.GetItemType(), item.GetCount());
+            factoryCmnIcn.Create(item.GetItemType(), item.GetCount());
         }
     }
 

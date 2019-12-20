@@ -10,11 +10,7 @@ public class Factory_CommonUnitButton : MonoBehaviour
     // プレハブを生成する場所(親オブジェクト)
     [SerializeField]
     Transform  prefabParent = null;
-
-    // CommonUnitButtonオブジェクト
-    [SerializeField]
-    CommonUnitButton commonUnitButton;
-
+    
     // Start is called before the first frame update
     void Start()
     {

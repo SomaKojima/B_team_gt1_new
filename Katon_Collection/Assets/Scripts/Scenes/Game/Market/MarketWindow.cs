@@ -22,7 +22,8 @@ public class MarketWindow : MonoBehaviour
     SaleWindow saleWindow;
 
     [SerializeField]
-    Manager_Item managerItem;
+    UI_Button backButton;
+    bool isBack = false;
 
     bool isExchange = false;
 
@@ -36,14 +37,6 @@ public class MarketWindow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        managerItem.Initialize();
-        int count = 10;
-        for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
-        {
-            managerItem.GetItem((ITEM_TYPE)i).SetCount(count);
-            count += 10;
-        }
-        Initialize(managerItem);
     }
 
 
@@ -62,7 +55,14 @@ public class MarketWindow : MonoBehaviour
             exchangeItemList = commonWindow.GetExchangeItemList();
             isExchange = true;
         }
-        
+
+        isBack = false;
+        if (backButton.IsClick())
+        {
+            backButton.OnClickProcess();
+            UnActive();
+            isBack = true;
+        }
     }
 
     // 市場の選択メニューを取得
@@ -102,6 +102,21 @@ public class MarketWindow : MonoBehaviour
     public List<IItem> GetExchangeItemList()
     {
         return exchangeItemList;
+    }
+
+    public void Active()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void UnActive()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public bool IsBack()
+    {
+        return isBack;
     }
 
     /// <summary>
