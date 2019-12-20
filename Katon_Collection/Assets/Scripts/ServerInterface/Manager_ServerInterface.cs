@@ -172,6 +172,11 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
         gameStartFlag = flag;
     }
 
+    public bool GetGameStartFlag()
+    {
+        return gameStartFlag;
+    }
+
     public void OthersGameStartFlagSet(bool flag)
     {
         photonView.RPC("RPCGameStartFlagSet", PhotonTargets.Others, flag);
@@ -181,5 +186,14 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
     private void RPCGameStartFlagSet(bool flag)
     {
         gameStartFlag = flag;
+    }
+
+    public bool IsMaster()
+    {
+        if (PhotonNetwork.isMasterClient)
+        {
+            return true;
+        }
+        return false;
     }
 }

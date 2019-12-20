@@ -83,9 +83,18 @@ public class MatchingRoomGame : MonoBehaviour
             serverInterface.LeaveRoom();
         }
 
+        //ゲームを開始する
+        if (serverInterface.GetGameStartFlag())
+        {
+            SceneManager.LoadScene("GameScene");
+        }
+
         if (waitRoom_Window.IsGameStart())
         {
-            StartGame();
+            if (serverInterface.IsMaster())
+            {
+                StartGameMaster();
+            }
         }
     }
 
@@ -114,11 +123,9 @@ public class MatchingRoomGame : MonoBehaviour
     }
 
     // ゲーム開始時の処理
-    void StartGame()
-    {
+    void StartGameMaster()
+    {    
         serverInterface.SetGameStartFlag(true);
         serverInterface.OthersGameStartFlagSet(true);
-
-        SceneManager.LoadScene("GameScene");
     }
 }
