@@ -9,6 +9,8 @@ public class SI_Player
     private int id;
     private new string name;
     private bool isExcange;
+    private bool ChangeFlag = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,11 +26,13 @@ public class SI_Player
     public int GetPlacePoint(int index)
     {
         return placePoint[index];
+        ChangeFlag = true;
     }
 
     public void SetPlacePoint(int point,int index)
     {
         placePoint[index] = point;
+        ChangeFlag = true;
     }
 
     public int GetItemCount(int index)
@@ -39,6 +43,7 @@ public class SI_Player
     public void SetItemCount(int point, int index)
     {
         itemCount[index] = point;
+        ChangeFlag = true;
     }
 
     public int ID
@@ -56,6 +61,20 @@ public class SI_Player
     public bool IsExcange
     {
         get { return isExcange; }
-        set { isExcange = value; }
+        set { isExcange = value;
+            ChangeFlag = true; }
+    }
+
+    public bool GetChangeFlag()
+    {
+        if(ChangeFlag)
+        {
+            ChangeFlag = false;
+            return true;
+        }
+        else
+        {
+            return ChangeFlag;
+        }
     }
 }

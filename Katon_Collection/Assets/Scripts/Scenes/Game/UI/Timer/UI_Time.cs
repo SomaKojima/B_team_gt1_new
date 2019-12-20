@@ -16,7 +16,10 @@ public class UI_Time : MonoBehaviour
 
    //　前回Update時の秒数
     private float oldSeconds;
-   
+
+    [SerializeField]
+    GameObject SI_Game;
+
     private Text timerText;
 
     void Start()
@@ -24,6 +27,8 @@ public class UI_Time : MonoBehaviour
         totalTime = minute * 60 + seconds;
         oldSeconds = 0f;
         timerText = GetComponentInChildren<Text>();
+
+        SI_Game.GetComponent<SI_Game>().SetTime(totalTime);
     }
 
     void Update()
@@ -34,8 +39,10 @@ public class UI_Time : MonoBehaviour
             return;
         }
         //　一旦トータルの制限時間を計測；
-        totalTime = minute * 60 + seconds;
-        totalTime -= Time.deltaTime;
+        //totalTime = minute * 60 + seconds;
+        //totalTime -= Time.deltaTime;
+        totalTime = SI_Game.GetComponent<SI_Game>().GetTime() - Time.deltaTime;
+        SI_Game.GetComponent<SI_Game>().SetTime(totalTime);
 
         //　再設定
         minute = (int)totalTime / 60;

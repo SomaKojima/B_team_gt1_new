@@ -23,7 +23,7 @@ public class Owner_SignBoard : MonoBehaviour
         {
             if (signBoard.IsClick())
             {
-                signBoard.gameObject.SetActive(false);
+                //signBoard.gameObject.SetActive(false);
                 clickSignBoasd = signBoard;
             }
         }
@@ -39,5 +39,19 @@ public class Owner_SignBoard : MonoBehaviour
     {
         if (clickSignBoasd == null) return Type.none;
         return clickSignBoasd.GetPlaceType();
+    }
+
+    public bool IsSigneBoardInScreen(Camera camera)
+    {
+        Rect rect = new Rect(0, 0, 1, 1);
+        foreach (SignBoard signBoard in signBoards)
+        {
+            Vector3 point = camera.WorldToViewportPoint(signBoard.transform.position);
+            if (rect.Contains(point))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
