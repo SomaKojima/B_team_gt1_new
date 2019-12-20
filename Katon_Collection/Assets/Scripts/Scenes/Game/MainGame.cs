@@ -22,6 +22,9 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     Owner_SignBoard owner_signBoard;
 
+    [SerializeField]
+    Manage_SI_Player manager_SI_Player;
+
 
     // Start is called before the first frame update
     void Start()
@@ -64,6 +67,17 @@ public class MainGame : MonoBehaviour
             owner_floor.Building(type);
         }
     }
+
+    private void ChangedItem(int Count,int ItemType)
+    {
+        for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++) 
+        {
+            if(PhotonNetwork.player.ID == manager_SI_Player.GetPlayer(i).ID)
+            {
+                manager_SI_Player.GetPlayer(i).SetItemCount(Count, ItemType);
+            }
+        }
+    } 
 
     
 }
