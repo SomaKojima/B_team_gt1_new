@@ -21,6 +21,13 @@ public class Manager_ChangeItem : MonoBehaviour
     [SerializeField]
     Transform enptyPrefabParent = null;
 
+    // 数量調整ウィンドウのブレハブ
+    [SerializeField]
+    GameObject countingItemPrefab = null;
+    // プレハブを生成する場所(親オブジェクト)
+    [SerializeField]
+    Transform countingItemPrefabParent = null;
+
     // 交換するアイテムの種類の最大数
     public static int MAX_CHANGE_ITEM = 12;
 
@@ -29,6 +36,25 @@ public class Manager_ChangeItem : MonoBehaviour
     // 交換するアイテムの合計数(テキスト)
     [SerializeField]
     Text totalItemCountText = null;
+
+    public enum MENU_STATE
+    {
+        SELECT_NONE,        // 以下のどれでもない
+        SELECT_GET_ITEM,    // 欲しいアイテムを選択(Common)
+        SELECT_ADD_ITEM,    // アイテム追加アイコンを選択
+        SELECT_COUNT_ITEM   // アイテムの数量を変更中
+    }
+
+    // 現行の状態
+    private MENU_STATE menuState = MENU_STATE.SELECT_NONE;
+
+    // 数量調整オブジェクトが入る
+    private GameObject countingObj = null;
+
+    // Rayが当たったオブジェクトの情報を入れる箱
+    private RaycastHit hit;
+    // Rayの飛ばせる距離
+    private float rayDistance = 200.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -39,7 +65,79 @@ public class Manager_ChangeItem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // クリックしたとき
+        if (Input.GetMouseButtonDown(0))
+        {
+            GameObject checkObj = CheckClickObject();
+            if (checkObj == null) return;
+
+            if (checkObj.tag == "AddChangeItem")
+            {
+                menuState = MENU_STATE.SELECT_ADD_ITEM;
+                Debug.Log("aa");
+            }
+
+            // 交換するアイテムを追加中でなく既にアイテムの数量を調整中でなく、交換するアイテムを選択したら
+            if ((menuState == MENU_STATE.SELECT_NONE || menuState == MENU_STATE.SELECT_GET_ITEM) &&
+                (countingObj == null && checkObj.tag == "CountingItem"))
+            {
+                // 状態を数量調整中に
+                menuState = MENU_STATE.SELECT_COUNT_ITEM;
+                // 数量調整ウィンドウ生成
+                countingObj = Instantiate(countingItemPrefab, countingItemPrefabParent);
+                // スプライトを選択したアイテムに変更
+                countingObj.transform.Find("UnitIcon").transform.Find("IconImage").GetComponent<Image>().sprite =
+                    checkObj.transform.Find("icon").GetComponent<Image>().sprite;
+                // テキストを選択したアイテムの個数分に変更
+                countingObj.transform.Find("UnitIcon").transform.Find("IconCount").GetComponent<Text>().text =
+                    checkObj.transform.Find("num").GetComponent<Text>().text;
+                // スライダーの最大値設定、現在の量に設定
+                countingObj.transform.Find("Slider").GetComponent<Slider>().maxValue = 50;
+                countingObj.transform.Find("Slider").GetComponent<Slider>().value =
+                    int.Parse(checkObj.transform.Find("num").GetComponent<Text>().text);
+                Debug.Log("CountingItem");
+            }
+
+            // 増減ボタンの数量調整
+            if (menuState == MENU_STATE.SELECT_COUNT_ITEM && checkObj.tag == "CountUp")
+            {
+                int sliderValue = (int)countingObj.transform.Find("Slider").GetComponent<Slider>().value;
+                sliderValue++;
+                if (sliderValue > countingObj.transform.Find("Slider").GetComponent<Slider>().maxValue)
+                {
+                    sliderValue = (int)countingObj.transform.Find("Slider").GetComponent<Slider>().maxValue;
+                }
+
+                countingObj.transform.Find("UnitIcon").transform.Find("IconCount").GetComponent<Text>().text =
+                    sliderValue.ToString();
+                countingObj.transform.Find("Slider").GetComponent<Slider>().value = sliderValue;
+            }
+            else if(menuState == MENU_STATE.SELECT_COUNT_ITEM && checkObj.tag == "CountDown")
+            {
+                int sliderValue = (int)countingObj.transform.Find("Slider").GetComponent<Slider>().value;
+                sliderValue--;
+                if (sliderValue < 0) sliderValue = 0;
+
+                countingObj.transform.Find("UnitIcon").transform.Find("IconCount").GetComponent<Text>().text =
+                    sliderValue.ToString();
+                countingObj.transform.Find("Slider").GetComponent<Slider>().value = sliderValue;
+            }
+
+            // 数量調整ウィンドウの操作終了
+            if (countingObj != null && checkObj.tag == "CountingItemApply")
+            {
+                menuState = MENU_STATE.SELECT_NONE;
+                Destroy(countingObj);
+                countingObj = null;
+            }
+        }
+
+        // スライダーの数量調整
+        if (menuState == MENU_STATE.SELECT_COUNT_ITEM)
+        {
+            countingObj.transform.Find("UnitIcon").transform.Find("IconCount").GetComponent<Text>().text =
+                ((int)countingObj.transform.Find("Slider").GetComponent<Slider>().value).ToString();
+        }
     }
 
     /// <summary>
@@ -93,4 +191,25 @@ public class Manager_ChangeItem : MonoBehaviour
     {
         return myItems;
     }
+
+    /// <summary>
+    /// クリックしたところのオブジェクトを調べる
+    /// </summary>
+    /// <returns>衝突したオブジェクト(衝突しなかった場合はnull)</returns>
+    private GameObject CheckClickObject()
+    {
+        //　カメラからクリックした位置にレイを飛ばす
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        // もしRayにオブジェクトが衝突したら
+        if (Physics.Raycast(ray, out hit, rayDistance))
+        {
+            // オブジェクトの名前を取得
+            GameObject obj = hit.collider.gameObject;
+            return obj;
+        }
+        return null;
+    }
+
+
+    public MENU_STATE MenuState { get { return menuState; } set { menuState = value; } }
 }

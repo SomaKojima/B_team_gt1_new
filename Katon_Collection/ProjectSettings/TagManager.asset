@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - AddChangeItem
+  - CountingItem
+  - CountingItemApply
+  - CountUp
+  - CountDown
   layers:
   - Default
   - TransparentFX
