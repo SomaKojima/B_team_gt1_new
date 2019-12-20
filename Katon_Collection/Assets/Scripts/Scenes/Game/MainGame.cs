@@ -56,7 +56,7 @@ public class MainGame : MonoBehaviour
             ITEM_TYPE type = (ITEM_TYPE)i;
             owner_human.MatchItemsHumans(manager_item.GetItem(type), false);
         }
-        
+
         // 看板が押されたら建築
         if (owner_signBoard.IsBuilding())
         {
