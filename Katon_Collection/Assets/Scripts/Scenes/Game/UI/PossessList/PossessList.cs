@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PossessList : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class PossessList : MonoBehaviour
 
     // リストの幅
     private float listWidth = 0.0f;
+
+    // 表示/非表示ボタンのテキスト
+    private Text buttonText = null;
 
     // Start is called before the first frame update
     void Start()
@@ -32,8 +36,10 @@ public class PossessList : MonoBehaviour
         listWidth = width;
     }
 
-    public float GetWidth() { return listWidth; }
+    public float GetWidth()                 { return listWidth; }
 
-    public bool GetClick()  { return switchButton.IsClick(); }
-    public void FinishClick() { switchButton.OnClickProcess(); }
+    public void SetButtonText(string str)   { switchButton.GetComponentInChildren<Text>().GetComponent<Text>().text = str;}
+
+    public bool GetClick()                  { return switchButton.IsClick(); }
+    public void FinishClick()               { switchButton.OnClickProcess(); }
 }

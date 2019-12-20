@@ -9,24 +9,24 @@ public class PossessListManager : MonoBehaviour
     private Camera CountainArea;
 
     // 範囲内判定のためのrect
-    Rect rect = new Rect(0, 0, 10, 10); // 画面内か判定するためのRect
+    Rect rect = new Rect(0, 0, 3, 3); // 画面内か判定するためのRect
 
     // 基準オブジェクト
     [SerializeField]
     private GameObject basePointObject;
 
-    // 表示中かどうかフラグ
-    private bool visibleFlag = true;
-
-    // 動作中かどうかフラグ
+    // 表示状態
     private bool moveState = false;
-
-    // フラグ
-    private bool flag = false;
 
     // 動かすスピード
     [SerializeField]
     private float moveSpeed = 20.0f;
+
+    private float speed = 0;
+
+    // RectTransform
+    private RectTransform rectTransform;
+    private RectTransform baseRectTransform;
 
     // PossessListオブジェクト
     [SerializeField]
@@ -35,6 +35,9 @@ public class PossessListManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        speed = moveSpeed;
+        rectTransform = possessList.gameObject.GetComponent<RectTransform>();
+        baseRectTransform = basePointObject.GetComponent<RectTransform>();
         // 所持リストの幅取得
         possessList.Initialize(possessList.GetComponent<RectTransform>().sizeDelta.x);
     }
@@ -46,62 +49,68 @@ public class PossessListManager : MonoBehaviour
         var viewportPos = CountainArea.WorldToViewportPoint(basePointObject.transform.position);
         // なぜか範囲が(-10,-10)～(0,0)になっているため符号反転
         var pos = new Vector3(-viewportPos.x, -viewportPos.y, -viewportPos.z);
-        
-        // 範囲に含まれていたら
-        if (rect.Contains(pos))
-        {
-            // 表示できている
-            visibleFlag = true;
-        }
-        // 含まれていなかったら
-        else
-        {
-            // 表示できていない
-            visibleFlag = false;
-        }
 
         // クリックされたら
         if (possessList.GetClick())
         {
+            possessList.FinishClick();
             // フラグを反転
-            //if (moveState) return;
-            flag = !flag;
+            moveState = !moveState;
+            speed *= -1;
         }
 
-        // 表示されておらず表示したかったら
-        if (!visibleFlag && flag)
+        // テキスト変更
+        if(moveState)
         {
-            // 画面左へスライド
-            possessList.transform.position -= new Vector3(moveSpeed, 0, 0);
-            if (moveState) return;
-            // 所持リスト表示/非表示用の基点設定
-            basePointObject.transform.position = new Vector3(basePointObject.transform.position.x + possessList.GetWidth(),
-                                                             basePointObject.transform.position.y,
-                                                             basePointObject.transform.position.z);
-            // 所持リストがスライド可能でなければ動かさない
-            moveState = true;
-            possessList.FinishClick();
-        }
-        // 表示されており非表示にしたかったら
-        else if (visibleFlag && !flag)
-        {
-            // 画面右へスライド
-            possessList.transform.position += new Vector3(moveSpeed, 0, 0);
-            if (moveState) return;
-            // 所持リスト表示/非表示用の基点設定
-            basePointObject.transform.position = new Vector3(basePointObject.transform.position.x - possessList.GetWidth(),
-                                                             basePointObject.transform.position.y,
-                                                             basePointObject.transform.position.z);
-            // 所持リストがスライド可能でなければ動かさない
-            moveState = true;
-            possessList.FinishClick();
+            possessList.SetButtonText("－");
         }
         else
         {
-            moveState = false;
+            possessList.SetButtonText("＋");
+        }
+
+        // 
+        float min = baseRectTransform.position.x - rectTransform.sizeDelta.x;
+        float max = baseRectTransform.position.x;
+        float x = ChangePosition(min, max, rectTransform.position.x, speed);
+        // 所持リストの移動
+        rectTransform.position = new Vector3(x, rectTransform.position.y, rectTransform.position.z);
+
+        if (IsMove(min, max, rectTransform.position.x, speed))
+        {
+            // 移動中
+        }
+        else
+        {
+            // 停止中
         }
     }
 
-    // 設定関数
-    public bool MoveState { set { moveState = value; } }
+    float ChangePosition(float min, float max, float position, float speed)
+    {
+        float buf = position + speed;
+        if (buf < min)
+        {
+            return min;
+        }
+        else if (buf > max)
+        {
+            return max;
+        }
+        return buf;
+    }
+
+    bool IsMove(float min, float max, float position, float speed)
+    {
+        float buf = position + speed;
+        if (buf < min)
+        {
+            return false;
+        }
+        else if (buf > max)
+        {
+            return false;
+        }
+        return true;
+    }
 }
