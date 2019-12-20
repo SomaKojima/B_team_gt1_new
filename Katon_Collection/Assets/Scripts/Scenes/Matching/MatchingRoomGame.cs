@@ -126,8 +126,7 @@ public class MatchingRoomGame : MonoBehaviour
 
     // ゲーム開始時の処理
     void StartGameMaster()
-    {    
-        serverInterface.SetGameStartFlag(true);
+    {
         serverInterface.OthersGameStartFlagSet(true);
     }
 }

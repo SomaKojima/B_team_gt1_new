@@ -179,7 +179,7 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
 
     public void OthersGameStartFlagSet(bool flag)
     {
-        photonView.RPC("RPCGameStartFlagSet", PhotonTargets.Others, flag);
+        photonView.RPC("RPCGameStartFlagSet", PhotonTargets.AllViaServer, flag);
     }
 
     [PunRPC]
