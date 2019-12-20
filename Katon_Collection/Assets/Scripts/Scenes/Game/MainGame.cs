@@ -72,7 +72,7 @@ public class MainGame : MonoBehaviour
             if (m_fade)
             {
                 StartCoroutine(fade_CloudEffect.FadeIn());
-                Debug.Log(manager_placeBar.IsChangeCameraPosiiton());
+              
 
                 if (!fade_CloudEffect.GetIsProcess)
                 {

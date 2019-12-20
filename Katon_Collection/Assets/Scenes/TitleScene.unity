@@ -883,7 +883,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_fade_CloudEffect: {fileID: 1755672588}
   m_cameraMove: {fileID: 2062969589}
-  m_changeTime: 10
+  m_changeTime: 5
 --- !u!4 &1222179649
 Transform:
   m_ObjectHideFlags: 0
@@ -1663,14 +1663,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2851103905623665547, guid: 044d8055a49932e4e971f68b757ecf8f,
-        type: 3}
-      propertyPath: m_fadeTime
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2851103905623665541, guid: 044d8055a49932e4e971f68b757ecf8f,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2851103905623665547, guid: 044d8055a49932e4e971f68b757ecf8f,
+        type: 3}
+      propertyPath: m_fadeTime
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2851103905623665546, guid: 044d8055a49932e4e971f68b757ecf8f,

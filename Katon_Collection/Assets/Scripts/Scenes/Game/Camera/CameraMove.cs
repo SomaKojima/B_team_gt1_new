@@ -169,9 +169,9 @@ public class CameraMove : MonoBehaviour
             moveObject.transform.localPosition = new Vector3(430, moveObject.transform.localPosition.y, moveObject.transform.localPosition.z);
         }
 
-        if (moveObject.transform.localPosition.y < 36)
+        if (moveObject.transform.localPosition.y < 20)
         {
-            moveObject.transform.localPosition = CorrectionPosition(moveObject.transform.localPosition.x, 36, moveObject.transform.localPosition.z);
+            moveObject.transform.localPosition = CorrectionPosition(moveObject.transform.localPosition.x, 20, moveObject.transform.localPosition.z);
         }
 
         if (moveObject.transform.localPosition.y > 70)
