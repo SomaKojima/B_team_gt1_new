@@ -37,6 +37,15 @@ public class MarketWindow : MonoBehaviour
     [SerializeField]
     Manager_ChangeItem managerCngItm = null;
 
+    [SerializeField]
+    ChangeCountWindow changeCountWindow = null;
+
+    [SerializeField]
+    Factory_SelectItemsButton factorySelectItemButton = null;
+
+    [SerializeField]
+    Manager_SelectItemsButton managerSelectItemButton = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,12 +68,15 @@ public class MarketWindow : MonoBehaviour
         managerCmnUntBtn.Add(factoryCmnUntBtn.Create(items2, 20));
 
         // 仮マイアイテム
-        managerCngItm.Add(factoryCngItm.Create(ITEM_TYPE.WOOD, 30));
-        managerCngItm.Add(factoryCngItm.Create(ITEM_TYPE.ORE, 20));
-        managerCngItm.Add(factoryCngItm.Create(ITEM_TYPE.PARTS, 10));
+        //managerCngItm.Add(factoryCngItm.Create(ITEM_TYPE.WOOD, 30));
+        //managerCngItm.Add(factoryCngItm.Create(ITEM_TYPE.ORE, 20));
+        //managerCngItm.Add(factoryCngItm.Create(ITEM_TYPE.PARTS, 10));
 
-        managerCngItm.LineupRemainItem();
-        managerCngItm.DisplayTotalCount();
+        //managerCngItm.LineupRemainItem();
+        //managerCngItm.DisplayTotalCount();
+
+        managerSelectItemButton.Add(factorySelectItemButton.Create(ITEM_TYPE.WOOD));
+        managerSelectItemButton.Add(factorySelectItemButton.Create(ITEM_TYPE.ORE));
     }
 
     // Update is called once per frame

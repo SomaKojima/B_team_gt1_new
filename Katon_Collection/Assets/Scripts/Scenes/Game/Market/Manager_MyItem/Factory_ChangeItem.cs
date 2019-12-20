@@ -36,6 +36,7 @@ public class Factory_ChangeItem : MonoBehaviour
     {
         // 交換するアイテム(アイコン)(実体)の生成
         GameObject obj = Instantiate(changeItemPrefab, prefabParent);
+        obj.tag = "CountingItem";
         // オブジェクトからChangeItemのコンポーネントを取得
         CommonUnitIcon cngItm = obj.GetComponent<CommonUnitIcon>();
         // 種類に応じたスプライトを適用
