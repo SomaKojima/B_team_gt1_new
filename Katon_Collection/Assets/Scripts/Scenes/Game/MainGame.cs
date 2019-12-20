@@ -31,6 +31,9 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     Fade_CloudEffect fade_CloudEffect = null;
 
+    [SerializeField]
+    Manage_SI_Player manager_SI_Player;
+
     //フェード　
     bool m_fade = false;
 
@@ -130,6 +133,17 @@ public class MainGame : MonoBehaviour
     {
         m_switching = true;
         StartCoroutine(fade_CloudEffect.FadeIn());
+    }
+
+    private void ChangedItem(int Count, int ItemType)
+    {
+        for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
+        {
+            if (PhotonNetwork.player.ID == manager_SI_Player.GetPlayer(i).ID)
+            {
+                manager_SI_Player.GetPlayer(i).SetItemCount(Count, ItemType);
+            }
+        }
     }
 
 }
