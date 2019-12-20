@@ -96,11 +96,15 @@ public class MainGame : MonoBehaviour
         // QR読み込み完了
         if (qrReaderWindow.IsExchange())
         {
-            qrReaderWindow.FinishExchange();
-            // アイテムのマネージャに追加・削除
-            foreach (IItem item in qrReaderWindow.GetItems())
+            bool isExchangable = IsExchangable();
+            qrReaderWindow.FinishExchange(isExchangable);
+            if(isExchangable)
             {
-                manager_item.GetItem(item.GetItemType()).AddCount(item.GetCount());
+                // アイテムのマネージャに追加・削除
+                foreach (IItem item in qrReaderWindow.GetItems())
+                {
+                    manager_item.GetItem(item.GetItemType()).AddCount(item.GetCount());
+                }
             }
         }
 
@@ -126,6 +130,17 @@ public class MainGame : MonoBehaviour
         {
             obj.SetActive(false);
         }
+    }
+
+    bool IsExchangable()
+    {
+        foreach (IItem item in qrReaderWindow.GetItems())
+        {
+            IItem myItem = manager_item.GetItem(item.GetItemType());
+
+            if (myItem.GetCount() + item.GetCount() < 0) return false;
+        }
+        return true;
     }
 
     //リザルトに行くときのフェード
