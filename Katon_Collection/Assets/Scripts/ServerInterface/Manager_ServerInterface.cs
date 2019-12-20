@@ -167,10 +167,9 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
         return isJoinedRoom;
     }
 
-    public bool GameStartFlag
+    public void SetGameStartFlag(bool flag)
     {
-        get { return gameStartFlag; }
-        set { gameStartFlag = value; }
+        gameStartFlag = flag;
     }
 
     public void OthersGameStartFlagSet(bool flag)

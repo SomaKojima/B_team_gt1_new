@@ -20,6 +20,8 @@ public class WaitRoom_Window : MonoBehaviour
     [SerializeField]
     Manage_SI_Player manager_si_player;
 
+    bool isStart = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +31,12 @@ public class WaitRoom_Window : MonoBehaviour
     void Update()
     {
         UpdateGuestName();
+        isStart = false;
+        if (startButton.IsClick())
+        {
+            startButton.OnClickProcess();
+            isStart = true;
+        }
     }
 
     public void Inititalize(bool entry, string _roomName)
@@ -54,7 +62,7 @@ public class WaitRoom_Window : MonoBehaviour
 
     public bool IsGameStart()
     {
-        return false;
+        return isStart;
     }
 
     public void UpdateGuestName()

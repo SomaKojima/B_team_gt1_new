@@ -82,6 +82,11 @@ public class MatchingRoomGame : MonoBehaviour
         {
             serverInterface.LeaveRoom();
         }
+
+        if (waitRoom_Window.IsGameStart())
+        {
+            StartGame();
+        }
     }
 
     // 部屋を作るウィンドウをアクティブにする時の処理
@@ -106,5 +111,14 @@ public class MatchingRoomGame : MonoBehaviour
     {
         serverInterface.EnterRoom(entryRoom_Window.GetEnterRoomName().GetRoomName());
         serverInterface.SetPlayerName(entryRoom_Window.GetInputPlayerName());
+    }
+
+    // ゲーム開始時の処理
+    void StartGame()
+    {
+        serverInterface.SetGameStartFlag(true);
+        serverInterface.OthersGameStartFlagSet(true);
+
+        SceneManager.LoadScene("GameScene");
     }
 }

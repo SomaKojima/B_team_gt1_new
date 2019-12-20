@@ -86,41 +86,41 @@ public class Manager_ChangeItem : MonoBehaviour
                 // 数量調整ウィンドウ生成
                 countingObj = Instantiate(countingItemPrefab, countingItemPrefabParent);
                 // スプライトを選択したアイテムに変更
-                countingObj.transform.FindChild("UnitIcon").transform.FindChild("IconImage").GetComponent<Image>().sprite =
-                    checkObj.transform.FindChild("icon").GetComponent<Image>().sprite;
+                countingObj.transform.Find("UnitIcon").transform.Find("IconImage").GetComponent<Image>().sprite =
+                    checkObj.transform.Find("icon").GetComponent<Image>().sprite;
                 // テキストを選択したアイテムの個数分に変更
-                countingObj.transform.FindChild("UnitIcon").transform.FindChild("IconCount").GetComponent<Text>().text =
-                    checkObj.transform.FindChild("num").GetComponent<Text>().text;
+                countingObj.transform.Find("UnitIcon").transform.Find("IconCount").GetComponent<Text>().text =
+                    checkObj.transform.Find("num").GetComponent<Text>().text;
                 // スライダーの最大値設定、現在の量に設定
-                countingObj.transform.FindChild("Slider").GetComponent<Slider>().maxValue = 50;
-                countingObj.transform.FindChild("Slider").GetComponent<Slider>().value =
-                    int.Parse(checkObj.transform.FindChild("num").GetComponent<Text>().text);
+                countingObj.transform.Find("Slider").GetComponent<Slider>().maxValue = 50;
+                countingObj.transform.Find("Slider").GetComponent<Slider>().value =
+                    int.Parse(checkObj.transform.Find("num").GetComponent<Text>().text);
                 Debug.Log("CountingItem");
             }
 
             // 増減ボタンの数量調整
             if (menuState == MENU_STATE.SELECT_COUNT_ITEM && checkObj.tag == "CountUp")
             {
-                int sliderValue = (int)countingObj.transform.FindChild("Slider").GetComponent<Slider>().value;
+                int sliderValue = (int)countingObj.transform.Find("Slider").GetComponent<Slider>().value;
                 sliderValue++;
-                if (sliderValue > countingObj.transform.FindChild("Slider").GetComponent<Slider>().maxValue)
+                if (sliderValue > countingObj.transform.Find("Slider").GetComponent<Slider>().maxValue)
                 {
-                    sliderValue = (int)countingObj.transform.FindChild("Slider").GetComponent<Slider>().maxValue;
+                    sliderValue = (int)countingObj.transform.Find("Slider").GetComponent<Slider>().maxValue;
                 }
 
-                countingObj.transform.FindChild("UnitIcon").transform.FindChild("IconCount").GetComponent<Text>().text =
+                countingObj.transform.Find("UnitIcon").transform.Find("IconCount").GetComponent<Text>().text =
                     sliderValue.ToString();
-                countingObj.transform.FindChild("Slider").GetComponent<Slider>().value = sliderValue;
+                countingObj.transform.Find("Slider").GetComponent<Slider>().value = sliderValue;
             }
             else if(menuState == MENU_STATE.SELECT_COUNT_ITEM && checkObj.tag == "CountDown")
             {
-                int sliderValue = (int)countingObj.transform.FindChild("Slider").GetComponent<Slider>().value;
+                int sliderValue = (int)countingObj.transform.Find("Slider").GetComponent<Slider>().value;
                 sliderValue--;
                 if (sliderValue < 0) sliderValue = 0;
 
-                countingObj.transform.FindChild("UnitIcon").transform.FindChild("IconCount").GetComponent<Text>().text =
+                countingObj.transform.Find("UnitIcon").transform.Find("IconCount").GetComponent<Text>().text =
                     sliderValue.ToString();
-                countingObj.transform.FindChild("Slider").GetComponent<Slider>().value = sliderValue;
+                countingObj.transform.Find("Slider").GetComponent<Slider>().value = sliderValue;
             }
 
             // 数量調整ウィンドウの操作終了
@@ -135,8 +135,8 @@ public class Manager_ChangeItem : MonoBehaviour
         // スライダーの数量調整
         if (menuState == MENU_STATE.SELECT_COUNT_ITEM)
         {
-            countingObj.transform.FindChild("UnitIcon").transform.FindChild("IconCount").GetComponent<Text>().text =
-                ((int)countingObj.transform.FindChild("Slider").GetComponent<Slider>().value).ToString();
+            countingObj.transform.Find("UnitIcon").transform.Find("IconCount").GetComponent<Text>().text =
+                ((int)countingObj.transform.Find("Slider").GetComponent<Slider>().value).ToString();
         }
     }
 
