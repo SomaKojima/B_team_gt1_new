@@ -8,6 +8,7 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
     private bool isJoinedRoom = false;
     private bool isCreateRoom = false;
     private bool isEnterRoom = false;
+    private bool gameStartFlag = false;
 
     // Start is called before the first frame update
     void Start()
@@ -164,5 +165,49 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
     public bool IsJoinedRoom()
     {
         return isJoinedRoom;
+    }
+
+    public void SetGameStartFlag(bool flag)
+    {
+        gameStartFlag = flag;
+    }
+
+    public bool GetGameStartFlag()
+    {
+        return gameStartFlag;
+    }
+
+    public void OthersGameStartFlagSet(bool flag)
+    {
+        photonView.RPC("RPCGameStartFlagSet", PhotonTargets.AllViaServer, flag);
+    }
+
+    [PunRPC]
+    private void RPCGameStartFlagSet(bool flag)
+    {
+        gameStartFlag = flag;
+    }
+
+    public bool IsMaster()
+    {
+        if (PhotonNetwork.isMasterClient)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            //データの送信
+            stream.SendNext(gameStartFlag);
+        }
+        else
+        {
+            //データの受信
+            this.gameStartFlag = (bool)stream.ReceiveNext();
+        }
     }
 }

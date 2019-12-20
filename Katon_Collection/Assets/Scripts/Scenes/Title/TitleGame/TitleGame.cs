@@ -9,7 +9,7 @@ public class TitleGame : MonoBehaviour
     private BackGround_Title m_backGround_Title = null;
 
     [SerializeField]
-    private UI_Title_Tap m_uI_Title_Tap = null;
+    private UI_Button_Title m_uI_Title_Button = null;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +20,24 @@ public class TitleGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+        if(!m_backGround_Title.ChangeFlag)
+        {
+            m_backGround_Title.ChangePlace();
+        }
+        else
+        {
+            m_backGround_Title.ChangeRobyScene();
+        }
+       
+
+
+        if(m_uI_Title_Button.IsClick())
+        {
+            m_backGround_Title.ChangeFlag = true;
+            m_uI_Title_Button.OnClickProcess();
+           
+        }
+
     }
 }

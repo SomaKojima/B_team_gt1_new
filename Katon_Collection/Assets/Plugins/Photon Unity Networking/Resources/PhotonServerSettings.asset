@@ -45,4 +45,6 @@ MonoBehaviour:
   - RPCPLInfoAreaPointSet
   - RPCPLInfoTreadFlagSet
   - TaggedPlayer
+  - RPCGameStartFlagSet
+  - RPCOthersChange
   DisableAutoOpenWizard: 1

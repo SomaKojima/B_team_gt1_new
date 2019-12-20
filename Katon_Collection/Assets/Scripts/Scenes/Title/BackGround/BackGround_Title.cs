@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BackGround_Title : MonoBehaviour
 {
 
     [SerializeField]
-    Fade_CloudEffect m_fade_CloudEffect;
+    Fade_CloudEffect m_fade_CloudEffect = null;
 
     [SerializeField]
-    CameraManager m_cameraManager;
+    TitleCameraMove m_cameraMove = null;
 
     Type m_placeType;
 
@@ -24,18 +25,39 @@ public class BackGround_Title : MonoBehaviour
     //テスト用のフラグ
     bool testFlag = false;
 
-    void Update()
+    [SerializeField]
+    float m_changeTime = 10.0f;
+
+    //場所を切り替える
+    public void ChangePlace()
     {
+
+        time += Time.deltaTime;
+
         //テスト（ボタン押したらフェードが行われる）
-        if (Input.GetMouseButtonDown(0))
+        if (time> m_changeTime)
         {
             testFlag = true;
+            time = 0;
         }
+
+
 
         //trueならフェード開始
         if (testFlag)
         {
-           
+
+            //ランダムな値を入れる
+            m_nextValue = m_value;
+
+            //ランダムな値を出して場所を切り替える
+            if (m_nextValue == m_value)
+            {
+                m_value = Random.Range((int)Type.market, (int)Type.farm);
+
+            }
+            m_placeType = (Type)m_value;
+
             //フェードインする
             StartCoroutine(m_fade_CloudEffect.FadeIn());
 
@@ -44,62 +66,48 @@ public class BackGround_Title : MonoBehaviour
             {
                 testFlag = false;
 
-                //ランダムな値を入れる
-                m_nextValue = m_value;
 
-                ChangePlace();
+
+
+
+                m_cameraMove.ChangePosition(m_placeType);
+
+               
             }
+
         }
         else
         {
             //フェードアウトの処理
             StartCoroutine(m_fade_CloudEffect.FadeOut());
+
+
         }
-
-        time += Time.deltaTime;
-
-        //if (time > testtime)
-        //{
-           
-
-        //    if (testFlag)
-        //    {
-        //        //チェンジするタイミングでフェードインをかける
-        //        StartCoroutine(m_fade_CloudEffect.FadeIn());
-        //    }
-           
-
-        //    //フェードインが終わったら
-        //    if (!m_fade_CloudEffect.GetIsProcess)
-        //    {
-        //        testFlag = false;
-        //       // Debug.Log(m_fade_CloudEffect.GetIsProcess);
-              
-        //        ChangePlace();
-        //        m_cameraManager.ChangeCamera(m_placeType);
-        //    }
-        //}
-
-
-
-      
+   
     }
 
-    //場所を切り替える
-    public void ChangePlace()
+    bool m_changeRoby = false;
+
+    public void ChangeRobyScene()
     {
-
-        //ランダムな値を出して場所を切り替える
-        if (m_nextValue == m_value)
+        if(m_changeRoby)
         {
-            m_value = Random.Range((int)Type.none, (int)Type.Max);
+            //フェードインする
+            StartCoroutine(m_fade_CloudEffect.FadeIn());
 
+            if (!m_fade_CloudEffect.GetIsProcess)
+            {
+                
+                SceneManager.LoadScene(1);
+
+            }
         }
-        m_placeType = (Type)m_value;
+    }
 
-
-        Debug.Log(m_placeType);
-
-
-    } 
+    public bool ChangeFlag
+    {
+        get { return m_changeRoby; }
+        set { m_changeRoby = value; }
+    }
+  
 }

@@ -5,20 +5,22 @@ using UnityEngine;
 public class UI_Button_Title : UI_Button
 {
 
-    //クリック
-    private bool m_isClick = false;
+    [SerializeField]
+    UI_Button m_title_button = null;
 
 
-    public void OnClick()
+    //タイトルボタンが押された
+    public void ClickTitileButton()
     {
-        m_isClick = true;
+        m_title_button.IsClickEnter();
+        m_title_button.OnClickProcess();
     }
 
+    //タイトルボタンが押されたかを取得する
 
-    //クリックフラグの取得
-   public  bool IsClick()
+    public bool IsClickTitle()
     {
-        return m_isClick;
+        return m_title_button.IsClick();
     }
 
 }
