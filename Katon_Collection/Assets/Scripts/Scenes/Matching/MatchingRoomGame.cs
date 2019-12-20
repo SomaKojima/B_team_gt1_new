@@ -86,6 +86,8 @@ public class MatchingRoomGame : MonoBehaviour
         //ゲームを開始する
         if (serverInterface.GetGameStartFlag())
         {
+            Debug.Log("gamestart");
+
             SceneManager.LoadScene("GameScene");
         }
 
