@@ -196,4 +196,18 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
         }
         return false;
     }
+
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            //データの送信
+            stream.SendNext(gameStartFlag);
+        }
+        else
+        {
+            //データの受信
+            this.gameStartFlag = (bool)stream.ReceiveNext();
+        }
+    }
 }
