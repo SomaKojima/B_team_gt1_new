@@ -30,16 +30,14 @@ public class MainGame : MonoBehaviour
 
     [SerializeField]
     Fade_CloudEffect fade_CloudEffect = null;
-
-    [SerializeField]
-<<<<<<< HEAD
+    
     MarketWindow marketWindow;
 
     [SerializeField]
     FountainWindow fountainWindow;
-=======
+
+    [SerializeField]
     Manage_SI_Player manager_SI_Player;
->>>>>>> develop
 
     //フェード　
     bool m_fade = false;
@@ -167,8 +165,7 @@ public class MainGame : MonoBehaviour
         m_switching = true;
         StartCoroutine(fade_CloudEffect.FadeIn());
     }
-
-<<<<<<< HEAD
+    
     // 交換の処理
     void Exchange()
     { 
@@ -204,7 +201,6 @@ public class MainGame : MonoBehaviour
         }
         return true;
     }
-=======
     private void ChangedItem(int Count, int ItemType)
     {
         for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
@@ -215,6 +211,5 @@ public class MainGame : MonoBehaviour
             }
         }
     }
-
->>>>>>> develop
+    
 }
