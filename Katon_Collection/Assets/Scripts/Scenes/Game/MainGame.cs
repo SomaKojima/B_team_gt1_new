@@ -32,10 +32,7 @@ public class MainGame : MonoBehaviour
     Fade_CloudEffect fade_CloudEffect = null;
 
     [SerializeField]
-    MarketWindow marketWindow;
-
-    [SerializeField]
-    FountainWindow fountainWindow;
+    Manage_SI_Player manager_SI_Player;
 
     //フェード　
     bool m_fade = false;
@@ -47,16 +44,8 @@ public class MainGame : MonoBehaviour
     void Start()
     {
         manager_item.Initialize();
-
-        for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
-        {
-            ITEM_TYPE type = (ITEM_TYPE)i;
-            manager_item.GetItem(type).SetCount(10);
-        }
-
         owner_human.Intialize();
-        marketWindow.Initialize(manager_item);
-        fountainWindow.Initialize(manager_item);
+
     }
 
      
@@ -71,40 +60,14 @@ public class MainGame : MonoBehaviour
             qrReaderWindow.Initialize();
         }
 
-        // カメラを瞬間移動
+        // カメラを移動
         if (manager_placeBar.IsChangeCameraPosiiton())
         {
             m_fade = true;
-
+            
             cameraMove.ChangePosition(manager_placeBar.GetchangeType());
 
             m_switching = false;
-        }
-
-        // ショップのアイコンをタップ
-        if (manager_placeBar.IsActiveShop())
-        {
-            marketWindow.Active();
-            cameraMove.StopMove();
-        }
-
-        // 噴水のアイコンをタップ
-        if(manager_placeBar.IsActiveFountain())
-        {
-            fountainWindow.Active();
-            cameraMove.StopMove();
-        }
-
-        // 市場の戻るボタンを押した
-        if (marketWindow.IsBack())
-        {
-            cameraMove.StartMove();
-        }
-
-        // 噴水の戻るボタンを押した
-        if(fountainWindow.IsBack())
-        {
-            cameraMove.StartMove();
         }
 
         if(!m_switching)
@@ -126,12 +89,20 @@ public class MainGame : MonoBehaviour
                 StartCoroutine(fade_CloudEffect.FadeOut());
             }
         }
-
-
-        // 交換
-        Exchange();
-
        
+
+
+
+        // QR読み込み完了
+        if (qrReaderWindow.IsExchange())
+        {
+            qrReaderWindow.FinishExchange();
+            // アイテムのマネージャに追加・削除
+            foreach (IItem item in qrReaderWindow.GetItems())
+            {
+                manager_item.GetItem(item.GetItemType()).AddCount(item.GetCount());
+            }
+        }
 
         // アイテムのマネージャと人間の数を合わせる
         for (int i = 0; i < (int)ITEM_TYPE.WOOD; i++)
@@ -139,7 +110,7 @@ public class MainGame : MonoBehaviour
             ITEM_TYPE type = (ITEM_TYPE)i;
             owner_human.MatchItemsHumans(manager_item.GetItem(type), false);
         }
-
+        
         // 看板が押されたら建築
         if (owner_signBoard.IsBuilding())
         {
@@ -164,39 +135,15 @@ public class MainGame : MonoBehaviour
         StartCoroutine(fade_CloudEffect.FadeIn());
     }
 
-    // 交換の処理
-    void Exchange()
-    { 
-        // QR読み込み完了
-        if (qrReaderWindow.IsExchange())
+    private void ChangedItem(int Count, int ItemType)
+    {
+        for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
         {
-            bool isExchange = IsExchangable();
-            qrReaderWindow.FinishExchange(isExchange);
-            
-            // アイテムのマネージャに追加・削除
-            if (isExchange)
+            if (PhotonNetwork.player.ID == manager_SI_Player.GetPlayer(i).ID)
             {
-                foreach (IItem item in qrReaderWindow.GetItems())
-                {
-                    manager_item.GetItem(item.GetItemType()).AddCount(item.GetCount());
-                }
+                manager_SI_Player.GetPlayer(i).SetItemCount(Count, ItemType);
             }
         }
     }
 
-    // 交換可能か判定
-    bool IsExchangable()
-    {
-        // アイテムのマネージャに追加・削除
-        foreach (IItem item in qrReaderWindow.GetItems())
-        {
-            IItem myItem = manager_item.GetItem(item.GetItemType());
-            // アイテムが足りない
-            if (myItem.GetCount() + item.GetCount() < 0)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
 }
