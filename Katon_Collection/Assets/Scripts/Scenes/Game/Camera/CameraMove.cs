@@ -157,6 +157,28 @@ public class CameraMove : MonoBehaviour
             }
         }
 
+        //スクロールできる限界を決めておく
+        if (moveObject.transform.localPosition.x < -20)
+        {
+            moveObject.transform.localPosition = CorrectionPosition(-20, moveObject.transform.localPosition.y, moveObject.transform.localPosition.z);
+        }
+
+        if (moveObject.transform.localPosition.x > 430)
+        {
+
+            moveObject.transform.localPosition = new Vector3(430, moveObject.transform.localPosition.y, moveObject.transform.localPosition.z);
+        }
+
+        if (moveObject.transform.localPosition.y < 36)
+        {
+            moveObject.transform.localPosition = CorrectionPosition(moveObject.transform.localPosition.x, 36, moveObject.transform.localPosition.z);
+        }
+
+        if (moveObject.transform.localPosition.y > 70)
+        {
+            moveObject.transform.localPosition = CorrectionPosition(moveObject.transform.localPosition.x, 70, moveObject.transform.localPosition.z);
+        }
+
         // マウスボタンから離した
         if (Input.GetMouseButtonUp(0))
         {
