@@ -29,6 +29,8 @@ public class QR_ReaderWindow : MonoBehaviour
 
     bool isExchange = false;
 
+    int otherID = 0;
+
     public void Initialize()
     {
         gameObject.SetActive(true);
@@ -62,7 +64,7 @@ public class QR_ReaderWindow : MonoBehaviour
             Debug.Log("DEBUG");
             qrReader.StopRead();
             //QRコードをItemにエンコードする
-            if (!qr_encode.EncodeToItem(qrReader.GetQRCode(), items))
+            if (!qr_encode.EncodeToItem(qrReader.GetQRCode(), items, ref otherID))
             {
                 // 読み込みエラー
                 missResultWindow.Active();
@@ -125,5 +127,10 @@ public class QR_ReaderWindow : MonoBehaviour
     public List<IItem> GetItems()
     {
         return items;
+    }
+
+    public int GetOtherID()
+    {
+        return otherID;
     }
 }

@@ -34,6 +34,9 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     Manage_SI_Player manager_SI_Player;
 
+    [SerializeField]
+    FountainWindow fountainWindow;
+
     //フェード　
     bool m_fade = false;
 
@@ -48,12 +51,12 @@ public class MainGame : MonoBehaviour
 
     }
 
-     
+
 
     // Update is called once per frame
     void Update()
     {
-       
+
         // QRリーダーを起動
         if (manager_placeBar.GetIsQRLeader())
         {
@@ -64,23 +67,23 @@ public class MainGame : MonoBehaviour
         if (manager_placeBar.IsChangeCameraPosiiton())
         {
             m_fade = true;
-            
+
             cameraMove.ChangePosition(manager_placeBar.GetchangeType());
 
             m_switching = false;
         }
 
-        if(!m_switching)
+        if (!m_switching)
         {
             if (m_fade)
             {
                 StartCoroutine(fade_CloudEffect.FadeIn());
-              
+
 
                 if (!fade_CloudEffect.GetIsProcess)
                 {
                     m_fade = false;
-                   
+
                 }
             }
             else
@@ -89,7 +92,7 @@ public class MainGame : MonoBehaviour
                 StartCoroutine(fade_CloudEffect.FadeOut());
             }
         }
-       
+
 
 
 
@@ -98,12 +101,20 @@ public class MainGame : MonoBehaviour
         {
             bool isExchangable = IsExchangable();
             qrReaderWindow.FinishExchange(isExchangable);
-            if(isExchangable)
+            if (isExchangable)
             {
                 // アイテムのマネージャに追加・削除
                 foreach (IItem item in qrReaderWindow.GetItems())
                 {
                     manager_item.GetItem(item.GetItemType()).AddCount(item.GetCount());
+                }
+
+                for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
+                {
+                    if (qrReaderWindow.GetOtherID() == manager_SI_Player.GetPlayer(i).ID)
+                    {
+                        manager_SI_Player.GetPlayer(i).IsExcange = false;
+                    }
                 }
             }
         }
@@ -114,7 +125,7 @@ public class MainGame : MonoBehaviour
             ITEM_TYPE type = (ITEM_TYPE)i;
             owner_human.MatchItemsHumans(manager_item.GetItem(type), false);
         }
-        
+
         // 看板が押されたら建築
         if (owner_signBoard.IsBuilding())
         {
@@ -129,6 +140,27 @@ public class MainGame : MonoBehaviour
         else
         {
             obj.SetActive(false);
+        }
+
+        if (fountainWindow.IsCreateQR())
+        {
+            for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
+            {
+                if (PhotonNetwork.player.ID == manager_SI_Player.GetPlayer(i).ID)
+                {
+                    manager_SI_Player.GetPlayer(i).IsExcange = true;
+                }
+            }
+        }
+
+        if (fountainWindow.IsExchange())
+        {
+            // アイテムのマネージャに追加・削除
+            foreach (IItem item in qrReaderWindow.GetItems())
+            {
+                manager_item.GetItem(item.GetItemType()).AddCount(item.GetCount());
+            }
+            fountainWindow.FinishExchange();
         }
     }
 

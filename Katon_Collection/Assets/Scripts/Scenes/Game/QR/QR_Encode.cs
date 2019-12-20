@@ -18,13 +18,32 @@ public class QR_Encode
     }
     
     // エンコード
-    public bool EncodeToItem(string code, List<IItem> refList)
+    public bool EncodeToItem(string code, List<IItem> refList, ref int id)
     {
         StringReader strReader = new StringReader(code);
 
-        bool isNotFinedStartData = true;
         string line = strReader.ReadLine();
+
         // データの開始位置まで移動
+        bool isNotFinedID = true;
+        while (line != null)
+        {
+            if (line.Contains("ID"))
+            {
+                line = strReader.ReadLine();
+                isNotFinedID = false;
+                break;
+            }
+            line = strReader.ReadLine();
+        }
+
+        if (isNotFinedID) return false;
+
+        line = strReader.ReadLine();
+        id = int.Parse(line);
+
+        // データの開始位置まで移動
+        bool isNotFinedStartData = true;
         while (line != null)
         {
             if (line.Contains("START_DATA"))
@@ -77,7 +96,11 @@ public class QR_Encode
     {
         if (itemList.Count == 0) return false;
 
-        code = "\nSTART_DATA\n";
+        code = "ID\n";
+        code += PhotonNetwork.player.ID;
+        code += "\n";
+
+        code += "START_DATA\n";
 
         foreach(IItem item in itemList)
         {
