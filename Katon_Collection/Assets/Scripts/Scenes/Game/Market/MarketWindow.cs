@@ -23,28 +23,20 @@ public class MarketWindow : MonoBehaviour
     [SerializeField]
     UI_Button_Market uiButtonMkt = null;
 
-    // Factory_CommonUnitButtonオブジェクト
     [SerializeField]
-    Factory_CommonUnitButton factoryCmnUntBtn = null;
-    // Manager_CommonUnitButtonオブジェクト
-    [SerializeField]
-    Manager_CommonUnitButton managerCmnUntBtn = null;
+    Owner_CommonUnitButton owner_commonUnitButton;
 
-    // Factory_ChangeItemオブジェクト
     [SerializeField]
-    Factory_ChangeItem factoryCngItm = null;
-    // Manager_ChangeItemオブジェクト
-    [SerializeField]
-    Manager_ChangeItem managerCngItm = null;
+    Owner_ChangeItem owner_changeItem;
 
     [SerializeField]
     ChangeCountWindow changeCountWindow = null;
 
     [SerializeField]
-    Factory_SelectItemsButton factorySelectItemButton = null;
+    Owner_SelectItemButton owner_selectItemButton;
 
     [SerializeField]
-    Manager_SelectItemsButton managerSelectItemButton = null;
+    Text totalText;
 
     // Start is called before the first frame update
     void Start()
@@ -57,7 +49,8 @@ public class MarketWindow : MonoBehaviour
         item = new Item();
         item.Initialize(10, ITEM_TYPE.WOOD);
         items.Add(item);
-        managerCmnUntBtn.Add(factoryCmnUntBtn.Create(items, 30));
+
+        owner_commonUnitButton.Create(items, 30);
         List<IItem> items2 = new List<IItem>();
         item = new Item();
         item.Initialize(10, ITEM_TYPE.COAL_MINER);
@@ -65,7 +58,16 @@ public class MarketWindow : MonoBehaviour
         item = new Item();
         item.Initialize(10, ITEM_TYPE.ORE);
         items2.Add(item);
-        managerCmnUntBtn.Add(factoryCmnUntBtn.Create(items2, 20));
+        owner_commonUnitButton.Create(items2, 20);
+
+        List<IItem> items3 = new List<IItem>();
+        item = new Item();
+        item.Initialize(10, ITEM_TYPE.COAL_MINER);
+        items2.Add(item);
+        item = new Item();
+        item.Initialize(10, ITEM_TYPE.ORE);
+        items2.Add(item);
+        owner_commonUnitButton.Create(items3, 20);
 
         // 仮マイアイテム
         //managerCngItm.Add(factoryCngItm.Create(ITEM_TYPE.WOOD, 30));
@@ -75,8 +77,8 @@ public class MarketWindow : MonoBehaviour
         //managerCngItm.LineupRemainItem();
         //managerCngItm.DisplayTotalCount();
 
-        managerSelectItemButton.Add(factorySelectItemButton.Create(ITEM_TYPE.WOOD));
-        managerSelectItemButton.Add(factorySelectItemButton.Create(ITEM_TYPE.ORE));
+        owner_selectItemButton.Create(ITEM_TYPE.WOOD);
+        owner_selectItemButton.Create(ITEM_TYPE.ORE);
     }
 
     // Update is called once per frame
@@ -86,6 +88,20 @@ public class MarketWindow : MonoBehaviour
         ChangeTab();
 
         Debug.Log(marketType);
+
+        // 支払いの素材を選択
+        if (owner_selectItemButton.IsClick())
+        {
+            changeCountWindow.Initialize(owner_selectItemButton.GetItem().GetItemType(), owner_selectItemButton.GetItem().GetCount());
+        }
+
+        if (changeCountWindow.IsAplly())
+        {
+            owner_selectItemButton.ChangeCountOfClickButton(changeCountWindow.GetCount());
+        }
+
+        // 合計値を更新する
+        totalText.text = "合計 : "+ owner_selectItemButton.GetTotal().ToString() + "個";
     }
 
     // 市場の選択メニューを取得

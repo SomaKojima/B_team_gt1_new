@@ -25,4 +25,9 @@ public class Manager_SelectItemsButton : MonoBehaviour
     {
         itemList.Add(btn);
     }
+
+    public List<SelectItemsButton> GetItemList()
+    {
+        return itemList;
+    }
 }

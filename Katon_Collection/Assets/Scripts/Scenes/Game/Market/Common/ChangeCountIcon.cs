@@ -28,7 +28,6 @@ public class ChangeCountIcon : MonoBehaviour
     public void Initialize(ITEM_TYPE type)
     {
         image.sprite = table.GetItemContex(type).GetSprite();
-        
     }
 
     public void SetNum(int num)

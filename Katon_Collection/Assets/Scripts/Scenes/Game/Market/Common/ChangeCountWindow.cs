@@ -45,6 +45,7 @@ public class ChangeCountWindow : MonoBehaviour
         if (applyBtn.IsClick())
         {
             applyBtn.OnClickProcess();
+            gameObject.SetActive(false);
             isApply = true;
         }
         
@@ -52,10 +53,12 @@ public class ChangeCountWindow : MonoBehaviour
 
     }
 
-    public void Initialize(int currentCnt)
+    public void Initialize(ITEM_TYPE type, int currentCnt)
     {
+        gameObject.SetActive(true);
         count = currentCnt;
         sliderBtn.value = count;
+        icon.Initialize(type);
 
         isApply = false;
     }

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SelectItemsButton : MonoBehaviour
+public class SelectItemsButton : UI_Button
 {
-    private ITEM_TYPE type = ITEM_TYPE.NONE;
-
     [SerializeField]
     private Image image = null;
+    [SerializeField]
+    Text text;
 
-    int count = 0;
+    IItem item = new Item();
 
     int maxCount = 0;
 
@@ -23,34 +23,35 @@ public class SelectItemsButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        text.text = item.GetCount().ToString();
     }
 
     public void Initialize(ITEM_TYPE _type, Sprite _sprite)
     {
-        type = _type;
         image.sprite = _sprite;
+        item.Initialize(0, _type);
+        text.text = "0";
     }
 
     public void OnClickPlus()
     {
-        count++;
-        if (count > maxCount) count = maxCount;
+        item.AddCount(1);
+        if (item.GetCount() > maxCount) item.SetCount(maxCount);
     }
 
     public void OnClickMinus()
     {
-        count--;
-        if (count < 0) count = 0;
+        item.AddCount(-1);
+        if (item.GetCount() < 0) item.SetCount(0);
     }
 
     public void SetMaxCount(int cnt)
     {
-        count = cnt;
+        maxCount = cnt;
     }
 
-    public int GetCount()
+    public IItem GetItem()
     {
-        return count;
+        return item;
     }
 }
