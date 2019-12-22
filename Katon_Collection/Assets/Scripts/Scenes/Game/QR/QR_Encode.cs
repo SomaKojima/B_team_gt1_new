@@ -5,6 +5,7 @@ using System.IO;
 
 public class QR_Encode
 {
+    const string ERROR_TEXT = "error";
     IItem[] buf = new IItem[40];
 
     // Start is called before the first frame update
@@ -20,6 +21,7 @@ public class QR_Encode
     // エンコード
     public bool EncodeToItem(string code, List<IItem> refList, ref int id)
     {
+        if (code == "") return false;
         StringReader strReader = new StringReader(code);
 
         string line = strReader.ReadLine();
@@ -38,8 +40,7 @@ public class QR_Encode
         }
 
         if (isNotFinedID) return false;
-
-        line = strReader.ReadLine();
+        
         id = int.Parse(line);
 
         // データの開始位置まで移動
@@ -71,20 +72,23 @@ public class QR_Encode
             line = line.TrimStart(',');
             line = line.TrimEnd(',');
 
-            // カンマ区切りで値を取得
-            string[] valueStr = line.Split(',');
-            int[] values = new int[valueStr.Length];
-            // 文字列を数値に変換
-            for (int i = 0; i < values.Length; i++)
+            if(line != "")
             {
-                values[i] = int.Parse(valueStr[i]);
+                // カンマ区切りで値を取得
+                string[] valueStr = line.Split(',');
+                int[] values = new int[valueStr.Length];
+                // 文字列を数値に変換
+                for (int i = 0; i < values.Length; i++)
+                {
+                    values[i] = int.Parse(valueStr[i]);
+                }
+
+
+                // クラスを作成-------------------------------------------------------------------
+                buf[bufIndex].Initialize(values[1], (ITEM_TYPE)values[0]);
+                refList.Add(buf[bufIndex]);
+                bufIndex++;
             }
-
-
-            // クラスを作成-------------------------------------------------------------------
-            buf[bufIndex].Initialize(values[1], (ITEM_TYPE)values[0]);
-            refList.Add(buf[bufIndex]);
-            bufIndex++;
 
             line = strReader.ReadLine();
         }

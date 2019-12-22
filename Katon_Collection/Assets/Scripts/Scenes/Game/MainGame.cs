@@ -48,7 +48,15 @@ public class MainGame : MonoBehaviour
     {
         manager_item.Initialize();
         owner_human.Intialize();
+        fountainWindow.Initialize(manager_item);
 
+        manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(2);
+        //for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
+        //{
+        //    ITEM_TYPE type = (ITEM_TYPE)i;
+        //    manager_item.GetItem(type).SetCount(10);
+        //}
+        //manager_SI_Player.UpdatePlayers();
     }
 
 
@@ -56,7 +64,6 @@ public class MainGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         // QRリーダーを起動
         if (manager_placeBar.GetIsQRLeader())
         {
@@ -71,6 +78,12 @@ public class MainGame : MonoBehaviour
             cameraMove.ChangePosition(manager_placeBar.GetchangeType());
 
             m_switching = false;
+        }
+
+        if (manager_placeBar.IsActiveFountain())
+        {
+            Debug.Log("click");
+            fountainWindow.Active();
         }
 
         if (!m_switching)
@@ -101,6 +114,7 @@ public class MainGame : MonoBehaviour
         {
             bool isExchangable = IsExchangable();
             qrReaderWindow.FinishExchange(isExchangable);
+            
             if (isExchangable)
             {
                 // アイテムのマネージャに追加・削除

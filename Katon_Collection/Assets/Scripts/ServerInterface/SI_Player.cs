@@ -2,25 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SI_Player
+public class SI_Player : Photon.MonoBehaviour
 {
-    private int[] placePoint;
-    private int[] itemCount;
-    private int id;
-    private new string name;
-    private bool isExcange;
-    private bool ChangeFlag = false;
+    public int[] placePoint = new int[(int)Type.Max];
+    public int[] itemCount = new int[(int)ITEM_TYPE.NUM];
+    public int id = -1;
+    public new string name = "";
+    public bool isExcange = false;
+    public bool ChangeFlag = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        for (int i = 0; i < (int)Type.Max; i++)
+        {
+            placePoint[i] = 0;
+        }
+        for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
+        {
+            itemCount[i] = 0;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     public int GetPlacePoint(int index)
@@ -76,5 +82,55 @@ public class SI_Player
         {
             return ChangeFlag;
         }
+    }
+
+    // 送受信
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        Debug.Log("b");
+        if (stream.isWriting)
+        {
+            //データの送信
+            Send(stream);
+        }
+        else
+        {
+            //データの受信
+            Receive(stream);
+        }
+    }
+
+    void Send(PhotonStream stream)
+    {
+
+        for (int i = 0; i < (int)Type.Max; i++)
+        {
+            stream.SendNext(placePoint[i]);
+        }
+        for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
+        {
+            stream.SendNext(itemCount[i]);
+        }
+
+        stream.SendNext(name);
+        stream.SendNext(isExcange);
+        stream.SendNext(ChangeFlag);
+    }
+
+    void Receive(PhotonStream stream)
+    {
+        for (int i = 0; i < (int)Type.Max; i++)
+        {
+            placePoint[i] = (int)stream.ReceiveNext();
+        }
+        for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
+        {
+            itemCount[i] = (int)stream.ReceiveNext();
+            stream.SendNext(itemCount[i]);
+        }
+
+        name = (string)stream.ReceiveNext();
+        isExcange = (bool)stream.ReceiveNext();
+        ChangeFlag = (bool)stream.ReceiveNext();
     }
 }

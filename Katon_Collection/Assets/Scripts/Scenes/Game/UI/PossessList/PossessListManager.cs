@@ -70,11 +70,11 @@ public class PossessListManager : MonoBehaviour
         }
 
         // 
-        float min = baseRectTransform.position.x - rectTransform.sizeDelta.x;
-        float max = baseRectTransform.position.x;
-        float x = ChangePosition(min, max, rectTransform.position.x, speed);
+        float min = baseRectTransform.localPosition.x - rectTransform.sizeDelta.x;
+        float max = baseRectTransform.localPosition.x;
+        float x = ChangePosition(min, max, rectTransform.localPosition.x, speed);
         // 所持リストの移動
-        rectTransform.position = new Vector3(x, rectTransform.position.y, rectTransform.position.z);
+        rectTransform.localPosition = new Vector3(x, rectTransform.localPosition.y, rectTransform.localPosition.z);
 
         if (IsMove(min, max, rectTransform.position.x, speed))
         {
