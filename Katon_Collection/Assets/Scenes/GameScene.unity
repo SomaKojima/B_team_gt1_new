@@ -273,6 +273,7 @@ MonoBehaviour:
   cameraMove: {fileID: 1934737776}
   obj: {fileID: 801547139}
   fade_CloudEffect: {fileID: 1169797203}
+  manager_SI_Player: {fileID: 728197125}
 --- !u!4 &343381860
 Transform:
   m_ObjectHideFlags: 0

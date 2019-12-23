@@ -5,79 +5,41 @@ using UnityEngine.UI;
 
 public class MarketWindow : MonoBehaviour
 {
-    // 市場のウィンドウ
-    [SerializeField]
-    Image marketWindow = null;
-
-    // Saleのウィンドウスプライト
-    [SerializeField]
-    Sprite saleSprite = null;
-    // Commonのウィンドウスプライト
-    [SerializeField]
-    Sprite commonSprite = null;
-
     // 市場の選択しているタイプ(Sale or Common)
     public MARKET_TYPE marketType = MARKET_TYPE.SALE;
 
     // UI_Button_Marketオブジェクト
     [SerializeField]
-    UI_Button_Market uiButtonMkt = null;
-
-    // Factory_CommonUnitButtonオブジェクト
-    [SerializeField]
-    Factory_CommonUnitButton factoryCmnUntBtn = null;
-    // Manager_CommonUnitButtonオブジェクト
-    [SerializeField]
-    Manager_CommonUnitButton managerCmnUntBtn = null;
-
-    // Factory_ChangeItemオブジェクト
-    [SerializeField]
-    Factory_ChangeItem factoryCngItm = null;
-    // Manager_ChangeItemオブジェクト
-    [SerializeField]
-    Manager_ChangeItem managerCngItm = null;
+    UI_Button_Market selectSaleBtn = null;
 
     [SerializeField]
-    ChangeCountWindow changeCountWindow = null;
+    UI_Button_Market selectCommonBtn;
 
     [SerializeField]
-    Factory_SelectItemsButton factorySelectItemButton = null;
+    CommonWindow commonWindow;
 
     [SerializeField]
-    Manager_SelectItemsButton managerSelectItemButton = null;
+    SaleWindow saleWindow;
+
+    [SerializeField]
+    UI_Button backButton;
+    bool isBack = false;
+
+    bool isExchange = false;
+
+    List<IItem> exchangeItemList = new List<IItem>();
+
+    public void Initialize(Manager_Item _managerItem)
+    {
+        commonWindow.Initialize(_managerItem);
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        // 仮提示
-        List<IItem> items = new List<IItem>();
-        Item item = new Item();
-        item.Initialize(20, ITEM_TYPE.PARTS);
-        items.Add(item);
-        item = new Item();
-        item.Initialize(10, ITEM_TYPE.WOOD);
-        items.Add(item);
-        managerCmnUntBtn.Add(factoryCmnUntBtn.Create(items, 30));
-        List<IItem> items2 = new List<IItem>();
-        item = new Item();
-        item.Initialize(10, ITEM_TYPE.COAL_MINER);
-        items2.Add(item);
-        item = new Item();
-        item.Initialize(10, ITEM_TYPE.ORE);
-        items2.Add(item);
-        managerCmnUntBtn.Add(factoryCmnUntBtn.Create(items2, 20));
-
-        // 仮マイアイテム
-        //managerCngItm.Add(factoryCngItm.Create(ITEM_TYPE.WOOD, 30));
-        //managerCngItm.Add(factoryCngItm.Create(ITEM_TYPE.ORE, 20));
-        //managerCngItm.Add(factoryCngItm.Create(ITEM_TYPE.PARTS, 10));
-
-        //managerCngItm.LineupRemainItem();
-        //managerCngItm.DisplayTotalCount();
-
-        managerSelectItemButton.Add(factorySelectItemButton.Create(ITEM_TYPE.WOOD));
-        managerSelectItemButton.Add(factorySelectItemButton.Create(ITEM_TYPE.ORE));
     }
+
+
 
     // Update is called once per frame
     void Update()
@@ -86,6 +48,21 @@ public class MarketWindow : MonoBehaviour
         ChangeTab();
 
         Debug.Log(marketType);
+        exchangeItemList.Clear();
+
+        if (commonWindow.IsExchange())
+        {
+            exchangeItemList = commonWindow.GetExchangeItemList();
+            isExchange = true;
+        }
+
+        isBack = false;
+        if (backButton.IsClick())
+        {
+            backButton.OnClickProcess();
+            UnActive();
+            isBack = true;
+        }
     }
 
     // 市場の選択メニューを取得
@@ -100,26 +77,46 @@ public class MarketWindow : MonoBehaviour
     private void ChangeTab()
     {
         // クリックで切り替え
-        if (uiButtonMkt.IsClickSale())
+        if (selectSaleBtn.IsClick())
         {
-            marketWindow.sprite = saleSprite;
+            selectSaleBtn.OnClickProcess();
             marketType = MARKET_TYPE.SALE;
+            commonWindow.UnActive();
+            saleWindow.Active();
         }
-        else if (uiButtonMkt.IsClickCommon())
+        else if (selectCommonBtn.IsClick())
         {
-            marketWindow.sprite = commonSprite;
+            selectCommonBtn.OnClickProcess();
             marketType = MARKET_TYPE.COMMON;
+            commonWindow.Active();
+            saleWindow.UnActive();
         }
+        
+    }
 
-        // デフォルトの値と現在のタブが異なっていたら切り替え
-        if(marketType == MARKET_TYPE.SALE && marketWindow.sprite != saleSprite)
-        {
-            marketWindow.sprite = saleSprite;
-        }
-        else if (marketType == MARKET_TYPE.COMMON && marketWindow.sprite != commonSprite)
-        {
-            marketWindow.sprite = commonSprite;
-        }
+    public bool IsExchange()
+    {
+        return isExchange;
+    }
+
+    public List<IItem> GetExchangeItemList()
+    {
+        return exchangeItemList;
+    }
+
+    public void Active()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void UnActive()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public bool IsBack()
+    {
+        return isBack;
     }
 
     /// <summary>

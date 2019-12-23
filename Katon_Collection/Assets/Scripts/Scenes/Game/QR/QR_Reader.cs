@@ -25,7 +25,6 @@ public class QR_Reader : MonoBehaviour
 
     BarcodeReader reader = null;
 
-
     public void Initialize()
     {
         m_infoQR = "";

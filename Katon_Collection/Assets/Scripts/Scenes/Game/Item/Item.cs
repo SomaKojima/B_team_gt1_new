@@ -39,4 +39,9 @@ public class Item : IItem
     {
         return count;
     }
+
+    public void SetCount(int _count)
+    {
+        count = _count;
+    }
 }

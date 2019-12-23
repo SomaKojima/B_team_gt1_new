@@ -16,11 +16,16 @@ public class QR_ReaderWindow : MonoBehaviour
     QR_ResultWindow missResultWindow;
 
     [SerializeField]
+    QR_ResultWindow missExchangeResultWindow;
+
+    [SerializeField]
     UI_Button backButton;
 
     List<IItem> items = new List<IItem>();
 
     IItem[] buf = new IItem[20];
+
+    QR_Encode qr_encode;
 
     bool isExchange = false;
 
@@ -57,7 +62,7 @@ public class QR_ReaderWindow : MonoBehaviour
             Debug.Log("DEBUG");
             qrReader.StopRead();
             //QRコードをItemにエンコードする
-            if (!EncodeToItem(qrReader.GetQRCode(), items))
+            if (!qr_encode.EncodeToItem(qrReader.GetQRCode(), items))
             {
                 // 読み込みエラー
                 missResultWindow.Active();
@@ -81,73 +86,29 @@ public class QR_ReaderWindow : MonoBehaviour
 
         // 読み込みエラーの場合と　成功時のキャンセルボタンの処理
         if (missResultWindow.IsClickYes() || missResultWindow.IsClickNo() ||
-            correctResultWindow.IsClickNo())
+            correctResultWindow.IsClickNo() || missExchangeResultWindow.IsClickNo() ||
+            missExchangeResultWindow.IsClickYes())
         {
             qrReader.Initialize();
             correctResultWindow.Initialize();
             missResultWindow.Initialize();
+            missExchangeResultWindow.Initialize();
         }
     }
 
-    // エンコード
-    bool EncodeToItem(string code, List<IItem> refList)
-    {
-        StringReader strReader = new StringReader(code);
-
-        bool isNotFinedStartData = true;
-        string line = strReader.ReadLine();
-        // データの開始位置まで移動
-        while (line != null)
-        {
-            if (line.Contains("START_DATA"))
-            {
-                line = strReader.ReadLine();
-                isNotFinedStartData = false;
-                break;
-            }
-            line = strReader.ReadLine();
-        }
-
-        if (isNotFinedStartData) return false;
-
-        // データをエンコードする
-
-        int bufIndex = 0;
-        items.Clear();
-        while (line != null)
-        {
-            if (line.Contains("END_DATA"))
-            {
-                break;
-            }
-            // 余分なカンマを削除
-            line = line.TrimStart(',');
-            line = line.TrimEnd(',');
-
-            // カンマ区切りで値を取得
-            string[] valueStr = line.Split(',');
-            int[] values = new int[valueStr.Length];
-            // 文字列を数値に変換
-            for (int i = 0; i < values.Length; i++)
-            {
-                values[i] = int.Parse(valueStr[i]);
-            }
-
-
-            // クラスを作成-------------------------------------------------------------------
-            buf[bufIndex].Initialize(values[1], (ITEM_TYPE)values[0]);
-            refList.Add(buf[bufIndex]);
-            bufIndex++;
-
-            line = strReader.ReadLine();
-        }
-
-        return true;
-    }
+    
 
     // 交換処理が終わったときに呼ぶ
-    public void FinishExchange()
+    public void FinishExchange(bool _isFinishExchange)
     {
+        if (_isFinishExchange)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            missExchangeResultWindow.Active();
+        }
         isExchange = false;
     }
 
@@ -158,7 +119,6 @@ public class QR_ReaderWindow : MonoBehaviour
 
     private void Exchange()
     {
-        gameObject.SetActive(false);
         isExchange = true;
     }
 

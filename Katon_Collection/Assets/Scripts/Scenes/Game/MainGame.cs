@@ -31,6 +31,9 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     Fade_CloudEffect fade_CloudEffect = null;
 
+    [SerializeField]
+    Manage_SI_Player manager_SI_Player;
+
     //フェード　
     bool m_fade = false;
 
@@ -93,11 +96,15 @@ public class MainGame : MonoBehaviour
         // QR読み込み完了
         if (qrReaderWindow.IsExchange())
         {
-            qrReaderWindow.FinishExchange();
-            // アイテムのマネージャに追加・削除
-            foreach (IItem item in qrReaderWindow.GetItems())
+            bool isExchangable = IsExchangable();
+            qrReaderWindow.FinishExchange(isExchangable);
+            if(isExchangable)
             {
-                manager_item.GetItem(item.GetItemType()).AddCount(item.GetCount());
+                // アイテムのマネージャに追加・削除
+                foreach (IItem item in qrReaderWindow.GetItems())
+                {
+                    manager_item.GetItem(item.GetItemType()).AddCount(item.GetCount());
+                }
             }
         }
 
@@ -125,11 +132,33 @@ public class MainGame : MonoBehaviour
         }
     }
 
+    bool IsExchangable()
+    {
+        foreach (IItem item in qrReaderWindow.GetItems())
+        {
+            IItem myItem = manager_item.GetItem(item.GetItemType());
+
+            if (myItem.GetCount() + item.GetCount() < 0) return false;
+        }
+        return true;
+    }
+
     //リザルトに行くときのフェード
     void ResultStart()
     {
         m_switching = true;
         StartCoroutine(fade_CloudEffect.FadeIn());
+    }
+
+    private void ChangedItem(int Count, int ItemType)
+    {
+        for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
+        {
+            if (PhotonNetwork.player.ID == manager_SI_Player.GetPlayer(i).ID)
+            {
+                manager_SI_Player.GetPlayer(i).SetItemCount(Count, ItemType);
+            }
+        }
     }
 
 }
