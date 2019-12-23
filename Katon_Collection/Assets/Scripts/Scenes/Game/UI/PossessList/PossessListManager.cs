@@ -103,9 +103,9 @@ public class PossessListManager : MonoBehaviour
                 for (ITEM_TYPE type = (int)ITEM_TYPE.NONE + 1; (int)type < (int)ITEM_TYPE.NUM; type++)
                 {
                     GameObject obj = Instantiate(listUnitPrefab, prefabPerent);
-                    obj.transform.FindChild("Icon").transform.FindChild("Icon").GetComponent<Image>().sprite =
+                    obj.transform.Find("Icon").transform.Find("Icon").GetComponent<Image>().sprite =
                         table.GetItemContex(type).GetSprite();
-                    obj.transform.FindChild("CountText").GetComponent<Text>().text = 
+                    obj.transform.Find("CountText").GetComponent<Text>().text = 
                         "×" + (itemManager.GetItem(type).GetCount()).ToString();
                     
                     possessLists.Add(obj);
