@@ -1,9 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PossessListManager : MonoBehaviour
 {
+    // 所持リスト管理オブジェクト
+    List<GameObject> possessLists = new List<GameObject>();
+
+    // リスト内のユニットプレハブ
+    [SerializeField]
+    GameObject listUnitPrefab = null;
+
+    // ユニットを生成する場所
+    [SerializeField]
+    Transform prefabPerent = null;
+
     // 枠に収まっているかを決める範囲(Rect)
     [SerializeField]
     private Camera CountainArea;
@@ -31,7 +43,14 @@ public class PossessListManager : MonoBehaviour
     // PossessListオブジェクト
     [SerializeField]
     private PossessList possessList = null;
-    
+
+    // ItemManagerオブジェクト
+    [SerializeField]
+    private Manager_Item itemManager = null;
+
+    [SerializeField]
+    ItemContextTable table;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -79,10 +98,36 @@ public class PossessListManager : MonoBehaviour
         if (IsMove(min, max, rectTransform.position.x, speed))
         {
             // 移動中
+            if(possessLists.Count == 0)
+            {
+                for (ITEM_TYPE type = (int)ITEM_TYPE.NONE + 1; (int)type < (int)ITEM_TYPE.NUM; type++)
+                {
+                    GameObject obj = Instantiate(listUnitPrefab, prefabPerent);
+                    obj.transform.FindChild("Icon").transform.FindChild("Icon").GetComponent<Image>().sprite =
+                        table.GetItemContex(type).GetSprite();
+                    obj.transform.FindChild("CountText").GetComponent<Text>().text = 
+                        "×" + (itemManager.GetItem(type).GetCount()).ToString();
+                    
+                    possessLists.Add(obj);
+                }
+            }
         }
         else
         {
             // 停止中
+            if (!moveState)
+            {
+                // 非表示になったら破壊する
+                if(possessLists.Count > 0)
+                {
+                    foreach(GameObject obj in possessLists)
+                    {
+                        Destroy(obj);
+                    }
+                }
+                // リストをクリア
+                possessLists.Clear();
+            }
         }
     }
 
