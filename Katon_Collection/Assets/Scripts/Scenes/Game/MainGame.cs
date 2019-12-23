@@ -37,6 +37,9 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     FountainWindow fountainWindow;
 
+    [SerializeField]
+    MarketWindow marketWindow;
+
     //フェード　
     bool m_fade = false;
 
@@ -49,14 +52,15 @@ public class MainGame : MonoBehaviour
         manager_item.Initialize();
         owner_human.Intialize();
         fountainWindow.Initialize(manager_item);
+        marketWindow.Initialize(manager_item);
 
-        manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(2);
-        //for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
-        //{
-        //    ITEM_TYPE type = (ITEM_TYPE)i;
-        //    manager_item.GetItem(type).SetCount(10);
-        //}
-        //manager_SI_Player.UpdatePlayers();
+        //manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(2);
+        for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
+        {
+            ITEM_TYPE type = (ITEM_TYPE)i;
+            manager_item.GetItem(type).SetCount(10);
+        }
+        manager_SI_Player.UpdatePlayers();
     }
 
 
@@ -68,6 +72,8 @@ public class MainGame : MonoBehaviour
         if (manager_placeBar.GetIsQRLeader())
         {
             qrReaderWindow.Initialize();
+            fountainWindow.UnActive();
+            marketWindow.UnActive();
         }
 
         // カメラを移動
@@ -82,8 +88,14 @@ public class MainGame : MonoBehaviour
 
         if (manager_placeBar.IsActiveFountain())
         {
-            Debug.Log("click");
+            marketWindow.UnActive();
             fountainWindow.Active();
+        }
+
+        if (manager_placeBar.IsActiveShop())
+        {
+            marketWindow.Active();
+            fountainWindow.UnActive();
         }
 
         if (!m_switching)
@@ -175,6 +187,16 @@ public class MainGame : MonoBehaviour
                 manager_item.GetItem(item.GetItemType()).AddCount(item.GetCount());
             }
             fountainWindow.FinishExchange();
+        }
+
+        if (marketWindow.IsExchange())
+        {
+            // アイテムのマネージャに追加・削除
+            foreach (IItem item in marketWindow.GetExchangeItemList())
+            {
+                manager_item.GetItem(item.GetItemType()).AddCount(item.GetCount());
+            }
+            marketWindow.FinishExchange();
         }
     }
 
