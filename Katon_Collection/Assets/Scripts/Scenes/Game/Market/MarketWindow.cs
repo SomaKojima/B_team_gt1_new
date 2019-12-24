@@ -99,6 +99,11 @@ public class MarketWindow : MonoBehaviour
         return isExchange;
     }
 
+    public void FinishExchange()
+    {
+        isExchange = false;
+    }
+
     public List<IItem> GetExchangeItemList()
     {
         return exchangeItemList;

@@ -41,8 +41,10 @@ public class Manager_Human : MonoBehaviour
     public void Delete(ITEM_TYPE type, int count)
     {
         List<Human> list = GetListOf(type);
-        for (int i = list.Count - 1; i < 0; i--)
+        Debug.Log(list.Count);
+        for (int i = list.Count - 1; i >= 0; i--)
         {
+            Debug.Log("herasu");
             Destroy(list[i].gameObject);
             list.RemoveAt(i);
             count--;

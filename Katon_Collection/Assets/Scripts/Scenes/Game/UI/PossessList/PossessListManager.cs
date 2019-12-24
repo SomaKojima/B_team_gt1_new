@@ -89,11 +89,11 @@ public class PossessListManager : MonoBehaviour
         }
 
         // 
-        float min = baseRectTransform.position.x - rectTransform.sizeDelta.x;
-        float max = baseRectTransform.position.x;
-        float x = ChangePosition(min, max, rectTransform.position.x, speed);
+        float min = baseRectTransform.localPosition.x - rectTransform.sizeDelta.x;
+        float max = baseRectTransform.localPosition.x;
+        float x = ChangePosition(min, max, rectTransform.localPosition.x, speed);
         // 所持リストの移動
-        rectTransform.position = new Vector3(x, rectTransform.position.y, rectTransform.position.z);
+        rectTransform.localPosition = new Vector3(x, rectTransform.localPosition.y, rectTransform.localPosition.z);
 
         if (IsMove(min, max, rectTransform.position.x, speed))
         {
@@ -103,9 +103,9 @@ public class PossessListManager : MonoBehaviour
                 for (ITEM_TYPE type = (int)ITEM_TYPE.NONE + 1; (int)type < (int)ITEM_TYPE.NUM; type++)
                 {
                     GameObject obj = Instantiate(listUnitPrefab, prefabPerent);
-                    obj.transform.FindChild("Icon").transform.FindChild("Icon").GetComponent<Image>().sprite =
+                    obj.transform.Find("Icon").transform.Find("Icon").GetComponent<Image>().sprite =
                         table.GetItemContex(type).GetSprite();
-                    obj.transform.FindChild("CountText").GetComponent<Text>().text = 
+                    obj.transform.Find("CountText").GetComponent<Text>().text = 
                         "×" + (itemManager.GetItem(type).GetCount()).ToString();
                     
                     possessLists.Add(obj);

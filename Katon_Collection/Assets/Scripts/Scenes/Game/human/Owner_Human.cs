@@ -73,6 +73,7 @@ public class Owner_Human : MonoBehaviour
         // 削除
         else if (differenceCount < 0)
         {
+            Debug.Log(differenceCount);
             manager_human.Delete(type, -differenceCount);
         }
     }
