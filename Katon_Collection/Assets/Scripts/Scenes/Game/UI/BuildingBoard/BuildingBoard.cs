@@ -26,4 +26,14 @@ public class BuildingBoard : MonoBehaviour
     {
         
     }
+
+    public void Active()
+    {
+        this.gameObject.SetActive(true);
+    }
+
+    public void UnActive()
+    {
+        this.gameObject.SetActive(false);
+    }
 }

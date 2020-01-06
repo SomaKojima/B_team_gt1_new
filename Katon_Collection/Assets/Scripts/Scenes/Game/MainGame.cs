@@ -26,7 +26,7 @@ public class MainGame : MonoBehaviour
     CameraMove cameraMove;
 
     [SerializeField]
-    GameObject obj;
+    BuildingBoard buildingBoard;
 
     [SerializeField]
     Fade_CloudEffect fade_CloudEffect = null;
@@ -39,6 +39,9 @@ public class MainGame : MonoBehaviour
 
     [SerializeField]
     MarketWindow marketWindow;
+
+    [SerializeField]
+    MainCamera mainCamera;
 
     //フェード　
     bool m_fade = false;
@@ -159,14 +162,15 @@ public class MainGame : MonoBehaviour
             owner_floor.Building(type);
         }
 
-        if (owner_signBoard.IsSigneBoardInScreen(cameraMove.GetCamera()))
-        {
-            obj.SetActive(true);
-        }
-        else
-        {
-            obj.SetActive(false);
-        }
+        //foreach(SignBoard board in owner_signBoard.get)
+        //if (mainCamera.IsSigneBoardInScreen(cameraMove.GetCamera()))
+        //{
+        //    buildingBoard.Active();
+        //}
+        //else
+        //{
+        //    buildingBoard.UnActive();
+        //}
 
         if (fountainWindow.IsCreateQR())
         {
