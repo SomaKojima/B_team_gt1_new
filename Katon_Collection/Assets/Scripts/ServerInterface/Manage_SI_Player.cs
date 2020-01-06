@@ -85,6 +85,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
             {
                 for (int j = 0; j < (int)Type.Max; j++)
                 {
+                    Debug.Log("送信");
                     stream.SendNext(players[i].GetPlacePoint(j));
                 }
                 for (int j = 0; j < (int)ITEM_TYPE.NUM; j++)
@@ -102,6 +103,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
             {
                 for (int j = 0; j < (int)Type.Max; j++)
                 {
+                    Debug.Log("受信");
                     this.players[i].SetPlacePoint((int)stream.ReceiveNext(),j);
                 }
                 for (int j = 0; j < (int)ITEM_TYPE.NUM; j++)
