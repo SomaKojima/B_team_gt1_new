@@ -54,11 +54,17 @@ public class PossessListManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+    }
+
+    public void Initialize()
+    {
         speed = moveSpeed;
         rectTransform = possessList.gameObject.GetComponent<RectTransform>();
         baseRectTransform = basePointObject.GetComponent<RectTransform>();
         // 所持リストの幅取得
         possessList.Initialize(possessList.GetComponent<RectTransform>().sizeDelta.x);
+
+        createList();
     }
 
     // Update is called once per frame
@@ -95,40 +101,8 @@ public class PossessListManager : MonoBehaviour
         // 所持リストの移動
         rectTransform.localPosition = new Vector3(x, rectTransform.localPosition.y, rectTransform.localPosition.z);
 
-        if (IsMove(min, max, rectTransform.position.x, speed))
-        {
-            // 移動中
-            if(possessLists.Count == 0)
-            {
-                for (ITEM_TYPE type = (int)ITEM_TYPE.NONE + 1; (int)type < (int)ITEM_TYPE.NUM; type++)
-                {
-                    GameObject obj = Instantiate(listUnitPrefab, prefabPerent);
-                    obj.transform.Find("Icon").transform.Find("Icon").GetComponent<Image>().sprite =
-                        table.GetItemContex(type).GetSprite();
-                    obj.transform.Find("CountText").GetComponent<Text>().text = 
-                        "×" + (itemManager.GetItem(type).GetCount()).ToString();
-                    
-                    possessLists.Add(obj);
-                }
-            }
-        }
-        else
-        {
-            // 停止中
-            if (!moveState)
-            {
-                // 非表示になったら破壊する
-                if(possessLists.Count > 0)
-                {
-                    foreach(GameObject obj in possessLists)
-                    {
-                        Destroy(obj);
-                    }
-                }
-                // リストをクリア
-                possessLists.Clear();
-            }
-        }
+        
+        UpdateList();
     }
 
     float ChangePosition(float min, float max, float position, float speed)
@@ -157,5 +131,30 @@ public class PossessListManager : MonoBehaviour
             return false;
         }
         return true;
+    }
+
+    public void createList()
+    {
+        for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
+        {
+            GameObject obj = Instantiate(listUnitPrefab, prefabPerent);
+            obj.transform.Find("Icon").transform.Find("Icon").GetComponent<Image>().sprite =
+                table.GetItemContex((ITEM_TYPE)i).GetSprite();
+            obj.transform.Find("CountText").GetComponent<Text>().text =
+                "×" + (itemManager.GetItem((ITEM_TYPE)i).GetCount()).ToString();
+
+            possessLists.Add(obj);
+        }
+    }
+
+    public void UpdateList()
+    {
+        for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
+        {
+            possessLists[i].transform.Find("Icon").transform.Find("Icon").GetComponent<Image>().sprite =
+                table.GetItemContex((ITEM_TYPE)i).GetSprite();
+            possessLists[i].transform.Find("CountText").GetComponent<Text>().text =
+                "×" + (itemManager.GetItem((ITEM_TYPE)i).GetCount()).ToString();
+        }
     }
 }

@@ -101,14 +101,16 @@ public class QR_ReaderWindow : MonoBehaviour
     
 
     // 交換処理が終わったときに呼ぶ
-    public void FinishExchange(bool _isFinishExchange)
+    public void FinishExchange(bool _isExchangable)
     {
-        if (_isFinishExchange)
+        if (_isExchangable)
         {
+            // 交換成功時の処理
             gameObject.SetActive(false);
         }
         else
         {
+            // 交換失敗時の処理
             missExchangeResultWindow.Active();
         }
         isExchange = false;
