@@ -78,10 +78,12 @@ public class Manage_SI_Player : Photon.MonoBehaviour
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
+        PhotonPlayer[] playerList = PhotonNetwork.playerList;
+
         if (stream.isWriting)
         {
             //データの送信
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < playerList.Length; i++)
             {
                 for (int j = 0; j < (int)Type.Max; j++)
                 {
@@ -99,7 +101,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
         {
             //データの受信
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < playerList.Length; i++)
             {
                 for (int j = 0; j < (int)Type.Max; j++)
                 {
