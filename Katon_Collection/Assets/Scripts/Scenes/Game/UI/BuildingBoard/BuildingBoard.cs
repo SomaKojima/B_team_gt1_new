@@ -5,6 +5,14 @@ using UnityEngine.UI;
 
 public class BuildingBoard : MonoBehaviour
 {
+    enum MODE
+    {
+        NONE = -1,
+        ONE,
+        TWO,
+
+        MAX
+    }
     [SerializeField]
     UI_Button button;
 
@@ -14,10 +22,15 @@ public class BuildingBoard : MonoBehaviour
     [SerializeField]
     GameObject missMessage;
 
+    [SerializeField]
+    GameObject board;
+
     bool isClickBuildingButton = false;
 
     float missFrame = 0;
     float missDuringFrame = 1.0f;
+
+    MODE mode = MODE.NONE;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +41,8 @@ public class BuildingBoard : MonoBehaviour
     {
         owner_BuildingItemUnit.Initialize();
         missMessage.SetActive(false);
+        mode = MODE.ONE;
+        board.SetActive(false);
     }
 
     // Update is called once per frame
@@ -37,7 +52,9 @@ public class BuildingBoard : MonoBehaviour
         if (button.IsClick())
         {
             button.OnClickProcess();
-            isClickBuildingButton = true;
+            UpdateMode();
+            mode = mode + 1;
+            if (mode == MODE.MAX) mode = MODE.MAX - 1;
         }
 
         if (missMessage.activeSelf)
@@ -63,6 +80,23 @@ public class BuildingBoard : MonoBehaviour
     {
         if (!this.gameObject.activeSelf) return;
         this.gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// モードごとの更新処理
+    /// </summary>
+    void UpdateMode()
+    {
+        switch (mode)
+        {
+            case MODE.ONE:
+                if(!board.activeSelf)
+                board.SetActive(true);
+                break;
+            case MODE.TWO:
+                isClickBuildingButton = true;
+                break;
+        }
     }
 
     public bool IsClickBuildingButton()
