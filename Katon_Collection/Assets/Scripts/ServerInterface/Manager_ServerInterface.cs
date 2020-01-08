@@ -9,6 +9,7 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
     private bool isCreateRoom = false;
     private bool isEnterRoom = false;
     private bool gameStartFlag = false;
+    private bool LostConnectionFlag = false;
 
     // Start is called before the first frame update
     void Start()
@@ -98,18 +99,21 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
     void OnFailedToConnectToPhoton(DisconnectCause cause)
     {
         Debug.Log("接続に失敗しました:" + cause.ToString());
+        LostConnectionFlag = true;
     }
 
     //何かのせいで(接続が確立した後)接続失敗した時に呼ばれるコールバックメソッド
     void OnConnectionFail(DisconnectCause cause)
     {
         Debug.Log("サーバーとの接続後に何らかの原因で切断されました:" + cause.ToString());
+        LostConnectionFlag = true;
     }
 
     //同時接続可能数の制限に到達した時に呼ばれるコールバックメソッド
     void OnPhotonMaxCccuReached()
     {
         Debug.Log("サーバーに接続しているクライアント数が上限に達しています");
+        LostConnectionFlag = true;
     }
 
     //誰かがルームに入室したときに呼ばれるコールバックメソッド
@@ -208,6 +212,19 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
         {
             //データの受信
             this.gameStartFlag = (bool)stream.ReceiveNext();
+        }
+    }
+
+    public bool LostConnection()
+    {
+        if (LostConnectionFlag)
+        {
+            LostConnectionFlag = false;
+            return true;
+        }
+        else
+        {
+            return LostConnectionFlag;
         }
     }
 }
