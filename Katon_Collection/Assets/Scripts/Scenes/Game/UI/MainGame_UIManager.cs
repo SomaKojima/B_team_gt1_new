@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Owner_SignBoard : MonoBehaviour
+public class MainGame_UIManager : MonoBehaviour
 {
-    [SerializeField]
-    List<SignBoard> signBoards = new List<SignBoard>();
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,11 +14,6 @@ public class Owner_SignBoard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
     }
-
-    public List<SignBoard> GetSignBoards()
-    {
-        return signBoards;
-    }
-
 }

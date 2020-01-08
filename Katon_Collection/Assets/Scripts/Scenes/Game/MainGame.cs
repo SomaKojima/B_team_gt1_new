@@ -4,45 +4,55 @@ using UnityEngine;
 
 public class MainGame : MonoBehaviour
 {
+    // QR読み込みウィンドウ
     [SerializeField]
     QR_ReaderWindow qrReaderWindow;
 
+    // 拠点移動バー
     [SerializeField]
     Manager_PlaceBar manager_placeBar;
 
+    // 所持アイテム管理
     [SerializeField]
     Manager_Item manager_item;
 
+    // 実体の人間を管理
     [SerializeField]
     Owner_Human owner_human;
 
+    // マンションを管理
     [SerializeField]
     Owner_Floor owner_floor;
 
+    // 看板を管理（現在は非表示、建築ボードの表示する場所を特定するのに使用）
     [SerializeField]
     Owner_SignBoard owner_signBoard;
 
-    [SerializeField]
-    CameraMove cameraMove;
-
+    // 建築ボード（建築に必要な素材表示、建築ボタン）
     [SerializeField]
     BuildingBoard buildingBoard;
 
+    // フェード
     [SerializeField]
     Fade_CloudEffect fade_CloudEffect = null;
 
+    // サーバー・プレイヤー関係
     [SerializeField]
     Manage_SI_Player manager_SI_Player;
 
+    // 噴水のウィンドウ
     [SerializeField]
     FountainWindow fountainWindow;
 
+    // 市場のウィンドウ
     [SerializeField]
     MarketWindow marketWindow;
 
+    // カメラ
     [SerializeField]
     MainCamera mainCamera;
 
+    // 所持アイテムウィンドウ
     [SerializeField]
     PossessListManager possessListManager;
 
@@ -137,19 +147,7 @@ public class MainGame : MonoBehaviour
         m_switching = true;
         StartCoroutine(fade_CloudEffect.FadeIn());
     }
-
-    private void ChangedItem(int Count, int ItemType)
-    {
-        for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
-        {
-            if (PhotonNetwork.player.ID == manager_SI_Player.GetPlayer(i).ID)
-            {
-                manager_SI_Player.GetPlayer(i).SetItemCount(Count, ItemType);
-            }
-        }
-    }
-
-
+    
     /// <summary>
     /// 交換時の処理
     /// </summary>
@@ -284,7 +282,7 @@ public class MainGame : MonoBehaviour
         {
             m_fade = true;
 
-            cameraMove.ChangePosition(manager_placeBar.GetchangeType());
+            mainCamera.Move(manager_placeBar.GetchangeType());
 
             m_switching = false;
         }
@@ -333,5 +331,20 @@ public class MainGame : MonoBehaviour
             }
         }
     }
-    
+
+    /// <summary>
+    /// アイテムの変更をserverに伝える
+    /// </summary>
+    /// <param name="Count"></param>
+    /// <param name="ItemType"></param>
+    private void ChangedItem(int Count, int ItemType)
+    {
+        for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
+        {
+            if (PhotonNetwork.player.ID == manager_SI_Player.GetPlayer(i).ID)
+            {
+                manager_SI_Player.GetPlayer(i).SetItemCount(Count, ItemType);
+            }
+        }
+    }
 }
