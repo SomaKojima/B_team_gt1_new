@@ -46,7 +46,7 @@ MonoBehaviour:
   m_MinSize: {x: 742, y: 444}
   m_MaxSize: {x: 22012, y: 10022}
   vertical: 1
-  controlID: 177
+  controlID: 173
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_MinSize: {x: 742, y: 444}
   m_MaxSize: {x: 22012, y: 10022}
   vertical: 0
-  controlID: 178
+  controlID: 174
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -416,7 +416,7 @@ MonoBehaviour:
   m_Position:
     m_Target: {x: 197.00865, y: 74.05475, z: -25.539621}
     speed: 2
-    m_Value: {x: 197.00865, y: 74.05475, z: -25.539621}
+    m_Value: {x: 50.200012, y: 27.597286, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -451,7 +451,7 @@ MonoBehaviour:
   m_Size:
     m_Target: 770.346
     speed: 2
-    m_Value: 770.346
+    m_Value: 554.9494
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -508,7 +508,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 2ab1ffff94e6ffff9ce6ffff3ee7ffffb0f0ffffe2f2ffff6efbffffd6480000
+      m_ExpandedIDs: 6ef0ffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -571,20 +571,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets/Resources/Prefabs/Scenes/Game/field
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scenes
+  - Assets/Resources/Prefabs/Scenes/Game/field
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\GT1_03\Team_B\Katon_Collection
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 3e310000
-    m_LastClickedID: 12606
-    m_ExpandedIDs: 000000008a3000009e300000c0300000fc30000004320000ec3200002234000030340000de340000c6350000fc3500001a3600008e360000c6360000003800001838000050380000743800007c380000c43800000c39000000ca9a3b
+    m_SelectedIDs: b0370000
+    m_LastClickedID: 14256
+    m_ExpandedIDs: 000000003637000044370000623700008c3700002a380000d6380000a0390000a8390000223a0000b83a0000d83a00003c3b0000603b00002a3c0000363c0000603c0000703c0000763c0000ae3c0000e03c000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -612,7 +612,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000008a3000009e300000c0300000fc30000004320000ec3200002234000030340000de340000c6350000fc3500008e360000c6360000003800001838000050380000743800007c380000c43800000c390000
+    m_ExpandedIDs: 000000003637000044370000623700008c3700002a380000d6380000a0390000a8390000223a0000b83a0000d83a00003c3b0000603b00002a3c0000363c0000603c0000703c0000763c0000ae3c0000e03c0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
