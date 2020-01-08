@@ -81,7 +81,7 @@ public class FountainWindow : MonoBehaviour
                 isEndReaded = isReaded;
                 isReaded = manager_SI_Player.GetPlayer(i).IsExcange;
 
-                if (!isReaded && isReaded != isEndReaded && !isExchange)
+                if (isReaded != isEndReaded && !isExchange)
                 {
                     isExchange = true;
                     UnActive();

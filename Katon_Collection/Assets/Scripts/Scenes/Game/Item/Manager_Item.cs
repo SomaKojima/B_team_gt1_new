@@ -35,4 +35,38 @@ public class Manager_Item : MonoBehaviour
     {
         return item[(int)type];
     }
+
+    // 交換可能かどうかを判定
+    public bool IsExchange(List<IItem> _items)
+    {
+        // 交換可能か判定
+        foreach (IItem item in _items)
+        {
+            IItem myItem = GetItem(item.GetItemType());
+
+            // 足りない
+            if (myItem.GetCount() + item.GetCount() < 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// アイテムの増減
+    /// </summary>
+    /// <param name="_items"></param>
+    /// <returns></returns>
+    public bool AddItems(List<IItem> _items)
+    {
+        if (!IsExchange(_items)) return false;
+
+        // アイテムの増減
+        foreach (IItem item in _items)
+        {
+            GetItem(item.GetItemType()).AddCount(item.GetCount());
+        }
+        return true;
+    }
 }

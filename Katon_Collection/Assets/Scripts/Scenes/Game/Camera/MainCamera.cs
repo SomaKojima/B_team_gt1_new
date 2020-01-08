@@ -39,6 +39,7 @@ public class MainCamera : MonoBehaviour
     // カメラを動かす
     public void Move(Type _placeType)
     {
+        if (_placeType == Type.none) return;
         cameraMove.ChangePosition(_placeType);
     }
 }
