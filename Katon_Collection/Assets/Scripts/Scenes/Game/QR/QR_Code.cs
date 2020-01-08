@@ -13,9 +13,9 @@ public class QR_Code : MonoBehaviour
 
     public void Initialize(string str)
     {
-        cameraImage.texture = CreateQRCode(str, 
-            (int)cameraImage.rectTransform.sizeDelta.x, 
-            (int)cameraImage.rectTransform.sizeDelta.y);
+        cameraImage.texture = CreateQRCode(str,
+            256,
+            256);
     }
 
 
@@ -42,7 +42,7 @@ public class QR_Code : MonoBehaviour
         // テクスチャ情報からテクスチャオブジェクト生成
         var tex = new Texture2D(width, height, TextureFormat.ARGB32, false);
         // QRコード生成のためのカラー情報を設定
-        var content = Write(str, width, height);
+        var content = Write(str, tex.width, tex.height);
         // テクスチャ情報を設定
         tex.SetPixels32(content);
         // テクスチャ情報適用

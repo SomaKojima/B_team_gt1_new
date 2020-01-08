@@ -9,7 +9,7 @@ public class Manager_PlaceBar : MonoBehaviour
     const int BASE_NUM = 4;
 
 
-    Type m_placeType;
+    Type m_placeType = Type.none;
 
     [SerializeField]
     Image m_pencil;
@@ -161,6 +161,18 @@ public class Manager_PlaceBar : MonoBehaviour
     public bool IsChangeCameraPosiiton()
     {
         if (m_placeType != Type.none) return true;
+        return false;
+    }
+
+    public bool IsActiveShop()
+    {
+        if (m_placeType == Type.market) return true;
+        return false;
+    }
+
+    public bool IsActiveFountain()
+    {
+        if (m_placeType == Type.fountain) return true;
         return false;
     }
 

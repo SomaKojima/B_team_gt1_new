@@ -7,8 +7,6 @@ public class Owner_SignBoard : MonoBehaviour
     [SerializeField]
     List<SignBoard> signBoards = new List<SignBoard>();
     
-    SignBoard clickSignBoasd = null;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -18,40 +16,10 @@ public class Owner_SignBoard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        clickSignBoasd = null;
-        foreach (SignBoard signBoard in signBoards)
-        {
-            if (signBoard.IsClick())
-            {
-                //signBoard.gameObject.SetActive(false);
-                clickSignBoasd = signBoard;
-            }
-        }
     }
 
-    public bool IsBuilding()
+    public List<SignBoard> GetSignBoards()
     {
-        if (clickSignBoasd == null) return false;
-        return true;
-    }
-
-    public Type GetPlaceType()
-    {
-        if (clickSignBoasd == null) return Type.none;
-        return clickSignBoasd.GetPlaceType();
-    }
-
-    public bool IsSigneBoardInScreen(Camera camera)
-    {
-        Rect rect = new Rect(0, 0, 1, 1);
-        foreach (SignBoard signBoard in signBoards)
-        {
-            Vector3 point = camera.WorldToViewportPoint(signBoard.transform.position);
-            if (rect.Contains(point))
-            {
-                return true;
-            }
-        }
-        return false;
+        return signBoards;
     }
 }

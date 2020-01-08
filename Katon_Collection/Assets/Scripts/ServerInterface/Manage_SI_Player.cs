@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class Manage_SI_Player : Photon.MonoBehaviour
 {
+    [SerializeField]
+    GameObject prefab;
+
+    public const int MAX_MEMBER = 4;
     private List<SI_Player> players = new List<SI_Player>();
+
    
     // Start is called before the first frame update
     void Start()
     {
-
+        UpdatePlayers();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if(players.Count==0)
+        //if (players.Count == 0)
         //{
 
         //}
@@ -23,13 +28,14 @@ public class Manage_SI_Player : Photon.MonoBehaviour
         //{
         //    for (int i = 0; i < players.Count; i++)
         //    {
-        //        if(players[i].GetChangeFlag())
+        //        if (players[i].GetChangeFlag())
         //        {
-        //            RPCOthersChange();
+        //            //RPCOthersChange();
+                    
         //        }
         //    }
         //}
-        
+
     }
 
     public SI_Player GetPlayer(int index)
@@ -45,7 +51,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
     public void UpdatePlayers()
     {
         PhotonPlayer[] playerList = PhotonNetwork.playerList;
-        players.Clear();
+        
 
         if (playerList.Length == 0)
         {
@@ -55,9 +61,13 @@ public class Manage_SI_Player : Photon.MonoBehaviour
         {
             for (int i = 0; i < playerList.Length; i++)
             {
-                if (players.Count < i + 1)
+                if (playerList.Length >= MAX_MEMBER) break;
+                if (playerList.Length > players.Count)
                 {
-                    players.Add(new SI_Player());
+                    GameObject playerObj = Instantiate(prefab);
+                    SI_Player player = playerObj.GetComponent<SI_Player>();
+                    player.transform.SetParent(gameObject.transform);
+                    players.Add(player);
                 }
                 players[i].ID = playerList[i].ID;
                 players[i].Name = playerList[i].NickName;
@@ -71,12 +81,37 @@ public class Manage_SI_Player : Photon.MonoBehaviour
         if (stream.isWriting)
         {
             //データの送信
-            stream.SendNext(players);
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < (int)Type.Max; j++)
+                {
+                    Debug.Log("送信");
+                    stream.SendNext(players[i].GetPlacePoint(j));
+                }
+                for (int j = 0; j < (int)ITEM_TYPE.NUM; j++)
+                {
+                    stream.SendNext(players[i].GetItemCount(j));
+                }
+                stream.SendNext(players[i].IsExcange);
+            }
         }
         else
         {
             //データの受信
-            this.players = (List<SI_Player>)stream.ReceiveNext();
+
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < (int)Type.Max; j++)
+                {
+                    Debug.Log("受信");
+                    this.players[i].SetPlacePoint((int)stream.ReceiveNext(),j);
+                }
+                for (int j = 0; j < (int)ITEM_TYPE.NUM; j++)
+                {
+                    this.players[i].SetItemCount((int)stream.ReceiveNext(), j);
+                }
+                this.players[i].IsExcange = (bool)stream.ReceiveNext();
+            }
         }
     }
 
@@ -88,6 +123,8 @@ public class Manage_SI_Player : Photon.MonoBehaviour
     //[PunRPC]
     //private void RPCOthersChange()
     //{
-        
+
     //}
+
+   
 }

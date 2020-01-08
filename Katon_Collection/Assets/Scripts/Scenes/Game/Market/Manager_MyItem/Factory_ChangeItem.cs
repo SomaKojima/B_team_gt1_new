@@ -15,6 +15,9 @@ public class Factory_ChangeItem : MonoBehaviour
     [SerializeField]
     Factory_CommonUnitIcon factory_CommonUnitIcon;
 
+    [SerializeField]
+    ItemContextTable table;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,7 +43,7 @@ public class Factory_ChangeItem : MonoBehaviour
         // オブジェクトからChangeItemのコンポーネントを取得
         CommonUnitIcon cngItm = obj.GetComponent<CommonUnitIcon>();
         // 種類に応じたスプライトを適用
-        Sprite sprite = factory_CommonUnitIcon.DependSpriteImage(type);
+        Sprite sprite = table.GetItemContex(type).GetSprite();
         // 交換するアイテムの初期化
         cngItm.Initialize(sprite, count);
 
