@@ -151,20 +151,16 @@ public class MainGame : MonoBehaviour
             }
 
             // 建築可能か判定
-            if (manager_item.IsExchange(owner_floor.GetBuildingResource(placeType)))
+            bool isBuildable = manager_item.IsExchange(owner_floor.GetBuildingResource(placeType));
+            if (isBuildable)
             {
                 // 資源の消費
                 manager_item.AddItems(owner_floor.GetBuildingResource(placeType));
                 // 建築
                 owner_floor.Building(placeType);
-
-                Debug.Log("建築");
-                uiManager.Building(true);
             }
-            else
-            {
-                uiManager.Building(false);
-            }
+            
+            uiManager.FinalizeBuilding(isBuildable);
         }
     }
 
@@ -174,10 +170,11 @@ public class MainGame : MonoBehaviour
     void UpdateExchange()
     {
         // UIの交換処理
-        if (uiManager.IsExchange())
+        List<IItem> bufItems = new List<IItem>();
+        if (uiManager.IsExchange(ref bufItems))
         {
             // アイテムのマネージャに追加・削除
-            bool isExchangable = manager_item.AddItems(uiManager.GetExchangeItems());
+            bool isExchangable = manager_item.AddItems(bufItems);
 
 
             // 交換終了したことを相手に伝える

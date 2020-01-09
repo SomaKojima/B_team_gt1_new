@@ -33,16 +33,12 @@ public class MainGame_UIManager : MonoBehaviour
     // 所持アイテムウィンドウ
     [SerializeField]
     PossessListManager possessListManager;
-
-
-    //フェード　
-    bool m_fade = false;
-
+    
     //リザルトに移行したら
     bool m_switching = false;
 
     // 交換するかどうかのフラグ
-    bool isExchange = false;
+    //bool isExchange = false;
 
     // 交換処理をするときに使うアイテムリスト
     List<IItem> exchangeItems = new List<IItem>();
@@ -56,12 +52,17 @@ public class MainGame_UIManager : MonoBehaviour
     // ひとつ前のカメラに戻すかどうかのフラグ
     bool isUndoCamera = false;
 
+    /// <summary>
+    /// 初期化
+    /// </summary>
+    /// <param name="_managerItem"></param>
     public void Initialize(Manager_Item _managerItem)
     {
         fountainWindow.Initialize(_managerItem);
         marketWindow.Initialize(_managerItem);
         buildingBoard.Initialize();
         possessListManager.Initialize();
+        fade_CloudEffect.StartFadeOut();
     }
 
     // Start is called before the first frame update
@@ -76,21 +77,17 @@ public class MainGame_UIManager : MonoBehaviour
 
         // 初期化
         isUndoCamera = false;
-        isExchange = false;
         exchangeItems.Clear();
 
 
 
-        // フェードの更新処理
-        UpdateFade();
+        // フェードのリクエスト処理
+        UpdateRequest_Fade();
 
-        // QRリーダーの更新処理
-        UpdateQRReader();
+        // 建築のボードのリクエスト処理
+        UpdateRequest_BuildingBoard();
 
-        // 建築のボードの更新処理
-        UpdateBuildingBoard();
-
-        // 交換するかどうかを判定する処理
+        // QRリーダーのリクエスト処理
         UpdateRequest_QRReader();
 
         // 市場のリクエスト処理
@@ -99,23 +96,113 @@ public class MainGame_UIManager : MonoBehaviour
         // 噴水のリクエスト処理
         UpdateRequest_Fountain();
 
-        // 移動バーの更新処理
+        // 移動バーのリクエスト処理
         UpdateRequest_PlaceBar();
-    }
-
-    //リザルトに行くときのフェード
-    void ResultStart()
-    {
-        m_switching = true;
-        StartCoroutine(fade_CloudEffect.FadeIn());
     }
 
 
     /// <summary>
-    /// QRリーダーの更新処理
+    /// 建築のボードの更新処理
     /// </summary>
-    void UpdateQRReader()
+    void UpdateRequest_BuildingBoard()
     {
+        // 建築ボタン
+        isBuilding = false;
+        if (buildingBoard.IsClickBuildingButton())
+        {
+            isBuilding = true;
+        }
+    }
+
+    /// <summary>
+    /// フェードのリクエスト処理
+    /// </summary>
+    void UpdateRequest_Fade()
+    {
+        if (!m_switching)
+        {
+            if (fade_CloudEffect.GetIsProcess)
+            {
+                //フェードアウトの処理
+                fade_CloudEffect.StartFadeOut();
+            }
+        }
+    }
+    
+    /// <summary>
+    /// QRリーダーのリクエスト処理
+    /// </summary>
+    void UpdateRequest_QRReader()
+    {
+        // qr読み込みの交換処理
+        if (qrReaderWindow.IsExchange())
+        {
+            exchangeItems = qrReaderWindow.GetItems();
+            otherID = qrReaderWindow.GetOtherID();
+        }
+    }
+
+    /// <summary>
+    /// 噴水のリクエスト処理
+    /// </summary>
+    public void UpdateRequest_Fountain()
+    {
+        // 戻るボタン
+        if (fountainWindow.IsBack())
+        {
+            manager_placeBar.Active();
+            isUndoCamera = true;
+            fade_CloudEffect.StartFadeIn();
+        }
+
+        // 交換
+        if (fountainWindow.IsExchange())
+        {
+            exchangeItems = qrReaderWindow.GetItems();
+        }
+    }
+
+    /// <summary>
+    /// 市場のリクエスト処理
+    /// </summary>
+    public void UpdateRequest_Market()
+    {
+        // 戻るボタン
+        if (marketWindow.IsBack())
+        {
+            manager_placeBar.Active();
+            isUndoCamera = true;
+            fade_CloudEffect.StartFadeIn();
+        }
+
+        // 交換
+        if (marketWindow.IsExchange())
+        {
+            exchangeItems = marketWindow.GetExchangeItemList();
+        }
+    }
+
+    /// <summary>
+    /// 移動バーのリクエスト
+    /// </summary>
+    private void UpdateRequest_PlaceBar()
+    {
+        // 噴水ウィンドウを表示
+        if (manager_placeBar.IsActiveFountain())
+        {
+            manager_placeBar.UnActive();
+            marketWindow.UnActive();
+            fountainWindow.Active();
+        }
+
+        // 市場ウィンドウを表示
+        if (manager_placeBar.IsActiveShop())
+        {
+            manager_placeBar.UnActive();
+            marketWindow.Active();
+            fountainWindow.UnActive();
+        }
+
         // QRリーダーを起動
         if (manager_placeBar.GetIsQRLeader())
         {
@@ -125,6 +212,13 @@ public class MainGame_UIManager : MonoBehaviour
         }
     }
 
+    //リザルトに行くときのフェード
+    void ResultStart()
+    {
+        m_switching = true;
+        fade_CloudEffect.StartFadeIn();
+    }
+    
     /// <summary>
     /// 建築ボードの表示・非表示
     /// </summary>
@@ -141,80 +235,20 @@ public class MainGame_UIManager : MonoBehaviour
             buildingBoard.UnActive();
         }
     }
-
-    /// <summary>
-    /// 建築のボードの更新処理
-    /// </summary>
-    void UpdateBuildingBoard()
-    {
-        // 建築ボタン
-        isBuilding = false;
-        if (buildingBoard.IsClickBuildingButton())
-        {
-            isBuilding = true;
-        }
-    }
-
-    /// <summary>
-    /// フェードの更新処理
-    /// </summary>
-    void UpdateFade()
-    {
-        if (!m_switching)
-        {
-            if (m_fade)
-            {
-                StartCoroutine(fade_CloudEffect.FadeIn());
-
-
-                if (!fade_CloudEffect.GetIsProcess)
-                {
-                    m_fade = false;
-                }
-            }
-            else
-            {
-                //フェードアウトの処理
-                StartCoroutine(fade_CloudEffect.FadeOut());
-            }
-        }
-    }
-
-    /// <summary>
-    /// 交換処理のアイテムを取得
-    /// </summary>
-    /// <returns></returns>
-    public List<IItem> GetExchangeItems()
-    {
-        return exchangeItems;
-    }
-
+    
     // 交換するかどうかのフラグを取得
-    public bool IsExchange()
+    public bool IsExchange(ref List<IItem> _items)
     {
-        return isExchange;
+        _items = exchangeItems;
+        return exchangeItems.Count != 0;
     }
     
-    /// <summary>
-    /// QRリーダーのリクエスト処理
-    /// </summary>
-    void UpdateRequest_QRReader()
-    {
-        // qr読み込みの交換処理
-        if (qrReaderWindow.IsExchange())
-        {
-            isExchange = true;
-            exchangeItems = qrReaderWindow.GetItems();
-            otherID = qrReaderWindow.GetOtherID();
-        }
-    }
-
     // カメラの移動先をTypeで取得
     public Type GetPlaceType()
     {
         if (manager_placeBar.IsChangeCameraPosiiton())
         {
-            m_fade = true;
+            fade_CloudEffect.StartFadeIn();
             m_switching = false;
             return manager_placeBar.GetchangeType();
         }
@@ -267,7 +301,7 @@ public class MainGame_UIManager : MonoBehaviour
     }
 
     // 建築時の処理
-    public void Building(bool isBuilding)
+    public void FinalizeBuilding(bool isBuilding)
     {
         // 建築成功
         if (isBuilding)
@@ -288,71 +322,7 @@ public class MainGame_UIManager : MonoBehaviour
     {
         return otherID;
     }
-
-    /// <summary>
-    /// 噴水のリクエスト処理
-    /// </summary>
-    public void UpdateRequest_Fountain()
-    {
-        // 戻るボタン
-        if (fountainWindow.IsBack())
-        {
-            manager_placeBar.Active();
-            isUndoCamera = true;
-            m_fade = true;
-        }
-
-        // 交換
-        if (fountainWindow.IsExchange())
-        {
-            isExchange = true;
-            exchangeItems = qrReaderWindow.GetItems();
-        }
-    }
-
-    /// <summary>
-    /// 市場のリクエスト処理
-    /// </summary>
-    public void UpdateRequest_Market()
-    {
-        // 戻るボタン
-        if (marketWindow.IsBack())
-        {
-            manager_placeBar.Active();
-            isUndoCamera = true;
-            m_fade = true;
-        }
-
-        // 交換
-        if (marketWindow.IsExchange())
-        {
-            isExchange = true;
-            exchangeItems = marketWindow.GetExchangeItemList();
-        }
-    }
-
-    /// <summary>
-    /// 移動バーのリクエスト
-    /// </summary>
-    private void UpdateRequest_PlaceBar()
-    {
-        // 噴水ウィンドウを表示
-        if (manager_placeBar.IsActiveFountain())
-        {
-            manager_placeBar.UnActive();
-            marketWindow.UnActive();
-            fountainWindow.Active();
-        }
-
-        // 市場ウィンドウを表示
-        if (manager_placeBar.IsActiveShop())
-        {
-            manager_placeBar.UnActive();
-            marketWindow.Active();
-            fountainWindow.UnActive();
-        }
-    }
-
+    
     /// <summary>
     /// カメラの位置をひとつ前にもどすかどうかのフラグを取得
     /// </summary>

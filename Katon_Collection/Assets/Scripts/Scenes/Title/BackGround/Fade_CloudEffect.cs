@@ -18,7 +18,7 @@ public class Fade_CloudEffect : MonoBehaviour
 
       
     //フェードインする関数
-    public IEnumerator FadeIn()
+    IEnumerator FadeIn()
     {
         if (!isIn)
         {
@@ -38,13 +38,15 @@ public class Fade_CloudEffect : MonoBehaviour
         }
 
         yield return new WaitForEndOfFrame();
+    }
 
-       
-
+    public void StartFadeIn()
+    {
+        StartCoroutine(FadeIn());
     }
 
     //フェードアウトする関数
-    public IEnumerator FadeOut()
+    IEnumerator FadeOut()
     {
 
         if (isIn)
@@ -67,6 +69,10 @@ public class Fade_CloudEffect : MonoBehaviour
         yield return new WaitForEndOfFrame();
     }
 
+    public void StartFadeOut()
+    {
+        StartCoroutine(FadeOut());
+    }
 
 
     public bool GetIsProcess

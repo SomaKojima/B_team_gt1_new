@@ -59,10 +59,10 @@ public class BackGround_Title : MonoBehaviour
             m_placeType = (Type)m_value;
 
             //フェードインする
-            StartCoroutine(m_fade_CloudEffect.FadeIn());
+            m_fade_CloudEffect.StartFadeIn();
 
 
-            if (!m_fade_CloudEffect.GetIsProcess)
+            if (m_fade_CloudEffect.GetIsProcess)
             {
                 testFlag = false;
 
@@ -79,7 +79,7 @@ public class BackGround_Title : MonoBehaviour
         else
         {
             //フェードアウトの処理
-            StartCoroutine(m_fade_CloudEffect.FadeOut());
+            m_fade_CloudEffect.StartFadeOut();
 
 
         }
@@ -93,9 +93,9 @@ public class BackGround_Title : MonoBehaviour
         if(m_changeRoby)
         {
             //フェードインする
-            StartCoroutine(m_fade_CloudEffect.FadeIn());
+            m_fade_CloudEffect.StartFadeIn();
 
-            if (!m_fade_CloudEffect.GetIsProcess)
+            if (m_fade_CloudEffect.GetIsProcess)
             {
                 
                 SceneManager.LoadScene(1);

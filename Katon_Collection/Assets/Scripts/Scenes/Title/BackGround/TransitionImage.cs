@@ -14,9 +14,15 @@ public class TransitionImage : MonoBehaviour
     [SerializeField]
     private Material m_transitionIn;
 
+    [SerializeField]
+    Image image;
+
     //フェード時間
     [SerializeField]
     private float m_fadeTime = 1.0f;
+
+    // 実行中かどうかのフラグ
+    bool isExcuting = false;
 
     //フェードの処理を行うためのフラグ
     bool isProcess = false;
@@ -32,23 +38,39 @@ public class TransitionImage : MonoBehaviour
     //フェードイン
     public IEnumerator TransitionIn()
     {
-        
-        isProcess = true;
+        // 複数実行しない
+        if (isExcuting) yield break;
+
+        // 初期化
+        isProcess = false;
+        isExcuting = true;
+        image.raycastTarget = true;
+
+        // 実行中
         yield return Animate(m_transitionIn, m_fadeTime);
 
+        // フェードイン終了
         yield return new WaitForEndOfFrame();
     }
 
     //フェードアウト
     public IEnumerator TransitionOut()
     {
+        // 複数実行しない
+        if (isExcuting) yield break;
 
-       
 
-        isProcess = true;
+        // 初期化
+        isProcess = false;
+        isExcuting = true;
+        image.raycastTarget = true;
 
+        // 実行中
         yield return Animate(m_transitionOut, m_fadeTime);
 
+        // フェードアウト終了
+        image.raycastTarget = false;
+        isExcuting = false;
         yield return new WaitForEndOfFrame();
     }
 
@@ -60,21 +82,28 @@ public class TransitionImage : MonoBehaviour
     /// <returns></returns>
     IEnumerator Animate(Material material, float time)
     {
-        GetComponent<Image>().material = material;
+        image.material = material;
         float current = 0;
+
         while (current < time)
         {
             material.SetFloat("_Alpha", current / time);
+            
             yield return new WaitForEndOfFrame();
             current += Time.deltaTime;
         }
         material.SetFloat("_Alpha", 1);
-        isProcess = false;
+        isProcess = true;
     }
 
     //取得
     public bool IsProcess
     {
         get { return isProcess; }
+    }
+
+    public bool IsExcuting
+    {
+        get { return isExcuting; }
     }
 }
