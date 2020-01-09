@@ -32,9 +32,9 @@ public class Fade_CloudEffect : MonoBehaviour
         }
 
 
-        foreach (Fade_Cloud move in clouds)
+        foreach (Fade_Cloud cloud in clouds)
         {
-            move.Move(isIn);
+            cloud.Move(isIn);
         }
 
         yield return new WaitForEndOfFrame();
@@ -58,9 +58,9 @@ public class Fade_CloudEffect : MonoBehaviour
             isFirstProcess = false;
         }
 
-       foreach (Fade_Cloud move in clouds)
+       foreach (Fade_Cloud cloud in clouds)
         {
-            move.Move(isIn);
+            cloud.Move(isIn);
         }
 
 

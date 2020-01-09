@@ -139,10 +139,8 @@ public class MainGame : MonoBehaviour
         // 建築ボタンが押された
         if (uiManager.IsBuilding())
         {
-            Debug.Log("ああ");
             if (_items.Count == 0)
             {
-                Debug.Log("ねーよ");
                 return;
             }
 

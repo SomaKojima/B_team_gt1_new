@@ -7,8 +7,7 @@ public class MainGame_UIManager : MonoBehaviour
     // QR読み込みウィンドウ
     [SerializeField]
     QR_ReaderWindow qrReaderWindow;
-
-
+    
     // 拠点移動バー
     [SerializeField]
     Manager_PlaceBar manager_placeBar;
@@ -76,6 +75,7 @@ public class MainGame_UIManager : MonoBehaviour
         // 噴水ウィンドウを表示
         if (manager_placeBar.IsActiveFountain())
         {
+            manager_placeBar.UnActive();
             marketWindow.UnActive();
             fountainWindow.Active();
         }
@@ -83,7 +83,8 @@ public class MainGame_UIManager : MonoBehaviour
         // 市場ウィンドウを表示
         if (manager_placeBar.IsActiveShop())
         {
-            marketWindow.Active();
+            manager_placeBar.UnActive();
+            marketWindow.UnActive();
             fountainWindow.UnActive();
         }
 
@@ -98,6 +99,9 @@ public class MainGame_UIManager : MonoBehaviour
 
         // 交換するかどうかを判定する処理
         UpdateExchangeFlag();
+
+        // 移動バーの更新処理
+        UpdatePlaceBar();
     }
 
     //リザルトに行くときのフェード
@@ -167,7 +171,7 @@ public class MainGame_UIManager : MonoBehaviour
                 if (!fade_CloudEffect.GetIsProcess)
                 {
                     m_fade = false;
-
+                    Debug.Log("fadeOut");
                 }
             }
             else
@@ -300,5 +304,21 @@ public class MainGame_UIManager : MonoBehaviour
     public int GetExchangeOtherID()
     {
         return otherID;
+    }
+
+    /// <summary>
+    /// 移動バーの更新処理
+    /// </summary>
+    private void UpdatePlaceBar()
+    {
+        if (marketWindow.IsBack())
+        {
+            manager_placeBar.Active();
+        }
+
+        if (fountainWindow.IsBack())
+        {
+            manager_placeBar.Active();
+        }
     }
 }

@@ -12,6 +12,9 @@ public class Manager_PlaceBar : MonoBehaviour
     Type m_placeType = Type.none;
 
     [SerializeField]
+    GameObject placeBar;
+
+    [SerializeField]
     Image m_pencil;
 
     [SerializeField]
@@ -180,5 +183,17 @@ public class Manager_PlaceBar : MonoBehaviour
     public bool GetIsQRLeader()
     {
         return m_isQRLeader;
+    }
+
+    public void Active()
+    {
+        if (placeBar.activeSelf) return;
+        placeBar.SetActive(true) ;
+    }
+
+    public void UnActive()
+    {
+        if (!placeBar.activeSelf) return;
+        placeBar.SetActive(false);
     }
 }
