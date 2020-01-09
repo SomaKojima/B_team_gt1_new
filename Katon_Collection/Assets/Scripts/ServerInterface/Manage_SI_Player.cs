@@ -81,7 +81,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
         if (stream.isWriting)
         {
             //データの送信
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < players.Count; i++)
             {
                 for (int j = 0; j < (int)Type.Max; j++)
                 {
@@ -99,7 +99,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
         {
             //データの受信
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < players.Count; i++)
             {
                 for (int j = 0; j < (int)Type.Max; j++)
                 {
