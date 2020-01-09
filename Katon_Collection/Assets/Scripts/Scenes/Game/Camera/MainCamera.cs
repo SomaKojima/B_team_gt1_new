@@ -42,4 +42,10 @@ public class MainCamera : MonoBehaviour
         if (_placeType == Type.none) return;
         cameraMove.ChangePosition(_placeType);
     }
+
+    // カメラの位置をひとつ戻す
+    public void Undo()
+    {
+        cameraMove.Undo();
+    }
 }

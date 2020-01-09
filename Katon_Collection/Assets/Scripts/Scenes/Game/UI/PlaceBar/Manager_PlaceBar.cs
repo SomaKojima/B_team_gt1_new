@@ -88,8 +88,7 @@ public class Manager_PlaceBar : MonoBehaviour
             m_placeButtons[0].OnClickProcess();
 
             m_placeType = Type.forest;
-
-            Debug.Log(m_placeType);
+            
         }
 
         //洞窟
@@ -98,8 +97,7 @@ public class Manager_PlaceBar : MonoBehaviour
             m_placeButtons[1].OnClickProcess();
 
             m_placeType = Type.cave;
-
-            Debug.Log(m_placeType);
+            
         }
 
         //工場
@@ -108,8 +106,7 @@ public class Manager_PlaceBar : MonoBehaviour
             m_placeButtons[2].OnClickProcess();
 
             m_placeType = Type.factory;
-
-            Debug.Log(m_placeType);
+            
         }
 
         //牧場
@@ -118,8 +115,7 @@ public class Manager_PlaceBar : MonoBehaviour
             m_placeButtons[3].OnClickProcess();
 
             m_placeType = Type.farm;
-
-            Debug.Log(m_placeType);
+            
         }
 
 
@@ -130,8 +126,7 @@ public class Manager_PlaceBar : MonoBehaviour
             m_ichiba.OnClickProcess();
 
             m_placeType = Type.market;
-
-            Debug.Log(m_placeType);
+            
         }
 
         //噴水ボタンを押したら
@@ -140,8 +135,7 @@ public class Manager_PlaceBar : MonoBehaviour
             m_fountain.OnClickProcess();
 
             m_placeType = Type.fountain;
-
-            Debug.Log(m_placeType);
+            
         }
 
         //カメラボタンを押したら
@@ -175,7 +169,10 @@ public class Manager_PlaceBar : MonoBehaviour
 
     public bool IsActiveFountain()
     {
-        if (m_placeType == Type.fountain) return true;
+        if (m_placeType == Type.fountain)
+        {
+            return true;
+        }
         return false;
     }
 

@@ -53,6 +53,9 @@ public class MainGame_UIManager : MonoBehaviour
     // 交換相手のID
     int otherID = -1;
 
+    // ひとつ前のカメラに戻すかどうかのフラグ
+    bool isUndoCamera = false;
+
     public void Initialize(Manager_Item _managerItem)
     {
         fountainWindow.Initialize(_managerItem);
@@ -71,22 +74,12 @@ public class MainGame_UIManager : MonoBehaviour
     void Update()
     {
 
+        // 初期化
+        isUndoCamera = false;
+        isExchange = false;
+        exchangeItems.Clear();
 
-        // 噴水ウィンドウを表示
-        if (manager_placeBar.IsActiveFountain())
-        {
-            manager_placeBar.UnActive();
-            marketWindow.UnActive();
-            fountainWindow.Active();
-        }
 
-        // 市場ウィンドウを表示
-        if (manager_placeBar.IsActiveShop())
-        {
-            manager_placeBar.UnActive();
-            marketWindow.UnActive();
-            fountainWindow.UnActive();
-        }
 
         // フェードの更新処理
         UpdateFade();
@@ -98,10 +91,16 @@ public class MainGame_UIManager : MonoBehaviour
         UpdateBuildingBoard();
 
         // 交換するかどうかを判定する処理
-        UpdateExchangeFlag();
+        UpdateRequest_QRReader();
+
+        // 市場のリクエスト処理
+        UpdateRequest_Market();
+
+        // 噴水のリクエスト処理
+        UpdateRequest_Fountain();
 
         // 移動バーの更新処理
-        UpdatePlaceBar();
+        UpdateRequest_PlaceBar();
     }
 
     //リザルトに行くときのフェード
@@ -171,7 +170,6 @@ public class MainGame_UIManager : MonoBehaviour
                 if (!fade_CloudEffect.GetIsProcess)
                 {
                     m_fade = false;
-                    Debug.Log("fadeOut");
                 }
             }
             else
@@ -196,27 +194,12 @@ public class MainGame_UIManager : MonoBehaviour
     {
         return isExchange;
     }
-
-    // 交換するかどうかを判定する処理
-    void UpdateExchangeFlag()
+    
+    /// <summary>
+    /// QRリーダーのリクエスト処理
+    /// </summary>
+    void UpdateRequest_QRReader()
     {
-        isExchange = false;
-        exchangeItems.Clear();
-
-        // 噴水の処理
-        if (fountainWindow.IsExchange())
-        {
-            isExchange = true;
-            exchangeItems = qrReaderWindow.GetItems();
-        }
-
-        // 市場の処理
-        if (marketWindow.IsExchange())
-        {
-            isExchange = true;
-            exchangeItems = marketWindow.GetExchangeItemList();
-        }
-
         // qr読み込みの交換処理
         if (qrReaderWindow.IsExchange())
         {
@@ -307,18 +290,75 @@ public class MainGame_UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 移動バーの更新処理
+    /// 噴水のリクエスト処理
     /// </summary>
-    private void UpdatePlaceBar()
+    public void UpdateRequest_Fountain()
     {
-        if (marketWindow.IsBack())
-        {
-            manager_placeBar.Active();
-        }
-
+        // 戻るボタン
         if (fountainWindow.IsBack())
         {
             manager_placeBar.Active();
+            isUndoCamera = true;
+            m_fade = true;
         }
+
+        // 交換
+        if (fountainWindow.IsExchange())
+        {
+            isExchange = true;
+            exchangeItems = qrReaderWindow.GetItems();
+        }
+    }
+
+    /// <summary>
+    /// 市場のリクエスト処理
+    /// </summary>
+    public void UpdateRequest_Market()
+    {
+        // 戻るボタン
+        if (marketWindow.IsBack())
+        {
+            manager_placeBar.Active();
+            isUndoCamera = true;
+            m_fade = true;
+        }
+
+        // 交換
+        if (marketWindow.IsExchange())
+        {
+            isExchange = true;
+            exchangeItems = marketWindow.GetExchangeItemList();
+        }
+    }
+
+    /// <summary>
+    /// 移動バーのリクエスト
+    /// </summary>
+    private void UpdateRequest_PlaceBar()
+    {
+        // 噴水ウィンドウを表示
+        if (manager_placeBar.IsActiveFountain())
+        {
+            manager_placeBar.UnActive();
+            marketWindow.UnActive();
+            fountainWindow.Active();
+        }
+
+        // 市場ウィンドウを表示
+        if (manager_placeBar.IsActiveShop())
+        {
+            manager_placeBar.UnActive();
+            marketWindow.Active();
+            fountainWindow.UnActive();
+        }
+    }
+
+    /// <summary>
+    /// カメラの位置をひとつ前にもどすかどうかのフラグを取得
+    /// </summary>
+    /// <returns></returns>
+    public bool IsUndoCamera()
+    {
+        return isUndoCamera;
     }
 }

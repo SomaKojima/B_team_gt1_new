@@ -39,7 +39,6 @@ public class FountainWindow : MonoBehaviour
 
     public void Initialize(Manager_Item _pay)
     {
-
         payWindow.Initialize(_pay);
 
         manager_getItem.Initialize();
@@ -48,8 +47,18 @@ public class FountainWindow : MonoBehaviour
             manager_getItem.GetItem((ITEM_TYPE)i).SetCount(1000);
         }
         getWindow.Initialize(manager_getItem);
-        isExchange = false;
+        Initailzie();
     }
+
+    void Initailzie()
+    {
+        isBack = false;
+        isExchange = false;
+        isReaded = false;
+        isEndReaded = false;
+        isCreateQR = false;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -136,6 +145,7 @@ public class FountainWindow : MonoBehaviour
     public void Active()
     {
         gameObject.SetActive(true);
+        Initailzie();
     }
 
     public void UnActive()
@@ -146,7 +156,9 @@ public class FountainWindow : MonoBehaviour
 
     public bool IsBack()
     {
-        return isBack;
+        bool buf = isBack;
+        isBack = false;
+        return buf;
     }
 
     public bool IsCreateQR()

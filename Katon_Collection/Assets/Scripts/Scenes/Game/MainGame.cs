@@ -76,7 +76,13 @@ public class MainGame : MonoBehaviour
 
     void UpdateMoveCamera()
     {
+        Debug.Log(uiManager.GetPlaceType());
         mainCamera.Move(uiManager.GetPlaceType());
+        if (uiManager.IsUndoCamera())
+        {
+            Debug.Log("undo");
+            mainCamera.Undo();
+        }
     }
 
 

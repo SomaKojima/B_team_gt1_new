@@ -35,6 +35,11 @@ public class CameraMove : MonoBehaviour
 
     bool isStop = false;
 
+    // 一つ前に戻すかどうか
+    bool isUndo = false;
+    // ひとつ前の場所
+    List<Vector3> undoPositions = new List<Vector3>();
+
 
     // Start is called before the first frame update
     void Start()
@@ -61,6 +66,14 @@ public class CameraMove : MonoBehaviour
     //ポジションを切り替える
     public void ChangePosition(Type _placeType)
     {
+        // 現在の座標を保存する
+        undoPositions.Add(m_camera.transform.position);
+        // 最大数１０
+        if (undoPositions.Count > 10)
+        {
+            undoPositions.RemoveAt(0);
+        }
+        // 移動
         m_camera.transform.position = m_cameraManager.GetTransformOf(_placeType).position;
     }
 
@@ -230,5 +243,17 @@ public class CameraMove : MonoBehaviour
     public void StartMove()
     {
         isStop = false;
+    }
+
+
+    // ひとつ前の座標に戻す
+    public void Undo()
+    {
+        if (undoPositions.Count != 0)
+        {
+            int index = undoPositions.Count - 1;
+            m_camera.transform.position = undoPositions[index];
+            undoPositions.RemoveAt(index);
+        }
     }
 }
