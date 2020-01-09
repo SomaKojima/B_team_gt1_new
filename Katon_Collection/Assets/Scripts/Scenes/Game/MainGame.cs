@@ -32,12 +32,16 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     MainGame_UIManager uiManager;
     
+    // 現在地
+    Type currentPlaceType = Type.none;
+    
     // Start is called before the first frame update
     void Start()
     {
         manager_item.Initialize();
         owner_human.Intialize();
         owner_floor.Initialize();
+        owner_signBoard.Initialize(mainCamera.IsSigneBoardInScreen);
 
         //manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(2);
         for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
@@ -66,23 +70,12 @@ public class MainGame : MonoBehaviour
 
         // 交換の更新処理
         UpdateExchange();
+        
+        // マンションのリクエスト処理
+        UpdateRequest_SignBoard();
 
-        // カメラの動きの更新処理
-        UpdateMoveCamera();
-
-        // マンションを建てる更新処理
-        UpdateBuildingFloor();
-    }
-
-    void UpdateMoveCamera()
-    {
-        Debug.Log(uiManager.GetPlaceType());
-        mainCamera.Move(uiManager.GetPlaceType());
-        if (uiManager.IsUndoCamera())
-        {
-            Debug.Log("undo");
-            mainCamera.Undo();
-        }
+        // UIマネージャーのリクエスト処理
+        UpdateRequest_UIManager();
     }
 
 
@@ -91,7 +84,7 @@ public class MainGame : MonoBehaviour
     /// </summary>
     void UpdateServer()
     {
-        if (uiManager.IsCreateQR())
+        if (uiManager.IsFlag(MainGame_UIManager.REQUEST_UI.CREADED_QR))
         {
             for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
             {
@@ -120,47 +113,61 @@ public class MainGame : MonoBehaviour
     }
 
     /// <summary>
-    /// マンションを建てる更新処理
+    /// 看板のリクエスト処理
     /// </summary>
-    void UpdateBuildingFloor()
+    void UpdateRequest_SignBoard()
     {
-        bool isActive = false;
-        Type placeType = Type.none;
-        List<IItem> _items = new List<IItem>();
-
-        foreach (SignBoard board in owner_signBoard.GetSignBoards())
+        if (owner_signBoard.IsActiveBoard())
         {
-            // 表示させるか判定
-            if (mainCamera.IsSigneBoardInScreen(board.transform.position))
-            {
-                // 建築に必要な素材を取得
-                _items = owner_floor.GetBuildingResource(board.GetPlaceType());
-                placeType = board.GetPlaceType();
-                isActive = true;
-                break;
-            }
+            currentPlaceType = owner_signBoard.GetVisiblePlaceType();
+
+            // 建築に必要な素材を取得
+            List<IItem> _items = owner_floor.GetBuildingResource(currentPlaceType);
+            //UIの建築ボードを表示する
+            uiManager.SetActiveBuildingBoard(true, _items);
         }
-        uiManager.SetActiveBuildingBoard(isActive, _items);
-
-        // 建築ボタンが押された
-        if (uiManager.IsBuilding())
+        else
         {
-            if (_items.Count == 0)
-            {
-                return;
-            }
+            //UIの建築ボードを非表示する
+            uiManager.SetActiveBuildingBoard(false, null);
+        }
+    }
+    
 
-            // 建築可能か判定
-            bool isBuildable = manager_item.IsExchange(owner_floor.GetBuildingResource(placeType));
-            if (isBuildable)
+    /// <summary>
+    /// UIマネージャーのリクエスト処理
+    /// </summary>
+    void UpdateRequest_UIManager()
+    {
+        // 建築ボタンが押された
+        if (uiManager.IsFlag(MainGame_UIManager.REQUEST_UI.BUILDING))
+        {
+            // 建築に必要な素材を取得
+            List<IItem> _items = owner_floor.GetBuildingResource(currentPlaceType);
+            // 資源が足りているか確認
+            bool _isExchange = manager_item.IsExchange(_items);
+            if (_isExchange)
             {
                 // 資源の消費
-                manager_item.AddItems(owner_floor.GetBuildingResource(placeType));
+                manager_item.AddItems(owner_floor.GetBuildingResource(currentPlaceType));
                 // 建築
-                owner_floor.Building(placeType);
+                owner_floor.Building(currentPlaceType);
             }
-            
-            uiManager.FinalizeBuilding(isBuildable);
+
+            // 建築終了後のUIの処理
+            uiManager.FinalizeBuilding(_isExchange);
+        }
+
+        // カメラの移動
+        if (uiManager.IsFlag(MainGame_UIManager.REQUEST_UI.MOVE_CAMERA))
+        {
+            mainCamera.Move(uiManager.GetPlaceType());
+        }
+        
+        // カメラをひとつ前に戻す
+        if (uiManager.IsFlag(MainGame_UIManager.REQUEST_UI.UNDO_CAMERA))
+        {
+            mainCamera.Undo();
         }
     }
 

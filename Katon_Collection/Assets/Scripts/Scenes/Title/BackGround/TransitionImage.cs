@@ -57,7 +57,7 @@ public class TransitionImage : MonoBehaviour
     public IEnumerator TransitionOut()
     {
         // 複数実行しない
-        if (isExcuting) yield break;
+        if (isExcuting && !isProcess) yield break;
 
 
         // 初期化

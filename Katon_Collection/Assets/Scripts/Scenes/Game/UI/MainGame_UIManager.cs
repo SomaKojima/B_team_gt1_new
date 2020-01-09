@@ -4,10 +4,22 @@ using UnityEngine;
 
 public class MainGame_UIManager : MonoBehaviour
 {
+    /// <summary>
+    /// BitFlagに使うリクエスト一覧
+    /// </summary>
+    public enum REQUEST_UI
+    {
+        NONE = 0,
+        MOVE_CAMERA,    // カメラを移動
+        UNDO_CAMERA,    // ひとつ前にカメラに戻る
+        BUILDING,       // 建築する
+        CREADED_QR      // QRを作成したフラグ
+    }
+
     // QR読み込みウィンドウ
     [SerializeField]
     QR_ReaderWindow qrReaderWindow;
-    
+
     // 拠点移動バー
     [SerializeField]
     Manager_PlaceBar manager_placeBar;
@@ -15,7 +27,7 @@ public class MainGame_UIManager : MonoBehaviour
     // 建築ボード（建築に必要な素材表示、建築ボタン）
     [SerializeField]
     BuildingBoard buildingBoard;
-    
+
     // フェード
     [SerializeField]
     Fade_CloudEffect fade_CloudEffect = null;
@@ -33,24 +45,15 @@ public class MainGame_UIManager : MonoBehaviour
     // 所持アイテムウィンドウ
     [SerializeField]
     PossessListManager possessListManager;
-    
-    //リザルトに移行したら
-    bool m_switching = false;
 
-    // 交換するかどうかのフラグ
-    //bool isExchange = false;
+    BitFlag bitFlag = new BitFlag();
 
     // 交換処理をするときに使うアイテムリスト
     List<IItem> exchangeItems = new List<IItem>();
 
-    // 建築するかどうかのフラグ
-    bool isBuilding = false;
-
     // 交換相手のID
     int otherID = -1;
 
-    // ひとつ前のカメラに戻すかどうかのフラグ
-    bool isUndoCamera = false;
 
     /// <summary>
     /// 初期化
@@ -68,7 +71,7 @@ public class MainGame_UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -76,11 +79,10 @@ public class MainGame_UIManager : MonoBehaviour
     {
 
         // 初期化
-        isUndoCamera = false;
+        bitFlag.Clear();
         exchangeItems.Clear();
 
-
-
+        
         // フェードのリクエスト処理
         UpdateRequest_Fade();
 
@@ -107,10 +109,9 @@ public class MainGame_UIManager : MonoBehaviour
     void UpdateRequest_BuildingBoard()
     {
         // 建築ボタン
-        isBuilding = false;
         if (buildingBoard.IsClickBuildingButton())
         {
-            isBuilding = true;
+            OnFlag(REQUEST_UI.BUILDING);
         }
     }
 
@@ -119,16 +120,15 @@ public class MainGame_UIManager : MonoBehaviour
     /// </summary>
     void UpdateRequest_Fade()
     {
-        if (!m_switching)
+        //　フェードインが終わったらフェードアウトに移る
+        if (fade_CloudEffect.GetIsProcess)
         {
-            if (fade_CloudEffect.GetIsProcess)
-            {
-                //フェードアウトの処理
-                fade_CloudEffect.StartFadeOut();
-            }
+            Debug.Log("out");
+            //フェードアウトの処理
+            fade_CloudEffect.StartFadeOut();
         }
     }
-    
+
     /// <summary>
     /// QRリーダーのリクエスト処理
     /// </summary>
@@ -151,7 +151,7 @@ public class MainGame_UIManager : MonoBehaviour
         if (fountainWindow.IsBack())
         {
             manager_placeBar.Active();
-            isUndoCamera = true;
+            OnFlag(REQUEST_UI.UNDO_CAMERA);
             fade_CloudEffect.StartFadeIn();
         }
 
@@ -159,6 +159,12 @@ public class MainGame_UIManager : MonoBehaviour
         if (fountainWindow.IsExchange())
         {
             exchangeItems = qrReaderWindow.GetItems();
+        }
+
+        // Qrコードを生成した
+        if(fountainWindow.IsCreateQR())
+        {
+            OnFlag(REQUEST_UI.CREADED_QR);
         }
     }
 
@@ -171,7 +177,7 @@ public class MainGame_UIManager : MonoBehaviour
         if (marketWindow.IsBack())
         {
             manager_placeBar.Active();
-            isUndoCamera = true;
+            OnFlag(REQUEST_UI.UNDO_CAMERA);
             fade_CloudEffect.StartFadeIn();
         }
 
@@ -210,58 +216,15 @@ public class MainGame_UIManager : MonoBehaviour
             fountainWindow.UnActive();
             marketWindow.UnActive();
         }
-    }
 
-    //リザルトに行くときのフェード
-    void ResultStart()
-    {
-        m_switching = true;
-        fade_CloudEffect.StartFadeIn();
-    }
-    
-    /// <summary>
-    /// 建築ボードの表示・非表示
-    /// </summary>
-    /// <param name="isActive"></param>
-    /// <param name="_items"></param>
-    public void SetActiveBuildingBoard(bool isActive, List<IItem> _items)
-    {
-        if (isActive)
-        {
-            buildingBoard.Active(_items);
-        }
-        else
-        {
-            buildingBoard.UnActive();
-        }
-    }
-    
-    // 交換するかどうかのフラグを取得
-    public bool IsExchange(ref List<IItem> _items)
-    {
-        _items = exchangeItems;
-        return exchangeItems.Count != 0;
-    }
-    
-    // カメラの移動先をTypeで取得
-    public Type GetPlaceType()
-    {
+        // 移動する
         if (manager_placeBar.IsChangeCameraPosiiton())
         {
             fade_CloudEffect.StartFadeIn();
-            m_switching = false;
-            return manager_placeBar.GetchangeType();
+            OnFlag(REQUEST_UI.MOVE_CAMERA);
         }
-
-        return Type.none;
     }
 
-    // QRを生成したかどうかのフラグを取得
-    public bool IsCreateQR()
-    {
-        return fountainWindow.IsCreateQR();
-    }
-    
     /// <summary>
     /// 交換終了時の処理
     /// </summary>
@@ -292,15 +255,9 @@ public class MainGame_UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 建築するかどうかのフラグを取得
+    /// 建築終了の処理
     /// </summary>
-    /// <returns></returns>
-    public bool IsBuilding()
-    {
-        return isBuilding;
-    }
-
-    // 建築時の処理
+    /// <param name="isBuilding"></param>
     public void FinalizeBuilding(bool isBuilding)
     {
         // 建築成功
@@ -314,6 +271,47 @@ public class MainGame_UIManager : MonoBehaviour
         }
     }
 
+    //リザルトに行くときのフェード
+    void ResultStart()
+    {
+        fade_CloudEffect.StartFadeIn();
+    }
+
+    /// <summary>
+    /// 建築ボードの表示・非表示
+    /// </summary>
+    /// <param name="isActive"></param>
+    /// <param name="_items"></param>
+    public void SetActiveBuildingBoard(bool isActive, List<IItem> _items)
+    {
+        
+        if (isActive && _items != null)
+        {
+            buildingBoard.Active(_items);
+        }
+        else
+        {
+            buildingBoard.UnActive();
+        }
+    }
+
+    // 交換するかどうかのフラグを取得
+    public bool IsExchange(ref List<IItem> _items)
+    {
+        _items = exchangeItems;
+        return exchangeItems.Count != 0;
+    }
+
+    // カメラの移動先をTypeで取得
+    public Type GetPlaceType()
+    {
+        if (manager_placeBar.IsChangeCameraPosiiton())
+        {
+            return manager_placeBar.GetchangeType();
+        }
+        return Type.none;
+    }
+
     /// <summary>
     /// 交換時の相手のIDを取得する
     /// </summary>
@@ -322,13 +320,32 @@ public class MainGame_UIManager : MonoBehaviour
     {
         return otherID;
     }
-    
+
     /// <summary>
-    /// カメラの位置をひとつ前にもどすかどうかのフラグを取得
+    /// リクエストがあるかどうかの確認
     /// </summary>
+    /// <param name="_request"></param>
     /// <returns></returns>
-    public bool IsUndoCamera()
+    public bool IsFlag(REQUEST_UI _request)
     {
-        return isUndoCamera;
+        return bitFlag.IsFlag((int)_request);
+    }
+
+    /// <summary>
+    /// フラグを立てる
+    /// </summary>
+    /// <param name="_request"></param>
+    void OnFlag(REQUEST_UI _request)
+    {
+        bitFlag.OnFlag((int)_request);
+    }
+
+    /// <summary>
+    /// フラグを伏せる
+    /// </summary>
+    /// <param name="_request"></param>
+    void OffFlag(REQUEST_UI _request)
+    {
+        bitFlag.OnFlag((int)_request);
     }
 }
