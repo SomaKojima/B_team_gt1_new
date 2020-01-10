@@ -9,36 +9,34 @@ public class BitFlag
 {
     int bitFlag = 0;
     
-
+    
     /// <summary>
-    /// フラグを立てる
+    /// ビットでフラグを立てる
     /// </summary>
-    /// <param name="_flag"></param>
-    public void OnFlag(int _flag)
+    /// <param name="_bit"></param>
+    public void OnFlag(int _bit)
     {
-        int bufFlag = 1 << _flag;
-        bitFlag =  bitFlag | bufFlag;
+        bitFlag = bitFlag | _bit;
     }
 
     /// <summary>
-    /// フラグを伏せる
+    /// ビットでフラグを伏せる
     /// </summary>
-    /// <param name="_flag"></param>
-    public void OffFlag(int _flag)
+    /// <param name="_bit"></param>
+    public void OffFlag(int _bit)
     {
-        int bufFlag = 1 << _flag;
-        bitFlag = bitFlag & ~bufFlag;
+        bitFlag = bitFlag & ~_bit;
     }
+
 
     /// <summary>
     /// フラグが立っているかを取得
     /// </summary>
     /// <param name="_flag"></param>
     /// <returns></returns>
-    public bool IsFlag(int _flag)
+    public bool IsFlag(int _bit)
     {
-        int bufFlag = 1 << _flag;
-        if ((bitFlag & bufFlag) != 0) return true;
+        if ((bitFlag & _bit) == _bit) return true;
         return false;
     }
 
@@ -48,5 +46,10 @@ public class BitFlag
     public void Clear()
     {
         bitFlag = 0;
+    }
+
+    public int GetBitFlag()
+    {
+        return bitFlag;
     }
 }

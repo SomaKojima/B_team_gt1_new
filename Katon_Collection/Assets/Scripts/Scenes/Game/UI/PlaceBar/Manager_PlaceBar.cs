@@ -43,6 +43,7 @@ public class Manager_PlaceBar : MonoBehaviour
     //アクティブな状態か
     bool m_active = false;
 
+    bool isClickButton = false;
 
 
     // Update is called once per frame
@@ -80,42 +81,41 @@ public class Manager_PlaceBar : MonoBehaviour
 
         }
 
+        isClickButton = false;
 
-        m_placeType = Type.none;
         //森
         if (m_placeButtons[0].IsClick())
         {
             m_placeButtons[0].OnClickProcess();
-
-            m_placeType = Type.forest;
             
+            ClickButton(Type.forest);
+
         }
 
         //洞窟
         if (m_placeButtons[1].IsClick())
         {
             m_placeButtons[1].OnClickProcess();
-
-            m_placeType = Type.cave;
             
+            ClickButton(Type.cave);
         }
 
         //工場
         if (m_placeButtons[2].IsClick())
         {
             m_placeButtons[2].OnClickProcess();
-
-            m_placeType = Type.factory;
             
+            ClickButton(Type.factory);
+
         }
 
         //牧場
         if (m_placeButtons[3].IsClick())
         {
             m_placeButtons[3].OnClickProcess();
-
-            m_placeType = Type.farm;
             
+            ClickButton(Type.farm);
+
         }
 
 
@@ -124,18 +124,18 @@ public class Manager_PlaceBar : MonoBehaviour
         if (m_ichiba.IsClick())
         {
             m_ichiba.OnClickProcess();
-
-            m_placeType = Type.market;
             
+            ClickButton(Type.market);
+
         }
 
         //噴水ボタンを押したら
         if (m_fountain.IsClick())
         {
             m_fountain.OnClickProcess();
-
-            m_placeType = Type.fountain;
             
+            ClickButton(Type.fountain);
+
         }
 
         //カメラボタンを押したら
@@ -147,8 +147,7 @@ public class Manager_PlaceBar : MonoBehaviour
             m_isQRLeader = true;
         }
     }
-
-
+    
     //タイプの取得
     public Type GetchangeType()
     {
@@ -157,19 +156,19 @@ public class Manager_PlaceBar : MonoBehaviour
 
     public bool IsChangeCameraPosiiton()
     {
-        if (m_placeType != Type.none) return true;
+        if (m_placeType != Type.none && isClickButton) return true;
         return false;
     }
 
     public bool IsActiveShop()
     {
-        if (m_placeType == Type.market) return true;
+        if (m_placeType == Type.market && isClickButton) return true;
         return false;
     }
 
     public bool IsActiveFountain()
     {
-        if (m_placeType == Type.fountain)
+        if (m_placeType == Type.fountain && isClickButton)
         {
             return true;
         }
@@ -192,5 +191,15 @@ public class Manager_PlaceBar : MonoBehaviour
     {
         if (!placeBar.activeSelf) return;
         placeBar.SetActive(false);
+    }
+
+    /// <summary>
+    /// 移動ボタンを押した時の処理
+    /// </summary>
+    /// <param name="_placeType"></param>
+    void ClickButton(Type _placeType)
+    {
+        m_placeType = _placeType;
+        isClickButton = true;
     }
 }

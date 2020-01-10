@@ -41,6 +41,8 @@ public class BuildingBoard : MonoBehaviour
     // 現在の状態
     MODE mode = MODE.NONE;
 
+    List<IItem> bufItems = new List<IItem>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -88,12 +90,17 @@ public class BuildingBoard : MonoBehaviour
     }
 
     // 建築ボードを表示する
-    public void Active(List<IItem> _items)
+    public void Active()
     {
         if (this.gameObject.activeSelf) return;
         this.gameObject.SetActive(true);
         Initialize();
-        owner_BuildingItemUnit.SetUnits(_items);
+        owner_BuildingItemUnit.SetUnits(bufItems);
+    }
+
+    public void SetItems(List<IItem> _items)
+    {
+        bufItems = _items;
     }
 
     // 建築ボードを非表示する

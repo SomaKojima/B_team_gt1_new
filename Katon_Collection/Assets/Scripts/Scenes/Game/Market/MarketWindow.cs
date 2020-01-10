@@ -67,7 +67,6 @@ public class MarketWindow : MonoBehaviour
         if (backButton.IsClick())
         {
             backButton.OnClickProcess();
-            UnActive();
             isBack = true;
         }
     }

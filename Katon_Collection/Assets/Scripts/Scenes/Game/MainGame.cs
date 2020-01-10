@@ -162,12 +162,14 @@ public class MainGame : MonoBehaviour
         if (uiManager.IsFlag(MainGame_UIManager.REQUEST_UI.MOVE_CAMERA))
         {
             mainCamera.Move(uiManager.GetPlaceType());
+            uiManager.FinalizeMoveCamera();
         }
         
         // カメラをひとつ前に戻す
         if (uiManager.IsFlag(MainGame_UIManager.REQUEST_UI.UNDO_CAMERA))
         {
             mainCamera.Undo();
+            uiManager.FinalizeMoveCamera();
         }
     }
 

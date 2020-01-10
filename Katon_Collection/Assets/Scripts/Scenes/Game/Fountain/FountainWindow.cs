@@ -93,7 +93,6 @@ public class FountainWindow : MonoBehaviour
                 if (isReaded != isEndReaded && !isExchange)
                 {
                     isExchange = true;
-                    UnActive();
                     CreateExchangeList();
                 }
             }
