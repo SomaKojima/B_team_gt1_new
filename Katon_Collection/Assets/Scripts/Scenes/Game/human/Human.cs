@@ -15,6 +15,7 @@ public class Human : MonoBehaviour
 
     ContextMoveState move = new ContextMoveState();
     bool isCollect = false;
+    bool isPick = false;
 
     Vector3 velocity = Vector3.zero;
     ITEM_TYPE type;
@@ -44,6 +45,12 @@ public class Human : MonoBehaviour
     {
         get { return isCollect; }
         set { isCollect = value; }
+    }
+
+    public bool IsPick
+    {
+        get { return isPick; }
+        set { isPick = value; }
     }
 
     public Vector3 Velocity

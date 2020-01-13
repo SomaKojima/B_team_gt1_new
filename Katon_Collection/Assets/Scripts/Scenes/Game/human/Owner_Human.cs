@@ -18,9 +18,16 @@ public class Owner_Human : MonoBehaviour
 
     bool isShop;
 
+    // 誰か掴まれている
+    bool isPick = false;
+
+    // リクエスト用のフラグ
+    Request request = new Request(); 
+
     public void Intialize()
     {
         manager_human.Initialize();
+        request.Initialize();
     }
     
 
@@ -33,7 +40,22 @@ public class Owner_Human : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // 掴まれている人間を確認
+        if (isPick)
+        {
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.START_CAMERA);
+        }
+        isPick = false;
+        foreach (Human human in manager_human.GetList())
+        {
+            if (human.IsPick)
+            {
+                isPick = true;
+                request.Flag.OffFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.START_CAMERA);
+                request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.STOP_CAMERA);
+                break;
+            }
+        }
     }
 
     public void MatchItemsHumans(IItem items, bool isShop)
@@ -76,5 +98,20 @@ public class Owner_Human : MonoBehaviour
             Debug.Log(differenceCount);
             manager_human.Delete(type, -differenceCount);
         }
+    }
+
+    /// <summary>
+    /// 掴まれている人間がいるかどうか
+    /// </summary>
+    /// <returns></returns>
+    public bool IsPick()
+    {
+        return isPick;
+    }
+
+
+    public Request GetRequest()
+    {
+        return request;
     }
 }

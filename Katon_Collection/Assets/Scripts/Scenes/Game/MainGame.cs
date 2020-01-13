@@ -31,6 +31,8 @@ public class MainGame : MonoBehaviour
     // UIを管理
     [SerializeField]
     MainGame_UIManager uiManager;
+
+    Manager_Request manager_request = new Manager_Request();
     
     // 現在地
     Type currentPlaceType = Type.none;
@@ -52,12 +54,16 @@ public class MainGame : MonoBehaviour
         manager_SI_Player.UpdatePlayers();
 
         uiManager.Initialize(manager_item);
+
+        manager_request.Initialize();
+
+        manager_request.Add(uiManager.GetRequest());
+        manager_request.Add(owner_human.GetRequest());
     }
     
     // Update is called once per frame
     void Update()
     {
-        
         // アイテムのマネージャと人間の数を合わせる
         for (int i = 0; i < (int)ITEM_TYPE.WOOD; i++)
         {
@@ -65,37 +71,16 @@ public class MainGame : MonoBehaviour
             owner_human.MatchItemsHumans(manager_item.GetItem(type), false);
         }
 
-        // サーバー関係の更新処理
-        UpdateServer();
-
         // 交換の更新処理
         UpdateExchange();
         
         // マンションのリクエスト処理
         UpdateRequest_SignBoard();
-
-        // UIマネージャーのリクエスト処理
-        UpdateRequest_UIManager();
+        
+        // リクエストの処理
+        UpdateRequestList();
     }
-
-
-    /// <summary>
-    /// サーバー関係の更新処理
-    /// </summary>
-    void UpdateServer()
-    {
-        if (uiManager.IsFlag(MainGame_UIManager.REQUEST_UI.CREADED_QR))
-        {
-            for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
-            {
-                if (PhotonNetwork.player.ID == manager_SI_Player.GetPlayer(i).ID)
-                {
-                    manager_SI_Player.GetPlayer(i).IsExcange = true;
-                }
-            }
-        }
-    }
-
+    
     /// <summary>
     /// アイテムの変更をserverに伝える
     /// </summary>
@@ -133,19 +118,31 @@ public class MainGame : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// リクエストの処理
+    /// </summary>
+    void UpdateRequestList()
+    {
+        foreach (Request _request in manager_request.RequestList)
+        {
+            UpdateRequest(_request);
+        }
+    }
 
     /// <summary>
-    /// UIマネージャーのリクエスト処理
+    /// リクエストの処理
     /// </summary>
-    void UpdateRequest_UIManager()
+    void UpdateRequest(Request _request)
     {
         // 建築ボタンが押された
-        if (uiManager.IsFlag(MainGame_UIManager.REQUEST_UI.BUILDING))
+        if (_request.Flag.IsFlag(REQUEST.BUILDING))
         {
             // 建築に必要な素材を取得
             List<IItem> _items = owner_floor.GetBuildingResource(currentPlaceType);
             // 資源が足りているか確認
             bool _isExchange = manager_item.IsExchange(_items);
+
+            // 交換成功
             if (_isExchange)
             {
                 // 資源の消費
@@ -153,23 +150,84 @@ public class MainGame : MonoBehaviour
                 // 建築
                 owner_floor.Building(currentPlaceType);
             }
+            else
+            {
+                // 交換失敗時の処理
+            }
 
             // 建築終了後のUIの処理
             uiManager.FinalizeBuilding(_isExchange);
         }
 
         // カメラの移動
-        if (uiManager.IsFlag(MainGame_UIManager.REQUEST_UI.MOVE_CAMERA))
+        if (_request.Flag.IsFlag(REQUEST.MOVE_CAMERA))
         {
             mainCamera.Move(uiManager.GetPlaceType());
-            uiManager.FinalizeMoveCamera();
         }
-        
+
         // カメラをひとつ前に戻す
-        if (uiManager.IsFlag(MainGame_UIManager.REQUEST_UI.UNDO_CAMERA))
+        if (_request.Flag.IsFlag(REQUEST.UNDO_CAMERA))
         {
             mainCamera.Undo();
-            uiManager.FinalizeMoveCamera();
+        }
+
+        // カメラを止める
+        if (_request.Flag.IsFlag(REQUEST.STOP_CAMERA))
+        {
+            mainCamera.StopMove();
+        }
+
+        // カメラの動きを再開する
+        if (_request.Flag.IsFlag(REQUEST.START_CAMERA))
+        {
+            mainCamera.StartMove();
+        }
+
+        if (_request.Flag.IsFlag(REQUEST.EXCHANGE))
+        {
+            // アイテムのマネージャに追加・削除
+            bool isExchangable = manager_item.AddItems(_request.ExchangeItems);
+            
+            // 交換終了したことを相手に伝える
+            if (isExchangable && uiManager.GetExchangeOtherID() >= 0)
+            {
+                for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
+                {
+                    if (uiManager.GetExchangeOtherID() == manager_SI_Player.GetPlayer(i).ID)
+                    {
+                        manager_SI_Player.GetPlayer(i).IsExcange = false;
+                    }
+                }
+            }
+
+            // リクエストの返答
+            _request.FinalizeExchange(isExchangable);
+        }
+
+        // QRの生成
+        if (_request.Flag.IsFlag(REQUEST.CREADED_QR))
+        {
+            for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
+            {
+                if (PhotonNetwork.player.ID == manager_SI_Player.GetPlayer(i).ID)
+                {
+                    manager_SI_Player.GetPlayer(i).IsExcange = true;
+                }
+            }
+        }
+
+        _request.Flag.Clear(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY);
+    }
+    
+    /// <summary>
+    /// 人間のリクエスト処理
+    /// </summary>
+    void UpdateRequest_Human()
+    {
+        // 掴まれている人間がいる
+        if (owner_human.IsPick())
+        {
+            mainCamera.StopMove();
         }
     }
 

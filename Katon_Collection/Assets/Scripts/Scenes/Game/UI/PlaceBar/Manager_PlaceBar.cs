@@ -43,7 +43,9 @@ public class Manager_PlaceBar : MonoBehaviour
     //アクティブな状態か
     bool m_active = false;
 
+    // 移動するボタンを押したかどうか
     bool isClickButton = false;
+    
 
 
     // Update is called once per frame
@@ -201,5 +203,14 @@ public class Manager_PlaceBar : MonoBehaviour
     {
         m_placeType = _placeType;
         isClickButton = true;
+    }
+
+    /// <summary>
+    /// 拠点ボタンが有効化かどうか
+    /// </summary>
+    /// <returns></returns>
+    public bool IsActiveBase()
+    {
+        return m_active;
     }
 }

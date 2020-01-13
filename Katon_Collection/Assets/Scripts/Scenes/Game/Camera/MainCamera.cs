@@ -48,4 +48,14 @@ public class MainCamera : MonoBehaviour
     {
         cameraMove.Undo();
     }
+
+    public void StopMove()
+    {
+        cameraMove.StopMove();
+    }
+
+    public void StartMove()
+    {
+        cameraMove.StartMove();
+    }
 }

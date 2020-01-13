@@ -8,7 +8,7 @@ public class Manager_Human : MonoBehaviour
     List<Human>[] humans = new List<Human>[(int)ITEM_TYPE.WOOD];
 
     List<Human> all = new List<Human>();
-
+    
     public void Initialize()
     {
         for (int i = 0; i < (int)ITEM_TYPE.WOOD; i++)

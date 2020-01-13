@@ -14,8 +14,13 @@ public class Pick : MoveState
 
     public MOVE_STATE_TYPE Excute(Human human)
     {
-        if (Input.GetMouseButtonUp(0)) return MOVE_STATE_TYPE.GO_TO_TARGET;
+        if (Input.GetMouseButtonUp(0))
+        {
+            human.IsPick = false;
+            return MOVE_STATE_TYPE.GO_TO_TARGET;
+        }
 
+        human.IsPick = true;
         MovePoisition(human);
         return MOVE_STATE_TYPE.NONE;
     }

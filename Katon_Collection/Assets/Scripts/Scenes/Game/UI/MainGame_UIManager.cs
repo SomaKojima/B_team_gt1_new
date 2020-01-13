@@ -5,53 +5,6 @@ using System;
 
 public class MainGame_UIManager : MonoBehaviour
 {
-    /// <summary>
-    /// ビットフラグの種類
-    /// </summary>
-    enum REQUEST_BIT_FLAG_TYPE
-    {
-        REQUEST,        // 即座にリクエストを飛ばす
-        FADE,           // フェードインが終わったタイミングでリクエストを飛ばす
-
-        MAX
-    }
-
-    /// <summary>
-    /// BitFlagに使うリクエスト一覧
-    /// </summary>
-    public enum REQUEST_UI
-    {
-        NONE = 0,
-        MOVE_CAMERA = 1 << 1,       // カメラを移動
-        UNDO_CAMERA = 1 << 2,       // ひとつ前にカメラに戻る
-        BUILDING    = 1 << 3,       // 建築する
-        CREADED_QR  = 1 << 4,       // QRを作成したフラグ
-
-        MAX
-    }
-
-    enum ACTIVE_BIT_FLAG_TYPE
-    {
-        IMMEDIATELY,    // 即座に実行
-        FADE,           // フェードインが終わったタイミングで実行
-
-        MAX
-    }
-
-    /// <summary>
-    /// 有効にするUIの種類
-    /// </summary>
-    public enum ACTIVE_UI
-    {
-        PLACE_BAR   =       1 << 1,
-        FOUNTAIN    =       1 << 2,
-        MARKET      =       1 << 3,
-        QR_READER   =       1 << 4,
-        BUILDIGN_BOARD =    1 << 5,
-
-        MAX
-    }
-    
     // QR読み込みウィンドウ
     [SerializeField]
     QR_ReaderWindow qrReaderWindow;
@@ -84,14 +37,11 @@ public class MainGame_UIManager : MonoBehaviour
 
 
     // リクエスト用のビットフラグ
-    BitFlag[] bitRequestFlag = new BitFlag[(int)REQUEST_BIT_FLAG_TYPE.MAX];
+    Request request = new Request();
 
-    // UIを有効化する用のビットフラグ
-    BitFlag[] bitActiveFlag = new BitFlag[(int)ACTIVE_BIT_FLAG_TYPE.MAX];
-
-    // UIを無効化する用のビットフラグ
-    BitFlag[] bitUnActiveFlag = new BitFlag[(int)ACTIVE_BIT_FLAG_TYPE.MAX];
-
+    // UIのアクティブを管理するビットフラグ
+    RequestActiveUI requestActiveUI = new RequestActiveUI();
+    
     // 交換処理をするときに使うアイテムリスト
     List<IItem> exchangeItems = new List<IItem>();
 
@@ -114,16 +64,9 @@ public class MainGame_UIManager : MonoBehaviour
         possessListManager.Initialize();
         fade_CloudEffect.StartFadeOut();
 
-        for (int i = 0; i < (int)REQUEST_BIT_FLAG_TYPE.MAX; i++)
-        {
-            bitRequestFlag[i] = new BitFlag();
-        }
 
-        for (int i = 0; i < (int)ACTIVE_BIT_FLAG_TYPE.MAX; i++)
-        {
-            bitActiveFlag[i] = new BitFlag();
-            bitUnActiveFlag[i] = new BitFlag();
-        }
+        request.Initialize();
+        requestActiveUI.Initailize();
     }
 
     // Start is called before the first frame update
@@ -172,37 +115,37 @@ public class MainGame_UIManager : MonoBehaviour
     void UpdateActive()
     {
         // 移動バーを有効化
-        if (IsActive(ACTIVE_UI.PLACE_BAR))
+        if (requestActiveUI.IsActive(ACTIVE_UI.PLACE_BAR))
         {
             manager_placeBar.Active();
         }
 
         // 市場を有効化
-        if (IsActive(ACTIVE_UI.MARKET))
+        if (requestActiveUI.IsActive(ACTIVE_UI.MARKET))
         {
             marketWindow.Active();
         }
 
         // 噴水を有効化
-        if (IsActive(ACTIVE_UI.FOUNTAIN))
+        if (requestActiveUI.IsActive(ACTIVE_UI.FOUNTAIN))
         {
             fountainWindow.Active();
         }
 
         // QRリーダーを有効化
-        if (IsActive(ACTIVE_UI.QR_READER))
+        if (requestActiveUI.IsActive(ACTIVE_UI.QR_READER))
         {
             qrReaderWindow.Initialize();
         }
 
         // 建築ボードを有効化
-        if (IsActive(ACTIVE_UI.BUILDIGN_BOARD))
+        if (requestActiveUI.IsActive(ACTIVE_UI.BUILDIGN_BOARD))
         {
             buildingBoard.Active();
         }
 
         // フラグをすべて初期化する
-        bitActiveFlag[(int)ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY].Clear();
+        requestActiveUI.ClearActiveFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY);
     }
 
     /// <summary>
@@ -211,36 +154,36 @@ public class MainGame_UIManager : MonoBehaviour
     void UpdateUnActive()
     {
         // 移動バーを無効化
-        if (IsUnActive(ACTIVE_UI.PLACE_BAR))
+        if (requestActiveUI.IsUnActive(ACTIVE_UI.PLACE_BAR))
         {
             manager_placeBar.UnActive();
         }
 
         // 市場を無効化
-        if (IsUnActive(ACTIVE_UI.MARKET))
+        if (requestActiveUI.IsUnActive(ACTIVE_UI.MARKET))
         {
             marketWindow.UnActive();
         }
 
         // 噴水を無効化
-        if (IsUnActive(ACTIVE_UI.FOUNTAIN))
+        if (requestActiveUI.IsUnActive(ACTIVE_UI.FOUNTAIN))
         {
             fountainWindow.UnActive();
         }
 
         // QRリーダーを無効化
-        if (IsUnActive(ACTIVE_UI.QR_READER))
+        if (requestActiveUI.IsUnActive(ACTIVE_UI.QR_READER))
         {
         }
 
         // 建築ボードを無効化
-        if (IsUnActive(ACTIVE_UI.BUILDIGN_BOARD))
+        if (requestActiveUI.IsUnActive(ACTIVE_UI.BUILDIGN_BOARD))
         {
             buildingBoard.UnActive();
         }
 
         // フラグをすべて初期化する
-        bitUnActiveFlag[(int)ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY].Clear();
+        requestActiveUI.ClearUnActiveFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY);
     }
 
     /// <summary>
@@ -251,7 +194,7 @@ public class MainGame_UIManager : MonoBehaviour
         // 建築ボタン
         if (buildingBoard.IsClickBuildingButton())
         {
-            OnFlag(REQUEST_BIT_FLAG_TYPE.REQUEST, REQUEST_UI.BUILDING);
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.BUILDING);
         }
     }
 
@@ -269,16 +212,16 @@ public class MainGame_UIManager : MonoBehaviour
             fade_CloudEffect.StartFadeOut();
 
             // リクエスト処理
-            ReflectionRequest(REQUEST_BIT_FLAG_TYPE.FADE);
-            bitRequestFlag[(int)REQUEST_BIT_FLAG_TYPE.FADE].Clear();
+            request.Flag.Reflection(REQUEST_BIT_FLAG_TYPE.FADE);
+            request.Flag.Clear(REQUEST_BIT_FLAG_TYPE.FADE);
 
             // 有効化の処理
-            ReflectionActiveFlag(ACTIVE_BIT_FLAG_TYPE.FADE);
-            bitActiveFlag[(int)ACTIVE_BIT_FLAG_TYPE.FADE].Clear();
+            requestActiveUI.Reflection_ActiveFlag(ACTIVE_BIT_FLAG_TYPE.FADE);
+            requestActiveUI.ClearActiveFlag(ACTIVE_BIT_FLAG_TYPE.FADE);
 
             // 無効化の処理
-            ReflectionUnActiveFlag(ACTIVE_BIT_FLAG_TYPE.FADE);
-            bitUnActiveFlag[(int)ACTIVE_BIT_FLAG_TYPE.FADE].Clear();
+            requestActiveUI.Reflection_UnActiveFlag(ACTIVE_BIT_FLAG_TYPE.FADE);
+            requestActiveUI.ClearUnActiveFlag(ACTIVE_BIT_FLAG_TYPE.FADE);
         }
     }
 
@@ -303,10 +246,13 @@ public class MainGame_UIManager : MonoBehaviour
         // 戻るボタン
         if (fountainWindow.IsBack())
         {
-            ActiveUIOnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.PLACE_BAR);
-            UnActiveUIOnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.FOUNTAIN);
+            requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.PLACE_BAR);
+            requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.FOUNTAIN);
 
-            OnFlag(REQUEST_BIT_FLAG_TYPE.FADE, REQUEST_UI.UNDO_CAMERA);
+            // カメラの挙動リクエスト
+
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.FADE, REQUEST.UNDO_CAMERA | REQUEST.START_CAMERA);
+
             fade_CloudEffect.StartFadeIn();
         }
 
@@ -319,7 +265,7 @@ public class MainGame_UIManager : MonoBehaviour
         // Qrコードを生成した
         if(fountainWindow.IsCreateQR())
         {
-            OnFlag(REQUEST_BIT_FLAG_TYPE.REQUEST, REQUEST_UI.CREADED_QR);
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CREADED_QR);
         }
     }
 
@@ -331,10 +277,13 @@ public class MainGame_UIManager : MonoBehaviour
         // 戻るボタン
         if (marketWindow.IsBack())
         {
-            ActiveUIOnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.PLACE_BAR);
-            UnActiveUIOnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.MARKET);
+            requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.PLACE_BAR);
+            requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.MARKET);
 
-            OnFlag(REQUEST_BIT_FLAG_TYPE.FADE, REQUEST_UI.UNDO_CAMERA);
+            // カメラの挙動リクエスト
+
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.FADE, REQUEST.UNDO_CAMERA | REQUEST.START_CAMERA);
+
             fade_CloudEffect.StartFadeIn();
         }
 
@@ -350,24 +299,34 @@ public class MainGame_UIManager : MonoBehaviour
     /// </summary>
     private void UpdateRequest_PlaceBar()
     {
+        // 拠点ボタンが有効化どうか
+        if (manager_placeBar.IsActiveBase())
+        {
+            requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.BUILDIGN_BOARD);
+        }
+
         // 噴水ウィンドウを表示
         if (manager_placeBar.IsActiveFountain())
         {
-            ActiveUIOnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.FOUNTAIN);
-            UnActiveUIOnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.PLACE_BAR);
+            requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.FOUNTAIN);
+            requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.PLACE_BAR);
+
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.STOP_CAMERA);
         }
 
         // 市場ウィンドウを表示
         if (manager_placeBar.IsActiveShop())
         {
-            ActiveUIOnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.MARKET);
-            UnActiveUIOnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.PLACE_BAR);
+            requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.MARKET);
+            requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.PLACE_BAR);
+
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.STOP_CAMERA);
         }
 
         // QRリーダーを起動
         if (manager_placeBar.GetIsQRLeader())
         {
-            ActiveUIOnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.QR_READER);
+            requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.QR_READER);
         }
 
         // 移動する
@@ -376,17 +335,42 @@ public class MainGame_UIManager : MonoBehaviour
             fade_CloudEffect.StartFadeIn();
 
             // フェードインが終わったら
-            OnFlag(REQUEST_BIT_FLAG_TYPE.FADE, REQUEST_UI.MOVE_CAMERA);
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.FADE, REQUEST.MOVE_CAMERA);
         }
     }
 
     /// <summary>
-    /// カメラ移動終了時の処理
+    /// リクエストの返答
     /// </summary>
-    public void FinalizeMoveCamera()
+    private void UpdateReplayRequest()
     {
-        OffFlag(REQUEST_BIT_FLAG_TYPE.REQUEST, REQUEST_UI.MOVE_CAMERA);
-        OffFlag(REQUEST_BIT_FLAG_TYPE.REQUEST, REQUEST_UI.UNDO_CAMERA);
+        // 交換失敗
+        if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.EXCHANGE_FALIED))
+        {
+            // 交換終了時の処理
+            FinalizeExchange(false);
+        }
+
+        // 交換成功時の処理
+        if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.EXCHANGE_SUCCESS))
+        {
+            // 交換終了時の処理
+            FinalizeExchange(true);
+        }
+
+        // 建築失敗
+        if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.BUILDING_FALIED))
+        {
+            FinalizeBuilding(false);
+        }
+
+        // 建築成功
+        if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.BUILDING_SUCCESS))
+        {
+            FinalizeBuilding(true);
+        }
+
+        request.ReplayFlag.Clear();
     }
 
     /// <summary>
@@ -433,7 +417,6 @@ public class MainGame_UIManager : MonoBehaviour
         {
             buildingBoard.ActiveMissMessage();
         }
-        OffFlag(REQUEST_BIT_FLAG_TYPE.REQUEST ,REQUEST_UI.BUILDING);
     }
 
     //リザルトに行くときのフェード
@@ -449,15 +432,14 @@ public class MainGame_UIManager : MonoBehaviour
     /// <param name="_items"></param>
     public void SetActiveBuildingBoard(bool isActive, List<IItem> _items)
     {
-        
         if (isActive && _items != null)
         {
             buildingBoard.SetItems(_items);
-            ActiveUIOnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.BUILDIGN_BOARD);
+            requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.BUILDIGN_BOARD);
         }
         else
         {
-            UnActiveUIOnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.BUILDIGN_BOARD);
+            requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.BUILDIGN_BOARD);
         }
     }
 
@@ -471,7 +453,7 @@ public class MainGame_UIManager : MonoBehaviour
     // カメラの移動先をTypeで取得
     public Type GetPlaceType()
     {
-        if (IsFlag(REQUEST_UI.MOVE_CAMERA))
+        if (request.Flag.IsFlag(REQUEST.MOVE_CAMERA))
         {
             return manager_placeBar.GetchangeType();
         }
@@ -488,132 +470,20 @@ public class MainGame_UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// リクエストがあるかどうかの確認
-    /// </summary>
-    /// <param name="_request"></param>
-    /// <returns></returns>
-    public bool IsFlag(REQUEST_UI _request)
-    {
-        return bitRequestFlag[(int)REQUEST_BIT_FLAG_TYPE.REQUEST].IsFlag((int)_request);
-    }
-
-    /// <summary>
-    /// フラグを立てる
-    /// </summary>
-    /// <param name="_request"></param>
-    void OnFlag(REQUEST_BIT_FLAG_TYPE _type, REQUEST_UI _request)
-    {
-        bitRequestFlag[(int)_type].OnFlag((int)_request);
-    }
-
-    /// <summary>
-    /// フラグを伏せる
-    /// </summary>
-    /// <param name="_request"></param>
-    void OffFlag(REQUEST_BIT_FLAG_TYPE _type, REQUEST_UI _request)
-    {
-        bitRequestFlag[(int)_type].OffFlag((int)_request);
-    }
-
-    /// <summary>
-    /// ビットフラグをリクエストに反映させる
-    /// </summary>
-    /// <param name="_type"></param>
-    void ReflectionRequest(REQUEST_BIT_FLAG_TYPE _type)
-    {
-        int bufBitFlag = bitRequestFlag[(int)_type].GetBitFlag();
-        bitRequestFlag[(int)REQUEST_BIT_FLAG_TYPE.REQUEST].OnFlag(bufBitFlag);
-    }
-
-
-    /// <summary>
     /// フェードインが終わったタイミングを知らせる
     /// </summary>
     /// <returns></returns>
-    bool IsisFinishFadeIn()
+    public bool IsisFinishFadeIn()
     {
         return isFinishFadeIn;
     }
-
+    
     /// <summary>
-    /// 有効化するUIのビットフラグを立てる
+    /// リクエストのビットフラグを取得する
     /// </summary>
-    /// <param name="_type"></param>
-    /// <param name="_ui"></param>
-    void ActiveUIOnFlag(ACTIVE_BIT_FLAG_TYPE _type, ACTIVE_UI _ui)
-    {
-        bitActiveFlag[(int)_type].OnFlag((int)_ui);
-    }
-
-    /// <summary>
-    /// 有効化するUIのビットフラグを伏せる
-    /// </summary>
-    /// <param name="_type"></param>
-    /// <param name="_ui"></param>
-    void ActiveUIOffFlag(ACTIVE_BIT_FLAG_TYPE _type, ACTIVE_UI _ui)
-    {
-        bitActiveFlag[(int)_type].OffFlag((int)_ui);
-    }
-
-    /// <summary>
-    /// 無効化するUIのビットフラグを立てる
-    /// </summary>
-    /// <param name="_type"></param>
-    /// <param name="_ui"></param>
-    void UnActiveUIOnFlag(ACTIVE_BIT_FLAG_TYPE _type, ACTIVE_UI _ui)
-    {
-        bitUnActiveFlag[(int)_type].OnFlag((int)_ui);
-    }
-
-    /// <summary>
-    /// 無効化するUIのビットフラグを伏せる
-    /// </summary>
-    /// <param name="_type"></param>
-    /// <param name="_ui"></param>
-    void UnActiveUIOffFlag(ACTIVE_BIT_FLAG_TYPE _type, ACTIVE_UI _ui)
-    {
-        bitUnActiveFlag[(int)_type].OffFlag((int)_ui);
-    }
-
-    /// <summary>
-    /// 有効化するかどうかを取得する
-    /// </summary>
-    /// <param name="_ui"></param>
     /// <returns></returns>
-    bool IsActive(ACTIVE_UI _ui)
+    public Request GetRequest()
     {
-        return bitActiveFlag[(int)ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY].IsFlag((int)_ui);
-    }
-
-
-    /// <summary>
-    /// 無効化するかどうかを取得する
-    /// </summary>
-    /// <param name="_ui"></param>
-    /// <returns></returns>
-    bool IsUnActive(ACTIVE_UI _ui)
-    {
-        return bitUnActiveFlag[(int)ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY].IsFlag((int)_ui);
-    }
-
-    /// <summary>
-    /// ビットフラグをリクエストに反映させる
-    /// </summary>
-    /// <param name="_type"></param>
-    void ReflectionActiveFlag(ACTIVE_BIT_FLAG_TYPE _type)
-    {
-        int bufBitFlag = bitActiveFlag[(int)_type].GetBitFlag();
-        bitActiveFlag[(int)ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY].OnFlag((int)bufBitFlag);
-    }
-
-
-    /// <summary>
-    /// ビットフラグをリクエストに反映させる
-    /// </summary>
-    /// <param name="_type"></param>
-    void ReflectionUnActiveFlag(ACTIVE_BIT_FLAG_TYPE _type)
-    {
-        int bufBitFlag = bitUnActiveFlag[(int)_type].GetBitFlag();
-        bitUnActiveFlag[(int)ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY].OnFlag(bufBitFlag);
+        return request;
     }
 }
