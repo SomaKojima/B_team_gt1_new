@@ -65,22 +65,7 @@ public class Manager_PlaceBar : MonoBehaviour
 
             m_active = !m_active;
 
-
-            for (int i = 0; i < BASE_NUM; i++)
-            {
-                if (m_active)
-                {
-                    m_placeButtons[i].gameObject.SetActive(true);
-                    m_pencil.gameObject.SetActive(true);
-                }
-                else
-                {
-                    m_placeButtons[i].gameObject.SetActive(false);
-                    m_pencil.gameObject.SetActive(false);
-                }
-
-            }
-
+            SetActiveBase(m_active);
         }
 
         isClickButton = false;
@@ -212,5 +197,24 @@ public class Manager_PlaceBar : MonoBehaviour
     public bool IsActiveBase()
     {
         return m_active;
+    }
+
+    public void SetActiveBase(bool _isActive)
+    {
+        m_active = _isActive;
+        for (int i = 0; i < BASE_NUM; i++)
+        {
+            if (m_active)
+            {
+                m_placeButtons[i].gameObject.SetActive(true);
+                m_pencil.gameObject.SetActive(true);
+            }
+            else
+            {
+                m_placeButtons[i].gameObject.SetActive(false);
+                m_pencil.gameObject.SetActive(false);
+            }
+
+        }
     }
 }

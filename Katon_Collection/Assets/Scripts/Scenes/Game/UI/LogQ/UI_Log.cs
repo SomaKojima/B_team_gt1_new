@@ -17,13 +17,12 @@ public class UI_Log : MonoBehaviour
     bool m_timeActiveFlag = false;
 
     
+    
     //初期化
     public void Initialize(string _text,string _time)
     {
         m_text.text = _text;
         m_time.text = _time.ToString();
-
-        
     }
 
     //大きいウィンドウ

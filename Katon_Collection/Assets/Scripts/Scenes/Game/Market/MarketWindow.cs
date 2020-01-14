@@ -55,8 +55,6 @@ public class MarketWindow : MonoBehaviour
         // タブを切り替え
         ChangeTab();
         
-        exchangeItemList.Clear();
-
         if (commonWindow.IsExchange())
         {
             exchangeItemList = commonWindow.GetExchangeItemList();

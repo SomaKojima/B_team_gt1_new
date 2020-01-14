@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UI_LogWindow : MonoBehaviour
 {
-  
+    const int MAX_LOG = 10;
     //フラグ
     bool m_sizeFlag = false;
 
@@ -30,16 +30,25 @@ public class UI_LogWindow : MonoBehaviour
 
     private void Start()
     {
-        AddLog("444", 6000);
-        AddLog("444", 3000);
-        
-        UpdateMode(m_logType);
+        //UpdateMode(m_logType);
+        if (m_uI_Manager.Logs.Count == 0)
+        {
+            m_image.gameObject.SetActive(false);
+        }
     }
 
     //ロゴを追加する
-    public void AddLog(string _text,float _time)
+    public void AddLog(string _text, float _time)
     {
+        Debug.Log(_time);
         m_uI_Manager.Add(m_uI_FactoryLog.Create(_text, _time));
+
+        if (m_uI_Manager.Logs.Count > MAX_LOG)
+        {
+            m_uI_Manager.Delete(0);
+        }
+
+        m_image.gameObject.SetActive(true);
     }
 
     //クリックイベント
@@ -58,7 +67,7 @@ public class UI_LogWindow : MonoBehaviour
         }
 
 
-        UpdateMode(m_logType);
+        //UpdateMode(m_logType);
     }
 
     private void UpdateMode(LogWindowType type)

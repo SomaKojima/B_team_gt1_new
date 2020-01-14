@@ -49,12 +49,13 @@ public class MainGame : MonoBehaviour
         owner_floor.Initialize();
         owner_signBoard.Initialize(mainCamera.IsSigneBoardInScreen);
 
-        //manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(2);
-        for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
-        {
-            ITEM_TYPE type = (ITEM_TYPE)i;
-            manager_item.GetItem(type).SetCount(10);
-        }
+        manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(1);
+        //for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
+        //{
+        //    ITEM_TYPE type = (ITEM_TYPE)i;
+        //    manager_item.GetItem(type).SetCount(10);
+        //}
+
         manager_SI_Player.UpdatePlayers();
 
         uiManager.Initialize(manager_item);
@@ -73,9 +74,6 @@ public class MainGame : MonoBehaviour
             ITEM_TYPE type = (ITEM_TYPE)i;
             owner_human.MatchItemsHumans(manager_item.GetItem(type), Type.cave);
         }
-
-        // 交換の更新処理
-        UpdateExchange();
         
         // マンションのリクエスト処理
         UpdateRequest_SignBoard();
@@ -214,11 +212,12 @@ public class MainGame : MonoBehaviour
             mainCamera.ChangeMoveType(CameraMove.CAMERA_MOVE_TYPE.MOUSE_OUTRANGE);
         }
 
+        // 交換
         if (_request.Flag.IsFlag(REQUEST.EXCHANGE))
         {
             // アイテムのマネージャに追加・削除
             bool isExchangable = manager_item.AddItems(_request.ExchangeItems);
-            
+
             // 交換終了したことを相手に伝える
             if (isExchangable && uiManager.GetExchangeOtherID() >= 0)
             {
@@ -271,35 +270,5 @@ public class MainGame : MonoBehaviour
         
 
         _request.FinalizeRequest();
-    }
-    
-    /// <summary>
-    /// 交換の更新処理
-    /// </summary>
-    void UpdateExchange()
-    {
-        // UIの交換処理
-        List<IItem> bufItems = new List<IItem>();
-        if (uiManager.IsExchange(ref bufItems))
-        {
-            // アイテムのマネージャに追加・削除
-            bool isExchangable = manager_item.AddItems(bufItems);
-
-
-            // 交換終了したことを相手に伝える
-            if (isExchangable && uiManager.GetExchangeOtherID() >= 0)
-            {
-                for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
-                {
-                    if (uiManager.GetExchangeOtherID() == manager_SI_Player.GetPlayer(i).ID)
-                    {
-                        manager_SI_Player.GetPlayer(i).IsExcange = false;
-                    }
-                }
-            }
-
-            // 交換終了時の処理
-            uiManager.FinalizeExchange(isExchangable);
-        }
     }
 }

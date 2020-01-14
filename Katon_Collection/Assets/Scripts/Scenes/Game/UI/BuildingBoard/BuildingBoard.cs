@@ -63,7 +63,6 @@ public class BuildingBoard : MonoBehaviour
         // 建築ボタンをクリック
         if (button.IsClick())
         {
-            Debug.Log("a");
             button.OnClickProcess();
             UpdateMode();
             mode = mode + 1;

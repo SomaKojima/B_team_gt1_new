@@ -48,9 +48,11 @@ public class ContextMoveState
     {
         if (type == stateType) return;
         stateType = type;
+        human.Velocity = new Vector3(Human.SPEED, 0.0f, Human.SPEED); ;
         switch (type)
         {
             case MOVE_STATE_TYPE.GO_TO_TARGET:
+                Debug.Log("initialize");
                 goToTarget.Initialize(target);
                 Debug.Log(target);
                 state = goToTarget;

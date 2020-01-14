@@ -60,6 +60,7 @@ public class Manager_Item : MonoBehaviour
     /// <returns></returns>
     public bool AddItems(List<IItem> _items)
     {
+        if (_items == null) return false;
         if (!IsExchange(_items)) return false;
 
         // アイテムの増減

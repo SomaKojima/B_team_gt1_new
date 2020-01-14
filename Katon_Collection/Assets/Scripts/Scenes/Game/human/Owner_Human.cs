@@ -54,9 +54,10 @@ public class Owner_Human : MonoBehaviour
         foreach (Human human in manager_human.GetList())
         {
             // 掴まれている
-            if (RayCheck(human.GetComponent<Collider>(), hitColider))
+            //if (RayCheck(human.GetComponent<Collider>(), hitColider))
+            if(human.IsPick)
             {
-                human.IsPick = true;
+                //human.IsPick = true;
                 isPick = true;
                 request.Flag.OffFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_SCROLL);
                 request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_OUT_RANGE);  
@@ -112,6 +113,7 @@ public class Owner_Human : MonoBehaviour
         if (!Input.GetMouseButton(0)) return false;
         if (humanCollider == null) return false;
         if (hitCollider == null) return false;
+        Debug.Log(hitCollider.gameObject.name);
         
         if (hitCollider == humanCollider)
         {

@@ -20,8 +20,7 @@ public class MainGame_UIManager : MonoBehaviour
     // フェード
     [SerializeField]
     Fade_CloudEffect fade_CloudEffect = null;
-
-
+    
     // 噴水のウィンドウ
     [SerializeField]
     FountainWindow fountainWindow;
@@ -30,10 +29,17 @@ public class MainGame_UIManager : MonoBehaviour
     [SerializeField]
     MarketWindow marketWindow;
 
-
     // 所持アイテムウィンドウ
     [SerializeField]
     PossessListManager possessListManager;
+
+    // ログのウィンドウ
+    [SerializeField]
+    UI_LogWindow logWindow;
+
+    // タイマー
+    [SerializeField]
+    UI_Time timer;
 
 
     // リクエスト用のビットフラグ
@@ -76,7 +82,6 @@ public class MainGame_UIManager : MonoBehaviour
     {
 
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -84,6 +89,8 @@ public class MainGame_UIManager : MonoBehaviour
         // 初期化
         exchangeItems.Clear();
 
+        // 返答のリクエスト処理
+        UpdateReplayRequest();
         
         // フェードのリクエスト処理
         UpdateRequest_Fade();
@@ -109,6 +116,7 @@ public class MainGame_UIManager : MonoBehaviour
 
         // UIを無効化する処理
         UpdateUnActive();
+        
     }
 
     /// <summary>
@@ -292,7 +300,8 @@ public class MainGame_UIManager : MonoBehaviour
         // 交換
         if (marketWindow.IsExchange())
         {
-            exchangeItems = marketWindow.GetExchangeItemList();
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.EXCHANGE);
+            request.ExchangeItems = marketWindow.GetExchangeItemList();
         }
     }
 
@@ -304,7 +313,7 @@ public class MainGame_UIManager : MonoBehaviour
         // 拠点ボタンが有効化どうか
         if (manager_placeBar.IsActiveBase())
         {
-            requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.BUILDIGN_BOARD);
+            requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.BUILDIGN_BOARD);
         }
 
         // 噴水ウィンドウを表示
@@ -338,6 +347,7 @@ public class MainGame_UIManager : MonoBehaviour
 
             // フェードインが終わったら
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.FADE, REQUEST.CAMERA_MOVE_PLACE);
+            manager_placeBar.SetActiveBase(false);
         }
     }
 
@@ -351,6 +361,7 @@ public class MainGame_UIManager : MonoBehaviour
         {
             // 交換終了時の処理
             FinalizeExchange(false);
+            AddLog("こうかん　\nしっぱい");
         }
 
         // 交換成功時の処理
@@ -358,18 +369,21 @@ public class MainGame_UIManager : MonoBehaviour
         {
             // 交換終了時の処理
             FinalizeExchange(true);
+            AddLog("こうかん　\nせいこう");
         }
 
         // 建築失敗
         if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.BUILDING_FALIED))
         {
             FinalizeBuilding(false);
+            AddLog("けんちく　\nしっぱい");
         }
 
         // 建築成功
         if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.BUILDING_SUCCESS))
         {
             FinalizeBuilding(true);
+            AddLog("けんちく　\nせいこう");
         }
 
         request.ReplayFlag.Clear();
@@ -443,6 +457,11 @@ public class MainGame_UIManager : MonoBehaviour
         {
             requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.BUILDIGN_BOARD);
         }
+    }
+
+    public void AddLog(string _text)
+    {
+        logWindow.AddLog(_text, timer.GetTotalTime());
     }
 
     // 交換するかどうかのフラグを取得

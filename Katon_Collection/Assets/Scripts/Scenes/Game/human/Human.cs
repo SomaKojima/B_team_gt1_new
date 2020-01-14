@@ -76,7 +76,7 @@ public class Human : MonoBehaviour
         {
             placeType = request.ChangePlaceType;
             move.SetTarget(request.AreaCenterPosition);
-            Debug.Log(request.AreaCenterPosition);
+            //Debug.Log(request.AreaCenterPosition);
             //move.Change(this, MOVE_STATE_TYPE.GO_TO_TARGET);
         }
         // 収集成功
@@ -91,6 +91,16 @@ public class Human : MonoBehaviour
 
         }
         request.ReplayFlag.Clear();
+    }
+
+    public void Flip(bool isFlip)
+    {
+        if ((isFlip && renderer.gameObject.transform.localScale.x > 0) ||
+            (!isFlip && renderer.gameObject.transform.localScale.x < 0))
+        {
+            Debug.Log("flip");
+            renderer.gameObject.transform.localScale = new Vector3(renderer.gameObject.transform.localScale.x * -1, renderer.gameObject.transform.localScale.y, renderer.gameObject.transform.localScale.z);
+        }
     }
 
     /// <summary>
@@ -141,5 +151,18 @@ public class Human : MonoBehaviour
     public Request GetRequest()
     {
         return request;
+    }
+
+    public void ClickEnter()
+    {
+        //if (Input.GetMouseButton(0))
+        //{
+        //    IsPick = true;
+        //}
+    }
+
+    void OnMouseDown()
+    {
+        isPick = true;
     }
 }
