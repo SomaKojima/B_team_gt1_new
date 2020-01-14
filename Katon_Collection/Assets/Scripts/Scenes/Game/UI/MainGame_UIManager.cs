@@ -67,6 +67,8 @@ public class MainGame_UIManager : MonoBehaviour
 
         request.Initialize();
         requestActiveUI.Initailize();
+
+        request.Initialize();
     }
 
     // Start is called before the first frame update
@@ -251,7 +253,7 @@ public class MainGame_UIManager : MonoBehaviour
 
             // カメラの挙動リクエスト
 
-            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.FADE, REQUEST.UNDO_CAMERA | REQUEST.START_CAMERA);
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.FADE, REQUEST.CAMERA_UNDO | REQUEST.CAMERA_START);
 
             fade_CloudEffect.StartFadeIn();
         }
@@ -282,7 +284,7 @@ public class MainGame_UIManager : MonoBehaviour
 
             // カメラの挙動リクエスト
 
-            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.FADE, REQUEST.UNDO_CAMERA | REQUEST.START_CAMERA);
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.FADE, REQUEST.CAMERA_UNDO | REQUEST.CAMERA_START);
 
             fade_CloudEffect.StartFadeIn();
         }
@@ -311,7 +313,7 @@ public class MainGame_UIManager : MonoBehaviour
             requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.FOUNTAIN);
             requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.PLACE_BAR);
 
-            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.STOP_CAMERA);
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_STOP);
         }
 
         // 市場ウィンドウを表示
@@ -320,7 +322,7 @@ public class MainGame_UIManager : MonoBehaviour
             requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.MARKET);
             requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.PLACE_BAR);
 
-            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.STOP_CAMERA);
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_STOP);
         }
 
         // QRリーダーを起動
@@ -335,7 +337,7 @@ public class MainGame_UIManager : MonoBehaviour
             fade_CloudEffect.StartFadeIn();
 
             // フェードインが終わったら
-            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.FADE, REQUEST.MOVE_CAMERA);
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.FADE, REQUEST.CAMERA_MOVE_PLACE);
         }
     }
 
@@ -453,7 +455,7 @@ public class MainGame_UIManager : MonoBehaviour
     // カメラの移動先をTypeで取得
     public Type GetPlaceType()
     {
-        if (request.Flag.IsFlag(REQUEST.MOVE_CAMERA))
+        if (request.Flag.IsFlag(REQUEST.CAMERA_MOVE_PLACE))
         {
             return manager_placeBar.GetchangeType();
         }

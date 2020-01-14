@@ -13,17 +13,30 @@ public class Human : MonoBehaviour
     [SerializeField]
     Renderer renderer;
 
+    [SerializeField]
+    IconMove icon;
+
     ContextMoveState move = new ContextMoveState();
     bool isCollect = false;
     bool isPick = false;
 
-    Vector3 velocity = Vector3.zero;
-    ITEM_TYPE type;
+    Request request = new Request();
 
+    Vector3 velocity = Vector3.zero;
+
+    ITEM_TYPE type;
+    
+    Type placeType = Type.cave;
+
+    /// <summary>
+    /// 初期化
+    /// </summary>
+    /// <param name="_type"></param>
     public void Initialize(ITEM_TYPE _type)
     {
         type = _type;
         renderer.material = itemContextTable.GetItemContex(_type).GetMaterial();
+        request.Initialize();
     }
 
     // Start is called before the first frame update
@@ -32,35 +45,101 @@ public class Human : MonoBehaviour
         velocity = new Vector3(Human.SPEED, 0.0f, Human.SPEED);
         move.Initialize(this);
     }
-
+    
     // Update is called once per frame
     void Update()
     {
         transform.position += Velocity;
         move.Excute(this);
-        
+
+        if (isPick)
+        {
+            // 場所を変更
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.POSITION_TO_PLACE);
+            request.ChangePosition = gameObject.transform.position;
+        }
+
+        if(isCollect)
+        {
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.COLLECT);
+            request.CollectItemType = type;
+            request.CollectPlaceType = placeType;
+        }
+
+        UpdateReplayRequest();
     }
 
+    void UpdateReplayRequest()
+    {
+        // 場所を変更
+        if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.POSITION_TO_PLACE_SUCCESS))
+        {
+            placeType = request.ChangePlaceType;
+            move.SetTarget(request.AreaCenterPosition);
+            Debug.Log(request.AreaCenterPosition);
+            //move.Change(this, MOVE_STATE_TYPE.GO_TO_TARGET);
+        }
+        // 収集成功
+        if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.COLLECT_SUCCESS))
+        {
+            icon.Initialize(type);
+        }
+
+        // 収集失敗
+        if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.COLLECT_FALIED))
+        {
+
+        }
+        request.ReplayFlag.Clear();
+    }
+
+    /// <summary>
+    /// 収集
+    /// </summary>
     public bool IsCollect
     {
         get { return isCollect; }
         set { isCollect = value; }
     }
 
+    /// <summary>
+    /// 掴まれている
+    /// </summary>
     public bool IsPick
     {
         get { return isPick; }
-        set { isPick = value; }
+        set { isPick = value;}
     }
 
+    /// <summary>
+    /// 速度
+    /// </summary>
     public Vector3 Velocity
     {
         get { return velocity; }
         set { velocity = value; }
     }
 
+    /// <summary>
+    /// 収集するアイテムのタイプ
+    /// </summary>
+    /// <returns></returns>
     public ITEM_TYPE GetItemType()
     {
         return type;
+    }
+
+    /// <summary>
+    /// 今いる場所を取得
+    /// </summary>
+    /// <returns></returns>
+    public Type GetPlaceType()
+    {
+        return placeType;
+    }
+
+    public Request GetRequest()
+    {
+        return request;
     }
 }

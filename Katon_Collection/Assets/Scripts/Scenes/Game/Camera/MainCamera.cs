@@ -58,4 +58,9 @@ public class MainCamera : MonoBehaviour
     {
         cameraMove.StartMove();
     }
+
+    public void ChangeMoveType(CameraMove.CAMERA_MOVE_TYPE _type)
+    {
+        cameraMove.ChangeMoveType(_type);
+    }
 }

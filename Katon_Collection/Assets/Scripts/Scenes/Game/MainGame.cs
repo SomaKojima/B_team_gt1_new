@@ -32,7 +32,11 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     MainGame_UIManager uiManager;
 
-    Manager_Request manager_request = new Manager_Request();
+    [SerializeField]
+    Owner_BuildingResource owner_buildingResource;
+
+    [SerializeField]
+    JudgeField judgeField;
     
     // 現在地
     Type currentPlaceType = Type.none;
@@ -55,10 +59,9 @@ public class MainGame : MonoBehaviour
 
         uiManager.Initialize(manager_item);
 
-        manager_request.Initialize();
+        //manager_request.Add(owner_human.GetRequest());
 
-        manager_request.Add(uiManager.GetRequest());
-        manager_request.Add(owner_human.GetRequest());
+        owner_buildingResource.Initialize();
     }
     
     // Update is called once per frame
@@ -68,7 +71,7 @@ public class MainGame : MonoBehaviour
         for (int i = 0; i < (int)ITEM_TYPE.WOOD; i++)
         {
             ITEM_TYPE type = (ITEM_TYPE)i;
-            owner_human.MatchItemsHumans(manager_item.GetItem(type), false);
+            owner_human.MatchItemsHumans(manager_item.GetItem(type), Type.cave);
         }
 
         // 交換の更新処理
@@ -79,6 +82,19 @@ public class MainGame : MonoBehaviour
         
         // リクエストの処理
         UpdateRequestList();
+    }
+
+    void UpdateRequest_UI()
+    {
+        // フェードイン終了時
+        if (uiManager.IsisFinishFadeIn())
+        {
+            foreach (Request r in owner_human.GetRequests())
+            {
+                r.Flag.Reflection(REQUEST_BIT_FLAG_TYPE.FADE);
+            }
+            uiManager.GetRequest().Flag.Reflection(REQUEST_BIT_FLAG_TYPE.FADE);
+        }
     }
     
     /// <summary>
@@ -123,10 +139,13 @@ public class MainGame : MonoBehaviour
     /// </summary>
     void UpdateRequestList()
     {
-        foreach (Request _request in manager_request.RequestList)
+        UpdateRequest(uiManager.GetRequest());
+        foreach (Request _request in owner_human.GetRequests())
         {
             UpdateRequest(_request);
         }
+
+        UpdateRequest(owner_human.GetRequest());
     }
 
     /// <summary>
@@ -156,31 +175,43 @@ public class MainGame : MonoBehaviour
             }
 
             // 建築終了後のUIの処理
-            uiManager.FinalizeBuilding(_isExchange);
+            _request.FinalizeBuilding(_isExchange);
         }
 
         // カメラの移動
-        if (_request.Flag.IsFlag(REQUEST.MOVE_CAMERA))
+        if (_request.Flag.IsFlag(REQUEST.CAMERA_MOVE_PLACE))
         {
             mainCamera.Move(uiManager.GetPlaceType());
         }
 
         // カメラをひとつ前に戻す
-        if (_request.Flag.IsFlag(REQUEST.UNDO_CAMERA))
+        if (_request.Flag.IsFlag(REQUEST.CAMERA_UNDO))
         {
             mainCamera.Undo();
         }
 
         // カメラを止める
-        if (_request.Flag.IsFlag(REQUEST.STOP_CAMERA))
+        if (_request.Flag.IsFlag(REQUEST.CAMERA_STOP))
         {
             mainCamera.StopMove();
         }
 
         // カメラの動きを再開する
-        if (_request.Flag.IsFlag(REQUEST.START_CAMERA))
+        if (_request.Flag.IsFlag(REQUEST.CAMERA_START))
         {
             mainCamera.StartMove();
+        }
+
+        // カメラの動きをscrollに変える
+        if (_request.Flag.IsFlag(REQUEST.CAMERA_SCROLL))
+        {
+            mainCamera.ChangeMoveType(CameraMove.CAMERA_MOVE_TYPE.SCROLL);
+        }
+
+        // カメラの動きを範囲外に変える
+        if (_request.Flag.IsFlag(REQUEST.CAMERA_OUT_RANGE))
+        {
+            mainCamera.ChangeMoveType(CameraMove.CAMERA_MOVE_TYPE.MOUSE_OUTRANGE);
         }
 
         if (_request.Flag.IsFlag(REQUEST.EXCHANGE))
@@ -216,21 +247,32 @@ public class MainGame : MonoBehaviour
             }
         }
 
-        _request.Flag.Clear(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY);
+        // 収集
+        if (_request.Flag.IsFlag(REQUEST.COLLECT))
+        {
+            bool isCollectable = owner_buildingResource.GetBuildingResource(_request.CollectPlaceType).IsCollectable(_request.CollectItemType);
+
+            if (isCollectable)
+            {
+                // 資源の追加
+                List<IItem> _items = owner_buildingResource.GetBuildingResource(_request.CollectPlaceType).GetItems(_request.CollectItemType);
+                manager_item.AddItems(_items);
+            }
+            _request.FinalizeCollect(isCollectable);
+        }
+
+        // 座標を場所に変換
+        if (_request.Flag.IsFlag(REQUEST.POSITION_TO_PLACE))
+        {
+            _request.ChangePlaceType = judgeField.ChangePositionToPlaceType(_request.ChangePosition);
+            _request.AreaCenterPosition = judgeField.GetAreaCenterPosition(_request.ChangePlaceType);
+            _request.FinalizePositionToPlace();
+        }
+        
+
+        _request.FinalizeRequest();
     }
     
-    /// <summary>
-    /// 人間のリクエスト処理
-    /// </summary>
-    void UpdateRequest_Human()
-    {
-        // 掴まれている人間がいる
-        if (owner_human.IsPick())
-        {
-            mainCamera.StopMove();
-        }
-    }
-
     /// <summary>
     /// 交換の更新処理
     /// </summary>

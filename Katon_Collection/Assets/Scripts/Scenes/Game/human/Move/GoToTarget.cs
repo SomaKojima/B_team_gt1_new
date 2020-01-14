@@ -8,7 +8,7 @@ public class GoToTarget : MoveState
 
     public void Initialize(Vector3 _target)
     {
-
+        target = _target;
     }
 
 
@@ -16,7 +16,7 @@ public class GoToTarget : MoveState
     {
         MoveTargetPosition(human, target);
 
-        return MOVE_STATE_TYPE.NONE;
+        return MOVE_STATE_TYPE.GO_TO_TARGET;
     }
 
     // 目的の場所に移動する

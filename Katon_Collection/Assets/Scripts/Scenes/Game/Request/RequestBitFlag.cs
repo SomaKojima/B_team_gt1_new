@@ -19,13 +19,17 @@ public enum REQUEST_BIT_FLAG_TYPE
 public enum REQUEST
 {
     NONE = 0,
-    MOVE_CAMERA = 1 << 1,       // カメラを移動
-    UNDO_CAMERA = 1 << 2,       // ひとつ前にカメラに戻る
+    CAMERA_MOVE_PLACE = 1 << 1,       // カメラを移動
+    CAMERA_UNDO = 1 << 2,       // ひとつ前にカメラに戻る
     BUILDING =  1 << 3,          // 建築する
     CREADED_QR = 1 << 4,        // QRを作成したフラグ
-    STOP_CAMERA = 1 << 5,       // カメラを止める
-    START_CAMERA = 1 << 6,      // カメラを動きを再開する
+    CAMERA_STOP = 1 << 5,       // カメラを止める
+    CAMERA_START = 1 << 6,      // カメラの動きを再開
     EXCHANGE    = 1 << 7,       // 交換
+    CAMERA_SCROLL = 1 << 8,      // カメラの動きをscrollにする
+    CAMERA_OUT_RANGE = 1 << 9,  // カメラの動きをマウスカーソルが範囲外の時にする
+    COLLECT = 1 << 10,          // 収集
+    POSITION_TO_PLACE = 1 << 11,   // 座標から場所のタイプに変換処理
 
     MAX
 }

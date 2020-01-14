@@ -15,6 +15,11 @@ public enum REPLAY_REQUEST
     BUILDING_FALIED = 1 << 3,       // 建築失敗
     BUILDING_SUCCESS= 1 << 4,       // 建築成功
 
+    COLLECT_FALIED = 1 << 5,        // 収集失敗
+    COLLECT_SUCCESS = 1 << 6,       // 収集成功
+
+    POSITION_TO_PLACE_SUCCESS = 1 << 7, // 座標を場所のタイプに変換成功      
+
     MAX
 }
 

@@ -10,11 +10,8 @@ public class Owner_Human : MonoBehaviour
     [SerializeField]
     Factory_Human factory_human;
 
-    [SerializeField]
-    BoxCollider foutaninCreatePosition;
-
-    [SerializeField]
-    BoxCollider shopCreatePosition;
+    [SerializeField, EnumListLabel(typeof(Type))]
+    BoxCollider[] createPositon = new BoxCollider[(int)Type.Max];
 
     bool isShop;
 
@@ -22,7 +19,11 @@ public class Owner_Human : MonoBehaviour
     bool isPick = false;
 
     // リクエスト用のフラグ
-    Request request = new Request(); 
+    Request request = new Request();
+
+    List<Request> bufRequests = new List<Request>();
+
+    bool isCollect = false;
 
     public void Intialize()
     {
@@ -43,31 +44,32 @@ public class Owner_Human : MonoBehaviour
         // 掴まれている人間を確認
         if (isPick)
         {
-            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.START_CAMERA);
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_SCROLL);
         }
         isPick = false;
+
+        Collider hitColider = GetHitCollider();
+
+        bufRequests.Clear();
         foreach (Human human in manager_human.GetList())
         {
-            if (human.IsPick)
+            // 掴まれている
+            if (RayCheck(human.GetComponent<Collider>(), hitColider))
             {
+                human.IsPick = true;
                 isPick = true;
-                request.Flag.OffFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.START_CAMERA);
-                request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.STOP_CAMERA);
-                break;
+                request.Flag.OffFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_SCROLL);
+                request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_OUT_RANGE);  
             }
+
+            // リクエストを追加
+            bufRequests.Add(human.GetRequest());
         }
     }
 
-    public void MatchItemsHumans(IItem items, bool isShop)
+    public void MatchItemsHumans(IItem items, Type _placeType)
     {
-        if (isShop)
-        {
-            MatchItemsHumans(items,shopCreatePosition);
-        }
-        else
-        {
-            MatchItemsHumans(items,foutaninCreatePosition);
-        }
+        MatchItemsHumans(items, createPositon[(int)_placeType]);
     }
 
     void MatchItemsHumans(IItem item, BoxCollider collider)
@@ -101,17 +103,49 @@ public class Owner_Human : MonoBehaviour
     }
 
     /// <summary>
-    /// 掴まれている人間がいるかどうか
+    /// 掴まれているかどうか
     /// </summary>
+    /// <param name="human"></param>
     /// <returns></returns>
-    public bool IsPick()
+    private bool RayCheck(Collider humanCollider, Collider hitCollider)
     {
-        return isPick;
+        if (!Input.GetMouseButton(0)) return false;
+        if (humanCollider == null) return false;
+        if (hitCollider == null) return false;
+        
+        if (hitCollider == humanCollider)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public Collider GetHitCollider()
+    {
+        Ray ray = new Ray();
+        RaycastHit hit = new RaycastHit();
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity))
+        {
+            return hit.collider;
+        }
+        return null;
     }
 
 
     public Request GetRequest()
     {
         return request;
+    }
+
+    public List<Request> GetRequests()
+    {
+        return bufRequests;
+    }
+
+    public List<Human> GetHumans()
+    {
+        return manager_human.GetList();
     }
 }

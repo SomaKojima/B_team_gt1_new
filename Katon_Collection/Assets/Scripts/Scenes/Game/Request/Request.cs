@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 /// <summary>
 /// リクエスト
 /// </summary>
@@ -11,6 +13,14 @@ public class Request
     ReplyRequestBitFlag replayFlag = new ReplyRequestBitFlag();
 
     List<IItem> exchangeItems = null;
+
+    Type changePlaceType;
+    Vector3 changePosition;
+
+    Type collectPlaceType;
+    ITEM_TYPE collectItemType;
+
+    Vector3 areaCenterPosition;
 
     /// <summary>
     /// 初期化
@@ -55,6 +65,44 @@ public class Request
         set { exchangeItems = value; }
     }
 
+    public Vector3 ChangePosition
+    {
+        get { return changePosition; }
+        set { changePosition = value; }
+    }
+
+    public Type ChangePlaceType
+    {
+        get { return changePlaceType; }
+        set { changePlaceType = value; }
+    }
+
+    public Type CollectPlaceType
+    {
+        get { return collectPlaceType; }
+        set { collectPlaceType = value; }
+    }
+
+    public ITEM_TYPE CollectItemType
+    {
+        get { return collectItemType; }
+        set { collectItemType = value; }
+    }
+
+    public Vector3 AreaCenterPosition
+    {
+        get { return areaCenterPosition; }
+        set { areaCenterPosition = value; }
+    }
+
+    /// <summary>
+    /// 終了処理
+    /// </summary>
+    public void FinalizeRequest()
+    {
+        Flag.Clear(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY);
+    }
+    
     /// <summary>
     /// 建築終了時のリクエスト処理
     /// </summary>
@@ -86,4 +134,22 @@ public class Request
             replayFlag.OnFlag(REPLAY_REQUEST.EXCHANGE_FALIED);
         }
     }
+
+    public void FinalizeCollect(bool isCollectable)
+    {
+        if (isCollectable)
+        {
+            replayFlag.OnFlag(REPLAY_REQUEST.COLLECT_SUCCESS);
+        }
+        else
+        {
+            replayFlag.OnFlag(REPLAY_REQUEST.COLLECT_FALIED);
+        }
+    }
+
+    public void FinalizePositionToPlace()
+    {
+        replayFlag.OnFlag(REPLAY_REQUEST.POSITION_TO_PLACE_SUCCESS);
+    }
+    
 }

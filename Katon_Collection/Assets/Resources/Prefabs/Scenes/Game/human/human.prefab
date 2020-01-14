@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemContextTable: {fileID: 11400000, guid: 254821525c102ff418bfeea42638378f, type: 2}
   renderer: {fileID: 4210628268971606161}
+  icon: {fileID: 345919171389045877}
 --- !u!65 &5607018121695046286
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -60,8 +61,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 7.8974786, y: 17.770506, z: 1.5911713}
-  m_Center: {x: 0.19308639, y: 8.385253, z: 0.29558563}
+  m_Size: {x: 7.8974786, y: 17.770506, z: 8.527318}
+  m_Center: {x: 0.19308639, y: 8.385253, z: 0.5928793}
 --- !u!54 &7953010731816768524
 Rigidbody:
   m_ObjectHideFlags: 0

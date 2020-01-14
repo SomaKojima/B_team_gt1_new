@@ -34,8 +34,8 @@ public class Collect : MoveState
             frame = 0.0f;
             human.IsCollect = true;
         }
-
-        return MOVE_STATE_TYPE.NONE;
+        
+        return MOVE_STATE_TYPE.COLLECT;
     }
 
     void TurnInOutArea(Human human, float minX, float maxX, float minZ, float maxZ)
@@ -44,6 +44,8 @@ public class Collect : MoveState
         if (IsTurn(minX, maxX, transform.position.x, human.Velocity.x))
         {
             human.Velocity = new Vector3(human.Velocity.x * -1, human.Velocity.y, human.Velocity.z);
+
+            // スプライトを反転
             transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
         }
         else if (IsTurn(minZ, maxZ, transform.position.z, human.Velocity.z))
