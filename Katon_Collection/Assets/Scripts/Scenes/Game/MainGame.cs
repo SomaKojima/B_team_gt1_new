@@ -49,12 +49,12 @@ public class MainGame : MonoBehaviour
         owner_floor.Initialize();
         owner_signBoard.Initialize(mainCamera.IsSigneBoardInScreen);
 
-        manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(1);
-        //for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
-        //{
-        //    ITEM_TYPE type = (ITEM_TYPE)i;
-        //    manager_item.GetItem(type).SetCount(10);
-        //}
+        //manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(1);
+        for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
+        {
+            ITEM_TYPE type = (ITEM_TYPE)i;
+            manager_item.GetItem(type).SetCount(100);
+        }
 
         manager_SI_Player.UpdatePlayers();
 

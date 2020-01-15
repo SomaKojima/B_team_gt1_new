@@ -10,7 +10,7 @@ public class Collect : MoveState
     float depth = 10.0f;
 
     float frame = 0.0f;
-    float duringFrame = 1.0f;
+    float duringFrame = 5.0f;
 
     // Start is called before the first frame update
     public void Initialize(Human human, Vector3 _target)

@@ -11,8 +11,10 @@ public enum ITEM_TYPE
     ENGINEER,
 
     WOOD,
+    HUMAN_NUM = WOOD,   // 人間の最後の値はWOOD
     ORE,
     PARTS,
 
-    NUM
+    NUM,
+    BUILDING_RESOURCE_NUM = NUM - HUMAN_NUM
 }

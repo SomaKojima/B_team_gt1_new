@@ -20,7 +20,7 @@ public class UI_FactoryLog : MonoBehaviour
     string st;
 
     //タイマー、テキスト生成
-    public UI_Log Create(string _text, float _time)
+    public UI_Log Create(string _text, float _time, bool _isBigMode)
     {
 
         GameObject instance = Instantiate(m_prefab);
@@ -40,7 +40,7 @@ public class UI_FactoryLog : MonoBehaviour
         st = minute.ToString() + ":" + second.ToString();// + msecond.ToString();
 
 
-        log.Initialize(_text,st);
+        log.Initialize(_text,st, _isBigMode);
 
 
         return log;

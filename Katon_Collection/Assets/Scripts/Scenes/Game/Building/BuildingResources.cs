@@ -45,6 +45,14 @@ public class BuildingResources : MonoBehaviour
     public List<IItem> GetItems(ITEM_TYPE _type)
     {
         correctItems.Clear();
+
+        // 取得アイテムの素材を計算
+        for (int i = 0; i < 3; i++)
+        {
+            int maxNum = (int)ITEM_TYPE.BUILDING_RESOURCE_NUM;
+            int random = Random.Range(0, maxNum * 100);
+            ITEM_TYPE randomType = (ITEM_TYPE)(random % maxNum);
+        }
         bufCorrectItems[(int)ITEM_TYPE.WOOD].SetCount(10);
         correctItems.Add(bufCorrectItems[(int)ITEM_TYPE.WOOD]);
         return correctItems;
