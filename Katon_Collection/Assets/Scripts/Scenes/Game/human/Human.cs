@@ -62,7 +62,7 @@ public class Human : MonoBehaviour
         if(isCollect)
         {
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.COLLECT);
-            request.CollectItemType = type;
+            request.CollectItemType = ChangeItemType.HumanToBuildingResource(type);
             request.CollectPlaceType = placeType;
         }
 

@@ -6,15 +6,18 @@ using UnityEngine;
 public enum ITEM_TYPE
 {
     NONE = -1,
-    LOOGER,
-    COAL_MINER,
-    ENGINEER,
+    LOOGER,             // 木こり
+    COAL_MINER,         // 炭鉱夫
+    ENGINEER,           // エンジニア
 
-    WOOD,
-    HUMAN_NUM = WOOD,   // 人間の最後の値はWOOD
-    ORE,
-    PARTS,
+    WOOD,               // 木
+
+    HUMAN_NUM = WOOD,   // 人間の数
+
+    ORE,                // 鉱石
+    PARTS,              // 部品
+    WHEAT,              // 麦
 
     NUM,
-    BUILDING_RESOURCE_NUM = NUM - HUMAN_NUM
+    BUILDING_RESOURCE_NUM = NUM - HUMAN_NUM // 資源の数
 }

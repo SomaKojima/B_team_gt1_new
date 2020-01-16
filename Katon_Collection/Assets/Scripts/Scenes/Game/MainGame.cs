@@ -53,7 +53,7 @@ public class MainGame : MonoBehaviour
         for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
         {
             ITEM_TYPE type = (ITEM_TYPE)i;
-            manager_item.GetItem(type).SetCount(100);
+            manager_item.GetItem(type).SetCount(33);
         }
 
         manager_SI_Player.UpdatePlayers();

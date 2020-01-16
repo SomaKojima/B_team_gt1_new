@@ -67,6 +67,7 @@ public class Manager_Item : MonoBehaviour
         foreach (IItem item in _items)
         {
             GetItem(item.GetItemType()).AddCount(item.GetCount());
+            //Debug.Log(item.GetItemType());
         }
         return true;
     }
