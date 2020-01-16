@@ -177,7 +177,6 @@ public class MainGame : MonoBehaviour
             {
                 // 交換失敗時の処理
             }
-            Debug.Log(_isExchange);
             // 建築終了後のUIの処理
             _request.FinalizeBuilding(_isExchange);
         }

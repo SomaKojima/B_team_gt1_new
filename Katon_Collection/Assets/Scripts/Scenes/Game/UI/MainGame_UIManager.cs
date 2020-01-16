@@ -110,12 +110,16 @@ public class MainGame_UIManager : MonoBehaviour
         // 移動バーのリクエスト処理
         UpdateRequest_PlaceBar();
 
+        // ログウィンドウのリクエスト処理
+        UpdateRequest_LogWindow();
 
         // UIを有効化する処理
         UpdateActive();
 
         // UIを無効化する処理
         UpdateUnActive();
+
+
         
     }
 
@@ -204,7 +208,6 @@ public class MainGame_UIManager : MonoBehaviour
         // 建築ボタン
         if (buildingBoard.IsClickBuildingButton())
         {
-            Debug.Log("building");
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.BUILDING);
         }
     }
@@ -349,6 +352,28 @@ public class MainGame_UIManager : MonoBehaviour
             // フェードインが終わったら
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.FADE, REQUEST.CAMERA_MOVE_PLACE);
             manager_placeBar.SetActiveBase(false);
+        }
+    }
+
+    /// <summary>
+    /// ログウィンドウのリクエスト処理
+    /// </summary>
+    private void UpdateRequest_LogWindow()
+    {
+        // スクロール中
+        if (logWindow.IsScroll())
+        {
+            // カメラ停止
+            Debug.Log("stop");
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_STOP);
+        }
+
+        // スクロールをやめた
+        if (logWindow.IsNotScroll())
+        {
+            // カメラ停止
+            Debug.Log("start");
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_START);
         }
     }
 

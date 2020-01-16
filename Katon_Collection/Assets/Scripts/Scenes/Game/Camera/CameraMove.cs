@@ -68,6 +68,10 @@ public class CameraMove : MonoBehaviour
                     break;
             }
         }
+        else
+        {
+            velocity = Vector3.zero;
+        }
     }
 
     //初期化

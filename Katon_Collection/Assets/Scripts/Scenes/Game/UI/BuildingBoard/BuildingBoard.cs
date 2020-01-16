@@ -86,6 +86,9 @@ public class BuildingBoard : MonoBehaviour
                 missMessage.SetActive(false);
             }
         }
+
+        // 素材の更新処理
+        owner_BuildingItemUnit.SetUnits(bufItems);
     }
 
     // 建築ボードを表示する
@@ -94,7 +97,6 @@ public class BuildingBoard : MonoBehaviour
         if (this.gameObject.activeSelf) return;
         this.gameObject.SetActive(true);
         Initialize();
-        owner_BuildingItemUnit.SetUnits(bufItems);
     }
 
     public void SetItems(List<IItem> _items)

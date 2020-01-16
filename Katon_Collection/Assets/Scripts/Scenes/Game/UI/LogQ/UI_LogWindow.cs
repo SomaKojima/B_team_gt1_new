@@ -42,6 +42,12 @@ public class UI_LogWindow : MonoBehaviour
 
     Vector2 bigSize = Vector2.zero;
 
+    // スクロール中かどうか
+    bool isScroll = false;
+
+    // スクロールをやめたかどうか
+    bool isNotScroll = false;
+
     private void Start()
     {
         littleSize = GetComponent<RectTransform>().sizeDelta;
@@ -61,6 +67,9 @@ public class UI_LogWindow : MonoBehaviour
             isScrollUnder = false;
             scrollRect.verticalNormalizedPosition = 0;
         }
+
+        isScroll = false;
+        isNotScroll = false;
     }
 
     //ロゴを追加する
@@ -99,7 +108,6 @@ public class UI_LogWindow : MonoBehaviour
     private void UpdateMode(LogWindowType type)
     {
         //isScrollUnder = true;
-        Debug.Log("change mode");
         if (type == LogWindowType.Little)
         {
             LittleMode();
@@ -143,7 +151,24 @@ public class UI_LogWindow : MonoBehaviour
         }
     }
 
-    public void OnChangeValue()
+    public void OnPointerDown()
     {
+        isScroll = true;
+    }
+
+    public void OnPointerUp()
+    {
+        Debug.Log("aa");
+        isNotScroll = true;
+    }
+
+    public bool IsScroll()
+    {
+        return isScroll;
+    }
+
+    public bool IsNotScroll()
+    {
+        return isNotScroll;
     }
 }

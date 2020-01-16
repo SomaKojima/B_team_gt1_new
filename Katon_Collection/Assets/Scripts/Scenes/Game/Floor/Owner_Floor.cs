@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Owner_Floor : MonoBehaviour
 {
-    const int MAX_BUILDING_RESOURCE_NUM = 1;
+    const int MAX_BUILDING_RESOURCE_NUM = 2;
 
     [SerializeField]
     Manager_Floor[] manager_floor = null;
@@ -42,7 +42,8 @@ public class Owner_Floor : MonoBehaviour
             {
                 itemString[i, j] = new List<IItem>();
                 Item item = new Item();
-                item.Initialize(0, ITEM_TYPE.WOOD);
+                item.Initialize(0, ITEM_TYPE.NONE);
+                if(j >= 1) item.Initialize(-1000, ITEM_TYPE.WOOD);
                 itemString[i, j].Add(item);
             }
         }

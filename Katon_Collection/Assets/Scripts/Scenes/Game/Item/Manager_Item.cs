@@ -33,6 +33,7 @@ public class Manager_Item : MonoBehaviour
     /// <returns>アイテム</returns>
     public Item GetItem(ITEM_TYPE type)
     {
+        if (type == ITEM_TYPE.NONE) return null;
         return item[(int)type];
     }
 
@@ -42,6 +43,7 @@ public class Manager_Item : MonoBehaviour
         // 交換可能か判定
         foreach (IItem item in _items)
         {
+            if (item.GetItemType() == ITEM_TYPE.NONE) continue;
             IItem myItem = GetItem(item.GetItemType());
 
             // 足りない
@@ -66,6 +68,7 @@ public class Manager_Item : MonoBehaviour
         // アイテムの増減
         foreach (IItem item in _items)
         {
+            if (item.GetItemType() == ITEM_TYPE.NONE) continue;
             GetItem(item.GetItemType()).AddCount(item.GetCount());
             //Debug.Log(item.GetItemType());
         }
