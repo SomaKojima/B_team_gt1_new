@@ -15,7 +15,7 @@ public class SI_Game : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        GameSet();
     }
 
     public void SetTime(float time)
