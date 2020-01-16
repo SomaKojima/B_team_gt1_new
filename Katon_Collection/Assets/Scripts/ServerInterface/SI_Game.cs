@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SI_Game : MonoBehaviour
 {
@@ -38,6 +39,14 @@ public class SI_Game : MonoBehaviour
         {
             //データの受信
             this.rimitTime = (float)stream.ReceiveNext();
+        }
+    }
+
+    void GameSet()
+    {
+        if(rimitTime<0)
+        {
+            SceneManager.LoadScene("ResultScene");
         }
     }
 }
