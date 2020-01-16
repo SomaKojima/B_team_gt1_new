@@ -49,12 +49,14 @@ public class MainGame : MonoBehaviour
         owner_floor.Initialize();
         owner_signBoard.Initialize(mainCamera.IsSigneBoardInScreen);
 
-        //manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(1);
-        for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
-        {
-            ITEM_TYPE type = (ITEM_TYPE)i;
-            manager_item.GetItem(type).SetCount(33);
-        }
+        manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(1);
+        manager_item.GetItem(ITEM_TYPE.ENGINEER).SetCount(1);
+        manager_item.GetItem(ITEM_TYPE.COAL_MINER).SetCount(1);
+        //for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
+        //{
+        //    ITEM_TYPE type = (ITEM_TYPE)i;
+        //    manager_item.GetItem(type).SetCount(33);
+        //}
 
         manager_SI_Player.UpdatePlayers();
 
@@ -63,6 +65,9 @@ public class MainGame : MonoBehaviour
         //manager_request.Add(owner_human.GetRequest());
 
         owner_buildingResource.Initialize();
+
+        // カメラの初期位置
+        mainCamera.Move(Type.cave);
     }
     
     // Update is called once per frame
@@ -166,12 +171,13 @@ public class MainGame : MonoBehaviour
                 manager_item.AddItems(owner_floor.GetBuildingResource(currentPlaceType));
                 // 建築
                 owner_floor.Building(currentPlaceType);
+                
             }
             else
             {
                 // 交換失敗時の処理
             }
-
+            Debug.Log(_isExchange);
             // 建築終了後のUIの処理
             _request.FinalizeBuilding(_isExchange);
         }

@@ -204,6 +204,7 @@ public class MainGame_UIManager : MonoBehaviour
         // 建築ボタン
         if (buildingBoard.IsClickBuildingButton())
         {
+            Debug.Log("building");
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.BUILDING);
         }
     }
