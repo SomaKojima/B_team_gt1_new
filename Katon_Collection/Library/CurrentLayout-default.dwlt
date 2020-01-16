@@ -113,7 +113,7 @@ MonoBehaviour:
   m_MinSize: {x: 911, y: 444}
   m_MaxSize: {x: 22006, y: 10000}
   vertical: 1
-  controlID: 4439
+  controlID: 4038
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_MinSize: {x: 911, y: 444}
   m_MaxSize: {x: 22006, y: 10000}
   vertical: 0
-  controlID: 4440
+  controlID: 4039
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 444}
   m_MaxSize: {x: 4002, y: 8044}
   vertical: 1
-  controlID: 4348
+  controlID: 3930
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -408,16 +408,16 @@ MonoBehaviour:
   m_ShowContextualTools: 0
   m_WindowGUID: f2e1c3e884767ca4499aec0252006410
   m_Gizmos: 1
-  m_SceneIsLit: 1
+  m_SceneIsLit: 0
   m_SceneLighting: 1
   m_2DMode: 0
   m_isRotationLocked: 0
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -23.060024, y: 108.05231, z: -61.47131}
+    m_Target: {x: -6.25, y: 19.85, z: 0}
     speed: 2
-    m_Value: {x: -81.05107, y: 38.011257, z: 27.835434}
+    m_Value: {x: -6.25, y: 19.85, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -428,7 +428,7 @@ MonoBehaviour:
   m_SceneViewState:
     showFog: 1
     showMaterialUpdate: 0
-    showSkybox: 1
+    showSkybox: 0
     showFlares: 1
     showImageEffects: 1
     showParticleSystems: 1
@@ -446,13 +446,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: 0.3057219, y: 0.025696885, z: -0.008261755, w: 0.9517506}
+    m_Target: {x: 0.22483897, y: -0.24253452, z: 0.057918247, w: 0.9419805}
     speed: 2
-    m_Value: {x: 0.027306307, y: 0.004493709, z: -0.00012256844, w: 0.999617}
+    m_Value: {x: -0.22483897, y: 0.24253452, z: -0.057918247, w: -0.9419805}
   m_Size:
-    m_Target: 2.3981209
+    m_Target: 21.887928
     speed: 2
-    m_Value: 2.6981208
+    m_Value: 21.887928
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -507,9 +507,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 2669fbff
-      m_LastClickedID: -300762
-      m_ExpandedIDs: ce6bfbff4272fbff48faffff98faffffccfaffff6efbffff
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: f63cfffff83cffff22a8ffff4ad5ffff32e4ffff92e8fffffc590000645a0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -572,20 +572,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets/Resources/Model/Crystal_Mine/Materials
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scenes
+  - Assets/Resources/Model/Crystal_Mine/Materials
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\GT1_03\Team_B\Katon_Collection
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: a8320000
-    m_LastClickedID: 12968
-    m_ExpandedIDs: 00000000c431000062320000ec32000014340000c4340000e83400002637000082370000603800006e390000ba390000ec390000343b0000403c0000024b0000044b0000064b0000084b00000a4b00000c4b00000e4b0000104b0000124b0000144b0000164b0000184b00001a4b00001c4b000000ca9a3b
+    m_SelectedIDs: 70370000
+    m_LastClickedID: 14192
+    m_ExpandedIDs: 00000000c431000064320000ee32000018340000ca340000ee340000b6350000543600002e3700008c3700005e3800006c380000b0380000f43800000a3900007e390000ca390000fc3900004c3b0000583c0000c0580000c2580000c4580000c6580000c8580000ca580000cc580000ce580000d0580000d2580000d4580000d6580000d8580000da5800006292000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -613,7 +613,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000c431000062320000ec32000014340000c4340000e83400002637000082370000603800006e390000ba390000ec390000343b0000403c0000024b0000044b0000064b0000084b00000a4b00000c4b00000e4b0000104b0000124b0000144b0000164b0000184b00001a4b00001c4b000000ca9a3b
+    m_ExpandedIDs: 00000000c431000064320000ee32000018340000ca340000ee340000b6350000543600002e3700008c3700005e3800006c380000b0380000f43800000a3900007e390000ca390000fc3900004c3b0000583c0000c0580000c2580000c4580000c6580000c8580000ca580000cc580000ce580000d0580000d2580000d4580000d6580000d8580000da5800006292000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
