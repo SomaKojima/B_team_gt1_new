@@ -46,7 +46,6 @@ public class Manager_Floor : MonoBehaviour
     {
         List<Floor> buf = GetFloorsOf(type);
         if (buf.Count <= 0) return null;
-        Debug.Log(GetFloorsOf(type)[buf.Count - 1]);
         return buf[buf.Count - 1];
     }
 }

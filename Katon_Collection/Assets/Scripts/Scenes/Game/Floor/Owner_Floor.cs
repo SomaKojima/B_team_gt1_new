@@ -47,4 +47,8 @@ public class Owner_Floor : MonoBehaviour
         }
     }
     
+    public Floor GetTop(Type type)
+    {
+        return manager_floor.GetTopFloorOf(type);
+    }
 }

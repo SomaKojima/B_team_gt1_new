@@ -9,10 +9,6 @@ public class ResultGame : MonoBehaviour
     [SerializeField]
     RankIcon rankIcon;
     [SerializeField]
-    Manager_Floor_Result manager_Floor_Result;
-    [SerializeField]
-    Factory_Floor_Result factory_Floor_Result;
-    [SerializeField]
     UI_Button_GoToTitle ui_Button_GoToTitle;
     [SerializeField]
     CameraResultMove cameraResultMove;
@@ -34,6 +30,10 @@ public class ResultGame : MonoBehaviour
         {
             owner_Floor.Building(Type.cave);
             time = 0;
+        }
+        if (owner_Floor.GetTop(Type.cave) != null)
+        {
+            cameraResultMove.Move(owner_Floor.GetTop(Type.cave).transform.position);
         }
     }
 }
