@@ -42,11 +42,13 @@ public class UI_LogWindow : MonoBehaviour
 
     Vector2 bigSize = Vector2.zero;
 
-    // スクロール中かどうか
-    bool isScroll = false;
+    // クリック中かどうか
+    bool isClick = false;
 
     // スクロールをやめたかどうか
-    bool isNotScroll = false;
+    bool isNotClick = false;
+
+    bool isDrag = false;
 
     private void Start()
     {
@@ -68,8 +70,32 @@ public class UI_LogWindow : MonoBehaviour
             scrollRect.verticalNormalizedPosition = 0;
         }
 
-        isScroll = false;
-        isNotScroll = false;
+        isNotClick = false;
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (!isDrag && isClick)
+            {
+                m_sizeFlag = !m_sizeFlag;
+
+
+                if (m_logType == LogWindowType.Little)
+                {
+                    m_logType = LogWindowType.Big;
+                }
+                else
+                {
+                    m_logType = LogWindowType.Little;
+                }
+
+                UpdateMode(m_logType);
+            }
+            isDrag = false;
+            if (isClick)
+            {
+                isNotClick = true;
+            }
+            isClick = false;
+        }
     }
 
     //ロゴを追加する
@@ -85,25 +111,7 @@ public class UI_LogWindow : MonoBehaviour
         m_image.gameObject.SetActive(true);
         isScrollUnder = true;
     }
-
-    //クリックイベント
-    public void OnClick()
-    {
-        m_sizeFlag = !m_sizeFlag;
-
-
-        if(m_logType == LogWindowType.Little)
-        {
-            m_logType = LogWindowType.Big;
-        }
-        else
-        {
-            m_logType = LogWindowType.Little;
-        }
-
-
-        UpdateMode(m_logType);
-    }
+    
 
     private void UpdateMode(LogWindowType type)
     {
@@ -153,22 +161,21 @@ public class UI_LogWindow : MonoBehaviour
 
     public void OnPointerDown()
     {
-        isScroll = true;
+        isClick = true;
     }
 
-    public void OnPointerUp()
+    public void OnDrag()
     {
-        Debug.Log("aa");
-        isNotScroll = true;
+        isDrag = true;
     }
 
-    public bool IsScroll()
+    public bool IsClick()
     {
-        return isScroll;
+        return isClick;
     }
 
-    public bool IsNotScroll()
+    public bool IsNotClick()
     {
-        return isNotScroll;
+        return isNotClick;
     }
 }

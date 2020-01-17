@@ -101,6 +101,7 @@ public class Debug_MainGame
 
     void DumpItems()
     {
+        return;
         string dump = "\n\n\n" + frame + "\n";
 
         for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)

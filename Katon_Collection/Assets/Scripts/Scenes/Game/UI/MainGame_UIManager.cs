@@ -361,7 +361,7 @@ public class MainGame_UIManager : MonoBehaviour
     private void UpdateRequest_LogWindow()
     {
         // スクロール中
-        if (logWindow.IsScroll())
+        if (logWindow.IsClick())
         {
             // カメラ停止
             Debug.Log("stop");
@@ -369,7 +369,7 @@ public class MainGame_UIManager : MonoBehaviour
         }
 
         // スクロールをやめた
-        if (logWindow.IsNotScroll())
+        if (logWindow.IsNotClick())
         {
             // カメラ停止
             Debug.Log("start");
