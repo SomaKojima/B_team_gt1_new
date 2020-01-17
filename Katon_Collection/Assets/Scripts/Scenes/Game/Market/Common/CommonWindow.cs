@@ -66,7 +66,6 @@ public class CommonWindow : MonoBehaviour
         {
             exchangeItemList.AddRange(owner_commonUnitButton.GetSelectCommonUnitButton().GetGetItems());
         }
-        Debug.Log(exchangeItemList.Count);
     }
 
     public void Active()
@@ -96,6 +95,7 @@ public class CommonWindow : MonoBehaviour
         items.Add(item);
 
         owner_commonUnitButton.Create(items, 30);
+
         List<IItem> items2 = new List<IItem>();
         item = new Item();
         item.Initialize(10, ITEM_TYPE.COAL_MINER);
@@ -104,14 +104,15 @@ public class CommonWindow : MonoBehaviour
         item.Initialize(10, ITEM_TYPE.ORE);
         items2.Add(item);
         owner_commonUnitButton.Create(items2, 20);
+        
 
         List<IItem> items3 = new List<IItem>();
         item = new Item();
         item.Initialize(10, ITEM_TYPE.COAL_MINER);
-        items2.Add(item);
+        items3.Add(item);
         item = new Item();
         item.Initialize(10, ITEM_TYPE.ORE);
-        items2.Add(item);
+        items3.Add(item);
         owner_commonUnitButton.Create(items3, 20);
 
         // 仮マイアイテム

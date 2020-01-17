@@ -8,7 +8,7 @@ public class Manager_Human : MonoBehaviour
     List<Human>[] humans = new List<Human>[(int)ITEM_TYPE.WOOD];
 
     List<Human> all = new List<Human>();
-
+    
     public void Initialize()
     {
         for (int i = 0; i < (int)ITEM_TYPE.WOOD; i++)
@@ -44,7 +44,6 @@ public class Manager_Human : MonoBehaviour
         Debug.Log(list.Count);
         for (int i = list.Count - 1; i >= 0; i--)
         {
-            Debug.Log("herasu");
             Destroy(list[i].gameObject);
             list.RemoveAt(i);
             count--;

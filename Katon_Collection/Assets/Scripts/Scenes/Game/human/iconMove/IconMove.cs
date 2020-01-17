@@ -55,22 +55,22 @@ public class IconMove : MonoBehaviour
     {
         gameObject.transform.position += velocity;
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            switch (type)
-            {
-                case ITEM_TYPE.WOOD:
-                    type = ITEM_TYPE.ORE;
-                    break;
-                case ITEM_TYPE.ORE:
-                    type = ITEM_TYPE.PARTS;
-                    break;
-                case ITEM_TYPE.PARTS:
-                    type = ITEM_TYPE.WOOD;
-                    break;
-            }
-            Initialize(type);
-        }
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    switch (type)
+        //    {
+        //        case ITEM_TYPE.WOOD:
+        //            type = ITEM_TYPE.ORE;
+        //            break;
+        //        case ITEM_TYPE.ORE:
+        //            type = ITEM_TYPE.PARTS;
+        //            break;
+        //        case ITEM_TYPE.PARTS:
+        //            type = ITEM_TYPE.WOOD;
+        //            break;
+        //    }
+        //    Initialize(type);
+        //}
 
         if (time > START_TRANSPARENT_TIME)
         {

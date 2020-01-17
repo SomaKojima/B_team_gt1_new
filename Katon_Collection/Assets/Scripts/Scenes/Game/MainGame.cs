@@ -4,140 +4,107 @@ using UnityEngine;
 
 public class MainGame : MonoBehaviour
 {
-    [SerializeField]
-    QR_ReaderWindow qrReaderWindow;
-
-    [SerializeField]
-    Manager_PlaceBar manager_placeBar;
-
+    // 所持アイテム管理
     [SerializeField]
     Manager_Item manager_item;
 
+    // 実体の人間を管理
     [SerializeField]
     Owner_Human owner_human;
 
+    // マンションを管理
     [SerializeField]
     Owner_Floor owner_floor;
 
+    // 看板を管理（現在は非表示、建築ボードの表示する場所を特定するのに使用）
     [SerializeField]
     Owner_SignBoard owner_signBoard;
-
-    [SerializeField]
-    CameraMove cameraMove;
-
-    [SerializeField]
-    BuildingBoard buildingBoard;
-
-    [SerializeField]
-    Fade_CloudEffect fade_CloudEffect = null;
-
+    
+    // サーバー・プレイヤー関係
     [SerializeField]
     Manage_SI_Player manager_SI_Player;
-
-    [SerializeField]
-    FountainWindow fountainWindow;
-
-    [SerializeField]
-    MarketWindow marketWindow;
-
+    
+    // カメラ
     [SerializeField]
     MainCamera mainCamera;
 
+    // UIを管理
     [SerializeField]
-    PossessListManager possessListManager;
+    MainGame_UIManager uiManager;
 
-    //フェード　
-    bool m_fade = false;
+    [SerializeField]
+    Owner_BuildingResource owner_buildingResource;
 
-    //リザルトに移行したら
-    bool m_switching = false;
-
+    [SerializeField]
+    JudgeField judgeField;
+    
+    // 現在地
+    Type currentPlaceType = Type.none;
+    
     // Start is called before the first frame update
     void Start()
     {
         manager_item.Initialize();
         owner_human.Intialize();
-        fountainWindow.Initialize(manager_item);
-        marketWindow.Initialize(manager_item);
         owner_floor.Initialize();
-        buildingBoard.Initialize();
+        owner_signBoard.Initialize(mainCamera.IsSigneBoardInScreen);
 
-        //manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(2);
-        for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
-        {
-            ITEM_TYPE type = (ITEM_TYPE)i;
-            manager_item.GetItem(type).SetCount(10);
-        }
+        manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(1);
+        manager_item.GetItem(ITEM_TYPE.ENGINEER).SetCount(1);
+        manager_item.GetItem(ITEM_TYPE.COAL_MINER).SetCount(1);
+        //for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
+        //{
+        //    ITEM_TYPE type = (ITEM_TYPE)i;
+        //    manager_item.GetItem(type).SetCount(33);
+        //}
+
         manager_SI_Player.UpdatePlayers();
 
-        possessListManager.Initialize();
+        uiManager.Initialize(manager_item);
+
+        //manager_request.Add(owner_human.GetRequest());
+
+        owner_buildingResource.Initialize();
+
+        // カメラの初期位置
+        mainCamera.Move(Type.cave);
     }
-
-
-
+    
     // Update is called once per frame
     void Update()
     {
-        // カメラの動きの更新処理
-        UpdateMoveCamera();
-
-
-
-        if (manager_placeBar.IsActiveFountain())
-        {
-            marketWindow.UnActive();
-            fountainWindow.Active();
-        }
-
-        if (manager_placeBar.IsActiveShop())
-        {
-            marketWindow.Active();
-            fountainWindow.UnActive();
-        }
-
-        // フェードの更新処理
-        UpdateFade();
-
-        // QRリーダーの更新処理
-        UpdateQRReader();
-
-        // 建築のボードの更新処理
-        UpdateBuildingBoard();
-
         // アイテムのマネージャと人間の数を合わせる
         for (int i = 0; i < (int)ITEM_TYPE.WOOD; i++)
         {
             ITEM_TYPE type = (ITEM_TYPE)i;
-            owner_human.MatchItemsHumans(manager_item.GetItem(type), false);
+            owner_human.MatchItemsHumans(manager_item.GetItem(type), Type.cave);
         }
-
-        // サーバー関係の更新処理
-        UpdateServer();
         
-        if (fountainWindow.IsExchange())
-        {
-            // アイテムのマネージャに追加・削除
-            Exchange(qrReaderWindow.GetItems());
-            fountainWindow.FinishExchange();
-        }
-
-        if (marketWindow.IsExchange())
-        {
-            // 交換の処理
-            Exchange(marketWindow.GetExchangeItemList());
-            marketWindow.FinishExchange();
-        }
+        // マンションのリクエスト処理
+        UpdateRequest_SignBoard();
+        
+        // リクエストの処理
+        UpdateRequestList();
     }
 
-    
-
-    //リザルトに行くときのフェード
-    void ResultStart()
+    void UpdateRequest_UI()
     {
-        m_switching = true;
-        StartCoroutine(fade_CloudEffect.FadeIn());
+        // フェードイン終了時
+        if (uiManager.IsisFinishFadeIn())
+        {
+            foreach (Request r in owner_human.GetRequests())
+            {
+                r.Flag.Reflection(REQUEST_BIT_FLAG_TYPE.FADE);
+            }
+            uiManager.GetRequest().Flag.Reflection(REQUEST_BIT_FLAG_TYPE.FADE);
+        }
     }
-
+    
+    /// <summary>
+    /// アイテムの変更をserverに伝える
+    /// </summary>
+    /// <param name="Count"></param>
+    /// <param name="ItemType"></param>
     private void ChangedItem(int Count, int ItemType)
     {
         for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
@@ -149,180 +116,132 @@ public class MainGame : MonoBehaviour
         }
     }
 
-
     /// <summary>
-    /// 交換時の処理
+    /// 看板のリクエスト処理
     /// </summary>
-    /// <param name="_items"></param>
-    void Exchange(List<IItem> _items)
+    void UpdateRequest_SignBoard()
     {
-        // アイテムのマネージャに追加・削除
-        foreach (IItem item in _items)
+        if (owner_signBoard.IsActiveBoard())
         {
-            manager_item.GetItem(item.GetItemType()).AddCount(item.GetCount());
+            currentPlaceType = owner_signBoard.GetVisiblePlaceType();
+
+            // 建築に必要な素材を取得
+            List<IItem> _items = owner_floor.GetBuildingResource(currentPlaceType);
+            //UIの建築ボードを表示する
+            uiManager.SetActiveBuildingBoard(true, _items);
         }
+        else
+        {
+            //UIの建築ボードを非表示する
+            uiManager.SetActiveBuildingBoard(false, null);
+        }
+    }
+    
+    /// <summary>
+    /// リクエストの処理
+    /// </summary>
+    void UpdateRequestList()
+    {
+        UpdateRequest(uiManager.GetRequest());
+        foreach (Request _request in owner_human.GetRequests())
+        {
+            UpdateRequest(_request);
+        }
+
+        UpdateRequest(owner_human.GetRequest());
     }
 
     /// <summary>
-    /// 交換可能か判定
+    /// リクエストの処理
     /// </summary>
-    /// <returns></returns>
-    bool IsExchange(List<IItem> _items)
+    void UpdateRequest(Request _request)
     {
-        // 交換可能か判定
-        foreach (IItem item in _items)
+        // 建築ボタンが押された
+        if (_request.Flag.IsFlag(REQUEST.BUILDING))
         {
-            IItem myItem = manager_item.GetItem(item.GetItemType());
+            // 建築に必要な素材を取得
+            List<IItem> _items = owner_floor.GetBuildingResource(currentPlaceType);
+            // 資源が足りているか確認
+            bool _isExchange = manager_item.IsExchange(_items);
 
-            // 足りない
-            if (myItem.GetCount() + item.GetCount() < 0)
+            // 交換成功
+            if (_isExchange)
             {
-                return false;
-            }
-        }
-        return true;
-    }
-
-
-    /// <summary>
-    /// QRリーダーの更新処理
-    /// </summary>
-    void UpdateQRReader()
-    {
-        // QRリーダーを起動
-        if (manager_placeBar.GetIsQRLeader())
-        {
-            qrReaderWindow.Initialize();
-            fountainWindow.UnActive();
-            marketWindow.UnActive();
-        }
-
-        // QR読み込み完了
-        bool isExchangable = false;
-        if (qrReaderWindow.IsExchange())
-        {
-            isExchangable = IsExchange(qrReaderWindow.GetItems());
-
-            // qrウィンドウの交換終了時の処理
-            qrReaderWindow.FinishExchange(isExchangable);
-        }
-
-        // 交換処理
-        if (isExchangable)
-        {
-            Exchange(qrReaderWindow.GetItems());
-
-            // 交換終了したことを相手に伝える
-            for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
-            {
-                if (qrReaderWindow.GetOtherID() == manager_SI_Player.GetPlayer(i).ID)
-                {
-                    manager_SI_Player.GetPlayer(i).IsExcange = false;
-                }
-            }
-        }
-    }
-
-
-    /// <summary>
-    /// 建築のボードの更新処理
-    /// </summary>
-    void UpdateBuildingBoard()
-    {
-        // 表示させる
-        bool isActive = false;
-        Type placeType = Type.none;
-        foreach (SignBoard board in owner_signBoard.GetSignBoards())
-        {
-            // 表示させるか判定
-            if (mainCamera.IsSigneBoardInScreen(board.transform.position))
-            {
-                placeType = board.GetPlaceType();
-                buildingBoard.Active(owner_floor.GetBuildingResource(placeType));
-                isActive = true;
-                break;
-            }
-        }
-
-        // 非表示にさせる
-        if (!isActive)
-        {
-            buildingBoard.UnActive();
-        }
-
-        // 建築ボタン
-        if (buildingBoard.IsClickBuildingButton())
-        {
-            Debug.Log(placeType.ToString());
-            if (owner_floor.GetBuildingResource(placeType) != null)
-            {
-                // 建築可能か判定
-                if (IsExchange(owner_floor.GetBuildingResource(placeType)))
-                {
-                    // 資源の消費
-                    Exchange(owner_floor.GetBuildingResource(placeType));
-                    // 建築
-                    owner_floor.Building(placeType);
-
-                    Debug.Log("建築");
-                }
-                else
-                {
-                    buildingBoard.ActiveMissMessage();
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// カメラの動きの更新処理
-    /// </summary>
-    void UpdateMoveCamera()
-    { 
-        // カメラを移動
-        if (manager_placeBar.IsChangeCameraPosiiton())
-        {
-            m_fade = true;
-
-            cameraMove.ChangePosition(manager_placeBar.GetchangeType());
-
-            m_switching = false;
-        }
-    }
-
-
-    /// <summary>
-    /// フェードの更新処理
-    /// </summary>
-    void UpdateFade()
-    {
-        if (!m_switching)
-        {
-            if (m_fade)
-            {
-                StartCoroutine(fade_CloudEffect.FadeIn());
-
-
-                if (!fade_CloudEffect.GetIsProcess)
-                {
-                    m_fade = false;
-
-                }
+                // 資源の消費
+                manager_item.AddItems(owner_floor.GetBuildingResource(currentPlaceType));
+                // 建築
+                owner_floor.Building(currentPlaceType);
+                
             }
             else
             {
-                //フェードアウトの処理
-                StartCoroutine(fade_CloudEffect.FadeOut());
+                // 交換失敗時の処理
             }
+            Debug.Log(_isExchange);
+            // 建築終了後のUIの処理
+            _request.FinalizeBuilding(_isExchange);
         }
-    }
 
-    /// <summary>
-    /// サーバー関係の更新処理
-    /// </summary>
-    void UpdateServer()
-    {
-        if (fountainWindow.IsCreateQR())
+        // カメラの移動
+        if (_request.Flag.IsFlag(REQUEST.CAMERA_MOVE_PLACE))
+        {
+            mainCamera.Move(uiManager.GetPlaceType());
+        }
+
+        // カメラをひとつ前に戻す
+        if (_request.Flag.IsFlag(REQUEST.CAMERA_UNDO))
+        {
+            mainCamera.Undo();
+        }
+
+        // カメラを止める
+        if (_request.Flag.IsFlag(REQUEST.CAMERA_STOP))
+        {
+            mainCamera.StopMove();
+        }
+
+        // カメラの動きを再開する
+        if (_request.Flag.IsFlag(REQUEST.CAMERA_START))
+        {
+            mainCamera.StartMove();
+        }
+
+        // カメラの動きをscrollに変える
+        if (_request.Flag.IsFlag(REQUEST.CAMERA_SCROLL))
+        {
+            mainCamera.ChangeMoveType(CameraMove.CAMERA_MOVE_TYPE.SCROLL);
+        }
+
+        // カメラの動きを範囲外に変える
+        if (_request.Flag.IsFlag(REQUEST.CAMERA_OUT_RANGE))
+        {
+            mainCamera.ChangeMoveType(CameraMove.CAMERA_MOVE_TYPE.MOUSE_OUTRANGE);
+        }
+
+        // 交換
+        if (_request.Flag.IsFlag(REQUEST.EXCHANGE))
+        {
+            // アイテムのマネージャに追加・削除
+            bool isExchangable = manager_item.AddItems(_request.ExchangeItems);
+
+            // 交換終了したことを相手に伝える
+            if (isExchangable && uiManager.GetExchangeOtherID() >= 0)
+            {
+                for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
+                {
+                    if (uiManager.GetExchangeOtherID() == manager_SI_Player.GetPlayer(i).ID)
+                    {
+                        manager_SI_Player.GetPlayer(i).IsExcange = false;
+                    }
+                }
+            }
+
+            // リクエストの返答
+            _request.FinalizeExchange(isExchangable);
+        }
+
+        // QRの生成
+        if (_request.Flag.IsFlag(REQUEST.CREADED_QR))
         {
             for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
             {
@@ -332,6 +251,30 @@ public class MainGame : MonoBehaviour
                 }
             }
         }
+
+        // 収集
+        if (_request.Flag.IsFlag(REQUEST.COLLECT))
+        {
+            bool isCollectable = owner_buildingResource.GetBuildingResource(_request.CollectPlaceType).IsCollectable(_request.CollectItemType);
+
+            if (isCollectable)
+            {
+                // 資源の追加
+                List<IItem> _items = owner_buildingResource.GetBuildingResource(_request.CollectPlaceType).GetItems(_request.CollectItemType);
+                manager_item.AddItems(_items);
+            }
+            _request.FinalizeCollect(isCollectable);
+        }
+
+        // 座標を場所に変換
+        if (_request.Flag.IsFlag(REQUEST.POSITION_TO_PLACE))
+        {
+            _request.ChangePlaceType = judgeField.ChangePositionToPlaceType(_request.ChangePosition);
+            _request.AreaCenterPosition = judgeField.GetAreaCenterPosition(_request.ChangePlaceType);
+            _request.FinalizePositionToPlace();
+        }
+        
+
+        _request.FinalizeRequest();
     }
-    
 }

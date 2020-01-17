@@ -28,7 +28,7 @@ public class MatchingRoomGame : MonoBehaviour
     {
         serverInterface.ConnectServer();
         serverInterface.EnterLobby();
-        StartCoroutine(fade_CloudEffect.FadeOut());
+        fade_CloudEffect.StartFadeOut();
     }
 
     // Update is called once per frame
@@ -136,6 +136,6 @@ public class MatchingRoomGame : MonoBehaviour
 
     void GameStart()
     {
-        StartCoroutine(fade_CloudEffect.FadeIn());
+        fade_CloudEffect.StartFadeIn();
     }
 }

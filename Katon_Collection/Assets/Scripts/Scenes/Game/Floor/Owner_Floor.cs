@@ -42,7 +42,7 @@ public class Owner_Floor : MonoBehaviour
             {
                 itemString[i, j] = new List<IItem>();
                 Item item = new Item();
-                item.Initialize(-10, ITEM_TYPE.WOOD);
+                item.Initialize(0, ITEM_TYPE.WOOD);
                 itemString[i, j].Add(item);
             }
         }
