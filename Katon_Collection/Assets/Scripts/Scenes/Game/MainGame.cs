@@ -282,7 +282,7 @@ public class MainGame : MonoBehaviour
         {
             _request.ChangePlaceType = judgeField.ChangePositionToPlaceType(_request.ChangePosition);
             _request.AreaCenterPosition = judgeField.GetAreaCenterPosition(_request.ChangePlaceType);
-            _request.FinalizePositionToPlace();
+            _request.FinalizePositionToPlace(true);
         }
         
 

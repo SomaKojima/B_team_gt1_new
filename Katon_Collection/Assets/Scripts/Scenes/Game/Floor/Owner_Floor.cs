@@ -18,7 +18,7 @@ public class Owner_Floor : MonoBehaviour
     [SerializeField, EnumListLabel(typeof(Type))]
     Transform[] createPosition = new Transform[(int)Type.Max];
 
-    List<IItem>[,] itemString = new List<IItem>[(int)Type.Max, MAX_BUILDING_RESOURCE_NUM];
+    List<IItem>[,] necessaryItems = new List<IItem>[(int)Type.Max, MAX_BUILDING_RESOURCE_NUM];
 
     Floor_Encode floorEncode = new Floor_Encode();
 
@@ -44,7 +44,7 @@ public class Owner_Floor : MonoBehaviour
         {
             for (int j = 0; j < MAX_BUILDING_RESOURCE_NUM; j++)
             {
-                itemString[i, j] = new List<IItem>();
+                necessaryItems[i, j] = new List<IItem>();
 
                 //// 建築時に必要な資源を決める
                 //if (j >= 1)
@@ -52,11 +52,9 @@ public class Owner_Floor : MonoBehaviour
                 //    Item item = new Item();
                 //    item.Initialize(0, ITEM_TYPE.NONE);
                 //    item.Initialize(-1000, ITEM_TYPE.WOOD);
-                //    itemString[i, j].Add(item);
+                //    necessaryItems[i, j].Add(item);
                 //}
                 Set(i, j);
-
-
             }
         }
     }
@@ -68,16 +66,16 @@ public class Owner_Floor : MonoBehaviour
             case 0:
                 break;
             case 1:
-                itemString[i, j].Add(new Item(-100, ITEM_TYPE.ORE));
+                necessaryItems[i, j].Add(new Item(-100, ITEM_TYPE.ORE));
                 break;
 
             case 2:
-                itemString[i, j].Add(new Item(-150, ITEM_TYPE.ORE));
-                itemString[i, j].Add(new Item(-30, ITEM_TYPE.WOOD));
+                necessaryItems[i, j].Add(new Item(-150, ITEM_TYPE.ORE));
+                necessaryItems[i, j].Add(new Item(-30, ITEM_TYPE.WOOD));
                 break;
             case 3:
-                itemString[i, j].Add(new Item(-250, ITEM_TYPE.ORE));
-                itemString[i, j].Add(new Item(-100, ITEM_TYPE.PARTS));
+                necessaryItems[i, j].Add(new Item(-250, ITEM_TYPE.ORE));
+                necessaryItems[i, j].Add(new Item(-100, ITEM_TYPE.PARTS));
                 break;
         }
     }
@@ -108,6 +106,9 @@ public class Owner_Floor : MonoBehaviour
         }
         isFirstBuilding = true;
         totalFloor++;
+
+        // 開拓に必要な資源を更新
+        UpdateReclamation(totalFloor);
     }
 
     public List<IItem> GetBuildingResource(Type _type)
@@ -116,9 +117,9 @@ public class Owner_Floor : MonoBehaviour
         int index = manager_floor[(int)_type].Floors.Count;
 
         if (index < 0) return null;
-        if (index >= MAX_BUILDING_RESOURCE_NUM) return itemString[(int)_type, MAX_BUILDING_RESOURCE_NUM - 1];
+        if (index >= MAX_BUILDING_RESOURCE_NUM) return necessaryItems[(int)_type, MAX_BUILDING_RESOURCE_NUM - 1];
 
-        return itemString[(int)_type, index];
+        return necessaryItems[(int)_type, index];
     }
 
     public bool IsFirstBuilding()
@@ -129,5 +130,18 @@ public class Owner_Floor : MonoBehaviour
     public int GetTotalFloor()
     {
         return totalFloor;
+    }
+
+    /// <summary>
+    /// 開拓に必要な資源を更新
+    /// </summary>
+    void UpdateReclamation(int _totalFloor)
+    {
+        for (int i = 0; i < (int)Type.Max; i++)
+        {
+            necessaryItems[i, 0].Clear();
+            int count = 200 * _totalFloor;
+            necessaryItems[i, 0].Add(new Item(-count, ChangeItemType.PlaceToItemType((Type)i)));
+        }
     }
 }

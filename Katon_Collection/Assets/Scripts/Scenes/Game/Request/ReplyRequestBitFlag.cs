@@ -18,7 +18,8 @@ public enum REPLAY_REQUEST
     COLLECT_FALIED = 1 << 5,        // 収集失敗
     COLLECT_SUCCESS = 1 << 6,       // 収集成功
 
-    POSITION_TO_PLACE_SUCCESS = 1 << 7, // 座標を場所のタイプに変換成功      
+    POSITION_TO_PLACE_SUCCESS = 1 << 7, // 座標を場所のタイプに変換成功     
+    POSITION_TO_PLACE_FAILED = 1 << 8,  // 座標を場所のタイプに変換失敗
 
     MAX
 }

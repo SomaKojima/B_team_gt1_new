@@ -16,6 +16,11 @@ public class Owner_CommonUnitButton : MonoBehaviour
         
     }
 
+    public void Initialize()
+    {
+
+    }
+
     // Update is called once per frame
     void Update()
     {

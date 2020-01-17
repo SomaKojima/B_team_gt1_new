@@ -147,9 +147,17 @@ public class Request
         }
     }
 
-    public void FinalizePositionToPlace()
+    public void FinalizePositionToPlace(bool isChangable)
     {
-        replayFlag.OnFlag(REPLAY_REQUEST.POSITION_TO_PLACE_SUCCESS);
+        if (isChangable)
+        {
+            replayFlag.OnFlag(REPLAY_REQUEST.POSITION_TO_PLACE_SUCCESS);
+        }
+        else
+        {
+
+            replayFlag.OnFlag(REPLAY_REQUEST.POSITION_TO_PLACE_FAILED);
+        }
     }
     
 }
