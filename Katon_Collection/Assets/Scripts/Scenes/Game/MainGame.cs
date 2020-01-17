@@ -37,6 +37,9 @@ public class MainGame : MonoBehaviour
 
     [SerializeField]
     JudgeField judgeField;
+
+    [SerializeField]
+    Sound_MainGame sound_mainGame;
     
     // 現在地
     Type currentPlaceType = Type.none;
@@ -68,6 +71,7 @@ public class MainGame : MonoBehaviour
 
         // カメラの初期位置
         mainCamera.Move(Type.cave);
+        sound_mainGame.PlaySound(SoundType_MainGame.BGM);
     }
     
     // Update is called once per frame
@@ -78,6 +82,11 @@ public class MainGame : MonoBehaviour
         {
             ITEM_TYPE type = (ITEM_TYPE)i;
             owner_human.MatchItemsHumans(manager_item.GetItem(type), Type.cave);
+        }
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            sound_mainGame.PlaySound(SoundType_MainGame.Click);
         }
         
         // マンションのリクエスト処理
