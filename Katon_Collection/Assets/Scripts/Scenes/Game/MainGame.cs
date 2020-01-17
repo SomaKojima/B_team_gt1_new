@@ -37,9 +37,11 @@ public class MainGame : MonoBehaviour
 
     [SerializeField]
     JudgeField judgeField;
+
+    Debug_MainGame debug = new Debug_MainGame();
     
     // 現在地
-    Type currentPlaceType = Type.none;
+    Type currentPlaceType = Type.cave;
     
     // Start is called before the first frame update
     void Start()
@@ -49,9 +51,6 @@ public class MainGame : MonoBehaviour
         owner_floor.Initialize();
         owner_signBoard.Initialize(mainCamera.IsSigneBoardInScreen);
 
-        manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(1);
-        manager_item.GetItem(ITEM_TYPE.ENGINEER).SetCount(1);
-        manager_item.GetItem(ITEM_TYPE.COAL_MINER).SetCount(1);
         //for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
         //{
         //    ITEM_TYPE type = (ITEM_TYPE)i;
@@ -68,11 +67,15 @@ public class MainGame : MonoBehaviour
 
         // カメラの初期位置
         mainCamera.Move(Type.cave);
+
+        debug.Initialize(manager_item);
     }
     
     // Update is called once per frame
     void Update()
     {
+        debug.Update();
+
         // アイテムのマネージャと人間の数を合わせる
         for (int i = 0; i < (int)ITEM_TYPE.WOOD; i++)
         {
@@ -149,6 +152,8 @@ public class MainGame : MonoBehaviour
         }
 
         UpdateRequest(owner_human.GetRequest());
+
+        UpdateRequest(debug.GetRequest());
     }
 
     /// <summary>
@@ -167,17 +172,24 @@ public class MainGame : MonoBehaviour
             // 交換成功
             if (_isExchange)
             {
+
+                // 建築時に初期資源を手に入れる
+                if (!owner_floor.IsFirstBuilding())
+                {
+                    FirstGetResource();
+                }
                 // 資源の消費
-                manager_item.AddItems(owner_floor.GetBuildingResource(currentPlaceType));
+                manager_item.AddItems(_items);
                 // 建築
                 owner_floor.Building(currentPlaceType);
-                
             }
             else
             {
                 // 交換失敗時の処理
             }
-            // 建築終了後のUIの処理
+
+
+            // 建築終了後の処理
             _request.FinalizeBuilding(_isExchange);
         }
 
@@ -275,5 +287,13 @@ public class MainGame : MonoBehaviour
         
 
         _request.FinalizeRequest();
+    }
+
+    // 初期資源を手に入れる
+    void FirstGetResource()
+    {
+        manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(manager_item.GetItem(ITEM_TYPE.LOOGER).GetCount() + 1);
+        manager_item.GetItem(ITEM_TYPE.ENGINEER).SetCount(manager_item.GetItem(ITEM_TYPE.ENGINEER).GetCount() + 1);
+        manager_item.GetItem(ITEM_TYPE.COAL_MINER).SetCount(manager_item.GetItem(ITEM_TYPE.COAL_MINER).GetCount() + 1);
     }
 }

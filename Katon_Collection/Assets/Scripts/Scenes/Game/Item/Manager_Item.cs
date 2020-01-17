@@ -38,13 +38,18 @@ public class Manager_Item : MonoBehaviour
     }
 
     // 交換可能かどうかを判定
+
     public bool IsExchange(List<IItem> _items)
     {
+        if (_items == null) return true;
+
         // 交換可能か判定
         foreach (IItem item in _items)
         {
             if (item.GetItemType() == ITEM_TYPE.NONE) continue;
+
             IItem myItem = GetItem(item.GetItemType());
+
 
             // 足りない
             if (myItem.GetCount() + item.GetCount() < 0)
@@ -70,7 +75,6 @@ public class Manager_Item : MonoBehaviour
         {
             if (item.GetItemType() == ITEM_TYPE.NONE) continue;
             GetItem(item.GetItemType()).AddCount(item.GetCount());
-            //Debug.Log(item.GetItemType());
         }
         return true;
     }

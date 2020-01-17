@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Owner_Floor : MonoBehaviour
 {
-    const int MAX_BUILDING_RESOURCE_NUM = 2;
+    const int MAX_BUILDING_RESOURCE_NUM = 4;
 
     [SerializeField]
     Manager_Floor[] manager_floor = null;
@@ -21,6 +21,10 @@ public class Owner_Floor : MonoBehaviour
     List<IItem>[,] itemString = new List<IItem>[(int)Type.Max, MAX_BUILDING_RESOURCE_NUM];
 
     Floor_Encode floorEncode = new Floor_Encode();
+
+    bool isFirstBuilding = false;
+
+    int totalFloor = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -41,11 +45,40 @@ public class Owner_Floor : MonoBehaviour
             for (int j = 0; j < MAX_BUILDING_RESOURCE_NUM; j++)
             {
                 itemString[i, j] = new List<IItem>();
-                Item item = new Item();
-                item.Initialize(0, ITEM_TYPE.NONE);
-                if(j >= 1) item.Initialize(-1000, ITEM_TYPE.WOOD);
-                itemString[i, j].Add(item);
+
+                //// 建築時に必要な資源を決める
+                //if (j >= 1)
+                //{
+                //    Item item = new Item();
+                //    item.Initialize(0, ITEM_TYPE.NONE);
+                //    item.Initialize(-1000, ITEM_TYPE.WOOD);
+                //    itemString[i, j].Add(item);
+                //}
+                Set(i, j);
+
+
             }
+        }
+    }
+
+    void Set(int i, int j)
+    {
+        switch (j)
+        {
+            case 0:
+                break;
+            case 1:
+                itemString[i, j].Add(new Item(-100, ITEM_TYPE.ORE));
+                break;
+
+            case 2:
+                itemString[i, j].Add(new Item(-150, ITEM_TYPE.ORE));
+                itemString[i, j].Add(new Item(-30, ITEM_TYPE.WOOD));
+                break;
+            case 3:
+                itemString[i, j].Add(new Item(-250, ITEM_TYPE.ORE));
+                itemString[i, j].Add(new Item(-100, ITEM_TYPE.PARTS));
+                break;
         }
     }
 
@@ -73,15 +106,28 @@ public class Owner_Floor : MonoBehaviour
             position.y += buildingOffsetY;
             manager_floor[(int)type].Add(factory_floor.CreateBase(position));
         }
+        isFirstBuilding = true;
+        totalFloor++;
     }
 
     public List<IItem> GetBuildingResource(Type _type)
     {
+        if (_type == Type.none) return null;
         int index = manager_floor[(int)_type].Floors.Count;
 
         if (index < 0) return null;
         if (index >= MAX_BUILDING_RESOURCE_NUM) return itemString[(int)_type, MAX_BUILDING_RESOURCE_NUM - 1];
 
         return itemString[(int)_type, index];
+    }
+
+    public bool IsFirstBuilding()
+    {
+        return isFirstBuilding;
+    }
+
+    public int GetTotalFloor()
+    {
+        return totalFloor;
     }
 }

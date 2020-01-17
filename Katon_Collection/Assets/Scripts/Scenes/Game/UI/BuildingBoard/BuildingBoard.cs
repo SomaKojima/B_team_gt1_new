@@ -31,6 +31,9 @@ public class BuildingBoard : MonoBehaviour
     [SerializeField]
     GameObject board;
 
+    [SerializeField]
+    Text nopriceText;
+
     // 建築するかどうかを判定
     bool isClickBuildingButton = false;
 
@@ -101,6 +104,10 @@ public class BuildingBoard : MonoBehaviour
 
     public void SetItems(List<IItem> _items)
     {
+        SetActiveNopriceText(true);
+        if (_items == null) return;
+        if (_items.Count == 0) return;
+        SetActiveNopriceText(false);
         bufItems = _items;
     }
 
@@ -138,5 +145,11 @@ public class BuildingBoard : MonoBehaviour
     public void ActiveMissMessage()
     {
         missMessage.SetActive(true);
+    }
+
+    void SetActiveNopriceText(bool _isActive)
+    {
+        if (_isActive == nopriceText.gameObject.activeSelf) return;
+        nopriceText.gameObject.SetActive(_isActive);
     }
 }
