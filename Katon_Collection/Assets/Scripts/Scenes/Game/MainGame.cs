@@ -182,6 +182,8 @@ public class MainGame : MonoBehaviour
                 manager_item.AddItems(_items);
                 // 建築
                 owner_floor.Building(currentPlaceType);
+
+                uiManager.UpdateBuilding(owner_floor.GetTotalFloor());
             }
             else
             {

@@ -64,6 +64,10 @@ public class Common_Encode
 
 
             // データをエンコードする
+
+            // データを読み取る
+            CommonEncodeData data = new CommonEncodeData();
+            data.Initailize();
             while (line != null)
             {
                 if (line.Contains("DATA_END"))
@@ -74,21 +78,13 @@ public class Common_Encode
                 // 余分なカンマを削除
                 line = RemoveConmma(line);
 
-                // データを読み取る
-                CommonEncodeData data = new CommonEncodeData();
-
-                data.Initailize();
-                EncodeToItem(line, data);
-
-
-                // リストに追加
-                dataList.Add(data);
-
-
+                EncodeToItem(line, ref data);
                 // 次の行に移動
                 line = strReader.ReadLine();
-
             }
+
+            // リストに追加
+            dataList.Add(data);
 
         }
         return true;
@@ -98,7 +94,7 @@ public class Common_Encode
     /// START_DATAからEND_DATAまでのエンコード
     /// </summary>
     /// <param name="line"></param>
-    void EncodeToItem(string line, CommonEncodeData data)
+    void EncodeToItem(string line, ref CommonEncodeData data)
     {
         if (line == "") return;
 

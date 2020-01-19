@@ -33,15 +33,33 @@ public class Debug_MainGame
         buindingTime.Add(420);
         buindingTime.Add(510);
 
+        for (int i = (int)ITEM_TYPE.HUMAN_NUM; i < (int)ITEM_TYPE.NUM; i++)
+        {
+            ITEM_TYPE type = (ITEM_TYPE)i;
+            _managerItem.GetItem(type).SetCount(10000);
+        }
+
         //humanTime.Add(45);
         //HumanCount.Add(0);
 
-        //Time.timeScale = 50.0f;
     }
-    
+
     // Update is called once per frame
     public void Update()
     {
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            if (Time.timeScale > 2.5f)
+            {
+                Time.timeScale = 1.0f;
+            }
+            else
+            {
+                Time.timeScale = 5.0f;
+            }
+        }
+
         frame += Time.deltaTime;
 
         if ((humanIndex + 1 <= humanTime.Count))

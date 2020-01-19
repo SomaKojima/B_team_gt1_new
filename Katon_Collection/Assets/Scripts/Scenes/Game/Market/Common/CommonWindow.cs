@@ -40,8 +40,7 @@ public class CommonWindow : MonoBehaviour
     void Start()
     {
         common_Encode.Initialize();
-        bool isEncode = common_Encode.EncodeToItem(csvFile.text);
-        Debug.Log(isEncode);
+        common_Encode.EncodeToItem(csvFile.text);
         CreateUnitBotton();
     }
 
@@ -94,12 +93,11 @@ public class CommonWindow : MonoBehaviour
 
     void CreateUnitBotton()
     {
-        Debug.Log("start");
+
         // 仮提示
         foreach (CommonEncodeData data in common_Encode.GetDateList())
         {
             List<IItem> items = new List<IItem>();
-            Debug.Log("create");
 
             // 手に入るitemの設定
             foreach (IItem item in data.get_items)
@@ -135,6 +133,14 @@ public class CommonWindow : MonoBehaviour
         //managerCngItm.LineupRemainItem();
         //managerCngItm.DisplayTotalCount();
 
+    }
+
+    /// <summary>
+    /// 建築時の更新処理
+    /// </summary>
+    public void UpdateBuilding(int buildingTotal)
+    {
+        owner_commonUnitButton.UpdateBuilding(buildingTotal);
     }
 
     public List<IItem> GetExchangeItemList()

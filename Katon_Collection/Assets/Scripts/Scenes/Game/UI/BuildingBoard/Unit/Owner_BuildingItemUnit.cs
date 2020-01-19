@@ -47,6 +47,11 @@ public class Owner_BuildingItemUnit : MonoBehaviour
 
     public void SetUnits(List<IItem> _items)
     {
+        foreach(BuildingItemUnit unit in manager.GetUnits())
+        {
+            unit.gameObject.SetActive(false);
+        }
+
         foreach (IItem item in _items)
         {
             if (item.GetItemType() == ITEM_TYPE.NONE) continue;

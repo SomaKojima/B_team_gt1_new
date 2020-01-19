@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Owner_Floor : MonoBehaviour
 {
+    const int BUILDING_NECESSARY = 200;
     const int MAX_BUILDING_RESOURCE_NUM = 4;
 
     [SerializeField]
@@ -61,23 +62,46 @@ public class Owner_Floor : MonoBehaviour
 
     void Set(int i, int j)
     {
+        Type placeType = (Type)i;
+        ITEM_TYPE buf;
+
         switch (j)
         {
             case 0:
                 break;
             case 1:
-                necessaryItems[i, j].Add(new Item(-100, ITEM_TYPE.ORE));
+                buf = ChangeItemType.PlaceToItemType(placeType);
+                necessaryItems[i, j].Add(new Item(-100, buf));
                 break;
 
             case 2:
-                necessaryItems[i, j].Add(new Item(-150, ITEM_TYPE.ORE));
-                necessaryItems[i, j].Add(new Item(-30, ITEM_TYPE.WOOD));
+                buf = ChangeItemType.PlaceToItemType(placeType);
+                necessaryItems[i, j].Add(new Item(-150, buf));
+                buf = ChangeItemType.PlaceToItemType(PlaceNext(placeType));
+                necessaryItems[i, j].Add(new Item(-30, buf));
                 break;
             case 3:
-                necessaryItems[i, j].Add(new Item(-250, ITEM_TYPE.ORE));
-                necessaryItems[i, j].Add(new Item(-100, ITEM_TYPE.PARTS));
+                buf = ChangeItemType.PlaceToItemType(placeType);
+                necessaryItems[i, j].Add(new Item(-250, buf));
+                buf = ChangeItemType.PlaceToItemType(PlaceNext(placeType));
+                necessaryItems[i, j].Add(new Item(-100, buf));
                 break;
         }
+    }
+
+    Type PlaceNext(Type _type)
+    {
+        switch(_type)
+        {
+            case Type.cave:
+                return Type.forest;
+            case Type.forest:
+                return Type.factory;
+            case Type.factory:
+                return Type.cave;
+        }
+
+        return Type.none;
     }
 
     // Update is called once per frame
@@ -140,7 +164,7 @@ public class Owner_Floor : MonoBehaviour
         for (int i = 0; i < (int)Type.Max; i++)
         {
             necessaryItems[i, 0].Clear();
-            int count = 200 * _totalFloor;
+            int count = BUILDING_NECESSARY * _totalFloor;
             necessaryItems[i, 0].Add(new Item(-count, ChangeItemType.PlaceToItemType((Type)i)));
         }
     }

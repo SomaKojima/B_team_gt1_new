@@ -364,7 +364,6 @@ public class MainGame_UIManager : MonoBehaviour
         if (logWindow.IsClick())
         {
             // カメラ停止
-            Debug.Log("stop");
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_STOP);
         }
 
@@ -372,7 +371,6 @@ public class MainGame_UIManager : MonoBehaviour
         if (logWindow.IsNotClick())
         {
             // カメラ停止
-            Debug.Log("start");
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_START);
         }
     }
@@ -448,7 +446,7 @@ public class MainGame_UIManager : MonoBehaviour
     /// 建築終了の処理
     /// </summary>
     /// <param name="isBuilding"></param>
-    public void FinalizeBuilding(bool isBuilding)
+    void FinalizeBuilding(bool isBuilding)
     {
         // 建築成功
         if (isBuilding)
@@ -459,6 +457,14 @@ public class MainGame_UIManager : MonoBehaviour
         {
             buildingBoard.ActiveMissMessage();
         }
+    }
+
+    /// <summary>
+    /// 建築時の更新処理
+    /// </summary>
+    public void UpdateBuilding(int buildingTotal)
+    {
+        marketWindow.UpdateBuilding(buildingTotal);
     }
 
     //リザルトに行くときのフェード
