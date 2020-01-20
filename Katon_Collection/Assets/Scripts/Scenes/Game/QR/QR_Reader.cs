@@ -42,7 +42,7 @@ public class QR_Reader : MonoBehaviour
         if (Application.platform == RuntimePlatform.Android)
         {
             // Android
-            cameraImage.transform.rotation *= Quaternion.AngleAxis(-90, Vector3.back);
+            cameraImage.transform.rotation *= Quaternion.AngleAxis(-90, Vector3.forward);
         }
 
         StartRead();

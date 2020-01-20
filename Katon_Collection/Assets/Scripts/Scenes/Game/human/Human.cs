@@ -52,13 +52,6 @@ public class Human : MonoBehaviour
         transform.position += Velocity;
         move.Excute(this);
 
-        if (isPick)
-        {
-            // 場所を変更
-            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.POSITION_TO_PLACE);
-            request.ChangePosition = gameObject.transform.position;
-        }
-
         if(isCollect)
         {
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.COLLECT);
@@ -74,8 +67,12 @@ public class Human : MonoBehaviour
         // 場所を変更
         if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.POSITION_TO_PLACE_SUCCESS))
         {
-            placeType = request.ChangePlaceType;
-            move.SetTarget(request.AreaCenterPosition);
+            if (request.ChangePlaceType != Type.factory &&
+                request.ChangePlaceType != Type.market)
+            {
+                placeType = request.ChangePlaceType;
+                move.SetTarget(request.AreaCenterPosition);
+            }
             //Debug.Log(request.AreaCenterPosition);
             //move.Change(this, MOVE_STATE_TYPE.GO_TO_TARGET);
         }

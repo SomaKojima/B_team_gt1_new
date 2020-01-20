@@ -27,6 +27,10 @@ public class Pick : MoveState
         {
             human.IsPick = false;
             human.GetRequest().Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_SCROLL);
+            // 場所を変更
+            human.GetRequest().Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.POSITION_TO_PLACE);
+            human.GetRequest().ChangePosition = human.transform.position;
+
             return MOVE_STATE_TYPE.COLLECT;
         }
 

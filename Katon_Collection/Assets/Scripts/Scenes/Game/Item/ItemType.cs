@@ -5,6 +5,9 @@ using UnityEngine;
 // 資源の種類
 public enum ITEM_TYPE
 {
+
+    RANDOM = -2,
+    /// </summary>
     NONE = -1,
     LOOGER,             // 木こり
     COAL_MINER,         // 炭鉱夫

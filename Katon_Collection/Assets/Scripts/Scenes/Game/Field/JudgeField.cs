@@ -19,6 +19,8 @@ public class JudgeField : MonoBehaviour
         
     }
 
+
+
     public Type ChangePositionToPlaceType(Vector3 _position)
     {
         float length = 999999999999.0f;

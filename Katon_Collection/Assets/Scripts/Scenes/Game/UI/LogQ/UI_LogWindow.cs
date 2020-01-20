@@ -42,6 +42,14 @@ public class UI_LogWindow : MonoBehaviour
 
     Vector2 bigSize = Vector2.zero;
 
+    // クリック中かどうか
+    bool isClick = false;
+
+    // スクロールをやめたかどうか
+    bool isNotClick = false;
+
+    bool isDrag = false;
+
     private void Start()
     {
         littleSize = GetComponent<RectTransform>().sizeDelta;
@@ -61,6 +69,33 @@ public class UI_LogWindow : MonoBehaviour
             isScrollUnder = false;
             scrollRect.verticalNormalizedPosition = 0;
         }
+
+        isNotClick = false;
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (!isDrag && isClick)
+            {
+                m_sizeFlag = !m_sizeFlag;
+
+
+                if (m_logType == LogWindowType.Little)
+                {
+                    m_logType = LogWindowType.Big;
+                }
+                else
+                {
+                    m_logType = LogWindowType.Little;
+                }
+
+                UpdateMode(m_logType);
+            }
+            isDrag = false;
+            if (isClick)
+            {
+                isNotClick = true;
+            }
+            isClick = false;
+        }
     }
 
     //ロゴを追加する
@@ -76,30 +111,11 @@ public class UI_LogWindow : MonoBehaviour
         m_image.gameObject.SetActive(true);
         isScrollUnder = true;
     }
-
-    //クリックイベント
-    public void OnClick()
-    {
-        m_sizeFlag = !m_sizeFlag;
-
-
-        if(m_logType == LogWindowType.Little)
-        {
-            m_logType = LogWindowType.Big;
-        }
-        else
-        {
-            m_logType = LogWindowType.Little;
-        }
-
-
-        UpdateMode(m_logType);
-    }
+    
 
     private void UpdateMode(LogWindowType type)
     {
         //isScrollUnder = true;
-        Debug.Log("change mode");
         if (type == LogWindowType.Little)
         {
             LittleMode();
@@ -143,7 +159,23 @@ public class UI_LogWindow : MonoBehaviour
         }
     }
 
-    public void OnChangeValue()
+    public void OnPointerDown()
     {
+        isClick = true;
+    }
+
+    public void OnDrag()
+    {
+        isDrag = true;
+    }
+
+    public bool IsClick()
+    {
+        return isClick;
+    }
+
+    public bool IsNotClick()
+    {
+        return isNotClick;
     }
 }

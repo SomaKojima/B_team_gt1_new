@@ -16,10 +16,11 @@ public class Request
 
     Type changePlaceType;
     Vector3 changePosition;
-
+    
     Type collectPlaceType;
     ITEM_TYPE collectItemType;
 
+    // 場所の中心座標
     Vector3 areaCenterPosition;
 
     /// <summary>
@@ -135,6 +136,10 @@ public class Request
         }
     }
 
+    /// <summary>
+    /// 収集終了時のリクエスト処理
+    /// </summary>
+    /// <param name="isCollectable"></param>
     public void FinalizeCollect(bool isCollectable)
     {
         if (isCollectable)
@@ -147,9 +152,21 @@ public class Request
         }
     }
 
-    public void FinalizePositionToPlace()
+    /// <summary>
+    /// 座標を場所に変更したリクエスト処理
+    /// </summary>
+    /// <param name="isChangable"></param>
+    public void FinalizePositionToPlace(bool isChangable)
     {
-        replayFlag.OnFlag(REPLAY_REQUEST.POSITION_TO_PLACE_SUCCESS);
+        if (isChangable)
+        {
+            replayFlag.OnFlag(REPLAY_REQUEST.POSITION_TO_PLACE_SUCCESS);
+        }
+        else
+        {
+
+            replayFlag.OnFlag(REPLAY_REQUEST.POSITION_TO_PLACE_FAILED);
+        }
     }
     
 }

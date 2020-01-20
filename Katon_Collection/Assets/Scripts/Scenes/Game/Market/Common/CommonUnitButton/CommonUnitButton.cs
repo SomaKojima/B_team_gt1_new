@@ -38,7 +38,6 @@ public class CommonUnitButton : UI_Button_Market
     {
         
     }
-
     /// <summary>
     /// Commonボタンの初期化
     /// </summary>
@@ -46,19 +45,18 @@ public class CommonUnitButton : UI_Button_Market
     /// <param name="_requiredNum">要求するアイテムの総数</param>
     public void Initialize(List<IItem> _getItems, int _requiredNum)
     {
+
         // 値初期化
-        getItems = _getItems;
         requiredNum = _requiredNum;
         // ボタンのテキスト変更
         requiredText.text = "必要数\n" + requiredNum.ToString();
-
         // リスト内の数だけ入手できるアイテムを生成する
+        getItems = _getItems;
         foreach (IItem item in _getItems)
         {
             factoryCmnIcn.Create(item.GetItemType(), item.GetCount());
         }
     }
-
     // 要求するアイテムの数量を取得
     public int GetRequiredNum() { return requiredNum; }
     // 取得できるアイテムのリストを取得
