@@ -5,75 +5,68 @@ using UnityEngine.UI;
 
 public class MarketWindow : MonoBehaviour
 {
-    // 市場のウィンドウ
-    [SerializeField]
-    Image marketWindow = null;
-
-    // Saleのウィンドウスプライト
-    [SerializeField]
-    Sprite saleSprite = null;
-    // Commonのウィンドウスプライト
-    [SerializeField]
-    Sprite commonSprite = null;
-
     // 市場の選択しているタイプ(Sale or Common)
     public MARKET_TYPE marketType = MARKET_TYPE.SALE;
 
     // UI_Button_Marketオブジェクト
     [SerializeField]
-    UI_Button_Market uiButtonMkt = null;
+    UI_Button_Market selectSaleBtn = null;
 
-    // Factory_CommonUnitButtonオブジェクト
     [SerializeField]
-    Factory_CommonUnitButton factoryCmnUntBtn = null;
-    // Manager_CommonUnitButtonオブジェクト
-    [SerializeField]
-    Manager_CommonUnitButton managerCmnUntBtn = null;
+    UI_Button_Market selectCommonBtn;
 
-    // Factory_ChangeItemオブジェクト
     [SerializeField]
-    Factory_ChangeItem factoryCngItm = null;
-    // Manager_ChangeItemオブジェクト
+    CommonWindow commonWindow;
+
     [SerializeField]
-    Manager_ChangeItem managerCngItm = null;
+    SaleWindow saleWindow;
+
+    [SerializeField]
+    UI_Button backButton;
+    bool isBack = false;
+
+    bool isExchange = false;
+
+    Vector3 cameraPosition;
+
+    List<IItem> exchangeItemList = new List<IItem>();
+
+    public void Initialize(Manager_Item _managerItem)
+    {
+        commonWindow.Initialize(_managerItem);
+    }
+
+    void Initialize()
+    {
+        isBack = false;
+        isExchange = false;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        // 仮提示
-        List<IItem> items = new List<IItem>();
-        Item item = new Item();
-        item.Initialize(20, ITEM_TYPE.PARTS);
-        items.Add(item);
-        item = new Item();
-        item.Initialize(10, ITEM_TYPE.WOOD);
-        items.Add(item);
-        managerCmnUntBtn.Add(factoryCmnUntBtn.Create(items, 30));
-        List<IItem> items2 = new List<IItem>();
-        item = new Item();
-        item.Initialize(10, ITEM_TYPE.COAL_MINER);
-        items2.Add(item);
-        item = new Item();
-        item.Initialize(10, ITEM_TYPE.ORE);
-        items2.Add(item);
-        managerCmnUntBtn.Add(factoryCmnUntBtn.Create(items2, 20));
-
-        // 仮マイアイテム
-        managerCngItm.Add(factoryCngItm.Create(ITEM_TYPE.WOOD, 30));
-        managerCngItm.Add(factoryCngItm.Create(ITEM_TYPE.ORE, 20));
-        managerCngItm.Add(factoryCngItm.Create(ITEM_TYPE.PARTS, 10));
-
-        managerCngItm.LineupRemainItem();
-        managerCngItm.DisplayTotalCount();
     }
+
+
 
     // Update is called once per frame
     void Update()
     {
         // タブを切り替え
         ChangeTab();
+        
+        if (commonWindow.IsExchange())
+        {
+            exchangeItemList = commonWindow.GetExchangeItemList();
+            isExchange = true;
+        }
 
-        Debug.Log(marketType);
+        isBack = false;
+        if (backButton.IsClick())
+        {
+            backButton.OnClickProcess();
+            isBack = true;
+        }
     }
 
     // 市場の選択メニューを取得
@@ -88,26 +81,63 @@ public class MarketWindow : MonoBehaviour
     private void ChangeTab()
     {
         // クリックで切り替え
-        if (uiButtonMkt.IsClickSale())
+        if (selectSaleBtn.IsClick())
         {
-            marketWindow.sprite = saleSprite;
+            selectSaleBtn.OnClickProcess();
             marketType = MARKET_TYPE.SALE;
+            commonWindow.UnActive();
+            saleWindow.Active();
         }
-        else if (uiButtonMkt.IsClickCommon())
+        else if (selectCommonBtn.IsClick())
         {
-            marketWindow.sprite = commonSprite;
+            selectCommonBtn.OnClickProcess();
             marketType = MARKET_TYPE.COMMON;
+            commonWindow.Active();
+            saleWindow.UnActive();
         }
+        
+    }
 
-        // デフォルトの値と現在のタブが異なっていたら切り替え
-        if(marketType == MARKET_TYPE.SALE && marketWindow.sprite != saleSprite)
-        {
-            marketWindow.sprite = saleSprite;
-        }
-        else if (marketType == MARKET_TYPE.COMMON && marketWindow.sprite != commonSprite)
-        {
-            marketWindow.sprite = commonSprite;
-        }
+    /// <summary>
+    /// 建築時の更新処理
+    /// </summary>
+    /// <param name="buildingTotal"></param>
+    public void UpdateBuilding(int buildingTotal)
+    {
+        commonWindow.UpdateBuilding(buildingTotal);
+    }
+
+    public bool IsExchange()
+    {
+        return isExchange;
+    }
+
+    public void FinishExchange()
+    {
+        isExchange = false;
+    }
+
+    public List<IItem> GetExchangeItemList()
+    {
+        return exchangeItemList;
+    }
+
+    public void Active()
+    {
+        gameObject.SetActive(true);
+        Initialize();
+    }
+
+    public void UnActive()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public bool IsBack()
+    {
+        bool buf = isBack;
+        isBack = false;
+        return buf;
     }
 
     /// <summary>

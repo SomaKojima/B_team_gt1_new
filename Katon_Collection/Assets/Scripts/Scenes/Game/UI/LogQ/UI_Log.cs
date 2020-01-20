@@ -17,13 +17,14 @@ public class UI_Log : MonoBehaviour
     bool m_timeActiveFlag = false;
 
     
+    
     //初期化
-    public void Initialize(string _text,string _time)
+    public void Initialize(string _text,string _time, bool isBigMode)
     {
         m_text.text = _text;
         m_time.text = _time.ToString();
-
-        
+        //if (isBigMode) BigMode();
+        //else LittleMode();
     }
 
     //大きいウィンドウ
@@ -34,10 +35,6 @@ public class UI_Log : MonoBehaviour
         if (m_time == null) return;
 
         m_time.gameObject.SetActive(true);
-
-   
-
-
     }
 
     //小さいウィンドウ

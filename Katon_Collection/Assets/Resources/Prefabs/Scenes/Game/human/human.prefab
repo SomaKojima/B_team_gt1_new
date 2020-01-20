@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4210628268849086449}
   - component: {fileID: 5607018121695046286}
   - component: {fileID: 7953010731816768524}
+  - component: {fileID: -8010533750317035129}
   m_Layer: 8
   m_Name: human
   m_TagString: Untagged
@@ -49,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemContextTable: {fileID: 11400000, guid: 254821525c102ff418bfeea42638378f, type: 2}
   renderer: {fileID: 4210628268971606161}
+  icon: {fileID: 345919171389045877}
 --- !u!65 &5607018121695046286
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -60,8 +62,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 7.8974786, y: 17.770506, z: 1.5911713}
-  m_Center: {x: 0.19308639, y: 8.385253, z: 0.29558563}
+  m_Size: {x: 17.398159, y: 21.182001, z: 12.203659}
+  m_Center: {x: -0.3989601, y: 10.091001, z: -0.5684624}
 --- !u!54 &7953010731816768524
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -78,6 +80,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 122
   m_CollisionDetection: 0
+--- !u!114 &-8010533750317035129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4210628268849086451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4210628268849086449}
+          m_MethodName: ClickEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &4210628268971606164
 GameObject:
   m_ObjectHideFlags: 0

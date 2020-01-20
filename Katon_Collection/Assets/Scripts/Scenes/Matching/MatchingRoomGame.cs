@@ -20,11 +20,15 @@ public class MatchingRoomGame : MonoBehaviour
     [SerializeField]
     UI_Button_RoomMatching backButton;
 
+    [SerializeField]
+    Fade_CloudEffect fade_CloudEffect = null;
+
     // Start is called before the first frame update
     void Start()
     {
         serverInterface.ConnectServer();
         serverInterface.EnterLobby();
+        fade_CloudEffect.StartFadeOut();
     }
 
     // Update is called once per frame
@@ -83,12 +87,20 @@ public class MatchingRoomGame : MonoBehaviour
             serverInterface.LeaveRoom();
         }
 
-
-        if(backButton.IsClick())
+        //ゲームを開始する
+        if (serverInterface.GetGameStartFlag())
         {
-            backButton.OnClickProcess();
+            Debug.Log("gamestart");
 
-            SceneManager.LoadScene("MatchingRoomScene");
+            SceneManager.LoadScene("GameScene");
+        }
+
+        if (waitRoom_Window.IsGameStart())
+        {
+            if (serverInterface.IsMaster())
+            {
+                StartGameMaster();
+            }
         }
     }
 
@@ -114,5 +126,16 @@ public class MatchingRoomGame : MonoBehaviour
     {
         serverInterface.EnterRoom(entryRoom_Window.GetEnterRoomName().GetRoomName());
         serverInterface.SetPlayerName(entryRoom_Window.GetInputPlayerName());
+    }
+
+    // ゲーム開始時の処理
+    void StartGameMaster()
+    {
+        serverInterface.OthersGameStartFlagSet(true);
+    }
+
+    void GameStart()
+    {
+        fade_CloudEffect.StartFadeIn();
     }
 }

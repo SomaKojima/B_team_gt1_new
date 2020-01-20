@@ -25,6 +25,8 @@ public class QR_Reader : MonoBehaviour
 
     BarcodeReader reader = null;
 
+    float frame = 0;
+    float duringFrame = 2.0f;
 
     public void Initialize()
     {
@@ -37,6 +39,12 @@ public class QR_Reader : MonoBehaviour
             }
         };
 
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            // Android
+            cameraImage.transform.rotation *= Quaternion.AngleAxis(-90, Vector3.forward);
+        }
+
         StartRead();
     }
 
@@ -47,14 +55,15 @@ public class QR_Reader : MonoBehaviour
 
     private void Update()
     {
-        string code = "";
-        if (webCam != null)
+        if (webCam != null && !isStop)
         {
-            code = Read(webCam);
-        }
-        if (!isStop)
-        {
-            m_infoQR = Read(webCam);
+            if (frame > duringFrame)
+            {
+                frame = 0;
+                m_infoQR = Read(webCam);
+                Debug.Log(m_infoQR);
+            }
+            frame += Time.deltaTime;
         }
     }
 
@@ -97,7 +106,7 @@ public class QR_Reader : MonoBehaviour
             return false;
 
         // ウェブカメラオブジェクトを生成
-        webCam = new WebCamTexture(devices[0].name, (int)(Screen.width * 0.5f), (int)(Screen.height * 0.5f), 6);
+        webCam = new WebCamTexture(devices[0].name, Screen.width, Screen.height, 60);
         cameraImage.texture = webCam;
         // ウェブカメラを起動
         webCam.Play();

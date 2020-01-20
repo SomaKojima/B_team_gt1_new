@@ -9,6 +9,16 @@ public class Item : IItem
     // 資源の個数
     private int count = 0;
 
+    public Item()
+    {
+
+    }
+
+    public Item(int _count, ITEM_TYPE _type)
+    {
+        Initialize(_count, _type);
+    }
+
     public void Initialize(int _count, ITEM_TYPE _type)
     {
         count = _count;
@@ -38,5 +48,15 @@ public class Item : IItem
     public int GetCount()
     {
         return count;
+    }
+
+    public void SetCount(int _count)
+    {
+        count = _count;
+    }
+
+    public void SetType(ITEM_TYPE _type)
+    {
+        type = _type;
     }
 }
