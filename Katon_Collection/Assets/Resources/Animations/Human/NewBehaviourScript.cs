@@ -9,7 +9,7 @@ using UnityEditor;
 public class NewBehaviourScript : MonoBehaviour
 {
     [SerializeField]
-    public Color color;
+    public Material material;
 
     [SerializeField]
     public List<GameObject> materials;
@@ -88,13 +88,13 @@ public class NewBehaviourScript : MonoBehaviour
 public class FighterInspector : Editor
 {
     Object t;
-    SerializedProperty color;
+    SerializedProperty material;
     SerializedProperty materials;
 
     private void OnEnable()
     {
         t = target;
-        color = serializedObject.FindProperty("color");
+        material = serializedObject.FindProperty("material");
         materials = serializedObject.FindProperty("materials");
     }
     public override void OnInspectorGUI()
@@ -102,7 +102,7 @@ public class FighterInspector : Editor
         serializedObject.Update();
         EditorGUI.BeginChangeCheck();
 
-        EditorGUILayout.PropertyField(color);
+        EditorGUILayout.PropertyField(material);
 
         EditorGUILayout.PropertyField(materials, true);
         if (EditorGUI.EndChangeCheck())
@@ -117,16 +117,13 @@ public class FighterInspector : Editor
         //入力されたオブジェクトのRendererを全て取得し、さらにそのRendererに設定されている全Materialの色を変える
         foreach (Renderer targetRenderer in _t.GetComponents<Renderer>())
         {
-            foreach (Material _material in targetRenderer.materials)
-            {
-                _material.color = color.colorValue;
-            }
+            targetRenderer.material = _t.material;
         }
 
         //入力されたオブジェクトの子にも同様の処理を行う
         for (int i = 0; i < _t.transform.childCount; i++)
         {
-            ChangeColorOfGameObject(_t.transform.GetChild(i).gameObject, color.colorValue);
+            ChangeMaterialOfGameObject(_t.transform.GetChild(i).gameObject, _t.material);
         }
 
         foreach (GameObject material in list)
@@ -136,22 +133,19 @@ public class FighterInspector : Editor
         }
     }
 
-    private void ChangeColorOfGameObject(GameObject targetObject, Color color)
+    private void ChangeMaterialOfGameObject(GameObject targetObject, Material material)
     {
 
         //入力されたオブジェクトのRendererを全て取得し、さらにそのRendererに設定されている全Materialの色を変える
         foreach (Renderer targetRenderer in targetObject.GetComponents<Renderer>())
         {
-            foreach (Material material in targetRenderer.sharedMaterials)
-            {
-                material.color = color;
-            }
+            targetRenderer.material = material;
         }
 
         //入力されたオブジェクトの子にも同様の処理を行う
         for (int i = 0; i < targetObject.transform.childCount; i++)
         {
-            ChangeColorOfGameObject(targetObject.transform.GetChild(i).gameObject, color);
+            ChangeMaterialOfGameObject(targetObject.transform.GetChild(i).gameObject, material);
         }
 
     }
