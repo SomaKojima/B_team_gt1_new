@@ -13,6 +13,6 @@ public class GoToRoad : MoveState
     }
     public MOVE_STATE_TYPE Excute(Human human)
     {
-        return MOVE_STATE_TYPE.NONE;
+        return MOVE_STATE_TYPE.GO_TO_ROAD;
     }
 }

@@ -27,11 +27,19 @@ public class MarketWindow : MonoBehaviour
 
     bool isExchange = false;
 
+    Vector3 cameraPosition;
+
     List<IItem> exchangeItemList = new List<IItem>();
 
     public void Initialize(Manager_Item _managerItem)
     {
         commonWindow.Initialize(_managerItem);
+    }
+
+    void Initialize()
+    {
+        isBack = false;
+        isExchange = false;
     }
 
     // Start is called before the first frame update
@@ -46,10 +54,7 @@ public class MarketWindow : MonoBehaviour
     {
         // タブを切り替え
         ChangeTab();
-
-        Debug.Log(marketType);
-        exchangeItemList.Clear();
-
+        
         if (commonWindow.IsExchange())
         {
             exchangeItemList = commonWindow.GetExchangeItemList();
@@ -60,7 +65,6 @@ public class MarketWindow : MonoBehaviour
         if (backButton.IsClick())
         {
             backButton.OnClickProcess();
-            UnActive();
             isBack = true;
         }
     }
@@ -94,6 +98,15 @@ public class MarketWindow : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// 建築時の更新処理
+    /// </summary>
+    /// <param name="buildingTotal"></param>
+    public void UpdateBuilding(int buildingTotal)
+    {
+        commonWindow.UpdateBuilding(buildingTotal);
+    }
+
     public bool IsExchange()
     {
         return isExchange;
@@ -112,6 +125,7 @@ public class MarketWindow : MonoBehaviour
     public void Active()
     {
         gameObject.SetActive(true);
+        Initialize();
     }
 
     public void UnActive()
@@ -121,7 +135,9 @@ public class MarketWindow : MonoBehaviour
 
     public bool IsBack()
     {
-        return isBack;
+        bool buf = isBack;
+        isBack = false;
+        return buf;
     }
 
     /// <summary>

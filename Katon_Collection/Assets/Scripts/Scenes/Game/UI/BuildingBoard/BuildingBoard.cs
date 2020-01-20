@@ -5,32 +5,46 @@ using UnityEngine.UI;
 
 public class BuildingBoard : MonoBehaviour
 {
+    // 建築ボタンを押したときの状態
     enum MODE
     {
         NONE = -1,
-        ONE,
-        TWO,
+        ONE,        // 建築ボタン一回目
+        TWO,        // 建築ボタン二回目
 
         MAX
     }
+
+    // 建築ボタン
     [SerializeField]
     UI_Button button;
 
+    // 素材の項目
     [SerializeField]
     Owner_BuildingItemUnit owner_BuildingItemUnit;
 
+    // 素材が足らないメッセージウィンドウ
     [SerializeField]
     GameObject missMessage;
 
+    // 素材を表示させるボード
     [SerializeField]
     GameObject board;
 
+    [SerializeField]
+    Text nopriceText;
+
+    // 建築するかどうかを判定
     bool isClickBuildingButton = false;
 
+    // メッセージウィンドウを表示させる時間関係
     float missFrame = 0;
     float missDuringFrame = 1.0f;
-
+    
+    // 現在の状態
     MODE mode = MODE.NONE;
+
+    List<IItem> bufItems = new List<IItem>();
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +63,7 @@ public class BuildingBoard : MonoBehaviour
     void Update()
     {
         isClickBuildingButton = false;
+        // 建築ボタンをクリック
         if (button.IsClick())
         {
             button.OnClickProcess();
@@ -56,7 +71,15 @@ public class BuildingBoard : MonoBehaviour
             mode = mode + 1;
             if (mode == MODE.MAX) mode = MODE.MAX - 1;
         }
+        // ボタン以外をクリックした場合
+        else if (Input.GetMouseButtonDown(0))
+        {
+            missMessage.SetActive(false);
+            mode = MODE.ONE;
+            board.SetActive(false);
+        }
 
+        // 素材が足らないウィンドウの処理
         if (missMessage.activeSelf)
         {
             missFrame += Time.deltaTime;
@@ -66,16 +89,29 @@ public class BuildingBoard : MonoBehaviour
                 missMessage.SetActive(false);
             }
         }
+
+        // 素材の更新処理
+        owner_BuildingItemUnit.SetUnits(bufItems);
     }
 
-    public void Active(List<IItem> _items)
+    // 建築ボードを表示する
+    public void Active()
     {
         if (this.gameObject.activeSelf) return;
         this.gameObject.SetActive(true);
         Initialize();
-        owner_BuildingItemUnit.SetUnits(_items);
     }
 
+    public void SetItems(List<IItem> _items)
+    {
+        SetActiveNopriceText(true);
+        if (_items == null) return;
+        if (_items.Count == 0) return;
+        SetActiveNopriceText(false);
+        bufItems = _items;
+    }
+
+    // 建築ボードを非表示する
     public void UnActive()
     {
         if (!this.gameObject.activeSelf) return;
@@ -99,13 +135,21 @@ public class BuildingBoard : MonoBehaviour
         }
     }
 
+    // 建築するかどうかを判定
     public bool IsClickBuildingButton()
     {
         return isClickBuildingButton;
     }
 
+    // 素材が足らないしたウィンドウを出す
     public void ActiveMissMessage()
     {
         missMessage.SetActive(true);
+    }
+
+    void SetActiveNopriceText(bool _isActive)
+    {
+        if (_isActive == nopriceText.gameObject.activeSelf) return;
+        nopriceText.gameObject.SetActive(_isActive);
     }
 }

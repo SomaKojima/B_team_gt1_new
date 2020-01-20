@@ -14,7 +14,12 @@ public class UI_ManagerLog : MonoBehaviour
     public void Add(UI_Log _log)
     {
         logs.Add(_log);
+    }
 
+    public void Delete(int index)
+    {
+        Destroy(logs[index].gameObject);
+        logs.RemoveAt(index);
     }
 
     //ロゴリストの取得
@@ -22,10 +27,4 @@ public class UI_ManagerLog : MonoBehaviour
     {
         get { return logs; }
     }
-
-
-    
-
-
-
 }

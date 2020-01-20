@@ -12,6 +12,9 @@ public class SignBoard : MonoBehaviour
 
     bool isClick = false;
 
+    //視界内にいるかどうか
+    bool isVisible = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,4 +42,9 @@ public class SignBoard : MonoBehaviour
         return placeType;
     }
     
+    public bool IsVisible
+    {
+        get { return isVisible; }
+        set { isVisible = value; }
+    }
 }
