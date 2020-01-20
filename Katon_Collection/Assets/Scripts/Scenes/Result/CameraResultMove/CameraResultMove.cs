@@ -20,11 +20,15 @@ public class CameraResultMove : MonoBehaviour
     {
     }
 
-    public void Move(Vector3 target)
+    public void Move()
     {
-        this.gameObject.transform.LookAt(target);
-        this.gameObject.transform.Translate(0.0f, 0.71f, 0.0f);
-      
+        Vector3 buf = Vector3.Lerp(this.gameObject.transform.position, target, 0.05f);
+        this.gameObject.transform.position = new Vector3(this.gameObject.transform.position.x, buf.y, this.gameObject.transform.position.z);
+    }
+
+    public void SetTarget(Vector3 _target)
+    {
+        target = _target;
     }
 
     public void Initialize(Vector3 createPosion)

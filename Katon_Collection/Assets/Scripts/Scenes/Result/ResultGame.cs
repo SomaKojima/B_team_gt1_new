@@ -16,10 +16,11 @@ public class ResultGame : MonoBehaviour
     Owner_Floor owner_Floor;
 
     float time = 0;
+    Floor landingFloor = null;
     // Start is called before the first frame update
     void Start()
     {
-        
+        owner_Floor.Initialize();
     }
 
     // Update is called once per frame
@@ -31,9 +32,11 @@ public class ResultGame : MonoBehaviour
             owner_Floor.Building(Type.cave);
             time = 0;
         }
-        if (owner_Floor.GetTop(Type.cave) != null)
+        landingFloor = owner_Floor.GetTopLandingOf(Type.cave);
+        if (landingFloor != null)
         {
-            cameraResultMove.Move(owner_Floor.GetTop(Type.cave).transform.position);
+            cameraResultMove.SetTarget(landingFloor.transform.position);
+            cameraResultMove.Move();
         }
     }
 }
