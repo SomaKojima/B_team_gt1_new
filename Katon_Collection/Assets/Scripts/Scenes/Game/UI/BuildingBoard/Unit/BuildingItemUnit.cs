@@ -17,8 +17,9 @@ public class BuildingItemUnit : MonoBehaviour
 
     public void Initialize(ITEM_TYPE _type, int _count)
     {
-        icon.sprite = itemContextTable.GetItemContex(_type).GetSprite();
         count = _count;
+        if (_type == ITEM_TYPE.NONE) return;
+        icon.sprite = itemContextTable.GetItemContex(_type).GetSprite();
         numText.text = count.ToString();
     }
 

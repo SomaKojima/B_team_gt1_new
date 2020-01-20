@@ -10,12 +10,22 @@ public class ContextMoveState
     GoToTarget goToTarget = new GoToTarget();
     Collect collect = new Collect();
     Pick pick = new Pick();
+
+    Vector3 target = Vector3.zero;
     
+    /// <summary>
+    /// 初期化
+    /// </summary>
+    /// <param name="human"></param>
     public void Initialize(Human human)
     {
         Change(human, MOVE_STATE_TYPE.COLLECT);
     }
 
+    /// <summary>
+    /// 実行
+    /// </summary>
+    /// <param name="human"></param>
     public void Excute(Human human)
     {
         if (state != null)
@@ -23,24 +33,32 @@ public class ContextMoveState
             Change(human, state.Excute(human));
         }
 
-        if (RayCheck(human) && stateType != MOVE_STATE_TYPE.PICK)
+        if (human.IsPick)
         {
-            Debug.Log("change");
             Change(human, MOVE_STATE_TYPE.PICK);
         }
     }
 
+    /// <summary>
+    /// ステートの変更
+    /// </summary>
+    /// <param name="human"></param>
+    /// <param name="type"></param>
     public void Change(Human human, MOVE_STATE_TYPE type)
     {
+        if (type == stateType) return;
         stateType = type;
+        human.Velocity = new Vector3(Human.SPEED, 0.0f, Human.SPEED); ;
         switch (type)
         {
             case MOVE_STATE_TYPE.GO_TO_TARGET:
-                goToTarget.Initialize(Vector3.zero);
+                Debug.Log("initialize");
+                goToTarget.Initialize(target);
+                Debug.Log(target);
                 state = goToTarget;
                 break;
             case MOVE_STATE_TYPE.COLLECT:
-                collect.Initialize(human, Vector3.zero);
+                collect.Initialize(human, target);
                 state = collect;
                 break;
             case MOVE_STATE_TYPE.PICK:
@@ -50,21 +68,8 @@ public class ContextMoveState
         }
     }
 
-
-    private bool RayCheck(Human human)
+    public void SetTarget(Vector3 _position)
     {
-        if (!Input.GetMouseButton(0)) return false;
-
-        Ray ray = new Ray();
-        RaycastHit hit = new RaycastHit();
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity) && hit.collider == human.gameObject.GetComponent<Collider>())
-        {
-            Debug.Log("true");
-            return true;
-        }
-
-        return false;
+        target = _position;
     }
 }

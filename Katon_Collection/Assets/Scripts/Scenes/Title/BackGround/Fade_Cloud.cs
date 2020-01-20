@@ -58,6 +58,7 @@ public class Fade_Cloud : MonoBehaviour
             image.localPosition = Vector3.Lerp(image.localPosition, outPosBuf, t);
         }
 
+        // 経過時間を計算
         time += Time.deltaTime;
 
         if (CulcT() >= 1.0f)
@@ -73,6 +74,10 @@ public class Fade_Cloud : MonoBehaviour
        
     }
 
+    /// <summary>
+    /// 補間の時間を計算
+    /// </summary>
+    /// <returns></returns>
     float CulcT()
     {
         if (duringTime == 0.0f)

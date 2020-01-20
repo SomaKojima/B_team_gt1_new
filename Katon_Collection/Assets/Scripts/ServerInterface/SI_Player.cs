@@ -18,10 +18,7 @@ public class SI_Player : Photon.MonoBehaviour
         {
             placePoint[i] = 0;
         }
-        for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
-        {
-            itemCount[i] = 0;
-        }
+        itemCount = new int[(int)ITEM_TYPE.NUM];
     }
 
     // Update is called once per frame

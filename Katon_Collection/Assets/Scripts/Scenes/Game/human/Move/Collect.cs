@@ -10,7 +10,7 @@ public class Collect : MoveState
     float depth = 10.0f;
 
     float frame = 0.0f;
-    float duringFrame = 1.0f;
+    float duringFrame = 5.0f;
 
     // Start is called before the first frame update
     public void Initialize(Human human, Vector3 _target)
@@ -35,7 +35,11 @@ public class Collect : MoveState
             human.IsCollect = true;
         }
 
-        return MOVE_STATE_TYPE.NONE;
+        Transform transform = human.transform;
+        // スプライトを反転
+        //human.Flip(human.Velocity.x < 0);
+
+        return MOVE_STATE_TYPE.COLLECT;
     }
 
     void TurnInOutArea(Human human, float minX, float maxX, float minZ, float maxZ)
@@ -44,7 +48,6 @@ public class Collect : MoveState
         if (IsTurn(minX, maxX, transform.position.x, human.Velocity.x))
         {
             human.Velocity = new Vector3(human.Velocity.x * -1, human.Velocity.y, human.Velocity.z);
-            transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
         }
         else if (IsTurn(minZ, maxZ, transform.position.z, human.Velocity.z))
         {

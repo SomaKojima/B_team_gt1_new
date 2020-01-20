@@ -29,7 +29,7 @@ public class QR_ReaderWindow : MonoBehaviour
 
     bool isExchange = false;
 
-    int otherID = 0;
+    int otherID = -1;
 
     public void Initialize()
     {

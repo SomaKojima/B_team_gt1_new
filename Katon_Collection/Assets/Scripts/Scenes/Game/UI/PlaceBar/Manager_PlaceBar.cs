@@ -12,6 +12,9 @@ public class Manager_PlaceBar : MonoBehaviour
     Type m_placeType = Type.none;
 
     [SerializeField]
+    GameObject placeBar;
+
+    [SerializeField]
     Image m_pencil;
 
     [SerializeField]
@@ -40,6 +43,9 @@ public class Manager_PlaceBar : MonoBehaviour
     //アクティブな状態か
     bool m_active = false;
 
+    // 移動するボタンを押したかどうか
+    bool isClickButton = false;
+    
 
 
     // Update is called once per frame
@@ -59,64 +65,44 @@ public class Manager_PlaceBar : MonoBehaviour
 
             m_active = !m_active;
 
-
-            for (int i = 0; i < BASE_NUM; i++)
-            {
-                if (m_active)
-                {
-                    m_placeButtons[i].gameObject.SetActive(true);
-                    m_pencil.gameObject.SetActive(true);
-                }
-                else
-                {
-                    m_placeButtons[i].gameObject.SetActive(false);
-                    m_pencil.gameObject.SetActive(false);
-                }
-
-            }
-
+            SetActiveBase(m_active);
         }
 
+        isClickButton = false;
 
-        m_placeType = Type.none;
         //森
         if (m_placeButtons[0].IsClick())
         {
             m_placeButtons[0].OnClickProcess();
+            
+            ClickButton(Type.forest);
 
-            m_placeType = Type.forest;
-
-            Debug.Log(m_placeType);
         }
 
         //洞窟
         if (m_placeButtons[1].IsClick())
         {
             m_placeButtons[1].OnClickProcess();
-
-            m_placeType = Type.cave;
-
-            Debug.Log(m_placeType);
+            
+            ClickButton(Type.cave);
         }
 
         //工場
         if (m_placeButtons[2].IsClick())
         {
             m_placeButtons[2].OnClickProcess();
+            
+            ClickButton(Type.factory);
 
-            m_placeType = Type.factory;
-
-            Debug.Log(m_placeType);
         }
 
         //牧場
         if (m_placeButtons[3].IsClick())
         {
             m_placeButtons[3].OnClickProcess();
+            
+            ClickButton(Type.farm);
 
-            m_placeType = Type.farm;
-
-            Debug.Log(m_placeType);
         }
 
 
@@ -125,20 +111,18 @@ public class Manager_PlaceBar : MonoBehaviour
         if (m_ichiba.IsClick())
         {
             m_ichiba.OnClickProcess();
+            
+            ClickButton(Type.market);
 
-            m_placeType = Type.market;
-
-            Debug.Log(m_placeType);
         }
 
         //噴水ボタンを押したら
         if (m_fountain.IsClick())
         {
             m_fountain.OnClickProcess();
+            
+            ClickButton(Type.fountain);
 
-            m_placeType = Type.fountain;
-
-            Debug.Log(m_placeType);
         }
 
         //カメラボタンを押したら
@@ -150,8 +134,7 @@ public class Manager_PlaceBar : MonoBehaviour
             m_isQRLeader = true;
         }
     }
-
-
+    
     //タイプの取得
     public Type GetchangeType()
     {
@@ -160,19 +143,22 @@ public class Manager_PlaceBar : MonoBehaviour
 
     public bool IsChangeCameraPosiiton()
     {
-        if (m_placeType != Type.none) return true;
+        if (m_placeType != Type.none && isClickButton) return true;
         return false;
     }
 
     public bool IsActiveShop()
     {
-        if (m_placeType == Type.market) return true;
+        if (m_placeType == Type.market && isClickButton) return true;
         return false;
     }
 
     public bool IsActiveFountain()
     {
-        if (m_placeType == Type.fountain) return true;
+        if (m_placeType == Type.fountain && isClickButton)
+        {
+            return true;
+        }
         return false;
     }
 
@@ -180,5 +166,55 @@ public class Manager_PlaceBar : MonoBehaviour
     public bool GetIsQRLeader()
     {
         return m_isQRLeader;
+    }
+
+    public void Active()
+    {
+        if (placeBar.activeSelf) return;
+        placeBar.SetActive(true) ;
+    }
+
+    public void UnActive()
+    {
+        if (!placeBar.activeSelf) return;
+        placeBar.SetActive(false);
+    }
+
+    /// <summary>
+    /// 移動ボタンを押した時の処理
+    /// </summary>
+    /// <param name="_placeType"></param>
+    void ClickButton(Type _placeType)
+    {
+        m_placeType = _placeType;
+        isClickButton = true;
+    }
+
+    /// <summary>
+    /// 拠点ボタンが有効化かどうか
+    /// </summary>
+    /// <returns></returns>
+    public bool IsActiveBase()
+    {
+        return m_active;
+    }
+
+    public void SetActiveBase(bool _isActive)
+    {
+        m_active = _isActive;
+        for (int i = 0; i < BASE_NUM; i++)
+        {
+            if (m_active)
+            {
+                m_placeButtons[i].gameObject.SetActive(true);
+                m_pencil.gameObject.SetActive(true);
+            }
+            else
+            {
+                m_placeButtons[i].gameObject.SetActive(false);
+                m_pencil.gameObject.SetActive(false);
+            }
+
+        }
     }
 }

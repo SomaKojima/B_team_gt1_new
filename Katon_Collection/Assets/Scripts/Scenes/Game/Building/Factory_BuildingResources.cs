@@ -13,7 +13,7 @@ public class Factory_BuildingResources : MonoBehaviour
     private Transform m_parent = null;
 
     //建材の生成
-    public BuildingResources Create()
+    public BuildingResources Create(Vector3 position)
     {
         GameObject instance = Instantiate(m_prefab);
         instance.transform.SetParent(m_parent.transform, false);

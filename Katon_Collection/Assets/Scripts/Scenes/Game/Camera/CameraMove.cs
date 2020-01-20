@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class CameraMove : MonoBehaviour
 {
-    
+    public enum CAMERA_MOVE_TYPE
+    {
+        SCROLL,             // scrollで移動
+        MOUSE_OUTRANGE,     // マウスが範囲外にいるときに移動
+    }
 
     [SerializeField]
     private Camera m_camera;
@@ -35,6 +39,13 @@ public class CameraMove : MonoBehaviour
 
     bool isStop = false;
 
+    // 一つ前に戻すかどうか
+    bool isUndo = false;
+    // ひとつ前の場所
+    List<Vector3> undoPositions = new List<Vector3>();
+
+    CAMERA_MOVE_TYPE moveType = CAMERA_MOVE_TYPE.SCROLL;
+
 
     // Start is called before the first frame update
     void Start()
@@ -47,7 +58,19 @@ public class CameraMove : MonoBehaviour
     {
         if (!isStop)
         {
-            Scroll();
+            switch (moveType)
+            {
+                case CAMERA_MOVE_TYPE.SCROLL:
+                    Scroll();
+                    break;
+                case CAMERA_MOVE_TYPE.MOUSE_OUTRANGE:
+                    MouseOutRange();
+                    break;
+            }
+        }
+        else
+        {
+            velocity = Vector3.zero;
         }
     }
 
@@ -61,137 +84,124 @@ public class CameraMove : MonoBehaviour
     //ポジションを切り替える
     public void ChangePosition(Type _placeType)
     {
+        // 現在の座標を保存する
+        undoPositions.Add(m_camera.transform.position);
+        // 最大数１０
+        if (undoPositions.Count > 10)
+        {
+            undoPositions.RemoveAt(0);
+        }
+        // 移動
         m_camera.transform.position = m_cameraManager.GetTransformOf(_placeType).position;
     }
 
-    //スクロール
-    public void Scroll()
+    public void ChangeMoveType(CAMERA_MOVE_TYPE _type)
     {
-        // マウスボタンをクリック
-        if (Input.GetMouseButtonDown(0))
-        {
-            // 現在の座標を記憶
-            playerPos = moveObject.transform.position;
-            // マウスの座標を記憶
-            mousePos = Input.mousePosition;
-        }
+        moveType = _type;
+    }
+    
+    /// <summary>
+    /// scrollの移動
+    /// </summary>
+    private void Scroll()
+    {
+        Vector3 _position = moveObject.transform.localPosition;
 
-        // 押している間
         if (Input.GetMouseButton(0))
         {
-            // 現在の座標を記憶
-            Vector3 prePos = moveObject.transform.localPosition;
-            // タップ中の移動量を調整
-            Vector3 diff = ((mousePos - Input.mousePosition) * 0.05f);
-
-            // 横方向のみ移動
-            //diff.y = 0.0f;
-            diff.z = 0.0f;
-
-
-            if (moveObject.transform.localPosition.y - 10.0f < moveObject.transform.localPosition.y && moveObject.transform.localPosition.y < moveObject.transform.localPosition.y + 10.0f)
-            {
-                moveObject.transform.localPosition = playerPos + diff;
-            }
-            // 座標矯正
-            if (moveObject.transform.localPosition.y > moveObject.transform.localPosition.y + 10.0f)
-            {
-                moveObject.transform.localPosition = CorrectionPosition(moveObject.transform.localPosition.y + 5.0f, moveObject.transform.localPosition.x, moveObject.transform.localPosition.z);
-            }
-            if (moveObject.transform.localPosition.y < moveObject.transform.localPosition.y - 10.0f)
-            {
-                moveObject.transform.localPosition = CorrectionPosition(moveObject.transform.localPosition.y - 5.0f, moveObject.transform.localPosition.x, moveObject.transform.localPosition.z);
-            }
-
-            // 移動できる範囲内に限り
-            if (moveObject.transform.localPosition.x - 10.0f < moveObject.transform.localPosition.x && moveObject.transform.localPosition.x < moveObject.transform.localPosition.x+10.0f)
-            {
-                moveObject.transform.localPosition = playerPos + diff;
-            }
-            // 座標矯正
-            if (moveObject.transform.localPosition.x > moveObject.transform.localPosition.x+10.0f)
-            {
-                moveObject.transform.localPosition = CorrectionPosition(moveObject.transform.localPosition.x+5.0f, moveObject.transform.localPosition.y, moveObject.transform.localPosition.z);
-            }
-            if (moveObject.transform.localPosition.x < moveObject.transform.localPosition.x- 10.0f)
-            {
-                moveObject.transform.localPosition = CorrectionPosition(moveObject.transform.localPosition.x - 5.0f, moveObject.transform.localPosition.y, moveObject.transform.localPosition.z);
-            }
-
-            // 移動前後の位置の差から速度を求めてvelocityに保存しておく
-            // ※掛ける値で移動量の大きさを変更する
-            velocity = ((moveObject.transform.localPosition - prePos) * 0.5f) / Time.deltaTime;
+            // 速度の計算
+            float x = -Input.GetAxis("Mouse X");
+            float y = -Input.GetAxis("Mouse Y");
+            velocity = new Vector3(x, y, 0);
         }
         else
         {
             // スワイプ中でないとき、velocityを減衰させる
-            velocity *= Mathf.Pow(Attenuation, Time.deltaTime);
-
-            // 移動できる範囲内に限り
-            if (moveObject.transform.localPosition.y - 10.0f < moveObject.transform.localPosition.y && moveObject.transform.localPosition.y < moveObject.transform.localPosition.y + 10.0f)
-            {
-                // プレイヤーを移動する
-                moveObject.transform.localPosition += velocity * Time.deltaTime;
-
-                // 座標矯正
-                if (moveObject.transform.localPosition.y > moveObject.transform.localPosition.y + 10.0f)
-                {
-                    moveObject.transform.localPosition = CorrectionPosition(moveObject.transform.localPosition.y + 5.0f, moveObject.transform.localPosition.x, moveObject.transform.localPosition.z);
-                }
-                if (moveObject.transform.localPosition.y < moveObject.transform.localPosition.y - 10.0f)
-                {
-                    moveObject.transform.localPosition = CorrectionPosition(moveObject.transform.localPosition.y - 5.0f, moveObject.transform.localPosition.x, moveObject.transform.localPosition.z);
-                }
-            }
-
-
-            // 移動できる範囲内に限り
-            if (moveObject.transform.localPosition.x - 10.0f < moveObject.transform.localPosition.x && moveObject.transform.localPosition.x < moveObject.transform.localPosition.x+10.0f)
-            {
-                // プレイヤーを移動する
-                moveObject.transform.localPosition += velocity * Time.deltaTime;
-
-                // 座標矯正
-                if (moveObject.transform.localPosition.x > moveObject.transform.localPosition.x + 10.0f)
-                {
-                    moveObject.transform.localPosition = CorrectionPosition(moveObject.transform.localPosition.x + 5.0f, moveObject.transform.localPosition.y, moveObject.transform.localPosition.z);
-                }
-                if (moveObject.transform.localPosition.x < moveObject.transform.localPosition.x - 10.0f)
-                {
-                    moveObject.transform.localPosition = CorrectionPosition(moveObject.transform.localPosition.x - 5.0f, moveObject.transform.localPosition.y, moveObject.transform.localPosition.z);
-                }
-            }
+            velocity *= 0.99f;
         }
 
-        //スクロールできる限界を決めておく
-        if (moveObject.transform.localPosition.x < -20)
+        float top = 70;
+        float bottom = 20;
+        float left = -20;
+        float right = 430;
+        // x軸
+        _position = new Vector3(Move(_position.x, velocity.x, left, right), _position.y, _position.z);
+        // y軸
+        _position = new Vector3(_position.x, Move(_position.y, velocity.y, bottom, top), _position.z);
+
+        moveObject.transform.localPosition = _position;
+    }
+
+    /// <summary>
+    /// 範囲外の時に移動
+    /// </summary>
+    void MouseOutRange()
+    {
+
+        Vector3 _position = moveObject.transform.localPosition;
+        float screenHalfHeight = Screen.height * 0.5f;
+        float screenHalfWidth = Screen.width * 0.5f;
+        float top = screenHalfHeight + (screenHalfHeight * 0.5f);
+        float bottom = screenHalfHeight - (screenHalfHeight * 0.5f);
+        float left = screenHalfWidth - (screenHalfWidth * 0.5f);
+        float right = screenHalfWidth + (screenHalfWidth * 0.5f);
+        float addSpeed = 1.0f;
+
+        // 範囲内
+        if (IsRange(Input.mousePosition.x, left, right) &&
+            IsRange(Input.mousePosition.y, bottom, top))
         {
-            moveObject.transform.localPosition = CorrectionPosition(-20, moveObject.transform.localPosition.y, moveObject.transform.localPosition.z);
+            // velocityを減衰させる
+            velocity = Vector3.zero;
+            return;
         }
 
-        if (moveObject.transform.localPosition.x > 430)
-        {
+        // x軸
+        float tX = (Input.mousePosition.x - screenHalfWidth) / screenHalfWidth; 
+        velocity.x = tX * addSpeed;
+        // y軸
+        float tY = (Input.mousePosition.y - screenHalfHeight) / screenHalfHeight;
+        velocity.y = tY * addSpeed;
 
-            moveObject.transform.localPosition = new Vector3(430, moveObject.transform.localPosition.y, moveObject.transform.localPosition.z);
-        }
+        // 速度の調整
+        //if (velocity.x > maxSpeed) velocity.x = maxSpeed;
+        //else if (velocity.x < -maxSpeed) velocity.x = -maxSpeed;
 
-        if (moveObject.transform.localPosition.y < 20)
-        {
-            moveObject.transform.localPosition = CorrectionPosition(moveObject.transform.localPosition.x, 20, moveObject.transform.localPosition.z);
-        }
+        //if (velocity.y > maxSpeed) velocity.y = maxSpeed;
+        //else if (velocity.y < -maxSpeed) velocity.y = -maxSpeed;
+        
 
-        if (moveObject.transform.localPosition.y > 70)
-        {
-            moveObject.transform.localPosition = CorrectionPosition(moveObject.transform.localPosition.x, 70, moveObject.transform.localPosition.z);
-        }
+        float _top = 70;
+        float _bottom = 20;
+        float _left = -20;
+        float _right = 430;
 
-        // マウスボタンから離した
-        if (Input.GetMouseButtonUp(0))
-        {
-            // 保存値をリセット
-            playerPos = Vector3.zero;
-            mousePos = Vector3.zero;
-        }
+        // x軸
+        _position = new Vector3(Move(_position.x, velocity.x, _left, _right), _position.y, _position.z);
+        // y軸
+        _position = new Vector3(_position.x, Move(_position.y, velocity.y, _bottom, _top), _position.z);
+
+        //Debug.Log(_position);
+
+        moveObject.transform.localPosition = _position;
+    }
+
+    /// <summary>
+    /// 移動可能かどうか
+    /// </summary>
+    /// <returns></returns>
+    float Move(float _value, float _velocity, float _min, float _max)
+    {
+        if (_value + _velocity < _min) return _min;
+        if (_value + _velocity > _max) return _max;
+        return _value + _velocity;
+    }
+
+    bool IsRange(float _value, float _min, float _max)
+    {
+        if (_value < _min) return false;
+        if (_value > _max) return false;
+        return true;
     }
 
     /// <summary>
@@ -230,5 +240,17 @@ public class CameraMove : MonoBehaviour
     public void StartMove()
     {
         isStop = false;
+    }
+
+
+    // ひとつ前の座標に戻す
+    public void Undo()
+    {
+        if (undoPositions.Count != 0)
+        {
+            int index = undoPositions.Count - 1;
+            m_camera.transform.position = undoPositions[index];
+            undoPositions.RemoveAt(index);
+        }
     }
 }
