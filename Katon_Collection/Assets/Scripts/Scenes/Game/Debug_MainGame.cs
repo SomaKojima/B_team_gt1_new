@@ -33,11 +33,11 @@ public class Debug_MainGame
         buindingTime.Add(420);
         buindingTime.Add(510);
 
-        for (int i = (int)ITEM_TYPE.HUMAN_NUM; i < (int)ITEM_TYPE.NUM; i++)
-        {
-            ITEM_TYPE type = (ITEM_TYPE)i;
-            _managerItem.GetItem(type).SetCount(10000);
-        }
+        //for (int i = (int)ITEM_TYPE.HUMAN_NUM; i < (int)ITEM_TYPE.NUM; i++)
+        //{
+        //    ITEM_TYPE type = (ITEM_TYPE)i;
+        //    _managerItem.GetItem(type).SetCount(10000);
+        //}
 
         //humanTime.Add(45);
         //HumanCount.Add(0);
@@ -56,7 +56,7 @@ public class Debug_MainGame
             }
             else
             {
-                Time.timeScale = 5.0f;
+                Time.timeScale = 10.0f;
             }
         }
 
@@ -80,13 +80,13 @@ public class Debug_MainGame
                 index++;
                 request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.BUILDING);
 
+                DumpItems();
                 //ClearBuildignResource();
             }
         }
 
         if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.BUILDING_SUCCESS))
         {
-            DumpItems();
             //UnityEditor.EditorApplication.isPaused = true;
         }
 
@@ -119,7 +119,7 @@ public class Debug_MainGame
 
     void DumpItems()
     {
-        return;
+        //return;
         string dump = "\n\n\n" + frame + "\n";
 
         for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)

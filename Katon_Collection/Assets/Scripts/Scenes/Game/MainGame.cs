@@ -68,13 +68,13 @@ public class MainGame : MonoBehaviour
         // カメラの初期位置
         mainCamera.Move(Type.cave);
 
-        debug.Initialize(manager_item);
+        //debug.Initialize(manager_item);
     }
     
     // Update is called once per frame
     void Update()
     {
-        debug.Update();
+        //debug.Update();
 
         // アイテムのマネージャと人間の数を合わせる
         for (int i = 0; i < (int)ITEM_TYPE.WOOD; i++)
@@ -88,6 +88,8 @@ public class MainGame : MonoBehaviour
         
         // リクエストの処理
         UpdateRequestList();
+        
+        //UpdateRequest(debug.GetRequest());
     }
 
     void UpdateRequest_UI()
@@ -152,8 +154,6 @@ public class MainGame : MonoBehaviour
         }
 
         UpdateRequest(owner_human.GetRequest());
-
-        UpdateRequest(debug.GetRequest());
     }
 
     /// <summary>
