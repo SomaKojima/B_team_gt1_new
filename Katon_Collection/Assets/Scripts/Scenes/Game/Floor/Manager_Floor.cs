@@ -2,17 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Manager_Floor : MonoBehaviour
+public class Manager_Floor
 {
     //建材のリスト
     private List<Floor> m_floors = new List<Floor>();
 
-    private void Start()
+    Floor topLnading = null;
+
+    public void Initialize()
     {
     }
 
-    private void Update()
+    public void Update()
     {
+        foreach (Floor floor in m_floors)
+        {
+            if (floor.IsLanding())
+            {
+                topLnading = floor;
+            }
+        }
     }
 
     //リストへの追加
@@ -27,9 +36,14 @@ public class Manager_Floor : MonoBehaviour
         get { return m_floors; }
     }
     
-    public Floor GetTopFloorOf()
+    public Floor GetTopFloor()
     {
         if (m_floors.Count <= 0) return null;
         return m_floors[m_floors.Count - 1];
+    }
+
+    public Floor GetTopLandingFloor()
+    {
+        return topLnading;
     }
 }
