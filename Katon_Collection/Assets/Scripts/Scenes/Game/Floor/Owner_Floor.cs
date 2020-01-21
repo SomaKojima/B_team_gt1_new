@@ -181,4 +181,9 @@ public class Owner_Floor : MonoBehaviour
     {
         return manager_floor[(int)type].GetTopLandingFloor();
     }
+
+    public int GetPlaceTotalFloor(Type _placeType)
+    {
+        return manager_floor[(int)_placeType].Floors.Count;
+    }
 }

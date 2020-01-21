@@ -49,19 +49,11 @@ public class MainGame : MonoBehaviour
         manager_item.Initialize();
         owner_human.Intialize();
         owner_floor.Initialize();
-        owner_signBoard.Initialize(mainCamera.IsSigneBoardInScreen);
-
-        //for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
-        //{
-        //    ITEM_TYPE type = (ITEM_TYPE)i;
-        //    manager_item.GetItem(type).SetCount(33);
-        //}
+        owner_signBoard.Initialize(mainCamera.IsSigneBoardInScreen, owner_human.GetPlaceCount);
 
         manager_SI_Player.UpdatePlayers();
 
         uiManager.Initialize(manager_item);
-
-        //manager_request.Add(owner_human.GetRequest());
 
         owner_buildingResource.Initialize();
 
@@ -134,6 +126,7 @@ public class MainGame : MonoBehaviour
             List<IItem> _items = owner_floor.GetBuildingResource(currentPlaceType);
             //UIの建築ボードを表示する
             uiManager.SetActiveBuildingBoard(true, _items);
+            Debug.Log(_items.Count);
         }
         else
         {

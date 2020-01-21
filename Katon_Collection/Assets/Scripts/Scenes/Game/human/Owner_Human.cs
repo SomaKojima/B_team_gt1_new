@@ -25,10 +25,17 @@ public class Owner_Human : MonoBehaviour
 
     bool isCollect = false;
 
+    int[] placeCount = new int[(int)Type.Max];
+
     public void Intialize()
     {
         manager_human.Initialize();
         request.Initialize();
+
+        for (int i = 0; i < (int)Type.Max; i++)
+        {
+            placeCount[i] = 0;
+        }
     }
     
 
@@ -50,7 +57,14 @@ public class Owner_Human : MonoBehaviour
 
         Collider hitColider = GetHitCollider();
 
+        // 初期化
+        for (int i = 0; i < (int)Type.Max; i++)
+        {
+            placeCount[i] = 0;
+        }
         bufRequests.Clear();
+
+        // すべての人間の処理
         foreach (Human human in manager_human.GetList())
         {
             // 掴まれている
@@ -62,6 +76,8 @@ public class Owner_Human : MonoBehaviour
                 request.Flag.OffFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_SCROLL);
                 request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_OUT_RANGE);  
             }
+
+            placeCount[(int)human.GetPlaceType()]++;
 
             // リクエストを追加
             bufRequests.Add(human.GetRequest());
@@ -149,5 +165,10 @@ public class Owner_Human : MonoBehaviour
     public List<Human> GetHumans()
     {
         return manager_human.GetList();
+    }
+
+    public int GetPlaceCount(Type _placeType)
+    {
+        return placeCount[(int)_placeType];
     }
 }
