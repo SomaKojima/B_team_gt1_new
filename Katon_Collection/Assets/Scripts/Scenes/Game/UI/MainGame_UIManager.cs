@@ -210,6 +210,12 @@ public class MainGame_UIManager : MonoBehaviour
         {
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.BUILDING);
         }
+
+        // 資源のボードを表示中かどうか
+        if (buildingBoard.IsActiveBoard())
+        {
+
+        }
     }
 
     /// <summary>

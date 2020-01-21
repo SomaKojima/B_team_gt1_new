@@ -4,17 +4,14 @@ using UnityEngine;
 
 public class GoToTarget : MoveState
 {
-    Vector3 target = Vector3.zero;
-
-    public void Initialize(Vector3 _target)
+    public void Initialize()
     {
-        target = _target;
     }
 
 
     public MOVE_STATE_TYPE Excute(Human human)
     {
-        MoveTargetPosition(human, target);
+        MoveTargetPosition(human, human.GetTargetPosition());
 
         return MOVE_STATE_TYPE.GO_TO_TARGET;
     }

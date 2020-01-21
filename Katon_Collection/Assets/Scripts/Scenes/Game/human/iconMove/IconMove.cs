@@ -9,11 +9,7 @@ public class IconMove : MonoBehaviour
     ITEM_TYPE type = ITEM_TYPE.WOOD;
 
     [SerializeField]
-    Material wood;
-    [SerializeField]
-    Material parts;
-    [SerializeField]
-    Material ore;
+    ItemContextTable itemContextTable;
 
     Vector3 velocity = Vector3.zero;
     Vector3 startLocalPosition = Vector3.zero;
@@ -33,6 +29,14 @@ public class IconMove : MonoBehaviour
         velocity = new Vector3(0, SPEED, 0);
         subAlpha = 1.0f / during;
         startLocalPosition = gameObject.transform.localPosition;
+
+        if (renderer.material.HasProperty("_Color"))
+        {
+            Color color = renderer.material.GetColor("_Color");
+            color.a = 0.0f;
+            renderer.material.SetColor("_Color", color);
+            time = 0;
+        }
     }
 
     public void Initialize(ITEM_TYPE _type)
@@ -97,17 +101,6 @@ public class IconMove : MonoBehaviour
 
     void ChangeMaterial(ITEM_TYPE _type)
     {
-        switch (_type)
-        {
-            case ITEM_TYPE.WOOD:
-                renderer.material = wood;
-                break;
-            case ITEM_TYPE.ORE:
-                renderer.material = ore;
-                break;
-            case ITEM_TYPE.PARTS:
-                renderer.material = parts;
-                break;
-        }
+        renderer.material = itemContextTable.GetItemContex(_type).GetMaterial();
     }
 }

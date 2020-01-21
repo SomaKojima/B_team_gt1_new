@@ -152,4 +152,9 @@ public class BuildingBoard : MonoBehaviour
         if (_isActive == nopriceText.gameObject.activeSelf) return;
         nopriceText.gameObject.SetActive(_isActive);
     }
+
+    public bool IsActiveBoard()
+    {
+        return board.activeSelf;
+    }
 }

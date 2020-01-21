@@ -80,7 +80,7 @@ public class MainGame : MonoBehaviour
         for (int i = 0; i < (int)ITEM_TYPE.WOOD; i++)
         {
             ITEM_TYPE type = (ITEM_TYPE)i;
-            owner_human.MatchItemsHumans(manager_item.GetItem(type), Type.cave);
+            owner_human.MatchItemsHumans(manager_item.GetItem(type), currentPlaceType);
         }
         
         // マンションのリクエスト処理

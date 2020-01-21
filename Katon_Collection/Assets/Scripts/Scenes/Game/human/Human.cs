@@ -28,15 +28,21 @@ public class Human : MonoBehaviour
     
     Type placeType = Type.cave;
 
+    Vector3 targetPosition = Vector3.zero;
+
     /// <summary>
     /// 初期化
     /// </summary>
     /// <param name="_type"></param>
-    public void Initialize(ITEM_TYPE _type)
+    public void Initialize(ITEM_TYPE _type, Type _placeType)
     {
         type = _type;
+        placeType = _placeType;
         renderer.material = itemContextTable.GetItemContex(_type).GetMaterial();
         request.Initialize();
+        // 場所を変更
+        this.GetRequest().Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.POSITION_TO_PLACE);
+        this.GetRequest().ChangePosition = this.gameObject.transform.position;
     }
 
     // Start is called before the first frame update
@@ -67,11 +73,11 @@ public class Human : MonoBehaviour
         // 場所を変更
         if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.POSITION_TO_PLACE_SUCCESS))
         {
-            if (request.ChangePlaceType != Type.factory &&
+            if (request.ChangePlaceType != Type.fountain &&
                 request.ChangePlaceType != Type.market)
             {
                 placeType = request.ChangePlaceType;
-                move.SetTarget(request.AreaCenterPosition);
+                targetPosition = request.AreaCenterPosition;
             }
             //Debug.Log(request.AreaCenterPosition);
             //move.Change(this, MOVE_STATE_TYPE.GO_TO_TARGET);
@@ -79,7 +85,7 @@ public class Human : MonoBehaviour
         // 収集成功
         if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.COLLECT_SUCCESS))
         {
-            icon.Initialize(type);
+            icon.Initialize(ChangeItemType.HumanToBuildingResource(type));
         }
 
         // 収集失敗
@@ -148,6 +154,11 @@ public class Human : MonoBehaviour
     public Request GetRequest()
     {
         return request;
+    }
+
+    public Vector3 GetTargetPosition()
+    {
+        return targetPosition;
     }
 
     public void ClickEnter()

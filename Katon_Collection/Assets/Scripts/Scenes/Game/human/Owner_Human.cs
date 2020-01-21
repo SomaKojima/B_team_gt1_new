@@ -70,20 +70,21 @@ public class Owner_Human : MonoBehaviour
 
     public void MatchItemsHumans(IItem items, Type _placeType)
     {
-        MatchItemsHumans(items, createPositon[(int)_placeType]);
+        MatchItemsHumans(items, createPositon[(int)_placeType], _placeType);
     }
 
-    void MatchItemsHumans(IItem item, BoxCollider collider)
+    void MatchItemsHumans(IItem item, BoxCollider collider, Type placeType)
     {
         MatchItemsHumans(item,
             collider.gameObject.transform.position,
             collider.size.x,
             collider.size.y,
-            collider.size.z);
+            collider.size.z,
+            placeType);
     }
 
     // アイテムマネージャーと実体の人間の数を同じにする(人間を生成・削除する)
-    void MatchItemsHumans(IItem item, Vector3 position, float width, float height, float depth)
+    void MatchItemsHumans(IItem item, Vector3 position, float width, float height, float depth, Type placeType)
     {
         ITEM_TYPE type = item.GetItemType();
         int differenceCount = item.GetCount() - manager_human.GetListOf(type).Count;
@@ -92,7 +93,7 @@ public class Owner_Human : MonoBehaviour
         {
             for (int j = 0; j < differenceCount; j++)
             {
-                manager_human.Add(factory_human.CreateRandomPosition(position, width, height, depth, type));
+                manager_human.Add(factory_human.CreateRandomPosition(position, width, height, depth, type, placeType));
             }
         }
         // 削除
