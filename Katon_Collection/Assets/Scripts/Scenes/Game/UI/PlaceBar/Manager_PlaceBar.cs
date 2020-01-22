@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Manager_PlaceBar : MonoBehaviour
 {
     //拠点の個数
-    const int BASE_NUM = 4;
+    const int BASE_NUM = 5;
 
 
     Type m_placeType = Type.none;
@@ -105,6 +105,14 @@ public class Manager_PlaceBar : MonoBehaviour
 
         }
 
+        //綿
+        if (m_placeButtons[4].IsClick())
+        {
+            m_placeButtons[4].OnClickProcess();
+
+            ClickButton(Type.cotton);
+
+        }
 
 
         //市場ボタンを押したら

@@ -197,7 +197,7 @@ public class CameraMove : MonoBehaviour
         float top = 70;
         float bottom = 20;
         float left = -20;
-        float right = 430;
+        float right = 650;
         // x軸
         _position = new Vector3(Move(_position.x, velocity.x, left, right), _position.y, _position.z);
         // y軸
