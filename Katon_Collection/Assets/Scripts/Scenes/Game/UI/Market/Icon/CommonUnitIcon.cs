@@ -15,6 +15,9 @@ public class CommonUnitIcon : MonoBehaviour
     [SerializeField]
     private Text numText = null;
 
+    [SerializeField]
+    Image redImage;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +27,6 @@ public class CommonUnitIcon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }
 
     /// <summary>
@@ -37,7 +39,11 @@ public class CommonUnitIcon : MonoBehaviour
         icon.sprite = sprite;
         count = _count;
         numText.text = _count.ToString();
+        redImage.gameObject.SetActive(false);
     }
 
     public int GetCount(){ return count; }
+
+    public void ActiveRed() { redImage.gameObject.SetActive(true); }
+    public void UnActiveRed() { redImage.gameObject.SetActive(false); }
 }

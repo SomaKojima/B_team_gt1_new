@@ -57,6 +57,8 @@ public class CommonUnitButton : UI_Button_Market
             factoryCmnIcn.Create(item.GetItemType(), item.GetCount());
         }
     }
+
+
     // 要求するアイテムの数量を取得
     public int GetRequiredNum() { return requiredNum; }
     // 取得できるアイテムのリストを取得

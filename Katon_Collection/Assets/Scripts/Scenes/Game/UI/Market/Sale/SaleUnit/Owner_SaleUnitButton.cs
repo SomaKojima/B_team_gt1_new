@@ -2,14 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SaleWindow : MonoBehaviour
+public class Owner_SaleUnitButton : MonoBehaviour
 {
-
-
-    public void Initialize()
-    {
-
-    }
     // Start is called before the first frame update
     void Start()
     {
@@ -20,16 +14,5 @@ public class SaleWindow : MonoBehaviour
     void Update()
     {
         
-    }
-
-
-    public void Active()
-    {
-        gameObject.SetActive(true);
-    }
-
-    public void UnActive()
-    {
-        gameObject.SetActive(false);
     }
 }
