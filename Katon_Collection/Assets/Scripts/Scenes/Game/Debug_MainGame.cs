@@ -25,19 +25,19 @@ public class Debug_MainGame
         request.Initialize();
         managerItem = _managerItem;
 
-        buindingTime.Add(0);
-        buindingTime.Add(60);
-        buindingTime.Add(150);
-        buindingTime.Add(240);
-        buindingTime.Add(330);
-        buindingTime.Add(420);
-        buindingTime.Add(510);
+        //buindingTime.Add(0);
+        //buindingTime.Add(60);
+        //buindingTime.Add(150);
+        //buindingTime.Add(240);
+        //buindingTime.Add(330);
+        //buindingTime.Add(420);
+        //buindingTime.Add(510);
 
-        //for (int i = (int)ITEM_TYPE.HUMAN_NUM; i < (int)ITEM_TYPE.NUM; i++)
-        //{
-        //    ITEM_TYPE type = (ITEM_TYPE)i;
-        //    _managerItem.GetItem(type).SetCount(10000);
-        //}
+        for (int i = (int)ITEM_TYPE.HUMAN_NUM; i < (int)ITEM_TYPE.NUM; i++)
+        {
+            ITEM_TYPE type = (ITEM_TYPE)i;
+            _managerItem.GetItem(type).SetCount(1000);
+        }
 
         //humanTime.Add(45);
         //HumanCount.Add(0);

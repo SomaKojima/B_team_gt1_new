@@ -74,7 +74,7 @@ MonoBehaviour:
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
+    m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: '0
@@ -258,7 +258,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5880414815337205393
 RectTransform:
   m_ObjectHideFlags: 0
@@ -380,7 +380,7 @@ MonoBehaviour:
   icon: {fileID: 7412984458386810830}
   count: 0
   numText: {fileID: 6548565827667208628}
-  redImage: {fileID: 0}
+  redImage: {fileID: 6930228756222950919}
 --- !u!65 &506021340035140808
 BoxCollider:
   m_ObjectHideFlags: 0

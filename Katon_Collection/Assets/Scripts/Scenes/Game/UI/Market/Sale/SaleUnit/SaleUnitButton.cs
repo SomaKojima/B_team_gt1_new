@@ -6,18 +6,15 @@ using UnityEngine.UI;
 public class SaleUnitButton : UI_Button_Market
 {
     // 取得できるアイテムのリスト
-    private List<IItem> getItems = null;
+    private List<IItem> getItems = new List<IItem>();
     // 支払うアイテムのリスト
-    private List<IItem> payItems = null;
+    private List<IItem> payItems = new List<IItem>();
+
+    // 交換用のアイテムリスト
+    List<IItem> exchangeItemList = new List<IItem>();
 
     // 交換可能回数
     int exchangeCount = 0;
-
-    [SerializeField]
-    Factory_SaleUnitButton factory;
-
-    [SerializeField]
-    Manager_SaleUnitButton manager;
 
     [SerializeField]
     Image mask;
@@ -37,6 +34,9 @@ public class SaleUnitButton : UI_Button_Market
     [SerializeField]
     Manager_CommonUnitIcon managerPayCmnIcn;
 
+    // 足りているかどうか
+    bool isEnough = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,7 +46,7 @@ public class SaleUnitButton : UI_Button_Market
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     /// <summary>
@@ -57,17 +57,25 @@ public class SaleUnitButton : UI_Button_Market
     public void Initialize(List<IItem> _getItems, List<IItem> _payItems)
     {
         // リスト内の数だけ入手できるアイテムを生成する
+        getItems.Clear();
         getItems = _getItems;
         foreach (IItem item in _getItems)
         {
-            factoryGetCmnIcn.Create(item.GetItemType(), item.GetCount());
+            managerGetCmnIcn.Add(
+                factoryGetCmnIcn.Create(item.GetItemType(), item.GetCount())
+                );
         }
 
+        payItems.Clear();
         payItems = _payItems;
         foreach (IItem item in _payItems)
         {
-            factoryPayCmnIcn.Create(item.GetItemType(), item.GetCount());
+            managerPayCmnIcn.Add(
+            factoryPayCmnIcn.Create(item.GetItemType(), item.GetCount())
+            );
         }
+
+        UpdateExchangeItemList();
     }
 
     // 取得できるアイテムのリストを取得
@@ -100,9 +108,71 @@ public class SaleUnitButton : UI_Button_Market
         mask.gameObject.SetActive(true);
     }
 
+    public void ChangeGetItems(List<IItem> _getItems)
+    {
+        managerGetCmnIcn.AllDestory();
+        getItems.Clear();
+        getItems = _getItems;
+        foreach (IItem item in _getItems)
+        {
+            managerGetCmnIcn.Add(
+                factoryGetCmnIcn.Create(item.GetItemType(), item.GetCount())
+                );
+        }
+        UpdateExchangeItemList();
+    }
+
+
+    public void ChangePayItems(List<IItem> _payItems)
+    {
+        managerPayCmnIcn.AllDestory();
+        getItems.Clear();
+        getItems = _payItems;
+        foreach (IItem item in _payItems)
+        {
+            managerPayCmnIcn.Add(
+            factoryGetCmnIcn.Create(item.GetItemType(), item.GetCount())
+            );
+        }
+        UpdateExchangeItemList();
+    }
 
     public void UnActiveMask()
     {
         mask.gameObject.SetActive(false);
+    }
+
+    public void ChackePayItems(IItem[] items)
+    {
+        int index = 0;
+        // 足りているかどうか
+        isEnough = true;
+        foreach (IItem item in payItems)
+        {
+            managerPayCmnIcn.Icons[index].UnActiveRed();
+            // アイテムの数が足りているかどうか判定
+            if (-item.GetCount() > items[(int)item.GetItemType()].GetCount())
+            {
+                managerPayCmnIcn.Icons[index].ActiveRed();
+                isEnough = false;
+            }
+        }
+    }
+
+    public bool IsEnough()
+    {
+        return isEnough;
+    }
+
+    void UpdateExchangeItemList()
+    {
+        exchangeItemList.Clear();
+        exchangeItemList.AddRange(getItems);
+        exchangeItemList.AddRange(payItems);
+    }
+
+    public List<IItem> GetExchangeItemList()
+    {
+        return exchangeItemList;
     }
 }

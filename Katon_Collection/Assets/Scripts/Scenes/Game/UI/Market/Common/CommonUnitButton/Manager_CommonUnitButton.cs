@@ -5,12 +5,8 @@ using UnityEngine;
 public class Manager_CommonUnitButton : MonoBehaviour
 {
     // ボタンのリスト
-    public List<CommonUnitButton> buttons;
-
-    // CommonUnitButtonオブジェクト
-    [SerializeField]
-    CommonUnitButton commonUnitButton;
-
+    List<CommonUnitButton> buttons = new List<CommonUnitButton>();
+    
     // Start is called before the first frame update
     void Start()
     {

@@ -40,6 +40,7 @@ public class CommonUnitIcon : MonoBehaviour
         count = _count;
         numText.text = _count.ToString();
         redImage.gameObject.SetActive(false);
+        UnActiveRed();
     }
 
     public int GetCount(){ return count; }

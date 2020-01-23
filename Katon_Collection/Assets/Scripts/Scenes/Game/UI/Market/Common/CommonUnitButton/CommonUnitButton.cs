@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CommonUnitButton : UI_Button_Market
 {
     // 取得できるアイテムのリスト
-    private List<IItem> getItems = null;    
+    private List<IItem> getItems = new List<IItem>();    
     // 要求するアイテムの数量
     private int requiredNum = 0;
     // 要求するアイテムの数量(テキスト)
@@ -51,10 +51,13 @@ public class CommonUnitButton : UI_Button_Market
         // ボタンのテキスト変更
         requiredText.text = "必要数\n" + requiredNum.ToString();
         // リスト内の数だけ入手できるアイテムを生成する
+        getItems.Clear();
         getItems = _getItems;
         foreach (IItem item in _getItems)
         {
-            factoryCmnIcn.Create(item.GetItemType(), item.GetCount());
+            managerCmnIcn.Add(
+                factoryCmnIcn.Create(item.GetItemType(), item.GetCount())
+                );
         }
     }
 
@@ -69,6 +72,18 @@ public class CommonUnitButton : UI_Button_Market
         mask.gameObject.SetActive(true);
     }
 
+    public void ChangeGetItems(List<IItem> _getItems)
+    {
+        managerCmnIcn.AllDestory();
+        Initialize(_getItems, requiredNum);
+    }
+
+    public void ChangeRequiredNum(int _requiredNum)
+    {
+        requiredNum = _requiredNum;
+        // ボタンのテキスト変更
+        requiredText.text = "必要数\n" + requiredNum.ToString();
+    }
 
     public void UnActiveMask()
     {

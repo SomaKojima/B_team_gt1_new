@@ -34,6 +34,7 @@ public class MarketWindow : MonoBehaviour
     public void Initialize(Manager_Item _managerItem)
     {
         commonWindow.Initialize(_managerItem);
+        saleWindow.Initialize(_managerItem);
     }
 
     void Initialize()
@@ -55,9 +56,17 @@ public class MarketWindow : MonoBehaviour
         // タブを切り替え
         ChangeTab();
         
+        // コモンの交換
         if (commonWindow.IsExchange())
         {
             exchangeItemList = commonWindow.GetExchangeItemList();
+            isExchange = true;
+        }
+
+        // セールの交換
+        if (saleWindow.IsExchange())
+        {
+            exchangeItemList = saleWindow.GetExchangeItems();
             isExchange = true;
         }
 

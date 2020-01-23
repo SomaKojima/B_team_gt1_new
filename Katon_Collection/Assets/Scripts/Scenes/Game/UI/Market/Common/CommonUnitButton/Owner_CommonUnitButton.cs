@@ -15,6 +15,7 @@ public class Owner_CommonUnitButton : MonoBehaviour
     List<CommonUnitButton> humanUnit = new List<CommonUnitButton>();
 
     CommonUnitButton selectButton = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +24,15 @@ public class Owner_CommonUnitButton : MonoBehaviour
 
     public void Initialize()
     {
+        humanUnit.Clear();
+        for (int i = 0; i < (int)ITEM_TYPE.HUMAN_NUM; i++)
+        {
+            humanGetItems.Add(new Item(1, (ITEM_TYPE)i));
+            int necessary = HUMAN_NECESSARY;
+            CommonUnitButton button = factory.Create(humanGetItems[i], necessary);
+            humanUnit.Add(button);
+            manager.Add(button);
+        }
     }
 
     // Update is called once per frame
@@ -61,15 +71,8 @@ public class Owner_CommonUnitButton : MonoBehaviour
     {
         foreach (CommonUnitButton button in humanUnit)
         {
-            Destroy(button.gameObject);
-        }
-
-        humanUnit.Clear();
-        for (int i = 0; i < (int)ITEM_TYPE.HUMAN_NUM; i++)
-        {
-            humanGetItems.Add(new Item(1, (ITEM_TYPE)i));
             int necessary = HUMAN_NECESSARY * buildingTotal;
-            humanUnit.Add(factory.Create(humanGetItems[i], necessary));
+            button.ChangeRequiredNum(necessary);
         }
     }
 }

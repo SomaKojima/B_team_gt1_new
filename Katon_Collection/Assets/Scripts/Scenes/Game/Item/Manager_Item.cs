@@ -9,7 +9,7 @@ public class Manager_Item : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -77,5 +77,10 @@ public class Manager_Item : MonoBehaviour
             GetItem(item.GetItemType()).AddCount(item.GetCount());
         }
         return true;
+    }
+
+    public Item[] GetItemList()
+    {
+        return item;
     }
 }

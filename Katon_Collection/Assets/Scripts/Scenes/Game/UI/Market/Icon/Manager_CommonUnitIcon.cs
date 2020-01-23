@@ -5,11 +5,7 @@ using UnityEngine;
 public class Manager_CommonUnitIcon : MonoBehaviour
 {
     // アイコンリスト
-    private List<CommonUnitIcon> icons;
-
-    // CommonUnitIconオブジェクト
-    [SerializeField]
-    CommonUnitIcon cmnUnitIcn;
+    private List<CommonUnitIcon> icons = new List<CommonUnitIcon>();
 
     // Start is called before the first frame update
     void Start()
@@ -31,5 +27,20 @@ public class Manager_CommonUnitIcon : MonoBehaviour
     {
         // リストに追加
         icons.Add(icon);
+    }
+
+    public void AllDestory()
+    {
+        foreach (CommonUnitIcon icon in icons)
+        {
+            Destroy(icon.gameObject);
+        }
+
+        icons.Clear();
+    }
+
+    public List<CommonUnitIcon> Icons
+    {
+        get { return icons; }
     }
 }
