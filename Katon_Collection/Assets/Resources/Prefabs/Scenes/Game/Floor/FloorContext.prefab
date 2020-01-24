@@ -197,55 +197,11 @@ Transform:
   m_Children:
   - {fileID: 6259465535859188861}
   - {fileID: 6259465536268161087}
-  - {fileID: 6259465536521605742}
   - {fileID: 6259465537190334204}
   - {fileID: 6259465536839784263}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6259465536521605741
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6259465536521605742}
-  - component: {fileID: 6259465536521605743}
-  m_Layer: 0
-  m_Name: Floor_Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6259465536521605742
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6259465536521605741}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 6259465536293934944}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6259465536521605743
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6259465536521605741}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2db2216f737e9e45ae5f28ae0327018, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6259465536651334247
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,7 +266,7 @@ Transform:
   - {fileID: 6259465536888805985}
   - {fileID: 6259465535876418272}
   m_Father: {fileID: 6259465536293934944}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6259465536888805984
 GameObject:
@@ -401,7 +357,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6259465536293934944}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6259465537190334205
 MonoBehaviour:
@@ -415,7 +371,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90d7c910f19d65d47b4eadfd15714581, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manager_floor: {fileID: 6259465536521605743}
   factory_floor: {fileID: 6259465536268161056}
   buildingOffsetY: 50
   createPosition:

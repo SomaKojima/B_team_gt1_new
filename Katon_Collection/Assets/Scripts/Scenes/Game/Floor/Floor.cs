@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Floor : MonoBehaviour
 {
+
+    bool isLanding = false; // 着地したかどうか
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +16,19 @@ public class Floor : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        string layerName = LayerMask.LayerToName(other.gameObject.layer);
+        if (other.gameObject.tag == "Floor")
+        {
+            isLanding = true;
+        }
+    }
+
+    public bool IsLanding()
+    {
+        return isLanding;
     }
 }

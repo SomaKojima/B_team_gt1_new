@@ -6,8 +6,7 @@ public class Owner_Floor : MonoBehaviour
 {
     const int BUILDING_NECESSARY = 200;
     const int MAX_BUILDING_RESOURCE_NUM = 4;
-
-    [SerializeField]
+    
     Manager_Floor[] manager_floor = null;
 
     [SerializeField]
@@ -30,7 +29,7 @@ public class Owner_Floor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     public void Initialize()
@@ -39,6 +38,7 @@ public class Owner_Floor : MonoBehaviour
         for (int i = 0; i < (int)Type.Max; i++)
         {
             manager_floor[i] = new Manager_Floor();
+            manager_floor[i].Initialize();
         }
 
         for (int i = 0; i < (int)Type.Max; i++)
@@ -91,7 +91,7 @@ public class Owner_Floor : MonoBehaviour
 
     Type PlaceNext(Type _type)
     {
-        switch(_type)
+        switch (_type)
         {
             case Type.cave:
                 return Type.forest;
@@ -107,13 +107,16 @@ public class Owner_Floor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        for (int i = 0; i < (int)Type.Max; i++)
+        {
+            manager_floor[i].Update();
+        }
     }
 
     public void Building(Type type)
     {
         if (type == Type.none) return;
-        Floor top = manager_floor[(int)type].GetTopFloorOf();
+        Floor top = manager_floor[(int)type].GetTopFloor();
         // 二階目以降を建てる
         if (top != null)
         {
@@ -167,5 +170,20 @@ public class Owner_Floor : MonoBehaviour
             int count = BUILDING_NECESSARY * _totalFloor;
             necessaryItems[i, 0].Add(new Item(-count, ChangeItemType.PlaceToItemType((Type)i)));
         }
+    }
+
+    public Floor GetTopOf(Type type)
+    {
+        return manager_floor[(int)type].GetTopFloor();
+    }
+
+    public Floor GetTopLandingOf(Type type)
+    {
+        return manager_floor[(int)type].GetTopLandingFloor();
+    }
+
+    public int GetPlaceTotalFloor(Type _placeType)
+    {
+        return manager_floor[(int)_placeType].Floors.Count;
     }
 }

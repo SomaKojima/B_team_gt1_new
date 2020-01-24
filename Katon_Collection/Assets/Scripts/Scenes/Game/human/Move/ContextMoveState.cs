@@ -11,8 +11,6 @@ public class ContextMoveState
     Collect collect = new Collect();
     Pick pick = new Pick();
 
-    Vector3 target = Vector3.zero;
-    
     /// <summary>
     /// 初期化
     /// </summary>
@@ -52,13 +50,11 @@ public class ContextMoveState
         switch (type)
         {
             case MOVE_STATE_TYPE.GO_TO_TARGET:
-                Debug.Log("initialize");
-                goToTarget.Initialize(target);
-                Debug.Log(target);
+                goToTarget.Initialize();
                 state = goToTarget;
                 break;
             case MOVE_STATE_TYPE.COLLECT:
-                collect.Initialize(human, target);
+                collect.Initialize(human);
                 state = collect;
                 break;
             case MOVE_STATE_TYPE.PICK:
@@ -66,10 +62,5 @@ public class ContextMoveState
                 state = pick;
                 break;
         }
-    }
-
-    public void SetTarget(Vector3 _position)
-    {
-        target = _position;
     }
 }

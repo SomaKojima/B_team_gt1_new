@@ -9,6 +9,7 @@ TagManager:
   - CountingItemApply
   - CountUp
   - CountDown
+  - Floor
   layers:
   - Default
   - TransparentFX

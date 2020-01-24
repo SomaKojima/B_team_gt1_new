@@ -49,38 +49,30 @@ public class MainGame : MonoBehaviour
         manager_item.Initialize();
         owner_human.Intialize();
         owner_floor.Initialize();
-        owner_signBoard.Initialize(mainCamera.IsSigneBoardInScreen);
-
-        //for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
-        //{
-        //    ITEM_TYPE type = (ITEM_TYPE)i;
-        //    manager_item.GetItem(type).SetCount(33);
-        //}
+        owner_signBoard.Initialize(mainCamera.IsSigneBoardInScreen, owner_human.GetPlaceCount);
 
         manager_SI_Player.UpdatePlayers();
 
         uiManager.Initialize(manager_item);
-
-        //manager_request.Add(owner_human.GetRequest());
 
         owner_buildingResource.Initialize();
 
         // カメラの初期位置
         mainCamera.Move(Type.cave);
 
-        //debug.Initialize(manager_item);
+        debug.Initialize(manager_item);
     }
     
     // Update is called once per frame
     void Update()
     {
-        //debug.Update();
+        debug.Update();
 
         // アイテムのマネージャと人間の数を合わせる
         for (int i = 0; i < (int)ITEM_TYPE.WOOD; i++)
         {
             ITEM_TYPE type = (ITEM_TYPE)i;
-            owner_human.MatchItemsHumans(manager_item.GetItem(type), Type.cave);
+            owner_human.MatchItemsHumans(manager_item.GetItem(type), currentPlaceType);
         }
         
         // マンションのリクエスト処理
@@ -89,7 +81,7 @@ public class MainGame : MonoBehaviour
         // リクエストの処理
         UpdateRequestList();
         
-        //UpdateRequest(debug.GetRequest());
+        UpdateRequest(debug.GetRequest());
     }
 
     void UpdateRequest_UI()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class MainGame_UIManager : MonoBehaviour
 {
@@ -41,6 +42,9 @@ public class MainGame_UIManager : MonoBehaviour
     [SerializeField]
     UI_Time timer;
 
+    // 最初の文字
+    [SerializeField]
+    FirstText firstText;
 
     // リクエスト用のビットフラグ
     Request request = new Request();
@@ -118,9 +122,6 @@ public class MainGame_UIManager : MonoBehaviour
 
         // UIを無効化する処理
         UpdateUnActive();
-
-
-        
     }
 
     /// <summary>
@@ -156,6 +157,12 @@ public class MainGame_UIManager : MonoBehaviour
         if (requestActiveUI.IsActive(ACTIVE_UI.BUILDIGN_BOARD))
         {
             buildingBoard.Active();
+        }
+
+        // 最初の文字を有効か
+        if (requestActiveUI.IsActive(ACTIVE_UI.FIRST_TEXT))
+        {
+            firstText.Active();
         }
 
         // フラグをすべて初期化する
@@ -196,6 +203,12 @@ public class MainGame_UIManager : MonoBehaviour
             buildingBoard.UnActive();
         }
 
+        // 最初の文字を無効化
+        if (requestActiveUI.IsUnActive(ACTIVE_UI.FIRST_TEXT))
+        {
+            firstText.UnActive();
+        }
+
         // フラグをすべて初期化する
         requestActiveUI.ClearUnActiveFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY);
     }
@@ -209,6 +222,16 @@ public class MainGame_UIManager : MonoBehaviour
         if (buildingBoard.IsClickBuildingButton())
         {
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.BUILDING);
+        }
+
+        // 資源のボードを表示中かどうか
+        if (buildingBoard.IsActiveBoard())
+        {
+            requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.FIRST_TEXT);
+        }
+        else
+        {
+            requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.FIRST_TEXT);
         }
     }
 
@@ -465,6 +488,7 @@ public class MainGame_UIManager : MonoBehaviour
     public void UpdateBuilding(int buildingTotal)
     {
         marketWindow.UpdateBuilding(buildingTotal);
+        firstText.SetFirstBuilding(true);
     }
 
     //リザルトに行くときのフェード

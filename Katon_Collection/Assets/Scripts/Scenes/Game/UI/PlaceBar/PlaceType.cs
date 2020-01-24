@@ -10,6 +10,7 @@ public enum Type
     cave,           //洞窟
     factory,        //工場
     farm,           //農場
+    cotton,         //綿
 
     Max,
 }

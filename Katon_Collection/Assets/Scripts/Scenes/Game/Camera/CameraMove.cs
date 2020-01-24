@@ -46,6 +46,16 @@ public class CameraMove : MonoBehaviour
 
     CAMERA_MOVE_TYPE moveType = CAMERA_MOVE_TYPE.SCROLL;
 
+    // 最初に触れた位置
+    private Vector3 mousePosStart = Vector3.zero;
+    // 移動中、以前に触れた位置
+    private Vector3 mousePosTmp = Vector3.zero;
+    // 現在の位置
+    private Vector3 mousePosCurrent = Vector3.zero;
+
+    // フリック判定用経過時間計測
+    private float duration = 0.0f;
+    private const float DO_FLICK_TIME = 0.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -105,25 +115,89 @@ public class CameraMove : MonoBehaviour
     /// </summary>
     private void Scroll()
     {
+        // タッチ情報の取得
+        TouchInfo info = TouchUtil.GetTouch();
+
         Vector3 _position = moveObject.transform.localPosition;
 
-        if (Input.GetMouseButton(0))
+        // タップ状態の分岐
+        switch (info)
         {
-            // 速度の計算
-            float x = -Input.GetAxis("Mouse X");
-            float y = -Input.GetAxis("Mouse Y");
-            velocity = new Vector3(x, y, 0);
+            // タップ開始
+            case TouchInfo.Began:
+
+                // タッチ開始座標取得
+                mousePosStart = Input.mousePosition;
+                mousePosTmp = Input.mousePosition;
+
+                // 計測準備
+                duration = 0;
+                break;
+
+            // タップ中、指が動いている
+            case TouchInfo.Moved:
+
+                // 経過時間計測
+                duration += Time.deltaTime;
+
+                // 移動量算出
+                mousePosCurrent = Input.mousePosition;
+                velocity = mousePosTmp - mousePosCurrent;
+                // 速度調整
+                velocity *= 0.1f;
+
+                // 位置更新
+                mousePosTmp = mousePosCurrent;
+
+                break;
+
+            // タップ終了
+            case TouchInfo.Ended:
+
+                // タップ終了位置取得
+                Vector2 endPos = Input.mousePosition;
+
+                // 触れていた秒数でフリックとスワイプ分岐
+                if (duration <= DO_FLICK_TIME)
+                {
+                    float flickLengthX = mousePosStart.x - endPos.x;
+                    float flickLengthY = mousePosStart.y - endPos.y;
+
+                    // フリックの長さを速度に変換する
+                    velocity.x = flickLengthX / 100.0f;
+                    velocity.y = flickLengthY / 100.0f;
+                }
+                else
+                {
+                    //フリック判定じゃない場合は速度を0にする
+                    velocity = Vector3.zero;
+                }
+                break;
+
+            // 触れてないとき
+            default:
+                // velocityを減衰させる
+                velocity *= 0.9f;
+                break;
         }
-        else
-        {
-            // スワイプ中でないとき、velocityを減衰させる
-            velocity *= 0.99f;
-        }
+
+        //if (Input.GetMouseButton(0))
+        //{
+        //    // 速度の計算
+        //    float x = -Input.GetAxis("Mouse X");
+        //    float y = -Input.GetAxis("Mouse Y");
+        //    velocity = new Vector3(x, y, 0);
+        //}
+        //else
+        //{
+        //    // スワイプ中でないとき、velocityを減衰させる
+        //    velocity *= 0.99f;
+        //}
 
         float top = 70;
         float bottom = 20;
         float left = -20;
-        float right = 430;
+        float right = 650;
         // x軸
         _position = new Vector3(Move(_position.x, velocity.x, left, right), _position.y, _position.z);
         // y軸
