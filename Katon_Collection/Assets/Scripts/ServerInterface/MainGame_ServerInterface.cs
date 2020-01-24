@@ -10,10 +10,18 @@ public class MainGame_ServerInterface : MonoBehaviour
     [SerializeField]
     Manager_ServerInterface manager_ServerInterface;
 
+    [SerializeField]
+    PLInfoManager PLInfoManager;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        if(PhotonNetwork.inRoom)
+        {
+            PhotonNetwork.offlineMode = true;
+        }
+
+        //PLInfoManager.CreatePLInfoWindow(PhotonNetwork.playerList.Length);
     }
 
     // Update is called once per frame
