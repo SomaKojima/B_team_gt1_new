@@ -20,6 +20,7 @@ public enum ACTIVE_UI
     MARKET = 1 << 3,
     QR_READER = 1 << 4,
     BUILDIGN_BOARD = 1 << 5,
+    FIRST_TEXT = 1 << 6,
 
     MAX
 }

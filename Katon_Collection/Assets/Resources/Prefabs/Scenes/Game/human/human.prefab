@@ -277,6 +277,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1cb293648cafb94d931dc502d816725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wood: {fileID: 2100000, guid: b93239cfb45c019468b1443fb7e49584, type: 2}
-  parts: {fileID: 2100000, guid: a39d898054a4a8942a86314ae5392657, type: 2}
-  ore: {fileID: 2100000, guid: 491b38b2ffa12cc4780c7f89577ad205, type: 2}
+  itemContextTable: {fileID: 11400000, guid: 254821525c102ff418bfeea42638378f, type: 2}
