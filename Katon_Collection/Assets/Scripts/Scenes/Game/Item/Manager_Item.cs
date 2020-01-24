@@ -6,6 +6,7 @@ public class Manager_Item : MonoBehaviour
 {
     private Item[] item = new Item[(int)ITEM_TYPE.NUM];
 
+
     // Start is called before the first frame update
     void Start()
     {

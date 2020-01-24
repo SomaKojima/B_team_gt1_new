@@ -82,6 +82,8 @@ public class MainGame : MonoBehaviour
         UpdateRequestList();
         
         UpdateRequest(debug.GetRequest());
+
+        UpdateUIRequest();
     }
 
     void UpdateRequest_UI()
@@ -278,6 +280,12 @@ public class MainGame : MonoBehaviour
             _request.AreaCenterPosition = judgeField.GetAreaCenterPosition(_request.ChangePlaceType);
             _request.FinalizePositionToPlace(true);
         }
+
+        // 人間の強化
+        if (_request.Flag.IsFlag(REQUEST.POWER_UP_HUMAN))
+        {
+            manager_item.GetItem(_request.PowerUpHumanType).SetPowerUpCount(1);
+        }
         
 
         _request.FinalizeRequest();
@@ -289,5 +297,19 @@ public class MainGame : MonoBehaviour
         manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(manager_item.GetItem(ITEM_TYPE.LOOGER).GetCount() + 1);
         manager_item.GetItem(ITEM_TYPE.ENGINEER).SetCount(manager_item.GetItem(ITEM_TYPE.ENGINEER).GetCount() + 1);
         manager_item.GetItem(ITEM_TYPE.COAL_MINER).SetCount(manager_item.GetItem(ITEM_TYPE.COAL_MINER).GetCount() + 1);
+    }
+
+    void UpdateUIRequest()
+    {
+        if (uiManager.IsSetPlaceHumanType())
+        {
+            List<ITEM_TYPE> types = new List<ITEM_TYPE>();
+            foreach (Human human in owner_human.GetPlaceHuman(currentPlaceType))
+            {
+                types.Add(human.GetItemType());
+            }
+            uiManager.SetPlaceHumanType(types);
+
+        }
     }
 }

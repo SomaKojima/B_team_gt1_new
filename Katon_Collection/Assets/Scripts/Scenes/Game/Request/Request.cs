@@ -23,6 +23,8 @@ public class Request
     // 場所の中心座標
     Vector3 areaCenterPosition;
 
+    ITEM_TYPE powerUpHumanType = ITEM_TYPE.NONE;
+
     /// <summary>
     /// 初期化
     /// </summary>
@@ -94,6 +96,12 @@ public class Request
     {
         get { return areaCenterPosition; }
         set { areaCenterPosition = value; }
+    }
+
+    public ITEM_TYPE PowerUpHumanType
+    {
+        get { return powerUpHumanType; }
+        set { powerUpHumanType = value; }
     }
 
     /// <summary>

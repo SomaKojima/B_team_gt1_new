@@ -25,24 +25,17 @@ public class Owner_Human : MonoBehaviour
 
     bool isCollect = false;
 
-    int[] placeCount = new int[(int)Type.Max];
-
     public void Intialize()
     {
         manager_human.Initialize();
         request.Initialize();
-
-        for (int i = 0; i < (int)Type.Max; i++)
-        {
-            placeCount[i] = 0;
-        }
     }
-    
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -57,11 +50,6 @@ public class Owner_Human : MonoBehaviour
 
         Collider hitColider = GetHitCollider();
 
-        // 初期化
-        for (int i = 0; i < (int)Type.Max; i++)
-        {
-            placeCount[i] = 0;
-        }
         bufRequests.Clear();
 
         // すべての人間の処理
@@ -69,15 +57,13 @@ public class Owner_Human : MonoBehaviour
         {
             // 掴まれている
             //if (RayCheck(human.GetComponent<Collider>(), hitColider))
-            if(human.IsPick)
+            if (human.IsPick)
             {
                 //human.IsPick = true;
                 isPick = true;
                 request.Flag.OffFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_SCROLL);
-                request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_OUT_RANGE);  
+                request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_OUT_RANGE);
             }
-
-            placeCount[(int)human.GetPlaceType()]++;
 
             // リクエストを追加
             bufRequests.Add(human.GetRequest());
@@ -130,7 +116,7 @@ public class Owner_Human : MonoBehaviour
         if (humanCollider == null) return false;
         if (hitCollider == null) return false;
         Debug.Log(hitCollider.gameObject.name);
-        
+
         if (hitCollider == humanCollider)
         {
             return true;
@@ -169,6 +155,11 @@ public class Owner_Human : MonoBehaviour
 
     public int GetPlaceCount(Type _placeType)
     {
-        return placeCount[(int)_placeType];
+        return manager_human.GetListOf(_placeType).Count;
+    }
+
+    public List<Human> GetPlaceHuman(Type _placeType)
+    {
+        return manager_human.GetListOf(_placeType);
     }
 }

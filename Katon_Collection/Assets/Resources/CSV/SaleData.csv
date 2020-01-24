@@ -2,7 +2,7 @@ DATA_START,,
 time,0,
 necessary,2,
 get_item,LOOGER,1
-pay_item,WOOD,-100
+pay_item,WOOD,-100000
 DATA_END,,
 ,,
 DATA_START,,

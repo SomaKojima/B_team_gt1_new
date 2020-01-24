@@ -6,14 +6,19 @@ public class Manager_Human : MonoBehaviour
 {
     //List<Human> humans = new List<Human>();
     List<Human>[] humans = new List<Human>[(int)ITEM_TYPE.WOOD];
-
+    List<Human>[] placeHumans = new List<Human>[(int)Type.Max];
     List<Human> all = new List<Human>();
-    
+
     public void Initialize()
     {
         for (int i = 0; i < (int)ITEM_TYPE.WOOD; i++)
         {
             humans[i] = new List<Human>();
+        }
+
+        for (int i = 0; i < (int)Type.Max; i++)
+        {
+            placeHumans[i] = new List<Human>();
         }
     }
 
@@ -26,11 +31,26 @@ public class Manager_Human : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // 初期化
+        for (int i = 0; i < (int)Type.Max; i++)
+        {
+            placeHumans[i].Clear();
+        }
         all.Clear();
+
+
         for (int i = 0; i < (int)ITEM_TYPE.WOOD; i++)
         {
+            foreach (Human human in humans[i])
+            {
+                if (human.GetPlaceType() == Type.none) continue;
+
+                placeHumans[(int)human.GetPlaceType()].Add(human);
+            }
             all.AddRange(humans[i]);
         }
+
+
     }
 
     public void Add(Human human)
@@ -58,5 +78,10 @@ public class Manager_Human : MonoBehaviour
     public List<Human> GetListOf(ITEM_TYPE type)
     {
         return humans[(int)type];
+    }
+
+    public List<Human> GetListOf(Type _placeType)
+    {
+        return placeHumans[(int)_placeType];
     }
 }
