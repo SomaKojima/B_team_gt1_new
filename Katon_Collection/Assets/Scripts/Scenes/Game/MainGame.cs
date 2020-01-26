@@ -291,7 +291,10 @@ public class MainGame : MonoBehaviour
         // 人間の強化
         if (_request.Flag.IsFlag(REQUEST.POWER_UP_HUMAN))
         {
-            manager_item.GetItem(_request.PowerUpHumanType).AddPowerUpCount(1);
+            if (_request.PowerUpHumanType != ITEM_TYPE.NONE)
+            {
+                manager_item.GetItem(_request.PowerUpHumanType).AddPowerUpCount(1);
+            }
         }
         
 
