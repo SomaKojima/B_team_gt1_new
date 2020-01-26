@@ -72,5 +72,6 @@ public class PowerUpUnit : MonoBehaviour
     {
         gameObject.SetActive(false);
         isPointerEnter = false;
+        isPowerUp = false;
     }
 }

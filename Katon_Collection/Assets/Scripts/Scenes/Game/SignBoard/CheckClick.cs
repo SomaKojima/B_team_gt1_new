@@ -25,7 +25,6 @@ public class CheckClick : MonoBehaviour
 
     public void OnClick()
     {
-        Debug.Log("click");
         isClick = true;
     }
 
