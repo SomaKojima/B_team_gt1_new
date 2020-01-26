@@ -49,7 +49,7 @@ public class MainGame : MonoBehaviour
         manager_item.Initialize();
         owner_human.Intialize();
         owner_floor.Initialize();
-        owner_signBoard.Initialize(mainCamera.IsSigneBoardInScreen, owner_human.GetPlaceCount);
+        owner_signBoard.Initialize(mainCamera.IsSigneBoardInScreen, owner_human.GetPlaceCount, owner_floor.GetPlaceTotalFloor);
 
         manager_SI_Player.UpdatePlayers();
 
