@@ -31,7 +31,14 @@ public class UI_PowerUp : MonoBehaviour
         {
             powerUpButton.OnClickProcess();
             isSetPlaceHuman = true;
-            powerUpWindow.Active();
+            if (powerUpWindow.gameObject.activeSelf)
+            {
+                powerUpWindow.UnActive();
+            }
+            else
+            {
+                powerUpWindow.Active();
+            }
         }
     }
 

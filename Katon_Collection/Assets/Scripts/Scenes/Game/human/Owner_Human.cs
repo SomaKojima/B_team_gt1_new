@@ -25,10 +25,19 @@ public class Owner_Human : MonoBehaviour
 
     bool isCollect = false;
 
+    // 強化された人間の数
+    int[] powerUpCount = new int[(int)ITEM_TYPE.HUMAN_NUM];
+    int[] bufPowerUpCount = new int[(int)ITEM_TYPE.HUMAN_NUM];
+
     public void Intialize()
     {
         manager_human.Initialize();
         request.Initialize();
+        for(int i = 0; i < (int)ITEM_TYPE.HUMAN_NUM; i++)
+        {
+            powerUpCount[i] = 0;
+            bufPowerUpCount[i] = 0;
+        }
     }
 
 
@@ -52,6 +61,12 @@ public class Owner_Human : MonoBehaviour
 
         bufRequests.Clear();
 
+        for (int i = 0; i < (int)ITEM_TYPE.HUMAN_NUM; i++)
+        {
+            bufPowerUpCount[i] = 0;
+        }
+
+
         // すべての人間の処理
         foreach (Human human in manager_human.GetList())
         {
@@ -65,9 +80,25 @@ public class Owner_Human : MonoBehaviour
                 request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_OUT_RANGE);
             }
 
+            // 強化された数を数える
+            ITEM_TYPE type = human.GetItemType();
+            if (human.IsPowerUp())
+            {
+                bufPowerUpCount[(int)type]++;
+            }
+
             // リクエストを追加
             bufRequests.Add(human.GetRequest());
         }
+    }
+
+
+    /// <summary>
+    /// 強化の数を合わせる
+    /// </summary>
+    void MatchPowerUpHuman()
+    {
+
     }
 
     public void MatchItemsHumans(IItem items, Type _placeType)
@@ -102,6 +133,42 @@ public class Owner_Human : MonoBehaviour
         else if (differenceCount < 0)
         {
             manager_human.Delete(type, -differenceCount);
+        }
+
+        // 強化の数を合わせる
+        differenceCount = item.GetPowerUpCount() - bufPowerUpCount[(int)type];
+        int index = 0;
+        // 強化する
+        if (differenceCount > 0)
+        {
+            foreach (Human human in manager_human.GetListOf(type))
+            {
+                if(!human.IsPowerUp())
+                {
+                    human.SetPowerUp(true);
+                    index++;
+                }
+                if (index >= differenceCount)
+                {
+                    break;
+                }
+            }
+        }
+        // 強化を解除する
+        else if (differenceCount < 0)
+        {
+            foreach (Human human in manager_human.GetListOf(type))
+            {
+                if (human.IsPowerUp())
+                {
+                    human.SetPowerUp(false);
+                    index--;
+                }
+                if (index <= differenceCount)
+                {
+                    break;
+                }
+            }
         }
     }
 

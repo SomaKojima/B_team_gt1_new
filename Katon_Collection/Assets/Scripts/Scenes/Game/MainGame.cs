@@ -229,6 +229,13 @@ public class MainGame : MonoBehaviour
         if (_request.Flag.IsFlag(REQUEST.EXCHANGE))
         {
             // アイテムのマネージャに追加・削除
+
+
+            foreach (IItem item in _request.ExchangeItems)
+            {
+
+                Debug.Log(item.GetCount() + " : " + item.GetNormalCount() + " : " + item.GetPowerUpCount());
+            }
             bool isExchangable = manager_item.AddItems(_request.ExchangeItems);
 
             // 交換終了したことを相手に伝える
@@ -267,7 +274,7 @@ public class MainGame : MonoBehaviour
             if (isCollectable)
             {
                 // 資源の追加
-                List<IItem> _items = owner_buildingResource.GetBuildingResource(_request.CollectPlaceType).GetItems(_request.CollectItemType);
+                List<IItem> _items = owner_buildingResource.GetBuildingResource(_request.CollectPlaceType).GetItems(_request.CollectItemType, _request.IsDoubleCollect);
                 manager_item.AddItems(_items);
             }
             _request.FinalizeCollect(isCollectable);
@@ -284,7 +291,7 @@ public class MainGame : MonoBehaviour
         // 人間の強化
         if (_request.Flag.IsFlag(REQUEST.POWER_UP_HUMAN))
         {
-            manager_item.GetItem(_request.PowerUpHumanType).SetPowerUpCount(1);
+            manager_item.GetItem(_request.PowerUpHumanType).AddPowerUpCount(1);
         }
         
 
@@ -306,7 +313,10 @@ public class MainGame : MonoBehaviour
             List<ITEM_TYPE> types = new List<ITEM_TYPE>();
             foreach (Human human in owner_human.GetPlaceHuman(currentPlaceType))
             {
-                types.Add(human.GetItemType());
+                if (!human.IsPowerUp())
+                {
+                    types.Add(human.GetItemType());
+                }
             }
             uiManager.SetPlaceHumanType(types);
 

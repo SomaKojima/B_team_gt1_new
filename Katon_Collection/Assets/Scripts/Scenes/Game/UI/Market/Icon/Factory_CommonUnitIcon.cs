@@ -34,15 +34,26 @@ public class Factory_CommonUnitIcon : MonoBehaviour
     /// <summary>
     /// アイコンの生成
     /// </summary>
-    public CommonUnitIcon Create(ITEM_TYPE type, int count)
+    public CommonUnitIcon Create(ITEM_TYPE type, int count, bool isPowerUp)
     {
         // アイコンの生成
         GameObject obj = Instantiate(iconPrefab, parent);
         obj.transform.SetParent(parent);
         // オブジェクトからCommonUnitIconのコンポーネントを取得
         CommonUnitIcon cmnUnitIcn = obj.GetComponent<CommonUnitIcon>();
+
+        Sprite sprite = null;
+        if (isPowerUp)
+        {
+            sprite = table.GetItemContex(type).GetPowerUpSprite();
+        }
+        else
+        {
+            sprite = table.GetItemContex(type).GetSprite();
+        }
+
         // アイコンの初期化
-        cmnUnitIcn.Initialize(table.GetItemContex(type).GetSprite(), count);
+        cmnUnitIcn.Initialize(sprite, count);
 
         return cmnUnitIcn;
     }

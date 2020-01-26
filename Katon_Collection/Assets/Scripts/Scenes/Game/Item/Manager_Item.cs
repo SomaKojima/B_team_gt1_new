@@ -75,7 +75,9 @@ public class Manager_Item : MonoBehaviour
         foreach (IItem item in _items)
         {
             if (item.GetItemType() == ITEM_TYPE.NONE) continue;
-            GetItem(item.GetItemType()).AddCount(item.GetCount());
+            GetItem(item.GetItemType()).AddPowerUpCount(item.GetPowerUpCount());
+            GetItem(item.GetItemType()).AddCount(item.GetPowerUpCount());
+            GetItem(item.GetItemType()).AddNormalCount(item.GetNormalCount());
         }
         return true;
     }

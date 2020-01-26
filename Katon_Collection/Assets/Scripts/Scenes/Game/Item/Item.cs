@@ -21,9 +21,23 @@ public class Item : IItem
         Initialize(_count, _type);
     }
 
+    public Item(int _normal, int _powerUp, ITEM_TYPE _type)
+    {
+        Initialize(_normal, _powerUp, _type);
+    }
+
     public void Initialize(int _count, ITEM_TYPE _type)
     {
         count = _count;
+        type = _type;
+    }
+
+
+    public void Initialize(int _normal, int _powerUp, ITEM_TYPE _type)
+    {
+        SetCount(_normal + _powerUp);
+        SetPowerUpCount(_powerUp);
+
         type = _type;
     }
 
@@ -35,11 +49,16 @@ public class Item : IItem
     public void AddCount(int _count)
     {
         count += _count;
+    }
 
-        if (count < 0)
-        {
-            count = 0;
-        }
+    public void AddPowerUpCount(int _count)
+    {
+        SetPowerUpCount(powerUpCount + _count);
+    }
+
+    public void AddNormalCount(int _count)
+    {
+        SetNormalCount(GetNormalCount() + _count);
     }
 
     /// <summary>
@@ -48,9 +67,13 @@ public class Item : IItem
     /// <param name="_count"></param>
     public void SetPowerUpCount(int _count)
     {
-        powerUpCount += _count;
-        if (powerUpCount < 0) powerUpCount = 0;
-        if (powerUpCount > count) powerUpCount = count;
+        powerUpCount = _count;
+    }
+
+    public void SetNormalCount(int _count)
+    {
+        count = _count + powerUpCount;
+
     }
 
     public ITEM_TYPE GetItemType()
@@ -76,5 +99,10 @@ public class Item : IItem
     public int GetPowerUpCount()
     {
         return powerUpCount;
+    }
+
+    public int GetNormalCount()
+    {
+        return count - powerUpCount;
     }
 }

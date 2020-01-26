@@ -6,7 +6,10 @@ using UnityEngine.UI;
 public class SelectItemButtonWidnow : MonoBehaviour
 {
     [SerializeField]
-    ChangeCountWindow changeCountWindow = null;
+    ChangeCountWindow normalWindow = null;
+    [SerializeField]
+    ChangeCountWindow powerUpWindow = null;
+
     [SerializeField]
     Owner_SelectItemButton owner_selectItemButton;
 
@@ -26,7 +29,7 @@ public class SelectItemButtonWidnow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -35,21 +38,37 @@ public class SelectItemButtonWidnow : MonoBehaviour
         // 支払いの素材を選択
         if (owner_selectItemButton.IsClick())
         {
-            changeCountWindow.Initialize(owner_selectItemButton.GetItem().GetItemType(), owner_selectItemButton.GetItem().GetCount());
+            IItem selectItem = owner_selectItemButton.GetItem();
+            // アイテムが人間だった場合
+            if (selectItem.GetItemType() < ITEM_TYPE.HUMAN_NUM)
+            {
+                powerUpWindow.Active();
+                powerUpWindow.Initialize(selectItem.GetItemType(), selectItem.GetPowerUpCount(), true);
+            }
+            normalWindow.Active();
+            normalWindow.Initialize(selectItem.GetItemType(), selectItem.GetNormalCount(), false);
         }
 
         // 支払い素材の個数を選択中に、選択画面の最大所持数を更新する
         if (owner_selectItemButton.GetItem() != null)
         {
-            ITEM_TYPE type = owner_selectItemButton.GetItem().GetItemType();
-            changeCountWindow.SetMaxCount(managerItem.GetItem(type).GetCount());
+            IItem selectItem = owner_selectItemButton.GetItem();
+            int currentCount = managerItem.GetItem(selectItem.GetItemType()).GetNormalCount();
+            normalWindow.SetMaxCount(currentCount);
+
+            currentCount = managerItem.GetItem(selectItem.GetItemType()).GetPowerUpCount();
+            powerUpWindow.SetMaxCount(currentCount);
         }
 
         // 支払い素材の個数を変更
-        owner_selectItemButton.ChangeCountOfClickButton(changeCountWindow.GetCount());
-        if (changeCountWindow.IsAplly())
+        owner_selectItemButton.ChangeNormalCountOfClickButton(normalWindow.GetCount());
+        owner_selectItemButton.ChangePowerUpCountOfClickButton(powerUpWindow.GetCount());
+        if (normalWindow.IsAplly() || powerUpWindow.IsAplly())
         {
             owner_selectItemButton.FinishChangeCount();
+
+            powerUpWindow.UnActive();
+            normalWindow.UnActive();
         }
 
         // 合計値を更新する
@@ -65,4 +84,5 @@ public class SelectItemButtonWidnow : MonoBehaviour
     {
         return owner_selectItemButton.GetManagerItem();
     }
+
 }

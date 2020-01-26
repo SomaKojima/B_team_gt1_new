@@ -7,6 +7,9 @@ public class PowerUpWindow : MonoBehaviour
     [SerializeField]
     Owner_PowerUpUnit owner_powerUpUnit;
 
+    bool isClick = false;
+    bool isClickPowerUp = false;
+
     public void Initialize(List<ITEM_TYPE> _itemTypes)
     {
         owner_powerUpUnit.AllDestroy();
@@ -47,5 +50,11 @@ public class PowerUpWindow : MonoBehaviour
     public ITEM_TYPE GetPowerUpItemType()
     {
         return owner_powerUpUnit.GetPowerUpItemType();
+    }
+
+    public void OnPointerDown()
+    {
+        isClick = true;
+        Debug.Log("a");
     }
 }

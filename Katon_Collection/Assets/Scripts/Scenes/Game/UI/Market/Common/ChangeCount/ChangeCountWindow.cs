@@ -31,22 +31,26 @@ public class ChangeCountWindow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // 個数を増やす
         if(countUpBtn.IsClick())
         {
             countUpBtn.OnClickProcess();
 
             AddCount(1);
         }
+
+        // 個数を減らす
         if (countDownBtn.IsClick())
         {
             countDownBtn.OnClickProcess();
 
             AddCount(-1);
         }
+
+        // 決定ボタン
         if (applyBtn.IsClick())
         {
             applyBtn.OnClickProcess();
-            gameObject.SetActive(false);
             isApply = true;
         }
         
@@ -54,32 +58,52 @@ public class ChangeCountWindow : MonoBehaviour
 
     }
 
-    public void Initialize(ITEM_TYPE type, int currentCnt)
+    /// <summary>
+    /// 初期化
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="currentCnt"></param>
+    public void Initialize(ITEM_TYPE type, int currentCnt, bool isPowerUp)
     {
-        gameObject.SetActive(true);
         count = currentCnt;
         UpdateSliderValue();
-        icon.Initialize(type);
+        icon.Initialize(type, isPowerUp);
 
         isApply = false;
     }
 
+    /// <summary>
+    /// 最大値の設定
+    /// </summary>
+    /// <param name="_maxCount"></param>
     public void SetMaxCount(int _maxCount)
     {
         maxCount = _maxCount;
         sliderBtn.maxValue = maxCount;
     }
 
+    /// <summary>
+    /// 個数を取得
+    /// </summary>
+    /// <returns></returns>
     public int GetCount()
     {
         return count;
     }
 
+    /// <summary>
+    /// 決定ボタンが押されたかどうか
+    /// </summary>
+    /// <returns></returns>
     public bool IsAplly()
     {
         return isApply;
     }
 
+    /// <summary>
+    /// 個数の追加
+    /// </summary>
+    /// <param name="cnt"></param>
     private void AddCount(int cnt)
     {
         count += cnt;
@@ -94,6 +118,9 @@ public class ChangeCountWindow : MonoBehaviour
         UpdateSliderValue();
     }
 
+    /// <summary>
+    /// スライダーの値が変わったときの処理
+    /// </summary>
     public void OnChangeSliderValue()
     {
         int buf = (int)sliderBtn.value;
@@ -101,6 +128,9 @@ public class ChangeCountWindow : MonoBehaviour
         icon.SetNum(buf);
     }
 
+    /// <summary>
+    /// スライダーの更新処理
+    /// </summary>
     void UpdateSliderValue()
     {
         if(maxCount == 0)
@@ -109,5 +139,17 @@ public class ChangeCountWindow : MonoBehaviour
             return;
         }
         sliderBtn.value = count;
+    }
+
+
+    public void Active()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void UnActive()
+    {
+        gameObject.SetActive(false);
+        isApply = false;
     }
 }

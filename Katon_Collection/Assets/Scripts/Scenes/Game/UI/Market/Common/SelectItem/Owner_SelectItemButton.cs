@@ -15,6 +15,7 @@ public class Owner_SelectItemButton : MonoBehaviour
 
     int total = 0;
 
+    // 個数を保存する用
     Manager_Item currentItem = new Manager_Item();
 
     public void Initialize()
@@ -40,54 +41,76 @@ public class Owner_SelectItemButton : MonoBehaviour
 
         foreach (SelectItemsButton button in manager.GetItemList())
         {
-            currentItem.GetItem(button.GetItem().GetItemType()).SetCount(button.GetItem().GetCount());
+            // 選択した個数を保存する
+            int currentCount = button.GetItem().GetCount();
+            ITEM_TYPE buttonType = button.GetItem().GetItemType();
+            currentItem.GetItem(buttonType).SetCount(currentCount);
+
+            // ボタンが押されたかどうかを判定する
             if (button.IsClick())
             {
                 button.OnClickProcess();
                 if (clickButton == null)
                 {
                     isClick = true;
+                    // 選択中のボタンを保存する
                     clickButton = button;
                 }
             }
-                total += button.GetItem().GetCount();
+            total += button.GetItem().GetCount();
         }
     }
 
+    // ボタンを作成
     public void Create(ITEM_TYPE type)
     {
         manager.Add(factory.Create(type));
     }
 
-    public void ChangeCountOfClickButton(int count)
+    // 選択中のアイテムの個数を変更する
+    public void ChangeNormalCountOfClickButton(int count)
     {
         if (clickButton != null)
         {
-            clickButton.GetItem().SetCount(count);
+            clickButton.GetItem().SetNormalCount(count);
         }
     }
 
+    // 選択中の強化したアイテムの個数を変更する
+    public void ChangePowerUpCountOfClickButton(int _count)
+    {
+        if (clickButton != null)
+        {
+            clickButton.GetItem().SetPowerUpCount(_count);
+        }
+    }
+
+    // 変更し終わったら呼ぶ
     public void FinishChangeCount()
     {
         clickButton = null;
     }
 
+    // 選択中のアイテムを取得
     public IItem GetItem()
     {
         if (clickButton == null) return null;
         return clickButton.GetItem();
     }
     
+    // 何かしらボタンが押されたら
     public bool IsClick()
     {
         return isClick;
     }
 
+    // アイテムの個数の合計値を取得
     public int GetTotal()
     {
         return total;
     }
 
+    // 個数を保存したアイテムマネージャーを取得
     public Manager_Item GetManagerItem()
     {
         return currentItem;

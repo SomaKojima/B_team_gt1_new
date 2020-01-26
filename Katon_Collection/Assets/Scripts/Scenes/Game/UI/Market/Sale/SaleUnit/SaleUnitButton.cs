@@ -61,18 +61,39 @@ public class SaleUnitButton : UI_Button_Market
         getItems = _getItems;
         foreach (IItem item in _getItems)
         {
-            managerGetCmnIcn.Add(
-                factoryGetCmnIcn.Create(item.GetItemType(), item.GetCount())
-                );
+            if (item.GetNormalCount() > 0)
+            {
+                managerGetCmnIcn.Add(
+                    factoryGetCmnIcn.Create(item.GetItemType(), item.GetNormalCount(), false)
+                    );
+            }
+
+            if (item.GetPowerUpCount() > 0)
+            {
+                managerGetCmnIcn.Add(
+                    factoryGetCmnIcn.Create(item.GetItemType(), item.GetPowerUpCount(), true)
+                    );
+            }
         }
 
         payItems.Clear();
         payItems = _payItems;
         foreach (IItem item in _payItems)
         {
-            managerPayCmnIcn.Add(
-            factoryPayCmnIcn.Create(item.GetItemType(), item.GetCount())
+            if (item.GetNormalCount() < 0)
+            {
+                managerPayCmnIcn.Add(
+            factoryPayCmnIcn.Create(item.GetItemType(), item.GetNormalCount(), false)
             );
+            }
+
+            Debug.Log(item.GetPowerUpCount());
+            if (item.GetPowerUpCount() < 0)
+            {
+                managerPayCmnIcn.Add(
+                    factoryPayCmnIcn.Create(item.GetItemType(), item.GetPowerUpCount(), true)
+                    );
+            }
         }
 
         UpdateExchangeItemList();
@@ -115,9 +136,19 @@ public class SaleUnitButton : UI_Button_Market
         getItems = _getItems;
         foreach (IItem item in _getItems)
         {
-            managerGetCmnIcn.Add(
-                factoryGetCmnIcn.Create(item.GetItemType(), item.GetCount())
-                );
+            if (item.GetNormalCount() > 0)
+            {
+                managerGetCmnIcn.Add(
+                    factoryGetCmnIcn.Create(item.GetItemType(), item.GetNormalCount(), false)
+                    );
+            }
+
+            if (item.GetPowerUpCount() > 0)
+            {
+                managerGetCmnIcn.Add(
+                    factoryGetCmnIcn.Create(item.GetItemType(), item.GetPowerUpCount(), true)
+                    );
+            }
         }
         UpdateExchangeItemList();
     }
@@ -130,9 +161,19 @@ public class SaleUnitButton : UI_Button_Market
         getItems = _payItems;
         foreach (IItem item in _payItems)
         {
-            managerPayCmnIcn.Add(
-            factoryGetCmnIcn.Create(item.GetItemType(), item.GetCount())
-            );
+            if (item.GetNormalCount() < 0)
+            {
+                    managerPayCmnIcn.Add(
+                factoryPayCmnIcn.Create(item.GetItemType(), item.GetNormalCount(), false)
+                );
+            }
+
+            if (item.GetPowerUpCount() < 0)
+            {
+                managerPayCmnIcn.Add(
+                    factoryPayCmnIcn.Create(item.GetItemType(), item.GetPowerUpCount(), true)
+                    );
+            }
         }
         UpdateExchangeItemList();
     }
@@ -151,10 +192,20 @@ public class SaleUnitButton : UI_Button_Market
         {
             managerPayCmnIcn.Icons[index].UnActiveRed();
             // アイテムの数が足りているかどうか判定
-            if (-item.GetCount() > items[(int)item.GetItemType()].GetCount())
+            if (item.GetNormalCount() < 0 &&
+                - item.GetNormalCount() > items[(int)item.GetItemType()].GetNormalCount())
             {
                 managerPayCmnIcn.Icons[index].ActiveRed();
                 isEnough = false;
+                index++;
+            }
+
+            if (item.GetPowerUpCount() < 0 &&
+                -item.GetPowerUpCount() > items[(int)item.GetItemType()].GetPowerUpCount())
+            {
+                isEnough = false;
+                managerPayCmnIcn.Icons[index].ActiveRed();
+                index++;
             }
         }
     }

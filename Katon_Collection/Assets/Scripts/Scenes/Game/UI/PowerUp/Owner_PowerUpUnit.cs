@@ -29,6 +29,7 @@ public class Owner_PowerUpUnit : MonoBehaviour
             if (unit.IsPowerUp())
             {
                 powerUpUnits = unit;
+                unit.gameObject.SetActive(false);
                 isPowerUp = true;
             }
         }

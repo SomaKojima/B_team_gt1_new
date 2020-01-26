@@ -19,6 +19,7 @@ public class Request
     
     Type collectPlaceType;
     ITEM_TYPE collectItemType;
+    bool isDoubleCollect = false;
 
     // 場所の中心座標
     Vector3 areaCenterPosition;
@@ -102,6 +103,12 @@ public class Request
     {
         get { return powerUpHumanType; }
         set { powerUpHumanType = value; }
+    }
+    
+    public bool IsDoubleCollect
+    {
+        get { return isDoubleCollect; }
+        set { isDoubleCollect = value; }
     }
 
     /// <summary>

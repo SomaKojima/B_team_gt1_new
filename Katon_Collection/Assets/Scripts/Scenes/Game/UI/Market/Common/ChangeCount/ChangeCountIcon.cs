@@ -25,9 +25,13 @@ public class ChangeCountIcon : MonoBehaviour
         
     }
 
-    public void Initialize(ITEM_TYPE type)
+    public void Initialize(ITEM_TYPE type, bool isPowerUp)
     {
         image.sprite = table.GetItemContex(type).GetSprite();
+        if (isPowerUp)
+        {
+            image.sprite = table.GetItemContex(type).GetPowerUpSprite();
+        }
     }
 
     public void SetNum(int num)
