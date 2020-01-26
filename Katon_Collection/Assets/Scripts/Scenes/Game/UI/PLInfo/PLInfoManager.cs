@@ -39,7 +39,7 @@ public class PLInfoManager : MonoBehaviour
         
     }
 
-    public void SetPlayerInfo(List<SI_Player> data)
+    public void SetPlInfo(List<SI_Player> data)
     {
         this.data = data;
     }
@@ -49,10 +49,30 @@ public class PLInfoManager : MonoBehaviour
         for (int i = 0; i < PLInfoWindows.Length; i++)
         {
             PLInfoWindows[i].SetActive(false);
-            if(i==currentNumber)
-            {
-                PLInfoWindows[i].SetActive(true);
-            }
         }
+        PLInfoWindows[currentNumber].SetActive(true);
+    }
+
+    public void RightBtnOnClick()
+    {
+        if(currentNumber< PLInfoWindows.Length)
+        {
+            currentNumber++;
+            PLInfoActives();
+        }
+    }
+
+    public void LeftBtnOnClick()
+    {
+        if (currentNumber > 0)
+        {
+            currentNumber--;
+            PLInfoActives();
+        }
+    }
+
+    public void DeleteWindow()
+    {
+        System.Array.Clear(PLInfoWindows, 0, PLInfoWindows.Length);
     }
 }
