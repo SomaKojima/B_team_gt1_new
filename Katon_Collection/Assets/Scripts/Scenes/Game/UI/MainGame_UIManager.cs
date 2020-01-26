@@ -551,6 +551,18 @@ public class MainGame_UIManager : MonoBehaviour
         }
     }
 
+    public void SetActivePowerUpWindow(bool isActive)
+    {
+        if (isActive)
+        {
+            ui_powerUp.Active();
+        }
+        else
+        {
+            ui_powerUp.UnActive();
+        }
+    }
+
     public void SetPlaceHumanType(List<ITEM_TYPE> _humaType)
     {
         ui_powerUp.SetPlaceHuman(_humaType);

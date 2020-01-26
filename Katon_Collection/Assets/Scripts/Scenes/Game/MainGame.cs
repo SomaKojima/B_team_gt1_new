@@ -128,11 +128,13 @@ public class MainGame : MonoBehaviour
             List<IItem> _items = owner_floor.GetBuildingResource(currentPlaceType);
             //UIの建築ボードを表示する
             uiManager.SetActiveBuildingBoard(true, _items);
+            uiManager.SetActivePowerUpWindow(true);
         }
         else
         {
             //UIの建築ボードを非表示する
             uiManager.SetActiveBuildingBoard(false, null);
+            uiManager.SetActivePowerUpWindow(false);
         }
     }
     
@@ -322,7 +324,6 @@ public class MainGame : MonoBehaviour
                 }
             }
             uiManager.SetPlaceHumanType(types);
-
         }
     }
 }

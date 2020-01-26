@@ -84,4 +84,17 @@ public class UI_PowerUp : MonoBehaviour
     {
         return isChangeActive;
     }
+
+    public void Active()
+    {
+        if (gameObject.activeSelf) return;
+        gameObject.SetActive(true);
+    }
+
+    public void UnActive()
+    {
+        if (!gameObject.activeSelf) return;
+        gameObject.SetActive(false);
+        powerUpWindow.UnActive();
+    }
 }
