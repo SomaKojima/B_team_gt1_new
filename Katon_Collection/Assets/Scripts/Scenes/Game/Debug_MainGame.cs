@@ -33,6 +33,17 @@ public class Debug_MainGame
         //buindingTime.Add(420);
         //buindingTime.Add(510);
 
+
+        _managerItem.GetItem(ITEM_TYPE.LOOGER).SetCount(2);
+        _managerItem.GetItem(ITEM_TYPE.LOOGER).SetPowerUpCount(1);
+
+        //for (int i = 0; i < (int)ITEM_TYPE.HUMAN_NUM; i++)
+        //{
+        //    ITEM_TYPE type = (ITEM_TYPE)i;
+        //    _managerItem.GetItem(type).SetCount(2);
+        //    _managerItem.GetItem(type).SetPowerUpCount(1);
+        //}
+
         for (int i = (int)ITEM_TYPE.HUMAN_NUM; i < (int)ITEM_TYPE.NUM; i++)
         {
             ITEM_TYPE type = (ITEM_TYPE)i;

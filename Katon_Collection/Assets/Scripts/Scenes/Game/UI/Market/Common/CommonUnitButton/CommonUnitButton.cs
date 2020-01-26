@@ -55,9 +55,19 @@ public class CommonUnitButton : UI_Button_Market
         getItems = _getItems;
         foreach (IItem item in _getItems)
         {
+            // ノーマルを表示
             managerCmnIcn.Add(
-                factoryCmnIcn.Create(item.GetItemType(), item.GetCount())
+                factoryCmnIcn.Create(item.GetItemType(), item.GetNormalCount(), false)
                 );
+
+            //Debug.Log(item.GetPowerUpCount());
+            // 強化のアイコンを表示
+            if (item.GetPowerUpCount() > 0)
+            {
+                managerCmnIcn.Add(
+                    factoryCmnIcn.Create(item.GetItemType(), item.GetPowerUpCount(), true)
+                    );
+            }
         }
     }
 

@@ -140,14 +140,19 @@ public class Common_Encode
             string typeStr = valueStr[i];
             ITEM_TYPE type = itemTypeTable[typeStr];
 
-            // itemの個数を取得
+            // itemの通常版の個数を取得
             i++;
             string countStr = valueStr[i];
-            int count = int.Parse(countStr);
+            int normalCount = int.Parse(countStr);
+
+
+            // itemの強化版の個数を取得
+            i++;
+            string powerUpCountStr = valueStr[i];
+            int powerUpCount = int.Parse(powerUpCountStr);
 
             // itemのクラスを追加
-            refItems.Add(new Item(count, type));
-
+            refItems.Add(new Item(normalCount, powerUpCount, type));
             i++;
         }
     }

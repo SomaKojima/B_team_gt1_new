@@ -9,6 +9,8 @@ public class ItemContext : ScriptableObject
     Sprite sprite;
     [SerializeField]
     Material material;
+    [SerializeField]
+    Sprite powerUpSprite;
 
     public Sprite GetSprite()
     {
@@ -18,5 +20,10 @@ public class ItemContext : ScriptableObject
     public Material GetMaterial()
     {
         return material;
+    }
+
+    public Sprite GetPowerUpSprite()
+    {
+        return powerUpSprite;
     }
 }

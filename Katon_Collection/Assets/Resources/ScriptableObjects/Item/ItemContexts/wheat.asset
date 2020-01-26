@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: d792798a79043ec4ebb6cedb5ce8e02c, type: 3}
   material: {fileID: 2100000, guid: ab05d3ee08e6d64429ce88422aea6184, type: 2}
+  powerUpSprite: {fileID: 21300000, guid: 527f0f99f9dea864385aa0b7f132ccd2, type: 3}

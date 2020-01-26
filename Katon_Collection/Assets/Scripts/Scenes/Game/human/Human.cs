@@ -16,6 +16,9 @@ public class Human : MonoBehaviour
     [SerializeField]
     IconMove icon;
 
+    [SerializeField]
+    Renderer crown;
+
     ContextMoveState move = new ContextMoveState();
     bool isCollect = false;
     bool isPick = false;
@@ -29,6 +32,8 @@ public class Human : MonoBehaviour
     Type placeType = Type.cave;
 
     Vector3 targetPosition = Vector3.zero;
+
+    bool isPowerUp = false;
 
     /// <summary>
     /// 初期化
@@ -63,7 +68,11 @@ public class Human : MonoBehaviour
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.COLLECT);
             request.CollectItemType = ChangeItemType.HumanToBuildingResource(type);
             request.CollectPlaceType = placeType;
+            request.IsDoubleCollect = isPowerUp;
         }
+
+        // 王冠の表示・非表示
+        crown.gameObject.SetActive(isPowerUp);
 
         UpdateReplayRequest();
     }
@@ -172,5 +181,15 @@ public class Human : MonoBehaviour
     void OnMouseDown()
     {
         isPick = true;
+    }
+
+    public void SetPowerUp(bool flag)
+    {
+        isPowerUp = flag;
+    }
+
+    public bool IsPowerUp()
+    {
+        return isPowerUp;
     }
 }

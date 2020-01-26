@@ -82,6 +82,8 @@ public class MainGame : MonoBehaviour
         UpdateRequestList();
         
         UpdateRequest(debug.GetRequest());
+
+        UpdateUIRequest();
     }
 
     void UpdateRequest_UI()
@@ -227,6 +229,13 @@ public class MainGame : MonoBehaviour
         if (_request.Flag.IsFlag(REQUEST.EXCHANGE))
         {
             // アイテムのマネージャに追加・削除
+
+
+            foreach (IItem item in _request.ExchangeItems)
+            {
+
+                Debug.Log(item.GetCount() + " : " + item.GetNormalCount() + " : " + item.GetPowerUpCount());
+            }
             bool isExchangable = manager_item.AddItems(_request.ExchangeItems);
 
             // 交換終了したことを相手に伝える
@@ -265,7 +274,7 @@ public class MainGame : MonoBehaviour
             if (isCollectable)
             {
                 // 資源の追加
-                List<IItem> _items = owner_buildingResource.GetBuildingResource(_request.CollectPlaceType).GetItems(_request.CollectItemType);
+                List<IItem> _items = owner_buildingResource.GetBuildingResource(_request.CollectPlaceType).GetItems(_request.CollectItemType, _request.IsDoubleCollect);
                 manager_item.AddItems(_items);
             }
             _request.FinalizeCollect(isCollectable);
@@ -278,6 +287,15 @@ public class MainGame : MonoBehaviour
             _request.AreaCenterPosition = judgeField.GetAreaCenterPosition(_request.ChangePlaceType);
             _request.FinalizePositionToPlace(true);
         }
+
+        // 人間の強化
+        if (_request.Flag.IsFlag(REQUEST.POWER_UP_HUMAN))
+        {
+            if (_request.PowerUpHumanType != ITEM_TYPE.NONE)
+            {
+                manager_item.GetItem(_request.PowerUpHumanType).AddPowerUpCount(1);
+            }
+        }
         
 
         _request.FinalizeRequest();
@@ -289,5 +307,22 @@ public class MainGame : MonoBehaviour
         manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(manager_item.GetItem(ITEM_TYPE.LOOGER).GetCount() + 1);
         manager_item.GetItem(ITEM_TYPE.ENGINEER).SetCount(manager_item.GetItem(ITEM_TYPE.ENGINEER).GetCount() + 1);
         manager_item.GetItem(ITEM_TYPE.COAL_MINER).SetCount(manager_item.GetItem(ITEM_TYPE.COAL_MINER).GetCount() + 1);
+    }
+
+    void UpdateUIRequest()
+    {
+        if (uiManager.IsSetPlaceHumanType())
+        {
+            List<ITEM_TYPE> types = new List<ITEM_TYPE>();
+            foreach (Human human in owner_human.GetPlaceHuman(currentPlaceType))
+            {
+                if (!human.IsPowerUp())
+                {
+                    types.Add(human.GetItemType());
+                }
+            }
+            uiManager.SetPlaceHumanType(types);
+
+        }
     }
 }

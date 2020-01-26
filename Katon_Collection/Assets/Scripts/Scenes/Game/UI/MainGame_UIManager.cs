@@ -46,6 +46,10 @@ public class MainGame_UIManager : MonoBehaviour
     [SerializeField]
     FirstText firstText;
 
+    // パワーアップ関係
+    [SerializeField]
+    UI_PowerUp ui_powerUp;
+
     // リクエスト用のビットフラグ
     Request request = new Request();
 
@@ -60,6 +64,8 @@ public class MainGame_UIManager : MonoBehaviour
 
     // フェードインが終了したかどうかのフラグ
     bool isFinishFadeIn = false;
+
+    bool isSetPlaceHuman = false;
 
 
     /// <summary>
@@ -79,6 +85,8 @@ public class MainGame_UIManager : MonoBehaviour
         requestActiveUI.Initailize();
 
         request.Initialize();
+
+        ui_powerUp.Initialzie();
     }
 
     // Start is called before the first frame update
@@ -117,11 +125,14 @@ public class MainGame_UIManager : MonoBehaviour
         // ログウィンドウのリクエスト処理
         UpdateRequest_LogWindow();
 
+        UpdateRequest_PowerUp();
+
         // UIを有効化する処理
         UpdateActive();
 
         // UIを無効化する処理
         UpdateUnActive();
+
     }
 
     /// <summary>
@@ -465,6 +476,17 @@ public class MainGame_UIManager : MonoBehaviour
         }
     }
 
+    void UpdateRequest_PowerUp()
+    {
+        isSetPlaceHuman = ui_powerUp.IsSetPlaceHuman();
+
+        if (ui_powerUp.IsPowerUp())
+        {
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.POWER_UP_HUMAN);
+            request.PowerUpHumanType = ui_powerUp.GetPowerUpItemType();
+        }
+    }
+
     /// <summary>
     /// 建築終了の処理
     /// </summary>
@@ -515,6 +537,11 @@ public class MainGame_UIManager : MonoBehaviour
         }
     }
 
+    public void SetPlaceHumanType(List<ITEM_TYPE> _humaType)
+    {
+        ui_powerUp.SetPlaceHuman(_humaType);
+    }
+
     public void AddLog(string _text)
     {
         logWindow.AddLog(_text, timer.GetTotalTime());
@@ -562,5 +589,10 @@ public class MainGame_UIManager : MonoBehaviour
     public Request GetRequest()
     {
         return request;
+    }
+
+    public bool IsSetPlaceHumanType()
+    {
+        return isSetPlaceHuman;
     }
 }
