@@ -29,6 +29,7 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
 
     public void ConnectServer()
     {
+        PhotonNetwork.offlineMode = false;
         PhotonNetwork.ConnectUsingSettings(null);
     }
 
