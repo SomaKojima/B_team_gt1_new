@@ -9,6 +9,8 @@ public class PowerUpWindow : MonoBehaviour
 
     bool isClick = false;
     bool isClickPowerUp = false;
+
+    bool isClickEnterWindow = false;
     RectTransform rectTransform;
 
     public void Initialize(List<ITEM_TYPE> _itemTypes)
@@ -29,12 +31,16 @@ public class PowerUpWindow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        isClickEnterWindow = false;
+        if (!isClick && !owner_powerUpUnit.IsPointerEnter())
         {
-            if (!isClick && !owner_powerUpUnit.IsPointerEnter())
-            {
-                UnActive();
-            }
+            Debug.Log("a");
+            isClickEnterWindow = true;
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            isClick = false;
         }
     }
 
@@ -48,6 +54,7 @@ public class PowerUpWindow : MonoBehaviour
     {
         if (!this.gameObject.activeSelf) return;
         this.gameObject.SetActive(false);
+        isClick = false;
     }
 
     public bool IsPowerUp()
@@ -58,6 +65,11 @@ public class PowerUpWindow : MonoBehaviour
     public ITEM_TYPE GetPowerUpItemType()
     {
         return owner_powerUpUnit.GetPowerUpItemType();
+    }
+
+    public void OnPointerDown()
+    {
+        isClick = true;
     }
 
     public void OnPointerEnter()
@@ -73,5 +85,10 @@ public class PowerUpWindow : MonoBehaviour
     public bool IsClick()
     {
         return isClick;
+    }
+
+    public bool IsClickEnterWindow()
+    {
+        return isClickEnterWindow;
     }
 }

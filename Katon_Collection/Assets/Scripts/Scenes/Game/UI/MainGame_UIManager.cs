@@ -50,6 +50,9 @@ public class MainGame_UIManager : MonoBehaviour
     [SerializeField]
     UI_PowerUp ui_powerUp;
 
+    [SerializeField]
+    SelectQrReaderOrFountain selectQrReaderOrFountain;
+
     // リクエスト用のビットフラグ
     Request request = new Request();
 
@@ -127,6 +130,8 @@ public class MainGame_UIManager : MonoBehaviour
 
         UpdateRequest_PowerUp();
 
+        UpdateRequest_selectQrReaderOrFountain();
+
         // UIを有効化する処理
         UpdateActive();
 
@@ -156,6 +161,12 @@ public class MainGame_UIManager : MonoBehaviour
         if (requestActiveUI.IsActive(ACTIVE_UI.FOUNTAIN))
         {
             fountainWindow.Active();
+        }
+
+        // ｑｒの選択
+        if (requestActiveUI.IsActive(ACTIVE_UI.SELECT_QR))
+        {
+            selectQrReaderOrFountain.Active();
         }
 
         // QRリーダーを有効化
@@ -201,6 +212,12 @@ public class MainGame_UIManager : MonoBehaviour
         if (requestActiveUI.IsUnActive(ACTIVE_UI.FOUNTAIN))
         {
             fountainWindow.UnActive();
+        }
+
+        // ｑｒの選択
+        if (requestActiveUI.IsUnActive(ACTIVE_UI.SELECT_QR))
+        {
+            selectQrReaderOrFountain.UnActive();
         }
 
         // QRリーダーを無効化
@@ -300,9 +317,9 @@ public class MainGame_UIManager : MonoBehaviour
 
             // カメラの挙動リクエスト
 
-            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.FADE, REQUEST.CAMERA_UNDO | REQUEST.CAMERA_START);
-
-            fade_CloudEffect.StartFadeIn();
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_START);
+            
+            //fade_CloudEffect.StartFadeIn();
         }
 
         // 交換
@@ -376,7 +393,8 @@ public class MainGame_UIManager : MonoBehaviour
         // QRリーダーを起動
         if (manager_placeBar.GetIsQRLeader())
         {
-            requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.QR_READER);
+            requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.SELECT_QR);
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_STOP);
         }
 
         // 移動する
@@ -491,14 +509,35 @@ public class MainGame_UIManager : MonoBehaviour
         }
         if (ui_powerUp.IsChangeActive())
         {
-            if (ui_powerUp.IsActive())
-            {
-                request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_STOP);
-            }
-            else
-            {
-                request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_START);
-            }
+            //if (ui_powerUp.IsActive())
+            //{
+            //    request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_STOP);
+            //}
+            //else
+            //{
+            //    request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_START);
+            //}
+        }
+    }
+    
+    /// <summary>
+    /// QRリーダーと噴水の選択画面のrequest処理
+    /// </summary>
+    public void UpdateRequest_selectQrReaderOrFountain()
+    {
+        if (selectQrReaderOrFountain.IsSelectFountain())
+        {
+            requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.FOUNTAIN);
+            requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.SELECT_QR);
+
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_STOP);
+        }
+
+        if (selectQrReaderOrFountain.IsSelectQrReader())
+        {
+            requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.QR_READER);
+            requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.SELECT_QR);
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_STOP);
         }
     }
 
