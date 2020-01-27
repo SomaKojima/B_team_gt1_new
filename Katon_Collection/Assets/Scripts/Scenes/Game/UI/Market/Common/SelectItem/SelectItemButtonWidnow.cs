@@ -18,6 +18,8 @@ public class SelectItemButtonWidnow : MonoBehaviour
 
     Manager_Item managerItem = null;
 
+    List<IItem> exchangeItems = new List<IItem>();
+
     Manager_Item refItem = null;
 
     public void Initialize(Manager_Item _managerItem)
@@ -73,6 +75,7 @@ public class SelectItemButtonWidnow : MonoBehaviour
 
         // 合計値を更新する
         totalItemNumText.text = owner_selectItemButton.GetTotal().ToString();
+        
     }
 
     public int GetTotal()
@@ -85,4 +88,8 @@ public class SelectItemButtonWidnow : MonoBehaviour
         return owner_selectItemButton.GetManagerItem();
     }
 
+    public List<IItem> GetExchangeItems()
+    {
+        return exchangeItems;
+    }
 }

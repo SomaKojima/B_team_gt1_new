@@ -233,17 +233,18 @@ public class MainGame_UIManager : MonoBehaviour
         if (buildingBoard.IsClickBuildingButton())
         {
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.BUILDING);
+            requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.FIRST_TEXT);
         }
 
         // 資源のボードを表示中かどうか
-        if (buildingBoard.IsActiveBoard())
-        {
-            requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.FIRST_TEXT);
-        }
-        else
-        {
-            requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.FIRST_TEXT);
-        }
+        //if (buildingBoard.IsActiveBoard())
+        //{
+        //    requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.FIRST_TEXT);
+        //}
+        //else
+        //{
+        //    requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.FIRST_TEXT);
+        //}
     }
 
     /// <summary>

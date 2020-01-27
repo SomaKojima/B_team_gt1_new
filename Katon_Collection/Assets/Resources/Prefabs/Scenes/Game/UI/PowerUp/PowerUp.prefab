@@ -122,12 +122,12 @@ PrefabInstance:
     - target: {fileID: 3901629016992489993, guid: 9c26cf03d37045f4d9f3c359cb3981e7,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 277
+      value: -135
       objectReference: {fileID: 0}
     - target: {fileID: 3901629016992489993, guid: 9c26cf03d37045f4d9f3c359cb3981e7,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -664.99994
+      value: -933
       objectReference: {fileID: 0}
     - target: {fileID: 3901629016992489993, guid: 9c26cf03d37045f4d9f3c359cb3981e7,
         type: 3}
@@ -200,6 +200,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PowerUpWindow
+      objectReference: {fileID: 0}
+    - target: {fileID: 6499116590763032194, guid: a308e25e43c4db242993bc4d4ee40172,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6499116590763032195, guid: a308e25e43c4db242993bc4d4ee40172,
         type: 3}
@@ -309,32 +314,32 @@ PrefabInstance:
     - target: {fileID: 6499116591690458378, guid: a308e25e43c4db242993bc4d4ee40172,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6499116591690458378, guid: a308e25e43c4db242993bc4d4ee40172,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6499116591690458378, guid: a308e25e43c4db242993bc4d4ee40172,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -17
       objectReference: {fileID: 0}
     - target: {fileID: 6499116590814915445, guid: a308e25e43c4db242993bc4d4ee40172,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 6499116592618690662, guid: a308e25e43c4db242993bc4d4ee40172,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6499116592618690662, guid: a308e25e43c4db242993bc4d4ee40172,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a308e25e43c4db242993bc4d4ee40172, type: 3}

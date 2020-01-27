@@ -70,9 +70,13 @@ public class CommonWindow : MonoBehaviour
     void UpdateExchangeItemList()
     {
         exchangeItemList.Clear();
-            for (int i = 0; i < exchangeCount; i++)
+        for (int i = 0; i < exchangeCount; i++)
         {
             exchangeItemList.AddRange(owner_commonUnitButton.GetSelectCommonUnitButton().GetGetItems());
+        }
+        foreach (IItem item in selectItemButtonWindow.GetManagerItem().GetItemList())
+        {
+            exchangeItemList.Add(new Item(-item.GetNormalCount(), -item.GetPowerUpCount(), item.GetItemType()));
         }
     }
 
