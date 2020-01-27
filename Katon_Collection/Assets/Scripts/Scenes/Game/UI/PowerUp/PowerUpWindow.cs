@@ -9,6 +9,7 @@ public class PowerUpWindow : MonoBehaviour
 
     bool isClick = false;
     bool isClickPowerUp = false;
+    RectTransform rectTransform;
 
     public void Initialize(List<ITEM_TYPE> _itemTypes)
     {
@@ -22,12 +23,19 @@ public class PowerUpWindow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        rectTransform = this.gameObject.GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (!isClick && !owner_powerUpUnit.IsPointerEnter())
+            {
+                UnActive();
+            }
+        }
     }
 
     public void Active()
@@ -52,9 +60,18 @@ public class PowerUpWindow : MonoBehaviour
         return owner_powerUpUnit.GetPowerUpItemType();
     }
 
-    public void OnPointerDown()
+    public void OnPointerEnter()
     {
         isClick = true;
-        Debug.Log("a");
+    }
+
+    public void OnPointerExit()
+    {
+        isClick = false;
+    }
+
+    public bool IsClick()
+    {
+        return isClick;
     }
 }

@@ -476,6 +476,9 @@ public class MainGame_UIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 強化画面のリクエスト処理
+    /// </summary>
     void UpdateRequest_PowerUp()
     {
         isSetPlaceHuman = ui_powerUp.IsSetPlaceHuman();
@@ -484,6 +487,17 @@ public class MainGame_UIManager : MonoBehaviour
         {
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.POWER_UP_HUMAN);
             request.PowerUpHumanType = ui_powerUp.GetPowerUpItemType();
+        }
+        if (ui_powerUp.IsChangeActive())
+        {
+            if (ui_powerUp.IsActive())
+            {
+                request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_STOP);
+            }
+            else
+            {
+                request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_START);
+            }
         }
     }
 

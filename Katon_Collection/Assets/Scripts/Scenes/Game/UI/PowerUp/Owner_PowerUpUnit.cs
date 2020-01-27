@@ -14,6 +14,8 @@ public class Owner_PowerUpUnit : MonoBehaviour
 
     PowerUpUnit powerUpUnits = null;
 
+    bool isPointerEnter = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,13 +26,18 @@ public class Owner_PowerUpUnit : MonoBehaviour
     void Update()
     {
         isPowerUp = false;
+        isPointerEnter = false;
         foreach (PowerUpUnit unit in manager.Units)
         {
             if (unit.IsPowerUp())
             {
                 powerUpUnits = unit;
-                unit.gameObject.SetActive(false);
+                unit.UnActive();
                 isPowerUp = true;
+            }
+            if (unit.IsPointerEnter())
+            {
+                isPointerEnter = true;
             }
         }
     }
@@ -54,5 +61,10 @@ public class Owner_PowerUpUnit : MonoBehaviour
     {
         if (powerUpUnits == null) return ITEM_TYPE.NONE;
         return powerUpUnits.GetItemType();
+    }
+
+    public bool IsPointerEnter()
+    {
+        return isPointerEnter;
     }
 }

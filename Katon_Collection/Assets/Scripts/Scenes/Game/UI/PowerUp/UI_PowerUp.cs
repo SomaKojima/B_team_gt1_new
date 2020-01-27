@@ -11,6 +11,8 @@ public class UI_PowerUp : MonoBehaviour
     PowerUpWindow powerUpWindow;
 
     bool isSetPlaceHuman = false;
+    bool isActive = false;
+    bool isChangeActive = false;
 
     public void Initialzie()
     {
@@ -27,10 +29,14 @@ public class UI_PowerUp : MonoBehaviour
     void Update()
     {
         isSetPlaceHuman = false;
+        isChangeActive = false;
+
+
         if (powerUpButton.IsClick())
         {
             powerUpButton.OnClickProcess();
             isSetPlaceHuman = true;
+
             if (powerUpWindow.gameObject.activeSelf)
             {
                 powerUpWindow.UnActive();
@@ -40,6 +46,13 @@ public class UI_PowerUp : MonoBehaviour
                 powerUpWindow.Active();
             }
         }
+
+        if (powerUpWindow.gameObject.activeSelf != isActive)
+        {
+            //Debug.Log(powerUpWindow.gameObject.activeSelf);
+            isChangeActive = true;
+        }
+        isActive = powerUpWindow.gameObject.activeSelf;
     }
 
     public void SetPlaceHuman(List<ITEM_TYPE> _type)
@@ -60,5 +73,15 @@ public class UI_PowerUp : MonoBehaviour
     public ITEM_TYPE GetPowerUpItemType()
     {
         return powerUpWindow.GetPowerUpItemType();
+    }
+
+    public bool IsActive()
+    {
+        return isActive;
+    }
+
+    public bool IsChangeActive()
+    {
+        return isChangeActive;
     }
 }

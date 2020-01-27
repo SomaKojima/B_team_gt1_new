@@ -16,6 +16,7 @@ public class PowerUpUnit : MonoBehaviour
     ITEM_TYPE type;
 
     bool isPowerUp = false;
+    bool isPointerEnter = false;
 
     public void Initialize(ITEM_TYPE _type)
     {
@@ -47,8 +48,30 @@ public class PowerUpUnit : MonoBehaviour
         return isPowerUp;
     }
 
+    public void OnPointerEnter()
+    {
+        isPointerEnter = true;
+    }
+
+    public void OnPointerExit()
+    {
+        isPointerEnter = false;
+    }
+
     public ITEM_TYPE GetItemType()
     {
         return type;
+    }
+
+    public bool IsPointerEnter()
+    {
+        return isPointerEnter;
+    }
+
+    public void UnActive()
+    {
+        gameObject.SetActive(false);
+        isPointerEnter = false;
+        isPowerUp = false;
     }
 }
