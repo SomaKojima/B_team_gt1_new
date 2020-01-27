@@ -27,39 +27,35 @@ public class QR_Encode
         string line = strReader.ReadLine();
 
         // データの開始位置まで移動
-        bool isNotFinedID = true;
-        while (line != null)
-        {
-            if (line.Contains("ID"))
-            {
-                line = strReader.ReadLine();
-                isNotFinedID = false;
-                break;
-            }
-            line = strReader.ReadLine();
-        }
+        line = ContainsMoveLine(line, strReader, "ID");
 
-        if (isNotFinedID) return false;
-        
-        id = int.Parse(line);
+        // IDまで移動できなかった
+        if (line == null)
+        {
+            return false;
+        }
+        else
+        {
+            // IDを読み込み
+            line = strReader.ReadLine();
+            id = int.Parse(line);
+        }
 
         // データの開始位置まで移動
-        bool isNotFinedStartData = true;
-        while (line != null)
+        line = ContainsMoveLine(line, strReader, "START_DATA");
+
+        // IDまで移動できなかった
+        if (line == null)
         {
-            if (line.Contains("START_DATA"))
-            {
-                line = strReader.ReadLine();
-                isNotFinedStartData = false;
-                break;
-            }
+            return false;
+        }
+        else
+        {
+            // IDを読み込み
             line = strReader.ReadLine();
         }
 
-        if (isNotFinedStartData) return false;
-
         // データをエンコードする
-
         int bufIndex = 0;
         refList.Clear();
         while (line != null)
@@ -68,9 +64,9 @@ public class QR_Encode
             {
                 break;
             }
+
             // 余分なカンマを削除
-            line = line.TrimStart(',');
-            line = line.TrimEnd(',');
+            line = RemoveConmma(line);
 
             if(line != "")
             {
@@ -94,6 +90,40 @@ public class QR_Encode
         }
 
         return true;
+    }
+
+    /// <summary>
+    /// 余分なカンマを削除
+    /// </summary>
+    /// <param name="_line"></param>
+    string RemoveConmma(string _line)
+    {
+        // 余分なカンマを削除
+        _line = _line.TrimStart(',');
+        _line = _line.TrimEnd(',');
+        return _line;
+    }
+
+
+    /// <summary>
+    /// 文字が含まれているところまで移動
+    /// </summary>
+    /// <param name="line"></param>
+    /// <param name="strReader"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    string ContainsMoveLine(string line, StringReader strReader, string value)
+    {
+        while (line != null)
+        {
+            // 文字が含まれているかどうか
+            if (line.Contains(value))
+            {
+                return line;
+            }
+            line = strReader.ReadLine();
+        }
+        return null;
     }
 
     public bool EncodeToQRCode(List<IItem> itemList, ref string code)

@@ -17,6 +17,7 @@ public class ItemContextTable : ScriptableObject
 
     public ItemContext GetItemContex(ITEM_TYPE type)
     {
+        if (type == ITEM_TYPE.NONE) return null;
         return items[(int)type];
     }
 }

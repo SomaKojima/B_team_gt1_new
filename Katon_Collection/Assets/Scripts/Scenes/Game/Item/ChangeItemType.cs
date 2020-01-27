@@ -45,4 +45,19 @@ public class ChangeItemType
 
         return ITEM_TYPE.NONE;
     }
+
+    static public ITEM_TYPE PlaceToItemType(Type _type)
+    {
+        switch (_type)
+        {
+            case Type.cave:
+                return ITEM_TYPE.ORE;
+            case Type.forest:
+                return ITEM_TYPE.WOOD;
+            case Type.factory:
+                return ITEM_TYPE.PARTS;
+        }
+
+        return ITEM_TYPE.NONE;
+    }
 }

@@ -98,6 +98,15 @@ public class MarketWindow : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// 建築時の更新処理
+    /// </summary>
+    /// <param name="buildingTotal"></param>
+    public void UpdateBuilding(int buildingTotal)
+    {
+        commonWindow.UpdateBuilding(buildingTotal);
+    }
+
     public bool IsExchange()
     {
         return isExchange;

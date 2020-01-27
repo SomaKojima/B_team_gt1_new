@@ -40,4 +40,18 @@ public class Factory_CommonUnitButton : MonoBehaviour
 
         return cmnUnitBtn;
     }
+
+    public CommonUnitButton Create(IItem getItems, int requiredNum)
+    {
+        List<IItem> items = new List<IItem>();
+        items.Add(getItems);
+        // ボタン(実体)の生成
+        GameObject obj = Instantiate(commonUnitPrefab, prefabParent);
+        // オブジェクトからCommonUnitButtonのコンポーネントを取得
+        CommonUnitButton cmnUnitBtn = obj.GetComponent<CommonUnitButton>();
+        // Commonボタンの初期化
+        cmnUnitBtn.Initialize(items, requiredNum);
+
+        return cmnUnitBtn;
+    }
 }

@@ -227,4 +227,12 @@ public class Manager_ServerInterface : Photon.MonoBehaviour
             return LostConnectionFlag;
         }
     }
+
+    void OfflineMode(bool isOffline)
+    {
+        if(isOffline)
+        {
+            PhotonNetwork.offlineMode = true;
+        }
+    }
 }

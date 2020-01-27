@@ -110,12 +110,16 @@ public class MainGame_UIManager : MonoBehaviour
         // 移動バーのリクエスト処理
         UpdateRequest_PlaceBar();
 
+        // ログウィンドウのリクエスト処理
+        UpdateRequest_LogWindow();
 
         // UIを有効化する処理
         UpdateActive();
 
         // UIを無効化する処理
         UpdateUnActive();
+
+
         
     }
 
@@ -204,7 +208,6 @@ public class MainGame_UIManager : MonoBehaviour
         // 建築ボタン
         if (buildingBoard.IsClickBuildingButton())
         {
-            Debug.Log("building");
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.BUILDING);
         }
     }
@@ -353,6 +356,26 @@ public class MainGame_UIManager : MonoBehaviour
     }
 
     /// <summary>
+    /// ログウィンドウのリクエスト処理
+    /// </summary>
+    private void UpdateRequest_LogWindow()
+    {
+        // スクロール中
+        if (logWindow.IsClick())
+        {
+            // カメラ停止
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_STOP);
+        }
+
+        // スクロールをやめた
+        if (logWindow.IsNotClick())
+        {
+            // カメラ停止
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_START);
+        }
+    }
+
+    /// <summary>
     /// リクエストの返答
     /// </summary>
     private void UpdateReplayRequest()
@@ -423,7 +446,7 @@ public class MainGame_UIManager : MonoBehaviour
     /// 建築終了の処理
     /// </summary>
     /// <param name="isBuilding"></param>
-    public void FinalizeBuilding(bool isBuilding)
+    void FinalizeBuilding(bool isBuilding)
     {
         // 建築成功
         if (isBuilding)
@@ -434,6 +457,14 @@ public class MainGame_UIManager : MonoBehaviour
         {
             buildingBoard.ActiveMissMessage();
         }
+    }
+
+    /// <summary>
+    /// 建築時の更新処理
+    /// </summary>
+    public void UpdateBuilding(int buildingTotal)
+    {
+        marketWindow.UpdateBuilding(buildingTotal);
     }
 
     //リザルトに行くときのフェード
