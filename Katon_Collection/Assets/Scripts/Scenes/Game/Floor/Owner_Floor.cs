@@ -64,7 +64,6 @@ public class Owner_Floor : MonoBehaviour
     {
         Type placeType = (Type)i;
         ITEM_TYPE buf;
-        int cost=0;
 
         //switch (j)
         //{
@@ -88,38 +87,8 @@ public class Owner_Floor : MonoBehaviour
         //        necessaryItems[i, j].Add(new Item(-100, buf));
         //        break;
         //}
-        switch(j)
-        {
-            case 0:
-                break;
-            case 1:
-                cost = 20;
-                break;
-            case 2:
-                cost = 80;
-                break;
-            case 3:
-                cost = 150;
-                break;
-            case 4:
-                cost = 200;
-                break;
-            case 5:
-                cost = 300;
-                break;
-            case 6:
-                cost = 400;
-                break;
-            case 7:
-                cost = 500;
-                break;
-            case 8:
-                cost = 600;
-                break;
-            case 9:
-                cost = 700;
-                break;
-        }
+        int cost =CalculationCost(j);
+
         necessaryItems[i, j].Add(new Item(-cost*2, ITEM_TYPE.WOOD));
         necessaryItems[i, j].Add(new Item(-cost, ITEM_TYPE.ORE));
         necessaryItems[i, j].Add(new Item(-cost, ITEM_TYPE.PARTS));
@@ -215,39 +184,7 @@ public class Owner_Floor : MonoBehaviour
             //necessaryItems[i, 0].Add(new Item(-count, ChangeItemType.PlaceToItemType((Type)i)));
             //necessaryItems[i, 0].Add(new Item(-count, ChangeItemType.PlaceToItemType((Type)i)));
             //necessaryItems[i, 0].Add(new Item(-count, ChangeItemType.PlaceToItemType((Type)i)));
-            int cost = 0;
-            switch (_totalFloor)
-            {
-                case 0:
-                    break;
-                case 1:
-                    cost = 20;
-                    break;
-                case 2:
-                    cost = 80;
-                    break;
-                case 3:
-                    cost = 150;
-                    break;
-                case 4:
-                    cost = 200;
-                    break;
-                case 5:
-                    cost = 300;
-                    break;
-                case 6:
-                    cost = 400;
-                    break;
-                case 7:
-                    cost = 500;
-                    break;
-                case 8:
-                    cost = 600;
-                    break;
-                case 9:
-                    cost = 700;
-                    break;
-            }
+            int cost = CalculationCost(_totalFloor);
             necessaryItems[i, 0].Add(new Item(-cost * 2, ITEM_TYPE.WOOD));
             necessaryItems[i, 0].Add(new Item(-cost * 2, ITEM_TYPE.PARTS));
             necessaryItems[i, 0].Add(new Item(-cost, ITEM_TYPE.WHEAT));
@@ -272,6 +209,38 @@ public class Owner_Floor : MonoBehaviour
     private int CalculationCost(int _totalFloor)
     {
         int cost = 0;
+        switch (_totalFloor)
+        {
+            case 0:
+                break;
+            case 1:
+                cost = 20;
+                break;
+            case 2:
+                cost = 80;
+                break;
+            case 3:
+                cost = 150;
+                break;
+            case 4:
+                cost = 200;
+                break;
+            case 5:
+                cost = 300;
+                break;
+            case 6:
+                cost = 400;
+                break;
+            case 7:
+                cost = 500;
+                break;
+            case 8:
+                cost = 600;
+                break;
+            case 9:
+                cost = 700;
+                break;
+        }
         return cost;
     }
 }
