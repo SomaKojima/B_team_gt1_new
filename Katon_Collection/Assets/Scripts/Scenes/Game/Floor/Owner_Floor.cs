@@ -5,7 +5,7 @@ using UnityEngine;
 public class Owner_Floor : MonoBehaviour
 {
     const int BUILDING_NECESSARY = 200;
-    const int MAX_BUILDING_RESOURCE_NUM = 4;
+    const int MAX_BUILDING_RESOURCE_NUM = 10;
     
     Manager_Floor[] manager_floor = null;
 
@@ -65,28 +65,34 @@ public class Owner_Floor : MonoBehaviour
         Type placeType = (Type)i;
         ITEM_TYPE buf;
 
-        switch (j)
-        {
-            case 0:
-                break;
-            case 1:
-                buf = ChangeItemType.PlaceToItemType(placeType);
-                necessaryItems[i, j].Add(new Item(-100, buf));
-                break;
+        //switch (j)
+        //{
+        //    case 0:
+        //        break;
+        //    case 1:
+        //        buf = ChangeItemType.PlaceToItemType(placeType);
+        //        necessaryItems[i, j].Add(new Item(-100, buf));
+        //        break;
 
-            case 2:
-                buf = ChangeItemType.PlaceToItemType(placeType);
-                necessaryItems[i, j].Add(new Item(-150, buf));
-                buf = ChangeItemType.PlaceToItemType(PlaceNext(placeType));
-                necessaryItems[i, j].Add(new Item(-30, buf));
-                break;
-            case 3:
-                buf = ChangeItemType.PlaceToItemType(placeType);
-                necessaryItems[i, j].Add(new Item(-250, buf));
-                buf = ChangeItemType.PlaceToItemType(PlaceNext(placeType));
-                necessaryItems[i, j].Add(new Item(-100, buf));
-                break;
-        }
+        //    case 2:
+        //        buf = ChangeItemType.PlaceToItemType(placeType);
+        //        necessaryItems[i, j].Add(new Item(-150, buf));
+        //        buf = ChangeItemType.PlaceToItemType(PlaceNext(placeType));
+        //        necessaryItems[i, j].Add(new Item(-30, buf));
+        //        break;
+        //    case 3:
+        //        buf = ChangeItemType.PlaceToItemType(placeType);
+        //        necessaryItems[i, j].Add(new Item(-250, buf));
+        //        buf = ChangeItemType.PlaceToItemType(PlaceNext(placeType));
+        //        necessaryItems[i, j].Add(new Item(-100, buf));
+        //        break;
+        //}
+        int cost =CalculationCost(j);
+
+        necessaryItems[i, j].Add(new Item(-cost*2, ITEM_TYPE.WOOD));
+        necessaryItems[i, j].Add(new Item(-cost, ITEM_TYPE.ORE));
+        necessaryItems[i, j].Add(new Item(-cost, ITEM_TYPE.PARTS));
+
     }
 
     Type PlaceNext(Type _type)
@@ -141,7 +147,14 @@ public class Owner_Floor : MonoBehaviour
     public List<IItem> GetBuildingResource(Type _type)
     {
         if (_type == Type.none) return null;
-        int index = manager_floor[(int)_type].Floors.Count;
+
+        if (manager_floor[(int)_type].Floors.Count == 0)
+        {
+            return necessaryItems[(int)_type, 0];
+        }
+
+
+        int index = GetTotalFloor();
 
         if (index < 0) return null;
         if (index >= MAX_BUILDING_RESOURCE_NUM) return necessaryItems[(int)_type, MAX_BUILDING_RESOURCE_NUM - 1];
@@ -167,8 +180,14 @@ public class Owner_Floor : MonoBehaviour
         for (int i = 0; i < (int)Type.Max; i++)
         {
             necessaryItems[i, 0].Clear();
-            int count = BUILDING_NECESSARY * _totalFloor;
-            necessaryItems[i, 0].Add(new Item(-count, ChangeItemType.PlaceToItemType((Type)i)));
+            //int count = BUILDING_NECESSARY * _totalFloor;
+            //necessaryItems[i, 0].Add(new Item(-count, ChangeItemType.PlaceToItemType((Type)i)));
+            //necessaryItems[i, 0].Add(new Item(-count, ChangeItemType.PlaceToItemType((Type)i)));
+            //necessaryItems[i, 0].Add(new Item(-count, ChangeItemType.PlaceToItemType((Type)i)));
+            int cost = CalculationCost(_totalFloor);
+            necessaryItems[i, 0].Add(new Item(-cost * 2, ITEM_TYPE.WOOD));
+            necessaryItems[i, 0].Add(new Item(-cost * 2, ITEM_TYPE.PARTS));
+            necessaryItems[i, 0].Add(new Item(-cost, ITEM_TYPE.WHEAT));
         }
     }
 
@@ -185,5 +204,43 @@ public class Owner_Floor : MonoBehaviour
     public int GetPlaceTotalFloor(Type _placeType)
     {
         return manager_floor[(int)_placeType].Floors.Count;
+    }
+
+    private int CalculationCost(int _totalFloor)
+    {
+        int cost = 0;
+        switch (_totalFloor)
+        {
+            case 0:
+                break;
+            case 1:
+                cost = 20;
+                break;
+            case 2:
+                cost = 80;
+                break;
+            case 3:
+                cost = 150;
+                break;
+            case 4:
+                cost = 200;
+                break;
+            case 5:
+                cost = 300;
+                break;
+            case 6:
+                cost = 400;
+                break;
+            case 7:
+                cost = 500;
+                break;
+            case 8:
+                cost = 600;
+                break;
+            case 9:
+                cost = 700;
+                break;
+        }
+        return cost;
     }
 }

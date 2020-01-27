@@ -16,7 +16,7 @@ public class MainGame_ServerInterface : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(PhotonNetwork.inRoom)
+        if(!PhotonNetwork.inRoom)
         {
             PhotonNetwork.offlineMode = true;
         }
