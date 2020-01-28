@@ -44,11 +44,11 @@ public class Debug_MainGame
         //    _managerItem.GetItem(type).SetPowerUpCount(1);
         //}
 
-        for (int i = (int)ITEM_TYPE.HUMAN_NUM; i < (int)ITEM_TYPE.NUM; i++)
-        {
-            ITEM_TYPE type = (ITEM_TYPE)i;
-            _managerItem.GetItem(type).SetCount(1000);
-        }
+        //for (int i = (int)ITEM_TYPE.HUMAN_NUM; i < (int)ITEM_TYPE.NUM; i++)
+        //{
+        //    ITEM_TYPE type = (ITEM_TYPE)i;
+        //    _managerItem.GetItem(type).SetCount(1000);
+        //}
 
         //humanTime.Add(45);
         //HumanCount.Add(0);

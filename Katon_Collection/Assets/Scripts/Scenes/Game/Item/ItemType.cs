@@ -12,6 +12,8 @@ public enum ITEM_TYPE
     LOOGER,             // 木こり
     COAL_MINER,         // 炭鉱夫
     ENGINEER,           // エンジニア
+    FARMER,             // 農家
+    FARMER_COTTON,      // 綿農家
 
     WOOD,               // 木
 
@@ -20,6 +22,7 @@ public enum ITEM_TYPE
     ORE,                // 鉱石
     PARTS,              // 部品
     WHEAT,              // 麦
+    COTTON,             // 綿
 
     NUM,
     BUILDING_RESOURCE_NUM = NUM - HUMAN_NUM // 資源の数

@@ -299,7 +299,9 @@ public class MainGame_UIManager : MonoBehaviour
         // qr読み込みの交換処理
         if (qrReaderWindow.IsExchange())
         {
-            exchangeItems = qrReaderWindow.GetItems();
+            Debug.Log("qr");
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.EXCHANGE);
+            request.ExchangeItems = qrReaderWindow.GetItems();
             otherID = qrReaderWindow.GetOtherID();
         }
     }

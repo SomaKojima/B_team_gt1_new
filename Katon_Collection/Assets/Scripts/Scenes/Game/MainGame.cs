@@ -232,7 +232,6 @@ public class MainGame : MonoBehaviour
         {
             // アイテムのマネージャに追加・削除
 
-
             foreach (IItem item in _request.ExchangeItems)
             {
 

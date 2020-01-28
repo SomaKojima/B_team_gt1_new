@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7734caf4d38ea8f4ebbb14df47fe9c1f, type: 3}
+  m_Name: Farmer
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: 878b991976d0bc545ae176de36f711f4, type: 3}
+  material: {fileID: 2100000, guid: 4226c2882a7693e4cbb6a4d0a8663277, type: 2}
+  powerUpSprite: {fileID: 21300000, guid: 95fcebdf8e5100848b40fac04d67f2bf, type: 3}

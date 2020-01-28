@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UI_PowerUp : MonoBehaviour
 {
-    const int MAX_POWER_UP_RESOURCE_NUM = 10;
+    const int MAX_POWER_UP_RESOURCE_NUM = 7;
     [SerializeField]
     UI_Button powerUpButton;
 
@@ -35,14 +35,30 @@ public class UI_PowerUp : MonoBehaviour
             switch (i)
             {
                 case 0:
+                    cost = 20;
                     break;
                 case 1:
-                    necessaryItems[i].Add(new Item(-cost, ITEM_TYPE.WOOD));
+                    cost = 20;
                     break;
                 case 2:
-                    necessaryItems[i].Add(new Item(-cost, ITEM_TYPE.PARTS));
+                    cost = 50;
+                    break;
+                case 3:
+                    cost = 100;
+                    break;
+                case 4:
+                    cost = 160;
+                    break;
+                case 5:
+                    cost = 240;
+                    break;
+                case 6:
+                    cost = 300;
                     break;
             }
+            necessaryItems[i].Add(new Item(-cost, ITEM_TYPE.WOOD));
+            necessaryItems[i].Add(new Item(-cost/2, ITEM_TYPE.WHEAT));
+            necessaryItems[i].Add(new Item(-cost, ITEM_TYPE.COTTON));
         }
     }
 
