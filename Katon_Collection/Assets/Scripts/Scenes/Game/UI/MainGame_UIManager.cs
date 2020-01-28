@@ -463,6 +463,12 @@ public class MainGame_UIManager : MonoBehaviour
             AddLog("けんちく　\nせいこう");
         }
 
+        // 強化成功
+        if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.POWER_UP_SUCCESS))
+        {
+            ui_powerUp.CorrectPowerUp();
+        }
+
         request.ReplayFlag.Clear();
     }
 
@@ -506,6 +512,7 @@ public class MainGame_UIManager : MonoBehaviour
         {
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.POWER_UP_HUMAN);
             request.PowerUpHumanType = ui_powerUp.GetPowerUpItemType();
+            request.PowerUpItems = ui_powerUp.GetResources();
         }
         if (ui_powerUp.IsChangeActive())
         {
@@ -591,16 +598,9 @@ public class MainGame_UIManager : MonoBehaviour
         }
     }
 
-    public void SetActivePowerUpWindow(bool isActive)
+    public void SetPowerUpWindow(int totalFloor)
     {
-        if (isActive)
-        {
-            ui_powerUp.Active();
-        }
-        else
-        {
-            ui_powerUp.UnActive();
-        }
+        ui_powerUp.SetTotalFloor(totalFloor);
     }
 
     public void SetPlaceHumanType(List<ITEM_TYPE> _humaType)

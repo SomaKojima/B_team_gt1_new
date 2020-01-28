@@ -32,7 +32,6 @@ public class Owner_PowerUpUnit : MonoBehaviour
             if (unit.IsPowerUp())
             {
                 powerUpUnits = unit;
-                unit.UnActive();
                 isPowerUp = true;
             }
             if (unit.IsPointerEnter())
@@ -66,5 +65,14 @@ public class Owner_PowerUpUnit : MonoBehaviour
     public bool IsPointerEnter()
     {
         return isPointerEnter;
+    }
+
+    // 強化成功時
+    public void CorrectPowerUp()
+    {
+        if (powerUpUnits != null)
+        {
+            powerUpUnits.UnActive();
+        }
     }
 }

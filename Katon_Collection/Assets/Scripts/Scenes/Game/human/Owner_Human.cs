@@ -229,4 +229,5 @@ public class Owner_Human : MonoBehaviour
     {
         return manager_human.GetListOf(_placeType);
     }
+
 }

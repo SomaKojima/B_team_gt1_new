@@ -25,6 +25,7 @@ public class Request
     Vector3 areaCenterPosition;
 
     ITEM_TYPE powerUpHumanType = ITEM_TYPE.NONE;
+    List<IItem> powerUpItems = null;
 
     /// <summary>
     /// 初期化
@@ -111,6 +112,12 @@ public class Request
         set { isDoubleCollect = value; }
     }
 
+    public List<IItem> PowerUpItems
+    {
+        get { return powerUpItems; }
+        set { powerUpItems = value; }
+    }
+
     /// <summary>
     /// 終了処理
     /// </summary>
@@ -183,5 +190,17 @@ public class Request
             replayFlag.OnFlag(REPLAY_REQUEST.POSITION_TO_PLACE_FAILED);
         }
     }
-    
+
+
+    public void FinalizePowerUp(bool isPowerUp)
+    {
+        if (isPowerUp)
+        {
+            replayFlag.OnFlag(REPLAY_REQUEST.POWER_UP_SUCCESS);
+        }
+        else
+        {
+            replayFlag.OnFlag(REPLAY_REQUEST.POWER_UP_FAILED);
+        }
+    }
 }

@@ -295,7 +295,23 @@ public class MainGame : MonoBehaviour
         {
             if (_request.PowerUpHumanType != ITEM_TYPE.NONE)
             {
-                manager_item.GetItem(_request.PowerUpHumanType).AddPowerUpCount(1);
+
+                // 建築に必要な素材を取得
+                List<IItem> _items = _request.PowerUpItems;
+                // 資源が足りているか確認
+                bool _isExchange = manager_item.IsExchange(_items);
+
+                // 強化成功
+                if (_isExchange)
+                {
+                    manager_item.GetItem(_request.PowerUpHumanType).AddPowerUpCount(1);
+                }
+                // 強化失敗
+                else
+                {
+
+                }
+                _request.FinalizePowerUp(_isExchange);
             }
         }
         
@@ -324,6 +340,7 @@ public class MainGame : MonoBehaviour
                 }
             }
             uiManager.SetPlaceHumanType(types);
+            uiManager.SetPowerUpWindow(owner_floor.GetTotalFloor());
         }
     }
 }

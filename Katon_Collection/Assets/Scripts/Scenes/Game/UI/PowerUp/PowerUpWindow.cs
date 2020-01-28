@@ -7,19 +7,20 @@ public class PowerUpWindow : MonoBehaviour
     [SerializeField]
     Owner_PowerUpUnit owner_powerUpUnit;
 
+    [SerializeField]
+    Owner_BuildingItemUnit resourceUnit;
+
     bool isClick = false;
     bool isClickPowerUp = false;
 
     bool isClickEnterWindow = false;
     RectTransform rectTransform;
 
-    public void Initialize(List<ITEM_TYPE> _itemTypes)
+
+    public void Initialize()
     {
-        owner_powerUpUnit.AllDestroy();
-        foreach (ITEM_TYPE type in _itemTypes)
-        {
-            owner_powerUpUnit.Create(type);
-        }
+        
+        resourceUnit.Initialize();
     }
 
     // Start is called before the first frame update
@@ -90,5 +91,25 @@ public class PowerUpWindow : MonoBehaviour
     public bool IsClickEnterWindow()
     {
         return isClickEnterWindow;
+    }
+
+    public void SetResourceItems(List<IItem> item)
+    {
+        resourceUnit.SetUnits(item);
+    }
+
+    public void SetUnit(List<ITEM_TYPE> _itemTypes)
+    {
+        owner_powerUpUnit.AllDestroy();
+        foreach (ITEM_TYPE type in _itemTypes)
+        {
+            owner_powerUpUnit.Create(type);
+        }
+    }
+
+
+    public void CorrectPowerUp()
+    {
+        owner_powerUpUnit.CorrectPowerUp();
     }
 }
