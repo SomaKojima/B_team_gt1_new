@@ -16,6 +16,10 @@ public class Human : MonoBehaviour
     [SerializeField]
     IconMove icon;
 
+    // サウンド
+    [SerializeField]
+    Sound_Human sound;
+
     ContextMoveState move = new ContextMoveState();
     bool isCollect = false;
     bool isPick = false;
@@ -28,6 +32,8 @@ public class Human : MonoBehaviour
     
     Type placeType = Type.cave;
 
+    float soundTime = 0.0f;
+    float soundDuringTime = 1.0f;
     /// <summary>
     /// 初期化
     /// </summary>
@@ -58,7 +64,21 @@ public class Human : MonoBehaviour
             request.CollectItemType = ChangeItemType.HumanToBuildingResource(type);
             request.CollectPlaceType = placeType;
         }
-
+        if(soundTime < soundDuringTime)
+        {
+            soundTime += Time.deltaTime;
+            if(isPick == true)
+            {
+                // 掴まれた時の声
+                sound.PlaySound(SoundType_Human.GrabVoice);
+            }
+            else
+            {
+                // 歩く音
+                sound.PlaySound(SoundType_Human.WalkingVoice);
+            }
+            soundTime = 0;
+        }
         UpdateReplayRequest();
     }
 
@@ -79,6 +99,9 @@ public class Human : MonoBehaviour
         // 収集成功
         if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.COLLECT_SUCCESS))
         {
+            // 収集音
+            sound.PlaySound(SoundType_Human.CollectionVoice);
+
             icon.Initialize(type);
         }
 

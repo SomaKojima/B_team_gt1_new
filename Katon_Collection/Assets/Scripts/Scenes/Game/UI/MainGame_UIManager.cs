@@ -40,6 +40,9 @@ public class MainGame_UIManager : MonoBehaviour
     // タイマー
     [SerializeField]
     UI_Time timer;
+    
+    [SerializeField]
+    Sound_MainGame sound;
 
 
     // リクエスト用のビットフラグ

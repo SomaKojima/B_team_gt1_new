@@ -38,6 +38,10 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     JudgeField judgeField;
 
+    // サウンド
+    [SerializeField]
+    Sound_MainGame sound;
+
     Debug_MainGame debug = new Debug_MainGame();
     
     // 現在地
@@ -69,6 +73,9 @@ public class MainGame : MonoBehaviour
         mainCamera.Move(Type.cave);
 
         //debug.Initialize(manager_item);
+
+        // BGMを鳴らす
+        sound.PlaySound(SoundType_MainGame.BGM);
     }
     
     // Update is called once per frame
@@ -88,8 +95,14 @@ public class MainGame : MonoBehaviour
         
         // リクエストの処理
         UpdateRequestList();
-        
+
         //UpdateRequest(debug.GetRequest());
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            // クリック音を鳴らす
+            sound.PlaySound(SoundType_MainGame.Click);
+        }
     }
 
     void UpdateRequest_UI()
@@ -172,7 +185,8 @@ public class MainGame : MonoBehaviour
             // 交換成功
             if (_isExchange)
             {
-
+                // 建築音を鳴らす
+                sound.PlaySound(SoundType_MainGame.Bulid);
                 // 建築時に初期資源を手に入れる
                 if (!owner_floor.IsFirstBuilding())
                 {
@@ -188,6 +202,7 @@ public class MainGame : MonoBehaviour
             else
             {
                 // 交換失敗時の処理
+                sound.PlaySound(SoundType_MainGame.Error);
             }
 
 
@@ -237,6 +252,12 @@ public class MainGame : MonoBehaviour
             // アイテムのマネージャに追加・削除
             bool isExchangable = manager_item.AddItems(_request.ExchangeItems);
 
+            if (isExchangable)
+            {
+                // 交換した音
+                sound.PlaySound(SoundType_MainGame.Trade);
+            }
+
             // 交換終了したことを相手に伝える
             if (isExchangable && uiManager.GetExchangeOtherID() >= 0)
             {
@@ -256,6 +277,8 @@ public class MainGame : MonoBehaviour
         // QRの生成
         if (_request.Flag.IsFlag(REQUEST.CREADED_QR))
         {
+            // QRの生成音
+            sound.PlaySound(SoundType_MainGame.Qr);
             for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
             {
                 if (PhotonNetwork.player.ID == manager_SI_Player.GetPlayer(i).ID)

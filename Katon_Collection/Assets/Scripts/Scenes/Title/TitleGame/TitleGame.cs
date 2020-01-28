@@ -11,10 +11,15 @@ public class TitleGame : MonoBehaviour
     [SerializeField]
     private UI_Button_Title m_uI_Title_Button = null;
 
+    // サウンド
+    [SerializeField]
+    Sound_Title sound;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        // BGMを鳴らす
+        sound.PlaySound(SoundType_Title.BGM);
     }
 
     // Update is called once per frame
@@ -34,6 +39,9 @@ public class TitleGame : MonoBehaviour
 
         if(m_uI_Title_Button.IsClick())
         {
+            // スタート音を鳴らす
+            sound.PlaySound(SoundType_Title.Start);
+
             m_backGround_Title.ChangeFlag = true;
             m_uI_Title_Button.OnClickProcess();
            

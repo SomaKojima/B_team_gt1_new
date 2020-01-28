@@ -23,9 +23,15 @@ public class MatchingRoomGame : MonoBehaviour
     [SerializeField]
     Fade_CloudEffect fade_CloudEffect = null;
 
+    // サウンド
+    [SerializeField]
+    Sound_MatchingRoom sound;
+
     // Start is called before the first frame update
     void Start()
     {
+        // BGMを鳴らす
+        sound.PlaySound(SoundType_MatchingRoom.BGM);
         serverInterface.ConnectServer();
         serverInterface.EnterLobby();
         fade_CloudEffect.StartFadeOut();
@@ -34,6 +40,11 @@ public class MatchingRoomGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            // クリック音を鳴らす
+            sound.PlaySound(SoundType_MatchingRoom.Click);
+        }
 
         if (selectRoomModeWindow.GetRoomMode() != ROOM_MODE.None &&
             selectRoomModeWindow.gameObject.activeSelf &&
@@ -91,7 +102,8 @@ public class MatchingRoomGame : MonoBehaviour
         if (serverInterface.GetGameStartFlag())
         {
             Debug.Log("gamestart");
-
+            // スタート音を鳴らす
+            sound.PlaySound(SoundType_MatchingRoom.Start);
             SceneManager.LoadScene("GameScene");
         }
 

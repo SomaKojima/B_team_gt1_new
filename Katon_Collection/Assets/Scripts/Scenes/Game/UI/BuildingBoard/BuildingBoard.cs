@@ -46,6 +46,8 @@ public class BuildingBoard : MonoBehaviour
 
     List<IItem> bufItems = new List<IItem>();
 
+    bool isMiss = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -63,6 +65,7 @@ public class BuildingBoard : MonoBehaviour
     void Update()
     {
         isClickBuildingButton = false;
+        isMiss = false;
         // 建築ボタンをクリック
         if (button.IsClick())
         {

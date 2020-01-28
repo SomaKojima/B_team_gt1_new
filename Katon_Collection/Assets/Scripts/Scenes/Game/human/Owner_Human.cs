@@ -149,4 +149,9 @@ public class Owner_Human : MonoBehaviour
     {
         return manager_human.GetList();
     }
+
+    public bool IsPick()
+    {
+        return isPick;
+    }
 }
