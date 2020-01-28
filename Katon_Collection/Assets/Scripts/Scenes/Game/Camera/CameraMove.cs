@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraMove : MonoBehaviour
 {
+    const float OUT_RANGE_SPEED = 2.0f;
     public enum CAMERA_MOVE_TYPE
     {
         SCROLL,             // scrollで移動
@@ -219,7 +220,7 @@ public class CameraMove : MonoBehaviour
         float bottom = screenHalfHeight - (screenHalfHeight * 0.5f);
         float left = screenHalfWidth - (screenHalfWidth * 0.5f);
         float right = screenHalfWidth + (screenHalfWidth * 0.5f);
-        float addSpeed = 1.0f;
+        float addSpeed = OUT_RANGE_SPEED;
 
         // 範囲内
         if (IsRange(Input.mousePosition.x, left, right) &&

@@ -11,6 +11,11 @@ public class TitleGame : MonoBehaviour
     [SerializeField]
     private UI_Button_Title m_uI_Title_Button = null;
 
+    void Awake()
+    {
+        Application.targetFrameRate = 30; //60FPSに設定
+    }
+
     // Start is called before the first frame update
     void Start()
     {

@@ -1,7 +1,5 @@
 ScriptsOnlyBuild:
   usedScripts:
-    Assembly-CSharp-Editor-firstpass.dll:
-    - PunSceneSettings
     Assembly-CSharp-firstpass.dll:
     - PhotonView
     - ServerSettings
@@ -881,13 +879,13 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 13726}
     - Class: 114
-      Script: {instanceID: 52080}
+      Script: {instanceID: 73516}
     - Class: 114
-      Script: {instanceID: 52250}
+      Script: {instanceID: 73626}
     - Class: 114
-      Script: {instanceID: 52260}
+      Script: {instanceID: 73636}
     - Class: 114
-      Script: {instanceID: 52534}
+      Script: {instanceID: 73910}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
