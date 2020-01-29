@@ -8,6 +8,7 @@ public class Manager_Floor
     private List<Floor> m_floors = new List<Floor>();
 
     Floor topLnading = null;
+    int landingCount = 0;
 
     public void Initialize()
     {
@@ -15,13 +16,16 @@ public class Manager_Floor
 
     public void Update()
     {
+        landingCount = 0;
         foreach (Floor floor in m_floors)
         {
             if (floor.IsLanding())
             {
                 topLnading = floor;
+                landingCount++;
             }
         }
+        Debug.Log(m_floors.Count + " : " + landingCount);
     }
 
     //リストへの追加
@@ -45,5 +49,10 @@ public class Manager_Floor
     public Floor GetTopLandingFloor()
     {
         return topLnading;
+    }
+
+    public int GetLandingCount()
+    {
+        return landingCount;
     }
 }

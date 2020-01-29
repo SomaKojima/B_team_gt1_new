@@ -21,7 +21,7 @@ public class MainGame_ServerInterface : MonoBehaviour
             PhotonNetwork.offlineMode = true;
         }
 
-        //PLInfoManager.CreatePLInfoWindow(PhotonNetwork.playerList.Length);
+        
     }
 
     // Update is called once per frame
@@ -40,5 +40,12 @@ public class MainGame_ServerInterface : MonoBehaviour
         return manager_SI_Player;
     }
 
-
+    public void OnClick()
+    {
+        if (!PLInfoManager.GetWindowIsActive())
+        {
+            PLInfoManager.SetPlInfo(manager_SI_Player.GetPlayers());
+            PLInfoManager.CreatePLInfoWindow();
+        }
+    }
 }

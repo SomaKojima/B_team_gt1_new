@@ -40,6 +40,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
 
     public SI_Player GetPlayer(int index)
     {
+
         return players[index];
     }
 

@@ -41,6 +41,9 @@ public class MainGame_UIManager : MonoBehaviour
     // タイマー
     [SerializeField]
     UI_Time timer;
+    
+    [SerializeField]
+    Sound_MainGame sound;
 
     // 最初の文字
     [SerializeField]
@@ -665,5 +668,10 @@ public class MainGame_UIManager : MonoBehaviour
     public bool IsSetPlaceHumanType()
     {
         return isSetPlaceHuman;
+    }
+
+    public bool IsStartFade()
+    {
+        return fade_CloudEffect.IsStartProcess;
     }
 }

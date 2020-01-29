@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SI_Player : Photon.MonoBehaviour
 {
-    public int[] placePoint = new int[(int)Type.Max];
+    public int[] placePoint;// = new int[(int)Type.Max];
     public int[] itemCount = new int[(int)ITEM_TYPE.NUM];
     public int id = -1;
     public new string name = "";
@@ -12,10 +12,11 @@ public class SI_Player : Photon.MonoBehaviour
     public bool ChangeFlag = false;
 
     // Start is called before the first frame update
-    public void Initialize()
+    void Start()
     {
         placePoint = new int[(int)Type.Max];
-        for (int i = 0; i < (int)Type.Max; i++)
+
+        for (int i = 0; i < placePoint.Length; i++)
         {
             placePoint[i] = 0;
         }
@@ -29,6 +30,7 @@ public class SI_Player : Photon.MonoBehaviour
 
     public int GetPlacePoint(int index)
     {
+        Debug.Log(placePoint.Length);
         return placePoint[index];
         ChangeFlag = true;
     }
