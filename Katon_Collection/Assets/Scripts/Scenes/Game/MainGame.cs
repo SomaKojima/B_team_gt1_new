@@ -122,7 +122,6 @@ public class MainGame : MonoBehaviour
         // フェードインが始まるとき
         if (uiManager.IsStartFade())
         {
-            Debug.Log("in");
             sound.PlaySound(SoundType_MainGame.Fade);
         }
     }
