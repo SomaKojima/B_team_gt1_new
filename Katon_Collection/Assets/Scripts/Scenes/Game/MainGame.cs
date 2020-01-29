@@ -42,7 +42,12 @@ public class MainGame : MonoBehaviour
     
     // 現在地
     Type currentPlaceType = Type.cave;
-    
+
+    void Awake()
+    {
+        Application.targetFrameRate = 30; //30FPSに設定
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -172,7 +177,7 @@ public class MainGame : MonoBehaviour
                 // 建築時に初期資源を手に入れる
                 if (!owner_floor.IsFirstBuilding())
                 {
-                    //FirstGetResource();
+                    FirstGetResource();
                 }
                 // 資源の消費
                 manager_item.AddItems(_items);
@@ -285,14 +290,14 @@ public class MainGame : MonoBehaviour
         if (_request.Flag.IsFlag(REQUEST.POSITION_TO_PLACE))
         {
             Type placeType = judgeField.ChangePositionToPlaceType(_request.ChangePosition);
-            bool isChange = (owner_floor.GetPlaceTotalFloor(placeType) != 0);
-            if (isChange)
+            if (owner_floor.GetPlaceTotalFloor(placeType) == 0)
             {
-                _request.ChangePlaceType = judgeField.ChangePositionToPlaceType(_request.ChangePosition);
-                _request.AreaCenterPosition = judgeField.GetAreaCenterPosition(_request.ChangePlaceType);
-                
+                placeType = Type.fountain;
             }
-            _request.FinalizePositionToPlace(isChange);
+            
+            _request.ChangePlaceType = placeType;
+            _request.AreaCenterPosition = judgeField.GetAreaCenterPosition(placeType);
+            _request.FinalizePositionToPlace(true);
         }
 
         // 人間の強化

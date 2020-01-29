@@ -13,7 +13,7 @@ public class TitleGame : MonoBehaviour
 
     void Awake()
     {
-        Application.targetFrameRate = 30; //60FPSに設定
+        Application.targetFrameRate = 30; //30FPSに設定
     }
 
     // Start is called before the first frame update
