@@ -14,11 +14,10 @@ public class ResultGame : MonoBehaviour
     CameraResultMove cameraResultMove;
     [SerializeField]
     Owner_Floor owner_Floor;
-   
+
     //吹き出し
     [SerializeField]
-    UI_Fukidashi ui_Fukidashi = null;
-
+    UI_Fukidashi[] ui_Fukidashi = new UI_Fukidashi[4];
 
     float time = 0;
     Floor landingFloor = null;
@@ -42,7 +41,7 @@ public class ResultGame : MonoBehaviour
         owner_Floor.Initialize();
         for (int i = 0; i < 4; i++)
         {
-            playerResult[i] = 3;
+            playerResult[i] = i+i;
         }
     }
 
@@ -75,7 +74,7 @@ public class ResultGame : MonoBehaviour
                 {
                     GameObject obj = landingFloor.gameObject;
                     //建った階数のところに吹き出しを出現させる
-                    ui_Fukidashi.SetTarget(obj.transform.position);
+                    ui_Fukidashi[i].SetTarget(obj.transform.position);
 
 
                     Debug.Log("a");
