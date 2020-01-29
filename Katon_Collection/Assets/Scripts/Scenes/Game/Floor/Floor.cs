@@ -6,10 +6,12 @@ public class Floor : MonoBehaviour
 {
 
     bool isLanding = false; // 着地したかどうか
+
+    
+
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
