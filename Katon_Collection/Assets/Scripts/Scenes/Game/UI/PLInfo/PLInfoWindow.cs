@@ -14,6 +14,9 @@ public class PLInfoWindow : MonoBehaviour
     // 所持リスト管理オブジェクト
     List<GameObject> possessLists = new List<GameObject>();
 
+    // 所持リスト管理オブジェクト
+    List<GameObject> mansionLists = new List<GameObject>();
+
     // リスト内のユニットプレハブ
     [SerializeField]
     GameObject listUnitPrefab = null;
@@ -21,7 +24,10 @@ public class PLInfoWindow : MonoBehaviour
     // ユニットを生成する場所
     [SerializeField]
     Transform prefabPerent = null;
-    
+
+    [SerializeField]
+    Transform prefabPerentMansion = null;
+
     // ItemManagerオブジェクト
     private Manager_Item itemManager = null;
 
@@ -66,6 +72,17 @@ public class PLInfoWindow : MonoBehaviour
                 "×" + (data.GetItemCount(i)).ToString();
 
             possessLists.Add(obj);
+        }
+
+        for (int i = 0; i < 5; i++)
+        {
+            GameObject obj = Instantiate(listUnitPrefab, prefabPerentMansion);
+            obj.transform.Find("Icon").transform.Find("Icon").GetComponent<Image>().sprite =
+                table.GetItemContex((ITEM_TYPE)(i+ITEM_TYPE.HUMAN_NUM)).GetSprite();
+            obj.transform.Find("CountText").GetComponent<Text>().text =
+                "×" + (data.GetPlacePoint(i+(int)2)).ToString();
+            //Debug.Log(data.GetPlacePoint(i + (int)2));
+            mansionLists.Add(obj);
         }
     }
 
