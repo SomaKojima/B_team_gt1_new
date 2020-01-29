@@ -21,8 +21,8 @@ public class Sound_Human : MonoBehaviour
     {
        
     }
-    public void PlaySound(SoundType_Human _type)
+    public void PlaySound(SoundType_Human _type, float volumeScale)
     {
-        auditoSource.PlayOneShot(audioClips[(int)_type]);
+        auditoSource.PlayOneShot(audioClips[(int)_type], volumeScale);
     }
 }

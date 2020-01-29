@@ -25,13 +25,13 @@ public class Debug_MainGame
         request.Initialize();
         managerItem = _managerItem;
 
-        buindingTime.Add(0);
-        buindingTime.Add(60);
-        buindingTime.Add(150);
-        buindingTime.Add(240);
-        buindingTime.Add(330);
-        buindingTime.Add(420);
-        buindingTime.Add(510);
+        //buindingTime.Add(0);
+        //buindingTime.Add(60);
+        //buindingTime.Add(150);
+        //buindingTime.Add(240);
+        //buindingTime.Add(330);
+        //buindingTime.Add(420);
+        //buindingTime.Add(510);
 
         //for (int i = (int)ITEM_TYPE.HUMAN_NUM; i < (int)ITEM_TYPE.NUM; i++)
         //{
@@ -39,8 +39,11 @@ public class Debug_MainGame
         //    _managerItem.GetItem(type).SetCount(10000);
         //}
 
-        //humanTime.Add(45);
-        //HumanCount.Add(0);
+        //humanTime.Add(0);
+        //HumanCount.Add(20);
+
+        //humanTime.Add(20);
+        //HumanCount.Add(10);
 
     }
 

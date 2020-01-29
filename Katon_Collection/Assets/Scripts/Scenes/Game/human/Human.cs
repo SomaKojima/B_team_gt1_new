@@ -64,18 +64,19 @@ public class Human : MonoBehaviour
             request.CollectItemType = ChangeItemType.HumanToBuildingResource(type);
             request.CollectPlaceType = placeType;
         }
-        if(soundTime < soundDuringTime)
+        soundTime += Time.deltaTime;
+        if (soundTime > soundDuringTime)
         {
-            soundTime += Time.deltaTime;
+           
             if(isPick == true)
             {
                 // 掴まれた時の声
-                sound.PlaySound(SoundType_Human.GrabVoice);
+                sound.PlaySound(SoundType_Human.GrabVoice, 10.0f);
             }
             else
             {
                 // 歩く音
-                sound.PlaySound(SoundType_Human.WalkingVoice);
+                sound.PlaySound(SoundType_Human.WalkingVoice, 0.5f);
             }
             soundTime = 0;
         }
@@ -100,7 +101,7 @@ public class Human : MonoBehaviour
         if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.COLLECT_SUCCESS))
         {
             // 収集音
-            sound.PlaySound(SoundType_Human.CollectionVoice);
+            sound.PlaySound(SoundType_Human.CollectionVoice, 1.0f);
 
             icon.Initialize(type);
         }
