@@ -8,6 +8,8 @@ public class PLInfoManager : MonoBehaviour
     private GameObject[] PLInfoWindows;
     private List<SI_Player> data = new List<SI_Player>();
     private int currentNumber = 0;
+    [SerializeField]
+    private Manager_Item itemManager = null;
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +36,9 @@ public class PLInfoManager : MonoBehaviour
             PLInfoWindows[i] = Instantiate(prefab, this.transform.position, Quaternion.identity);
             PLInfoWindows[i].transform.parent = this.transform;
             PLInfoWindows[i].GetComponent<PLInfoWindow>().SetNameText(playerList[i].NickName);
+            PLInfoWindows[i].GetComponent<PLInfoWindow>().SetItemData(itemManager);
             PLInfoWindows[i].GetComponent<PLInfoWindow>().DataSet(data[i]);
+            PLInfoWindows[i].GetComponent<PLInfoWindow>().createList();
         }
         
     }
