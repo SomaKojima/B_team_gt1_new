@@ -33,6 +33,7 @@ public class Factory_Floor : MonoBehaviour
         instance.transform.position = position;
 
         Floor floor = instance.GetComponent<Floor>();
+        floor.InitializeBase();
 
         return floor;
     }

@@ -172,6 +172,11 @@ public class Owner_Floor : MonoBehaviour
         return totalFloor;
     }
 
+    public int GetTotalLandingFloor(Type _placeType)
+    {
+        return manager_floor[(int)_placeType].GetLandingCount();
+    }
+
     /// <summary>
     /// 開拓に必要な資源を更新
     /// </summary>
