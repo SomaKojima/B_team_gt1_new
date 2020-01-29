@@ -172,7 +172,7 @@ public class MainGame : MonoBehaviour
                 // 建築時に初期資源を手に入れる
                 if (!owner_floor.IsFirstBuilding())
                 {
-                    FirstGetResource();
+                    //FirstGetResource();
                 }
                 // 資源の消費
                 manager_item.AddItems(_items);
@@ -284,9 +284,15 @@ public class MainGame : MonoBehaviour
         // 座標を場所に変換
         if (_request.Flag.IsFlag(REQUEST.POSITION_TO_PLACE))
         {
-            _request.ChangePlaceType = judgeField.ChangePositionToPlaceType(_request.ChangePosition);
-            _request.AreaCenterPosition = judgeField.GetAreaCenterPosition(_request.ChangePlaceType);
-            _request.FinalizePositionToPlace(true);
+            Type placeType = judgeField.ChangePositionToPlaceType(_request.ChangePosition);
+            bool isChange = (owner_floor.GetPlaceTotalFloor(placeType) != 0);
+            if (isChange)
+            {
+                _request.ChangePlaceType = judgeField.ChangePositionToPlaceType(_request.ChangePosition);
+                _request.AreaCenterPosition = judgeField.GetAreaCenterPosition(_request.ChangePlaceType);
+                
+            }
+            _request.FinalizePositionToPlace(isChange);
         }
 
         // 人間の強化
