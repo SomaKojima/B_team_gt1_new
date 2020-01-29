@@ -7,6 +7,8 @@ public class PossessListManager : MonoBehaviour
 {
     // 所持リスト管理オブジェクト
     List<GameObject> possessLists = new List<GameObject>();
+    List<Image> possessImageLists = new List<Image>();
+    List<Text> possessTetxtLists = new List<Text>();
 
     // リスト内のユニットプレハブ
     [SerializeField]
@@ -138,10 +140,14 @@ public class PossessListManager : MonoBehaviour
         for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
         {
             GameObject obj = Instantiate(listUnitPrefab, prefabPerent);
-            obj.transform.Find("Icon").transform.Find("Icon").GetComponent<Image>().sprite =
-                table.GetItemContex((ITEM_TYPE)i).GetSprite();
-            obj.transform.Find("CountText").GetComponent<Text>().text =
-                "×" + (itemManager.GetItem((ITEM_TYPE)i).GetCount()).ToString();
+
+            Image image = obj.transform.Find("Icon").transform.Find("Icon").GetComponent<Image>();
+            image.sprite = table.GetItemContex((ITEM_TYPE)i).GetSprite();
+            possessImageLists.Add(image);
+
+            Text text = obj.transform.Find("CountText").GetComponent<Text>();
+            text.text =  "×" + (itemManager.GetItem((ITEM_TYPE)i).GetCount()).ToString();
+            possessTetxtLists.Add(text);
 
             possessLists.Add(obj);
         }
@@ -151,10 +157,8 @@ public class PossessListManager : MonoBehaviour
     {
         for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
         {
-            possessLists[i].transform.Find("Icon").transform.Find("Icon").GetComponent<Image>().sprite =
-                table.GetItemContex((ITEM_TYPE)i).GetSprite();
-            possessLists[i].transform.Find("CountText").GetComponent<Text>().text =
-                "×" + (itemManager.GetItem((ITEM_TYPE)i).GetCount()).ToString();
+            possessImageLists[i].sprite = table.GetItemContex((ITEM_TYPE)i).GetSprite();
+            possessTetxtLists[i].text = "×" + (itemManager.GetItem((ITEM_TYPE)i).GetCount()).ToString();
         }
     }
 }

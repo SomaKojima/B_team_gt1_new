@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Human : MonoBehaviour
 {
-    public const float SPEED = 0.25f;
+    public const float SPEED = 0.5f;
     public const float COLLECT_DURING_TIME = 0.5f;
 
     [SerializeField]
