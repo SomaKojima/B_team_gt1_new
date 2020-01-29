@@ -90,8 +90,10 @@ public class FountainWindow : MonoBehaviour
                 isEndReaded = isReaded;
                 isReaded = manager_SI_Player.GetPlayer(i).IsExcange;
 
+                Debug.Log("a : " + manager_SI_Player.GetPlayer(i).IsExcange);
                 if (isReaded != isEndReaded && !isExchange)
                 {
+                    Debug.Log("b : " + isReaded + " : " + isEndReaded);
                     isExchange = true;
                     CreateExchangeList();
                 }
@@ -124,6 +126,11 @@ public class FountainWindow : MonoBehaviour
 
         qrEncode.EncodeToQRCode(items, ref code);
         Debug.Log(code);
+
+        foreach (IItem item in items)
+        {
+            Debug.Log(item.GetItemType() + " : " + item.GetCount());
+        }
 
         if (code != "")
         {

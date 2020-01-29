@@ -12,9 +12,10 @@ public class SI_Player : Photon.MonoBehaviour
     public bool ChangeFlag = false;
 
     // Start is called before the first frame update
-    void Start()
+    public void Initialize()
     {
-        for (int i = 0; i < placePoint.Length; i++)
+        placePoint = new int[(int)Type.Max];
+        for (int i = 0; i < (int)Type.Max; i++)
         {
             placePoint[i] = 0;
         }

@@ -330,6 +330,7 @@ public class MainGame_UIManager : MonoBehaviour
         if (fountainWindow.IsExchange())
         {
             exchangeItems = qrReaderWindow.GetItems();
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.EXCHANGE);
         }
 
         // Qrコードを生成した

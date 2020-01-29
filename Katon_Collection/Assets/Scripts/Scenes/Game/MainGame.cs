@@ -239,7 +239,6 @@ public class MainGame : MonoBehaviour
 
             foreach (IItem item in _request.ExchangeItems)
             {
-
                 Debug.Log(item.GetCount() + " : " + item.GetNormalCount() + " : " + item.GetPowerUpCount());
             }
             bool isExchangable = manager_item.AddItems(_request.ExchangeItems);
