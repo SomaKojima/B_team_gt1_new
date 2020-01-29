@@ -6730,6 +6730,16 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 5850088736514815247, guid: 280cf28bc768a4147b91eea741235fcd,
+        type: 3}
+      propertyPath: CountainArea
+      value: 
+      objectReference: {fileID: 980934631}
+    - target: {fileID: 5850088736514815247, guid: 280cf28bc768a4147b91eea741235fcd,
+        type: 3}
+      propertyPath: itemManager
+      value: 
+      objectReference: {fileID: 1882679173}
     - target: {fileID: 5850088736514815246, guid: 280cf28bc768a4147b91eea741235fcd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6835,16 +6845,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 5850088736514815247, guid: 280cf28bc768a4147b91eea741235fcd,
-        type: 3}
-      propertyPath: CountainArea
-      value: 
-      objectReference: {fileID: 980934631}
-    - target: {fileID: 5850088736514815247, guid: 280cf28bc768a4147b91eea741235fcd,
-        type: 3}
-      propertyPath: itemManager
-      value: 
-      objectReference: {fileID: 1882679173}
     - target: {fileID: 5850088735091695676, guid: 280cf28bc768a4147b91eea741235fcd,
         type: 3}
       propertyPath: m_StaticEditorFlags

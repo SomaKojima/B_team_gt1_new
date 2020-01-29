@@ -52,7 +52,7 @@ public class Human : MonoBehaviour
         this.GetRequest().Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.POSITION_TO_PLACE);
         this.GetRequest().ChangePosition = this.gameObject.transform.position;
 
-        animator.enabled = false;
+        //animator.enabled = false;
     }
 
     // Start is called before the first frame update
