@@ -172,7 +172,7 @@ public class MainGame : MonoBehaviour
                 // 建築時に初期資源を手に入れる
                 if (!owner_floor.IsFirstBuilding())
                 {
-                    FirstGetResource();
+                    //FirstGetResource();
                 }
                 // 資源の消費
                 manager_item.AddItems(_items);
