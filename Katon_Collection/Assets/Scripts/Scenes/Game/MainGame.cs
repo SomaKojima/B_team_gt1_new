@@ -46,7 +46,13 @@ public class MainGame : MonoBehaviour
     
     // 現在地
     Type currentPlaceType = Type.cave;
-    
+
+
+    void Awake()
+    {
+        Application.targetFrameRate = 30; //60FPSに設定
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -97,6 +103,8 @@ public class MainGame : MonoBehaviour
         UpdateRequest(debug.GetRequest());
 
         UpdateUIRequest();
+
+        UpdateRequest_UI();
     }
 
     void UpdateRequest_UI()
@@ -109,6 +117,13 @@ public class MainGame : MonoBehaviour
                 r.Flag.Reflection(REQUEST_BIT_FLAG_TYPE.FADE);
             }
             uiManager.GetRequest().Flag.Reflection(REQUEST_BIT_FLAG_TYPE.FADE);
+        }
+
+        // フェードインが始まるとき
+        if (uiManager.IsStartFade())
+        {
+            Debug.Log("in");
+            sound.PlaySound(SoundType_MainGame.Fade);
         }
     }
     
