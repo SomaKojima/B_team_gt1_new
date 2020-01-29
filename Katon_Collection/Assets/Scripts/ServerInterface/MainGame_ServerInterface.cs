@@ -42,7 +42,10 @@ public class MainGame_ServerInterface : MonoBehaviour
 
     public void OnClick()
     {
-        PLInfoManager.SetPlInfo(manager_SI_Player.GetPlayers());
-        PLInfoManager.CreatePLInfoWindow();
+        if (!PLInfoManager.GetWindowIsActive())
+        {
+            PLInfoManager.SetPlInfo(manager_SI_Player.GetPlayers());
+            PLInfoManager.CreatePLInfoWindow();
+        }
     }
 }

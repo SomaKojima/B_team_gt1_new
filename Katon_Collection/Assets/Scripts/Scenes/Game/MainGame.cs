@@ -84,6 +84,12 @@ public class MainGame : MonoBehaviour
         UpdateRequest(debug.GetRequest());
 
         UpdateUIRequest();
+
+        for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
+        {
+            ITEM_TYPE type = (ITEM_TYPE)i;
+            ChangedItem(manager_item.GetItem(type).GetCount(), i);
+        }
     }
 
     void UpdateRequest_UI()
