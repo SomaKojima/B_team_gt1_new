@@ -32,6 +32,7 @@ public class MatchingRoomGame : MonoBehaviour
     {
         // BGMを鳴らす
         sound.PlaySound(SoundType_MatchingRoom.BGM);
+
         serverInterface.ConnectServer();
         serverInterface.EnterLobby();
         fade_CloudEffect.StartFadeOut();

@@ -15,7 +15,6 @@ public class UI_Button : MonoBehaviour
     //クリックしたよ
     public void IsClickEnter()
     {
-        // 音を鳴らす
         m_click = true;
     }
 

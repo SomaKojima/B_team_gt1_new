@@ -1622,7 +1622,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.101
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1907,16 +1907,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2851103905623665546, guid: 044d8055a49932e4e971f68b757ecf8f,
-        type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2851103905623665546, guid: 044d8055a49932e4e971f68b757ecf8f,
-        type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2851103905623665547, guid: 044d8055a49932e4e971f68b757ecf8f,
         type: 3}
       propertyPath: m_fadeTime
@@ -1926,6 +1916,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2851103905623665546, guid: 044d8055a49932e4e971f68b757ecf8f,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2851103905623665546, guid: 044d8055a49932e4e971f68b757ecf8f,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 044d8055a49932e4e971f68b757ecf8f, type: 3}
