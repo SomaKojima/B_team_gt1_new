@@ -26,14 +26,14 @@ public class Owner_Human : MonoBehaviour
     bool isCollect = false;
 
     // 強化された人間の数
-    int[] powerUpCount = new int[(int)ITEM_TYPE.HUMAN_NUM];
-    int[] bufPowerUpCount = new int[(int)ITEM_TYPE.HUMAN_NUM];
+    int[] powerUpCount = new int[(int)ItemType.HumanMax];
+    int[] bufPowerUpCount = new int[(int)ItemType.HumanMax];
 
     public void Intialize()
     {
         manager_human.Initialize();
         request.Initialize();
-        for(int i = 0; i < (int)ITEM_TYPE.HUMAN_NUM; i++)
+        for(int i = 0; i < (int)ItemType.HumanMax; i++)
         {
             powerUpCount[i] = 0;
             bufPowerUpCount[i] = 0;
@@ -61,7 +61,7 @@ public class Owner_Human : MonoBehaviour
 
         bufRequests.Clear();
 
-        for (int i = 0; i < (int)ITEM_TYPE.HUMAN_NUM; i++)
+        for (int i = 0; i < (int)ItemType.HumanMax; i++)
         {
             bufPowerUpCount[i] = 0;
         }

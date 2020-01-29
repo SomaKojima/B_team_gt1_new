@@ -37,6 +37,9 @@ public class FountainWindow : MonoBehaviour
 
     bool isExchange = false;
 
+    bool isBufCreateQR = false;
+    bool isEndCreateQR = false;
+
     public void Initialize(Manager_Item _pay)
     {
         payWindow.Initialize(_pay);
@@ -57,6 +60,8 @@ public class FountainWindow : MonoBehaviour
         isReaded = false;
         isEndReaded = false;
         isCreateQR = false;
+        isBufCreateQR = false;
+        isEndCreateQR = false;
     }
 
     // Start is called before the first frame update
@@ -97,6 +102,9 @@ public class FountainWindow : MonoBehaviour
                 }
             }
         }
+
+        isCreateQR = isBufCreateQR != isEndCreateQR;
+        isEndCreateQR = isBufCreateQR;
     }
 
     void ActiveQR()
@@ -124,11 +132,11 @@ public class FountainWindow : MonoBehaviour
 
         qrEncode.EncodeToQRCode(items, ref code);
         Debug.Log(code);
-
+        
         if (code != "")
         {
             qrWindow.Active(code);
-            isCreateQR = true;
+            isBufCreateQR = true;
         }
 
         for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)

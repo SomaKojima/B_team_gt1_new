@@ -33,8 +33,7 @@ public class TransitionImage : MonoBehaviour
        
     }
 
-   
-         
+
     //フェードイン
     public IEnumerator TransitionIn()
     {
@@ -47,8 +46,9 @@ public class TransitionImage : MonoBehaviour
         image.raycastTarget = true;
 
         // 実行中
-        yield return Animate(m_transitionIn, m_fadeTime);
+        yield return Animate(m_transitionIn, m_fadeTime, true);
 
+        isProcess = false;
         // フェードイン終了
         yield return new WaitForEndOfFrame();
     }
@@ -66,11 +66,13 @@ public class TransitionImage : MonoBehaviour
         image.raycastTarget = true;
 
         // 実行中
-        yield return Animate(m_transitionOut, m_fadeTime);
+        yield return Animate(m_transitionOut, m_fadeTime, false);
 
+        isProcess = false;
         // フェードアウト終了
         image.raycastTarget = false;
         isExcuting = false;
+
         yield return new WaitForEndOfFrame();
     }
 
@@ -80,7 +82,7 @@ public class TransitionImage : MonoBehaviour
     /// </summary>
     /// <param name="time"></param>
     /// <returns></returns>
-    IEnumerator Animate(Material material, float time)
+    IEnumerator Animate(Material material, float time, bool isIn)
     {
         image.material = material;
         float current = 0;
@@ -92,8 +94,11 @@ public class TransitionImage : MonoBehaviour
             yield return new WaitForEndOfFrame();
             current += Time.deltaTime;
         }
-        material.SetFloat("_Alpha", 1);
-        isProcess = true;
+        if (isIn)
+        {
+            isProcess = true;
+        }
+        yield return new WaitForEndOfFrame();
     }
 
     //取得

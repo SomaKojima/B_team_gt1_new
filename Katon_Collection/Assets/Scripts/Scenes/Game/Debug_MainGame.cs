@@ -44,11 +44,11 @@ public class Debug_MainGame
         //    _managerItem.GetItem(type).SetPowerUpCount(1);
         //}
 
-        //for (int i = (int)ITEM_TYPE.HUMAN_NUM; i < (int)ITEM_TYPE.NUM; i++)
-        //{
-        //    ITEM_TYPE type = (ITEM_TYPE)i;
-        //    _managerItem.GetItem(type).SetCount(1000);
-        //}
+        for (int i = (int)ItemType.HumanMax; i < (int)ITEM_TYPE.NUM; i++)
+        {
+            ITEM_TYPE type = (ITEM_TYPE)i;
+            _managerItem.GetItem(type).SetCount(1000);
+        }
 
         //humanTime.Add(45);
         //HumanCount.Add(0);
@@ -108,7 +108,7 @@ public class Debug_MainGame
     {
         for (int i = 0; i < HumanCount[humanIndex]; i++)
         {
-            int random = Random.Range(0, ((int)ITEM_TYPE.HUMAN_NUM - 1));
+            int random = Random.Range(0, ((int)ItemType.HumanMax - 1));
 
             int count = managerItem.GetItem((ITEM_TYPE)random).GetCount();
             managerItem.GetItem((ITEM_TYPE)random).SetCount(count + 1);
@@ -117,7 +117,7 @@ public class Debug_MainGame
 
     void ClearBuildignResource()
     {
-        for (int i = (int)ITEM_TYPE.HUMAN_NUM; i < (int)ITEM_TYPE.NUM; i++)
+        for (int i = (int)ItemType.HumanMax; i < (int)ITEM_TYPE.NUM; i++)
         {
             managerItem.GetItem((ITEM_TYPE)i).SetCount(0);
         }
