@@ -38,10 +38,6 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     JudgeField judgeField;
 
-    // サウンド
-    [SerializeField]
-    Sound_MainGame sound;
-
     Debug_MainGame debug = new Debug_MainGame();
     
     // 現在地
@@ -53,19 +49,11 @@ public class MainGame : MonoBehaviour
         manager_item.Initialize();
         owner_human.Intialize();
         owner_floor.Initialize();
-        owner_signBoard.Initialize(mainCamera.IsSigneBoardInScreen);
-
-        //for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
-        //{
-        //    ITEM_TYPE type = (ITEM_TYPE)i;
-        //    manager_item.GetItem(type).SetCount(33);
-        //}
+        owner_signBoard.Initialize(mainCamera.IsSigneBoardInScreen, owner_human.GetPlaceCount, owner_floor.GetPlaceTotalFloor);
 
         manager_SI_Player.UpdatePlayers();
 
         uiManager.Initialize(manager_item);
-
-        //manager_request.Add(owner_human.GetRequest());
 
         owner_buildingResource.Initialize();
 
@@ -73,9 +61,6 @@ public class MainGame : MonoBehaviour
         mainCamera.Move(Type.cave);
 
         debug.Initialize(manager_item);
-
-        // BGMを鳴らす
-        sound.PlaySound(SoundType_MainGame.BGM);
     }
     
     // Update is called once per frame
@@ -87,7 +72,7 @@ public class MainGame : MonoBehaviour
         for (int i = 0; i < (int)ITEM_TYPE.WOOD; i++)
         {
             ITEM_TYPE type = (ITEM_TYPE)i;
-            owner_human.MatchItemsHumans(manager_item.GetItem(type), Type.cave);
+            owner_human.MatchItemsHumans(manager_item.GetItem(type), currentPlaceType);
         }
         
         // マンションのリクエスト処理
@@ -95,14 +80,10 @@ public class MainGame : MonoBehaviour
         
         // リクエストの処理
         UpdateRequestList();
-
+        
         UpdateRequest(debug.GetRequest());
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            // クリック音を鳴らす
-            sound.PlaySound(SoundType_MainGame.Click);
-        }
+        UpdateUIRequest();
     }
 
     void UpdateRequest_UI()
@@ -147,11 +128,13 @@ public class MainGame : MonoBehaviour
             List<IItem> _items = owner_floor.GetBuildingResource(currentPlaceType);
             //UIの建築ボードを表示する
             uiManager.SetActiveBuildingBoard(true, _items);
+            //uiManager.SetActivePowerUpWindow(true);
         }
         else
         {
             //UIの建築ボードを非表示する
             uiManager.SetActiveBuildingBoard(false, null);
+            //uiManager.SetActivePowerUpWindow(false);
         }
     }
     
@@ -185,8 +168,7 @@ public class MainGame : MonoBehaviour
             // 交換成功
             if (_isExchange)
             {
-                // 建築音を鳴らす
-                sound.PlaySound(SoundType_MainGame.Bulid);
+
                 // 建築時に初期資源を手に入れる
                 if (!owner_floor.IsFirstBuilding())
                 {
@@ -202,7 +184,6 @@ public class MainGame : MonoBehaviour
             else
             {
                 // 交換失敗時の処理
-                sound.PlaySound(SoundType_MainGame.Error);
             }
 
 
@@ -250,13 +231,13 @@ public class MainGame : MonoBehaviour
         if (_request.Flag.IsFlag(REQUEST.EXCHANGE))
         {
             // アイテムのマネージャに追加・削除
-            bool isExchangable = manager_item.AddItems(_request.ExchangeItems);
 
-            if (isExchangable)
+            foreach (IItem item in _request.ExchangeItems)
             {
-                // 交換した音
-                sound.PlaySound(SoundType_MainGame.Trade);
+
+                Debug.Log(item.GetCount() + " : " + item.GetNormalCount() + " : " + item.GetPowerUpCount());
             }
+            bool isExchangable = manager_item.AddItems(_request.ExchangeItems);
 
             // 交換終了したことを相手に伝える
             if (isExchangable && uiManager.GetExchangeOtherID() >= 0)
@@ -277,8 +258,6 @@ public class MainGame : MonoBehaviour
         // QRの生成
         if (_request.Flag.IsFlag(REQUEST.CREADED_QR))
         {
-            // QRの生成音
-            sound.PlaySound(SoundType_MainGame.Qr);
             for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
             {
                 if (PhotonNetwork.player.ID == manager_SI_Player.GetPlayer(i).ID)
@@ -296,7 +275,7 @@ public class MainGame : MonoBehaviour
             if (isCollectable)
             {
                 // 資源の追加
-                List<IItem> _items = owner_buildingResource.GetBuildingResource(_request.CollectPlaceType).GetItems(_request.CollectItemType);
+                List<IItem> _items = owner_buildingResource.GetBuildingResource(_request.CollectPlaceType).GetItems(_request.CollectItemType, _request.IsDoubleCollect);
                 manager_item.AddItems(_items);
             }
             _request.FinalizeCollect(isCollectable);
@@ -309,6 +288,31 @@ public class MainGame : MonoBehaviour
             _request.AreaCenterPosition = judgeField.GetAreaCenterPosition(_request.ChangePlaceType);
             _request.FinalizePositionToPlace(true);
         }
+
+        // 人間の強化
+        if (_request.Flag.IsFlag(REQUEST.POWER_UP_HUMAN))
+        {
+            if (_request.PowerUpHumanType != ITEM_TYPE.NONE)
+            {
+
+                // 建築に必要な素材を取得
+                List<IItem> _items = _request.PowerUpItems;
+                // 資源が足りているか確認
+                bool _isExchange = manager_item.IsExchange(_items);
+
+                // 強化成功
+                if (_isExchange)
+                {
+                    manager_item.GetItem(_request.PowerUpHumanType).AddPowerUpCount(1);
+                }
+                // 強化失敗
+                else
+                {
+
+                }
+                _request.FinalizePowerUp(_isExchange);
+            }
+        }
         
 
         _request.FinalizeRequest();
@@ -320,5 +324,22 @@ public class MainGame : MonoBehaviour
         manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(manager_item.GetItem(ITEM_TYPE.LOOGER).GetCount() + 1);
         manager_item.GetItem(ITEM_TYPE.ENGINEER).SetCount(manager_item.GetItem(ITEM_TYPE.ENGINEER).GetCount() + 1);
         manager_item.GetItem(ITEM_TYPE.COAL_MINER).SetCount(manager_item.GetItem(ITEM_TYPE.COAL_MINER).GetCount() + 1);
+    }
+
+    void UpdateUIRequest()
+    {
+        if (uiManager.IsSetPlaceHumanType())
+        {
+            List<ITEM_TYPE> types = new List<ITEM_TYPE>();
+            foreach (Human human in owner_human.GetPlaceHuman(currentPlaceType))
+            {
+                if (!human.IsPowerUp())
+                {
+                    types.Add(human.GetItemType());
+                }
+            }
+            uiManager.SetPlaceHumanType(types);
+            uiManager.SetPowerUpWindow(owner_floor.GetTotalFloor());
+        }
     }
 }

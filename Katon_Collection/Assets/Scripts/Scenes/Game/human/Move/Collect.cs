@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Collect : MoveState
 {
-    Vector3 target;
-
     float width = 10.0f;
     float depth = 10.0f;
 
@@ -13,18 +11,16 @@ public class Collect : MoveState
     float duringFrame = 5.0f;
 
     // Start is called before the first frame update
-    public void Initialize(Human human, Vector3 _target)
+    public void Initialize(Human human)
     {
-        target = _target;
     }
 
     public MOVE_STATE_TYPE Excute(Human human)
     {
-
-        float minX = target.x - (width * 0.5f);
-        float maxX = target.x + (width * 0.5f);
-        float minZ = target.z - (depth * 0.5f);
-        float maxZ = target.z + (depth * 0.5f);
+        float minX = human.GetTargetPosition().x - (width * 0.5f);
+        float maxX = human.GetTargetPosition().x + (width * 0.5f);
+        float minZ = human.GetTargetPosition().z - (depth * 0.5f);
+        float maxZ = human.GetTargetPosition().z + (depth * 0.5f);
         TurnInOutArea(human, minX, maxX, minZ, maxZ);
 
         human.IsCollect = false;

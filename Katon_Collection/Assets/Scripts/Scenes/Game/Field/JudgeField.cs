@@ -28,6 +28,7 @@ public class JudgeField : MonoBehaviour
         for(int i = 0; i < (int)Type.Max; i++)
         {
             if (areaCenterPosition[i] == null) continue;
+
             Vector3 vec = _position - areaCenterPosition[i].position;
             if (vec.sqrMagnitude < length)
             {

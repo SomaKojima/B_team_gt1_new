@@ -5,19 +5,29 @@ using System;
 
 public class Owner_SignBoard : MonoBehaviour
 {
-    [SerializeField]
-    List<SignBoard> signBoards = new List<SignBoard>();
+    [SerializeField, EnumListLabel(typeof(Type))]
+    SignBoard[] signBoards;
     
     // 視界内にいるかどうかを判定するデリゲート
     public delegate bool IsVisible(Vector3 _position);
     IsVisible isVisibleFunction = null;
 
+    // 場所の階数を取得するデリゲート
+    public delegate int GetPlaceCount(Type _placeType);
+    GetPlaceCount getPlaceCountFanction;
+
+
+    public delegate int GetPlaceFloor(Type _placeType);
+    GetPlaceFloor getPlaceFloorFanction;
+
     // 視界内にいる看板を入れる変数
     SignBoard visibleSignBoard = null;
 
-    public void Initialize(IsVisible _function)
+    public void Initialize(IsVisible _isVisible, GetPlaceCount _getPlaceCountFanction, GetPlaceFloor _getPlaceFloor)
     {
-        isVisibleFunction = _function;
+        isVisibleFunction = _isVisible;
+        getPlaceCountFanction = _getPlaceCountFanction;
+        getPlaceFloorFanction = _getPlaceFloor;
     }
 
     // Start is called before the first frame update
@@ -32,6 +42,7 @@ public class Owner_SignBoard : MonoBehaviour
         visibleSignBoard = null;
         foreach (SignBoard board in signBoards)
         {
+            if (board == null) continue;
             // カメラの視界内にいるかどうかを判定する
             if (isVisibleFunction != null)
             {
@@ -43,11 +54,17 @@ public class Owner_SignBoard : MonoBehaviour
                 break;
             }
         }
+
+        foreach (SignBoard board in signBoards)
+        {
+            if (board == null) continue;
+            board.Num = getPlaceCountFanction(board.GetPlaceType());
+            board.Max = getPlaceFloorFanction(board.GetPlaceType()) * 5;
+        }
     }
 
-    public List<SignBoard> GetSignBoards()
+    public SignBoard[] GetSignBoards()
     {
-       
         return signBoards;
     }
 
@@ -68,5 +85,11 @@ public class Owner_SignBoard : MonoBehaviour
     {
         if (visibleSignBoard == null) return Type.none;
         return visibleSignBoard.GetPlaceType();
+    }
+
+    public void SetPlaceBuildingTotal(Type _placeType, int _buildingTotal)
+    {
+        if (signBoards[(int)_placeType] == null) return;
+        signBoards[(int)_placeType].Max = _buildingTotal;
     }
 }

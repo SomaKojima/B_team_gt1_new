@@ -9,6 +9,8 @@ public class Item : IItem
     // 資源の個数
     private int count = 0;
 
+    int powerUpCount = 0;
+
     public Item()
     {
 
@@ -19,9 +21,23 @@ public class Item : IItem
         Initialize(_count, _type);
     }
 
+    public Item(int _normal, int _powerUp, ITEM_TYPE _type)
+    {
+        Initialize(_normal, _powerUp, _type);
+    }
+
     public void Initialize(int _count, ITEM_TYPE _type)
     {
         count = _count;
+        type = _type;
+    }
+
+
+    public void Initialize(int _normal, int _powerUp, ITEM_TYPE _type)
+    {
+        SetCount(_normal + _powerUp);
+        SetPowerUpCount(_powerUp);
+
         type = _type;
     }
 
@@ -33,11 +49,31 @@ public class Item : IItem
     public void AddCount(int _count)
     {
         count += _count;
+    }
 
-        if (count < 0)
-        {
-            count = 0;
-        }
+    public void AddPowerUpCount(int _count)
+    {
+        SetPowerUpCount(powerUpCount + _count);
+    }
+
+    public void AddNormalCount(int _count)
+    {
+        SetNormalCount(GetNormalCount() + _count);
+    }
+
+    /// <summary>
+    /// 強化する
+    /// </summary>
+    /// <param name="_count"></param>
+    public void SetPowerUpCount(int _count)
+    {
+        powerUpCount = _count;
+    }
+
+    public void SetNormalCount(int _count)
+    {
+        count = _count + powerUpCount;
+
     }
 
     public ITEM_TYPE GetItemType()
@@ -58,5 +94,15 @@ public class Item : IItem
     public void SetType(ITEM_TYPE _type)
     {
         type = _type;
+    }
+
+    public int GetPowerUpCount()
+    {
+        return powerUpCount;
+    }
+
+    public int GetNormalCount()
+    {
+        return count - powerUpCount;
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class MainGame_UIManager : MonoBehaviour
 {
@@ -44,6 +45,16 @@ public class MainGame_UIManager : MonoBehaviour
     [SerializeField]
     Sound_MainGame sound;
 
+    // 最初の文字
+    [SerializeField]
+    FirstText firstText;
+
+    // パワーアップ関係
+    [SerializeField]
+    UI_PowerUp ui_powerUp;
+
+    [SerializeField]
+    SelectQrReaderOrFountain selectQrReaderOrFountain;
 
     // リクエスト用のビットフラグ
     Request request = new Request();
@@ -59,6 +70,8 @@ public class MainGame_UIManager : MonoBehaviour
 
     // フェードインが終了したかどうかのフラグ
     bool isFinishFadeIn = false;
+
+    bool isSetPlaceHuman = false;
 
 
     /// <summary>
@@ -78,6 +91,8 @@ public class MainGame_UIManager : MonoBehaviour
         requestActiveUI.Initailize();
 
         request.Initialize();
+
+        ui_powerUp.Initialzie();
     }
 
     // Start is called before the first frame update
@@ -116,14 +131,16 @@ public class MainGame_UIManager : MonoBehaviour
         // ログウィンドウのリクエスト処理
         UpdateRequest_LogWindow();
 
+        UpdateRequest_PowerUp();
+
+        UpdateRequest_selectQrReaderOrFountain();
+
         // UIを有効化する処理
         UpdateActive();
 
         // UIを無効化する処理
         UpdateUnActive();
 
-
-        
     }
 
     /// <summary>
@@ -149,6 +166,12 @@ public class MainGame_UIManager : MonoBehaviour
             fountainWindow.Active();
         }
 
+        // ｑｒの選択
+        if (requestActiveUI.IsActive(ACTIVE_UI.SELECT_QR))
+        {
+            selectQrReaderOrFountain.Active();
+        }
+
         // QRリーダーを有効化
         if (requestActiveUI.IsActive(ACTIVE_UI.QR_READER))
         {
@@ -159,6 +182,12 @@ public class MainGame_UIManager : MonoBehaviour
         if (requestActiveUI.IsActive(ACTIVE_UI.BUILDIGN_BOARD))
         {
             buildingBoard.Active();
+        }
+
+        // 最初の文字を有効か
+        if (requestActiveUI.IsActive(ACTIVE_UI.FIRST_TEXT))
+        {
+            firstText.Active();
         }
 
         // フラグをすべて初期化する
@@ -188,6 +217,12 @@ public class MainGame_UIManager : MonoBehaviour
             fountainWindow.UnActive();
         }
 
+        // ｑｒの選択
+        if (requestActiveUI.IsUnActive(ACTIVE_UI.SELECT_QR))
+        {
+            selectQrReaderOrFountain.UnActive();
+        }
+
         // QRリーダーを無効化
         if (requestActiveUI.IsUnActive(ACTIVE_UI.QR_READER))
         {
@@ -197,6 +232,12 @@ public class MainGame_UIManager : MonoBehaviour
         if (requestActiveUI.IsUnActive(ACTIVE_UI.BUILDIGN_BOARD))
         {
             buildingBoard.UnActive();
+        }
+
+        // 最初の文字を無効化
+        if (requestActiveUI.IsUnActive(ACTIVE_UI.FIRST_TEXT))
+        {
+            firstText.UnActive();
         }
 
         // フラグをすべて初期化する
@@ -212,7 +253,18 @@ public class MainGame_UIManager : MonoBehaviour
         if (buildingBoard.IsClickBuildingButton())
         {
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.BUILDING);
+            requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.FIRST_TEXT);
         }
+
+        // 資源のボードを表示中かどうか
+        //if (buildingBoard.IsActiveBoard())
+        //{
+        //    requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.FIRST_TEXT);
+        //}
+        //else
+        //{
+        //    requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.FIRST_TEXT);
+        //}
     }
 
     /// <summary>
@@ -250,7 +302,9 @@ public class MainGame_UIManager : MonoBehaviour
         // qr読み込みの交換処理
         if (qrReaderWindow.IsExchange())
         {
-            exchangeItems = qrReaderWindow.GetItems();
+            Debug.Log("qr");
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.EXCHANGE);
+            request.ExchangeItems = qrReaderWindow.GetItems();
             otherID = qrReaderWindow.GetOtherID();
         }
     }
@@ -268,9 +322,9 @@ public class MainGame_UIManager : MonoBehaviour
 
             // カメラの挙動リクエスト
 
-            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.FADE, REQUEST.CAMERA_UNDO | REQUEST.CAMERA_START);
-
-            fade_CloudEffect.StartFadeIn();
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_START);
+            
+            //fade_CloudEffect.StartFadeIn();
         }
 
         // 交換
@@ -344,7 +398,8 @@ public class MainGame_UIManager : MonoBehaviour
         // QRリーダーを起動
         if (manager_placeBar.GetIsQRLeader())
         {
-            requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.QR_READER);
+            requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.SELECT_QR);
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_STOP);
         }
 
         // 移動する
@@ -413,6 +468,12 @@ public class MainGame_UIManager : MonoBehaviour
             AddLog("けんちく　\nせいこう");
         }
 
+        // 強化成功
+        if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.POWER_UP_SUCCESS))
+        {
+            ui_powerUp.CorrectPowerUp();
+        }
+
         request.ReplayFlag.Clear();
     }
 
@@ -446,6 +507,53 @@ public class MainGame_UIManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 強化画面のリクエスト処理
+    /// </summary>
+    void UpdateRequest_PowerUp()
+    {
+        isSetPlaceHuman = ui_powerUp.IsSetPlaceHuman();
+
+        if (ui_powerUp.IsPowerUp())
+        {
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.POWER_UP_HUMAN);
+            request.PowerUpHumanType = ui_powerUp.GetPowerUpItemType();
+            request.PowerUpItems = ui_powerUp.GetResources();
+        }
+        if (ui_powerUp.IsChangeActive())
+        {
+            //if (ui_powerUp.IsActive())
+            //{
+            //    request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_STOP);
+            //}
+            //else
+            //{
+            //    request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_START);
+            //}
+        }
+    }
+    
+    /// <summary>
+    /// QRリーダーと噴水の選択画面のrequest処理
+    /// </summary>
+    public void UpdateRequest_selectQrReaderOrFountain()
+    {
+        if (selectQrReaderOrFountain.IsSelectFountain())
+        {
+            requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.FOUNTAIN);
+            requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.SELECT_QR);
+
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_STOP);
+        }
+
+        if (selectQrReaderOrFountain.IsSelectQrReader())
+        {
+            requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.QR_READER);
+            requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.SELECT_QR);
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_STOP);
+        }
+    }
+
+    /// <summary>
     /// 建築終了の処理
     /// </summary>
     /// <param name="isBuilding"></param>
@@ -468,6 +576,7 @@ public class MainGame_UIManager : MonoBehaviour
     public void UpdateBuilding(int buildingTotal)
     {
         marketWindow.UpdateBuilding(buildingTotal);
+        firstText.SetFirstBuilding(true);
     }
 
     //リザルトに行くときのフェード
@@ -492,6 +601,16 @@ public class MainGame_UIManager : MonoBehaviour
         {
             requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.BUILDIGN_BOARD);
         }
+    }
+
+    public void SetPowerUpWindow(int totalFloor)
+    {
+        ui_powerUp.SetTotalFloor(totalFloor);
+    }
+
+    public void SetPlaceHumanType(List<ITEM_TYPE> _humaType)
+    {
+        ui_powerUp.SetPlaceHuman(_humaType);
     }
 
     public void AddLog(string _text)
@@ -541,5 +660,10 @@ public class MainGame_UIManager : MonoBehaviour
     public Request GetRequest()
     {
         return request;
+    }
+
+    public bool IsSetPlaceHumanType()
+    {
+        return isSetPlaceHuman;
     }
 }

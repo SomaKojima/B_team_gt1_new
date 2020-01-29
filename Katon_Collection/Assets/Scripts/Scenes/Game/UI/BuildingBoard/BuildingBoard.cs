@@ -58,7 +58,7 @@ public class BuildingBoard : MonoBehaviour
         owner_BuildingItemUnit.Initialize();
         missMessage.SetActive(false);
         mode = MODE.ONE;
-        board.SetActive(false);
+        //board.SetActive(false);
     }
 
     // Update is called once per frame
@@ -71,16 +71,16 @@ public class BuildingBoard : MonoBehaviour
         {
             button.OnClickProcess();
             UpdateMode();
-            mode = mode + 1;
-            if (mode == MODE.MAX) mode = MODE.MAX - 1;
+            //mode = mode + 1;
+            //if (mode == MODE.MAX) mode = MODE.MAX - 1;
         }
-        // ボタン以外をクリックした場合
-        else if (Input.GetMouseButtonDown(0))
-        {
-            missMessage.SetActive(false);
-            mode = MODE.ONE;
-            board.SetActive(false);
-        }
+        //// ボタン以外をクリックした場合
+        //else if (Input.GetMouseButtonDown(0))
+        //{
+        //    missMessage.SetActive(false);
+        //    mode = MODE.ONE;
+        //    board.SetActive(false);
+        //}
 
         // 素材が足らないウィンドウの処理
         if (missMessage.activeSelf)
@@ -129,8 +129,9 @@ public class BuildingBoard : MonoBehaviour
         switch (mode)
         {
             case MODE.ONE:
-                if(!board.activeSelf)
-                board.SetActive(true);
+                //if(!board.activeSelf)
+                    isClickBuildingButton = true;
+                //board.SetActive(true);
                 break;
             case MODE.TWO:
                 isClickBuildingButton = true;
@@ -154,5 +155,10 @@ public class BuildingBoard : MonoBehaviour
     {
         if (_isActive == nopriceText.gameObject.activeSelf) return;
         nopriceText.gameObject.SetActive(_isActive);
+    }
+
+    public bool IsActiveBoard()
+    {
+        return board.activeSelf;
     }
 }

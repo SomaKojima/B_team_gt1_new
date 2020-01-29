@@ -71,6 +71,7 @@ public class QR_ReaderWindow : MonoBehaviour
             }
             else
             {
+                Debug.Log(items);
                 // 読み込み成功
                 correctResultWindow.Active();
             }

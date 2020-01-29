@@ -30,6 +30,7 @@ public enum REQUEST
     CAMERA_OUT_RANGE = 1 << 9,  // カメラの動きをマウスカーソルが範囲外の時にする
     COLLECT = 1 << 10,          // 収集
     POSITION_TO_PLACE = 1 << 11,   // 座標から場所のタイプに変換処理
+    POWER_UP_HUMAN = 1 << 12,       // 人間の強化
 
     MAX
 }

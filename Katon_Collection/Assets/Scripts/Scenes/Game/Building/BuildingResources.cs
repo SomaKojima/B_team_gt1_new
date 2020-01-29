@@ -53,7 +53,7 @@ public class BuildingResources : MonoBehaviour
     }
 
     //カウントの取得
-    public List<IItem> GetItems(ITEM_TYPE _type)
+    public List<IItem> GetItems(ITEM_TYPE _type, bool isDouble)
     {
         correctItems.Clear();
 
@@ -62,7 +62,7 @@ public class BuildingResources : MonoBehaviour
         // 確定枠
         if (_type != ITEM_TYPE.NONE)
         {
-            int itemCount = GetItemCount(_type);
+            int itemCount = GetItemCount(_type, isDouble);
             bufCorrectItems[(int)_type].SetCount(itemCount);
             correctItems.Add(bufCorrectItems[(int)_type]);
         }
@@ -77,7 +77,7 @@ public class BuildingResources : MonoBehaviour
                 i++;
                 continue;
             }
-            int itemCount = GetItemCount(randomBuf[i]);
+            int itemCount = GetItemCount(randomBuf[i], isDouble);
             bufCorrectItems[(int)randomBuf[i]].SetCount(itemCount);
             correctItems.Add(bufCorrectItems[(int)randomBuf[i]]);
             i++;
@@ -101,13 +101,17 @@ public class BuildingResources : MonoBehaviour
         }
     }
 
-    private int GetItemCount(ITEM_TYPE _type)
+    private int GetItemCount(ITEM_TYPE _type, bool isDouble)
     {
         // 取得数の計算
         int itemCount = 1;
         if (_type == m_itemType)
         {
             itemCount = 5;
+        }
+        if (isDouble)
+        {
+            return itemCount * 2;
         }
         return itemCount;
     }

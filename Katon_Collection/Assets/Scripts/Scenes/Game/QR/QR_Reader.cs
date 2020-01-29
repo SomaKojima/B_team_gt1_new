@@ -33,7 +33,17 @@ public class QR_Reader : MonoBehaviour
         m_infoQR = "";
         isStop = false;
 
-        reader = new BarcodeReader() { AutoRotate = true,
+
+        StartRead();
+    }
+
+    private void Start()
+    {
+        ActivationWebCamera();
+
+        reader = new BarcodeReader()
+        {
+            AutoRotate = true,
             Options = {
                 PossibleFormats = new[] { BarcodeFormat.QR_CODE }
             }
@@ -44,13 +54,6 @@ public class QR_Reader : MonoBehaviour
             // Android
             cameraImage.transform.rotation *= Quaternion.AngleAxis(-90, Vector3.forward);
         }
-
-        StartRead();
-    }
-
-    private void Start()
-    {
-        ActivationWebCamera();
     }
 
     private void Update()

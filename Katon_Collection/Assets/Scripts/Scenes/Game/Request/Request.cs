@@ -19,9 +19,13 @@ public class Request
     
     Type collectPlaceType;
     ITEM_TYPE collectItemType;
+    bool isDoubleCollect = false;
 
     // 場所の中心座標
     Vector3 areaCenterPosition;
+
+    ITEM_TYPE powerUpHumanType = ITEM_TYPE.NONE;
+    List<IItem> powerUpItems = null;
 
     /// <summary>
     /// 初期化
@@ -96,6 +100,24 @@ public class Request
         set { areaCenterPosition = value; }
     }
 
+    public ITEM_TYPE PowerUpHumanType
+    {
+        get { return powerUpHumanType; }
+        set { powerUpHumanType = value; }
+    }
+    
+    public bool IsDoubleCollect
+    {
+        get { return isDoubleCollect; }
+        set { isDoubleCollect = value; }
+    }
+
+    public List<IItem> PowerUpItems
+    {
+        get { return powerUpItems; }
+        set { powerUpItems = value; }
+    }
+
     /// <summary>
     /// 終了処理
     /// </summary>
@@ -168,5 +190,17 @@ public class Request
             replayFlag.OnFlag(REPLAY_REQUEST.POSITION_TO_PLACE_FAILED);
         }
     }
-    
+
+
+    public void FinalizePowerUp(bool isPowerUp)
+    {
+        if (isPowerUp)
+        {
+            replayFlag.OnFlag(REPLAY_REQUEST.POWER_UP_SUCCESS);
+        }
+        else
+        {
+            replayFlag.OnFlag(REPLAY_REQUEST.POWER_UP_FAILED);
+        }
+    }
 }

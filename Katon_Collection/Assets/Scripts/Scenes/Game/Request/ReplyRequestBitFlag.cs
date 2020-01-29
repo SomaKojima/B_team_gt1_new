@@ -21,6 +21,9 @@ public enum REPLAY_REQUEST
     POSITION_TO_PLACE_SUCCESS = 1 << 7, // 座標を場所のタイプに変換成功     
     POSITION_TO_PLACE_FAILED = 1 << 8,  // 座標を場所のタイプに変換失敗
 
+    POWER_UP_SUCCESS = 1 << 9,
+    POWER_UP_FAILED = 1 << 10,
+
     MAX
 }
 
