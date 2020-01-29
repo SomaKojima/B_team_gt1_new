@@ -27,9 +27,15 @@ public class ResultGame : MonoBehaviour
     int[] playerResult = new int[4];
 
     int TopScore = 10;
-    int count = 0; 
+    int count = 0;
 
-   
+
+    void Awake()
+    {
+        Application.targetFrameRate = 30; //60FPSに設定
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
