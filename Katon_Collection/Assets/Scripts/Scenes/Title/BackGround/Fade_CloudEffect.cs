@@ -16,7 +16,17 @@ public class Fade_CloudEffect : MonoBehaviour
     bool isFirstProcess = true;
     bool isIn = false;
 
-      
+    bool isStartProcess = false;
+    bool isEndStartProcess = false;
+    bool isBufStartProcess = false;
+
+    private void Update()
+    {
+        isStartProcess = isBufStartProcess;
+        isBufStartProcess = false;
+    }
+
+
     //フェードインする関数
     IEnumerator FadeIn()
     {
@@ -27,6 +37,7 @@ public class Fade_CloudEffect : MonoBehaviour
         }
         if (isFirstProcess)
         {
+            isBufStartProcess = true;
             StartCoroutine(m_transitionImage.TransitionIn());
             isFirstProcess = false;
         }
@@ -80,5 +91,8 @@ public class Fade_CloudEffect : MonoBehaviour
         get{ return m_transitionImage.IsProcess; }
     }
     
-   
+    public bool IsStartProcess
+    {
+        get { return isStartProcess; }
+    }
 }

@@ -16,14 +16,24 @@ public enum ITEM_TYPE
     FARMER_COTTON,      // 綿農家
 
     WOOD,               // 木
-
-    HUMAN_NUM = WOOD,   // 人間の数
-
     ORE,                // 鉱石
     PARTS,              // 部品
     WHEAT,              // 麦
     COTTON,             // 綿
 
-    NUM,
-    BUILDING_RESOURCE_NUM = NUM - HUMAN_NUM // 資源の数
+    NUM
+}
+
+public class ItemType
+{
+
+    static public ITEM_TYPE HumanMax
+    {
+        get { return ITEM_TYPE.FARMER_COTTON + 1; }
+    }
+
+    static public ITEM_TYPE BuildingResourceMax
+    {
+        get { return ITEM_TYPE.COTTON + 1 - (int)HumanMax; }
+    }
 }

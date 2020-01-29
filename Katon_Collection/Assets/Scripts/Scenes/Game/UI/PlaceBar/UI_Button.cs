@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class UI_Button : MonoBehaviour
 {
+    
 
     //クリック
     bool m_click = false;
 
+    public void Start()
+    {
+    }
     //クリックしたよ
     public void IsClickEnter()
     {

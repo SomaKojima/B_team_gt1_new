@@ -24,7 +24,7 @@ public class BuildingResources : MonoBehaviour
     List<IItem> bufCorrectItems = new List<IItem>();
 
     // 収集アイテムのタイプを決めるときに使う変数
-    ITEM_TYPE[] randomBuf = new ITEM_TYPE[(int)ITEM_TYPE.BUILDING_RESOURCE_NUM];
+    ITEM_TYPE[] randomBuf = new ITEM_TYPE[(int)ItemType.BuildingResourceMax];
 
     private void Start()
     {
@@ -44,9 +44,9 @@ public class BuildingResources : MonoBehaviour
         }
 
         // 初期化
-        for (int i = 0; i < (int)ITEM_TYPE.BUILDING_RESOURCE_NUM; i++)
+        for (int i = 0; i < (int)ItemType.BuildingResourceMax; i++)
         {
-            randomBuf[i] = (ITEM_TYPE)(i + (int)ITEM_TYPE.HUMAN_NUM);
+            randomBuf[i] = (ITEM_TYPE)(i + (int)ItemType.HumanMax);
         }
 
         ShuffleRandomType();
@@ -90,7 +90,7 @@ public class BuildingResources : MonoBehaviour
     {
         for (int i = 0; i < 5; i++)
         {
-            int maxNum = (int)ITEM_TYPE.BUILDING_RESOURCE_NUM;
+            int maxNum = (int)ItemType.BuildingResourceMax;
             int randomOne = Random.Range(0, (maxNum - 1) * 100) % maxNum;
             int randomTwo = Random.Range(0, (maxNum - 1) * 100) % maxNum;
 

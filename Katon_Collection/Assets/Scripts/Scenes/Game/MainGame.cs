@@ -38,14 +38,27 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     JudgeField judgeField;
 
+    // サウンド
+    [SerializeField]
+    Sound_MainGame sound;
+
     Debug_MainGame debug = new Debug_MainGame();
     
     // 現在地
     Type currentPlaceType = Type.cave;
-    
+
+
+    void Awake()
+    {
+        Application.targetFrameRate = 30; //60FPSに設定
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        // BGMを鳴らす
+        sound.PlaySound(SoundType_MainGame.BGM);
+
         manager_item.Initialize();
         owner_human.Intialize();
         owner_floor.Initialize();
@@ -68,6 +81,12 @@ public class MainGame : MonoBehaviour
     {
         debug.Update();
 
+        if(Input.GetMouseButtonDown(0))
+        {
+            // クリック音を鳴らす
+            sound.PlaySound(SoundType_MainGame.Click);
+        }
+
         // アイテムのマネージャと人間の数を合わせる
         for (int i = 0; i < (int)ITEM_TYPE.WOOD; i++)
         {
@@ -84,6 +103,8 @@ public class MainGame : MonoBehaviour
         UpdateRequest(debug.GetRequest());
 
         UpdateUIRequest();
+
+        UpdateRequest_UI();
     }
 
     void UpdateRequest_UI()
@@ -96,6 +117,12 @@ public class MainGame : MonoBehaviour
                 r.Flag.Reflection(REQUEST_BIT_FLAG_TYPE.FADE);
             }
             uiManager.GetRequest().Flag.Reflection(REQUEST_BIT_FLAG_TYPE.FADE);
+        }
+
+        // フェードインが始まるとき
+        if (uiManager.IsStartFade())
+        {
+            sound.PlaySound(SoundType_MainGame.Fade);
         }
     }
     
@@ -168,6 +195,8 @@ public class MainGame : MonoBehaviour
             // 交換成功
             if (_isExchange)
             {
+                // 建築音
+                sound.PlaySound(SoundType_MainGame.Bulid);
 
                 // 建築時に初期資源を手に入れる
                 if (!owner_floor.IsFirstBuilding())
@@ -184,6 +213,7 @@ public class MainGame : MonoBehaviour
             else
             {
                 // 交換失敗時の処理
+                sound.PlaySound(SoundType_MainGame.Error);
             }
 
 
@@ -246,6 +276,9 @@ public class MainGame : MonoBehaviour
                 {
                     if (uiManager.GetExchangeOtherID() == manager_SI_Player.GetPlayer(i).ID)
                     {
+                        // トレード音
+                        sound.PlaySound(SoundType_MainGame.Trade);
+
                         manager_SI_Player.GetPlayer(i).IsExcange = false;
                     }
                 }
@@ -258,6 +291,8 @@ public class MainGame : MonoBehaviour
         // QRの生成
         if (_request.Flag.IsFlag(REQUEST.CREADED_QR))
         {
+            // 生成音
+            sound.PlaySound(SoundType_MainGame.Qr);
             for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
             {
                 if (PhotonNetwork.player.ID == manager_SI_Player.GetPlayer(i).ID)
@@ -284,9 +319,15 @@ public class MainGame : MonoBehaviour
         // 座標を場所に変換
         if (_request.Flag.IsFlag(REQUEST.POSITION_TO_PLACE))
         {
-            _request.ChangePlaceType = judgeField.ChangePositionToPlaceType(_request.ChangePosition);
-            _request.AreaCenterPosition = judgeField.GetAreaCenterPosition(_request.ChangePlaceType);
-            _request.FinalizePositionToPlace(true);
+            Type placeType = judgeField.ChangePositionToPlaceType(_request.ChangePosition);
+            bool isChange = (owner_floor.GetPlaceTotalFloor(placeType) != 0);
+            if (isChange)
+            {
+                _request.ChangePlaceType = judgeField.ChangePositionToPlaceType(_request.ChangePosition);
+                _request.AreaCenterPosition = judgeField.GetAreaCenterPosition(_request.ChangePlaceType);
+                
+            }
+            _request.FinalizePositionToPlace(isChange);
         }
 
         // 人間の強化
@@ -308,7 +349,8 @@ public class MainGame : MonoBehaviour
                 // 強化失敗
                 else
                 {
-
+                    // 失敗音
+                    sound.PlaySound(SoundType_MainGame.Error);
                 }
                 _request.FinalizePowerUp(_isExchange);
             }

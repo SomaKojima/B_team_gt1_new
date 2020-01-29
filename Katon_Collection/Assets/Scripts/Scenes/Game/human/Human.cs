@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Human : MonoBehaviour
 {
-    public const float SPEED = 0.25f;
+    public const float SPEED = 0.5f;
     public const float COLLECT_DURING_TIME = 0.5f;
 
     [SerializeField]
@@ -18,9 +18,6 @@ public class Human : MonoBehaviour
 
     [SerializeField]
     Renderer crown;
-
-    [SerializeField]
-    Animator animator;
 
     ContextMoveState move = new ContextMoveState();
     bool isCollect = false;
@@ -51,8 +48,7 @@ public class Human : MonoBehaviour
         // 場所を変更
         this.GetRequest().Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.POSITION_TO_PLACE);
         this.GetRequest().ChangePosition = this.gameObject.transform.position;
-
-        animator.enabled = false;
+        
     }
 
     // Start is called before the first frame update

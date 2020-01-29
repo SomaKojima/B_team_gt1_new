@@ -8,6 +8,18 @@ public class PLInfoManager : MonoBehaviour
     private GameObject[] PLInfoWindows;
     private List<SI_Player> data = new List<SI_Player>();
     private int currentNumber = 0;
+    [SerializeField]
+    private Manager_Item itemManager = null;
+    [SerializeField]
+    private GameObject CloseBtn;
+    [SerializeField]
+    private GameObject RightBtn;
+    [SerializeField]
+    private GameObject LeftBtn;
+    [SerializeField]
+    private GameObject playerWindows;
+    private bool isActive = false;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -32,11 +44,16 @@ public class PLInfoManager : MonoBehaviour
         for (int i = 0; i < data.Count; i++)
         {
             PLInfoWindows[i] = Instantiate(prefab, this.transform.position, Quaternion.identity);
-            PLInfoWindows[i].transform.parent = this.transform;
+            PLInfoWindows[i].transform.parent = playerWindows.transform;
+            PLInfoWindows[i].transform.localScale = new Vector3(1, 1, 1);
             PLInfoWindows[i].GetComponent<PLInfoWindow>().SetNameText(playerList[i].NickName);
+            PLInfoWindows[i].GetComponent<PLInfoWindow>().SetItemData(itemManager);
             PLInfoWindows[i].GetComponent<PLInfoWindow>().DataSet(data[i]);
+            PLInfoWindows[i].GetComponent<PLInfoWindow>().createList();
         }
-        
+        isActive = true;
+        BtnSetActive(true);
+        PLInfoActives();
     }
 
     public void SetPlInfo(List<SI_Player> data)
@@ -55,7 +72,7 @@ public class PLInfoManager : MonoBehaviour
 
     public void RightBtnOnClick()
     {
-        if(currentNumber< PLInfoWindows.Length)
+        if(currentNumber< PLInfoWindows.Length-1)
         {
             currentNumber++;
             PLInfoActives();
@@ -73,6 +90,24 @@ public class PLInfoManager : MonoBehaviour
 
     public void DeleteWindow()
     {
-        System.Array.Clear(PLInfoWindows, 0, PLInfoWindows.Length);
+        isActive = false;
+        BtnSetActive(false);
+        currentNumber = 0;
+        for (int i = 0; i < PLInfoWindows.Length; i++)
+        {
+            Destroy(PLInfoWindows[i]);
+        }
+    }
+
+    public bool GetWindowIsActive()
+    {
+        return isActive;
+    }
+
+    public void BtnSetActive(bool isActive)
+    {
+        CloseBtn.SetActive(isActive);
+        RightBtn.SetActive(isActive);
+        LeftBtn.SetActive(isActive);
     }
 }

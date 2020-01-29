@@ -41,6 +41,9 @@ public class MainGame_UIManager : MonoBehaviour
     // タイマー
     [SerializeField]
     UI_Time timer;
+    
+    [SerializeField]
+    Sound_MainGame sound;
 
     // 最初の文字
     [SerializeField]
@@ -149,6 +152,7 @@ public class MainGame_UIManager : MonoBehaviour
         if (requestActiveUI.IsActive(ACTIVE_UI.PLACE_BAR))
         {
             manager_placeBar.Active();
+            ui_powerUp.Active();
         }
 
         // 市場を有効化
@@ -200,6 +204,7 @@ public class MainGame_UIManager : MonoBehaviour
         if (requestActiveUI.IsUnActive(ACTIVE_UI.PLACE_BAR))
         {
             manager_placeBar.UnActive();
+            ui_powerUp.UnActive();
         }
 
         // 市場を無効化
@@ -662,5 +667,10 @@ public class MainGame_UIManager : MonoBehaviour
     public bool IsSetPlaceHumanType()
     {
         return isSetPlaceHuman;
+    }
+
+    public bool IsStartFade()
+    {
+        return fade_CloudEffect.IsStartProcess;
     }
 }
