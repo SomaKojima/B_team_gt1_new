@@ -78,7 +78,7 @@ public class PLInfoWindow : MonoBehaviour
         {
             GameObject obj = Instantiate(listUnitPrefab, prefabPerentMansion);
             obj.transform.Find("Icon").transform.Find("Icon").GetComponent<Image>().sprite =
-                table.GetItemContex((ITEM_TYPE)(i+ITEM_TYPE.HUMAN_NUM)).GetSprite();
+                table.GetItemContex((ITEM_TYPE)(i+ ItemType.HumanMax)).GetSprite();
             obj.transform.Find("CountText").GetComponent<Text>().text =
                 "×" + (data.GetPlacePoint(i+(int)2)).ToString();
             //Debug.Log(data.GetPlacePoint(i + (int)2));

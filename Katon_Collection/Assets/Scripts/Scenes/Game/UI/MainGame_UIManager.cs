@@ -668,4 +668,9 @@ public class MainGame_UIManager : MonoBehaviour
     {
         return isSetPlaceHuman;
     }
+
+    public bool IsStartFade()
+    {
+        return fade_CloudEffect.IsStartProcess;
+    }
 }

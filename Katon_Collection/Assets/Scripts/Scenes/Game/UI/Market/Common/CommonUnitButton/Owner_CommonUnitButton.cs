@@ -25,7 +25,7 @@ public class Owner_CommonUnitButton : MonoBehaviour
     public void Initialize()
     {
         humanUnit.Clear();
-        for (int i = 0; i < (int)ITEM_TYPE.HUMAN_NUM; i++)
+        for (int i = 0; i < (int)ItemType.HumanMax; i++)
         {
             humanGetItems.Add(new Item(1, (ITEM_TYPE)i));
             int necessary = HUMAN_NECESSARY;

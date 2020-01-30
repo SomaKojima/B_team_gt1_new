@@ -14,9 +14,7 @@ public class SI_Player : Photon.MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(Type.Max);
         placePoint = new int[(int)Type.Max];
-        Debug.Log(placePoint.Length);
 
         for (int i = 0; i < placePoint.Length; i++)
         {
