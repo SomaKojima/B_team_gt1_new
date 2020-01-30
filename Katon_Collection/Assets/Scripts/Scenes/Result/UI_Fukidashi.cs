@@ -45,11 +45,15 @@ public class UI_Fukidashi : MonoBehaviour
             ui_Fukidashi.rectTransform.position.y < 0)
         {
 
-            //スプライトを丸に変更
-            ui_Fukidashi.sprite = sprite;
+
+           
+          
 
             //ポジションを固定する
             ui_Fukidashi.rectTransform.position = new Vector3(ui_Fukidashi.rectTransform.position.x,0+20,ui_Fukidashi.rectTransform.position.z);
+
+            //スプライトを丸に変更
+            ui_Fukidashi.sprite = sprite;
 
         }
        
