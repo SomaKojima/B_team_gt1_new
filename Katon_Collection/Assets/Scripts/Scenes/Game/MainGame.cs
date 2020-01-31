@@ -109,6 +109,11 @@ public class MainGame : MonoBehaviour
         UpdateServer();
 
         Debug.Log(manager_SI_Player.GetMyPlayer().IsExcange);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            manager_SI_Player.GetMyPlayer().IsExcange = false;
+        }
     }
 
     void UpdateRequest_UI()
@@ -268,7 +273,6 @@ public class MainGame : MonoBehaviour
 
             foreach (IItem item in _request.ExchangeItems)
             {
-
                 Debug.Log(item.GetCount() + " : " + item.GetNormalCount() + " : " + item.GetPowerUpCount());
             }
 

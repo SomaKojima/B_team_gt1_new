@@ -27,6 +27,9 @@ public class MatchingRoomGame : MonoBehaviour
     [SerializeField]
     Sound_MatchingRoom sound;
 
+    [SerializeField]
+    Manage_SI_Player managetSIPlayer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +39,7 @@ public class MatchingRoomGame : MonoBehaviour
         serverInterface.ConnectServer();
         serverInterface.EnterLobby();
         fade_CloudEffect.StartFadeOut();
+        managetSIPlayer.Initialize(true);
     }
 
     // Update is called once per frame

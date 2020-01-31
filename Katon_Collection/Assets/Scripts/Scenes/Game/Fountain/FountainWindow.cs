@@ -161,6 +161,7 @@ public class FountainWindow : MonoBehaviour
     {
         gameObject.SetActive(false);
         manager_SI_Player.GetMyPlayer().IsExcange = false;
+        qrWindow.UnActive();
     }
 
 
@@ -193,6 +194,7 @@ public class FountainWindow : MonoBehaviour
 
     void CreateExchangeList()
     {
+        items.Clear();
         Manager_Item getButtonItems = getWindow.GetManagerItem();
         Manager_Item payButtonItems = payWindow.GetManagerItem();
 

@@ -356,14 +356,14 @@ public class MainGame_UIManager : MonoBehaviour
             
             //fade_CloudEffect.StartFadeIn();
         }
-
+        
         // 交換
         if (fountainWindow.IsExchange())
         {
-            Debug.Log("qr exchage");
-            exchangeItems = qrReaderWindow.GetItems();
-            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.EXCHANGE);
-            request.ExchangeItems = qrReaderWindow.GetItems();
+            Debug.Log("count : " + fountainWindow.GetItems().Count);
+            exchangeItems = fountainWindow.GetItems();
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.EXCHANGE | REQUEST.CAMERA_START);
+            request.ExchangeItems = fountainWindow.GetItems();
         }
 
         // Qrコードを生成した
