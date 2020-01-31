@@ -3002,7 +3002,7 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 1
+  synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
@@ -3813,11 +3813,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2602893548862835169, guid: 48a57341e3a1f3943b2277029b373d51,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1753597499590236939, guid: 48a57341e3a1f3943b2277029b373d51,
         type: 3}
@@ -5627,6 +5622,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 2602893548862835169, guid: 48a57341e3a1f3943b2277029b373d51,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48a57341e3a1f3943b2277029b373d51, type: 3}
 --- !u!114 &1086380096 stripped
@@ -6731,16 +6731,6 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
-    - target: {fileID: 5850088736514815247, guid: 280cf28bc768a4147b91eea741235fcd,
-        type: 3}
-      propertyPath: CountainArea
-      value: 
-      objectReference: {fileID: 980934631}
-    - target: {fileID: 5850088736514815247, guid: 280cf28bc768a4147b91eea741235fcd,
-        type: 3}
-      propertyPath: itemManager
-      value: 
-      objectReference: {fileID: 1882679173}
     - target: {fileID: 5850088736514815246, guid: 280cf28bc768a4147b91eea741235fcd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6846,6 +6836,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5850088736514815247, guid: 280cf28bc768a4147b91eea741235fcd,
+        type: 3}
+      propertyPath: CountainArea
+      value: 
+      objectReference: {fileID: 980934631}
+    - target: {fileID: 5850088736514815247, guid: 280cf28bc768a4147b91eea741235fcd,
+        type: 3}
+      propertyPath: itemManager
+      value: 
+      objectReference: {fileID: 1882679173}
     - target: {fileID: 5850088735091695676, guid: 280cf28bc768a4147b91eea741235fcd,
         type: 3}
       propertyPath: m_StaticEditorFlags
