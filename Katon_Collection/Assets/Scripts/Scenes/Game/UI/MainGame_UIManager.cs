@@ -388,6 +388,8 @@ public class MainGame_UIManager : MonoBehaviour
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.EXCHANGE);
             request.ExchangeItems = marketWindow.GetExchangeItemList();
         }
+
+        marketWindow.UpdateUnits(timer.GetCountTimer());
     }
 
     /// <summary>

@@ -31,6 +31,16 @@ public class Manager_SaleUnitButton : MonoBehaviour
         buttons.Add(button);
     }
 
+    public void AllDestory()
+    {
+        foreach (SaleUnitButton obj in buttons)
+        {
+            Destroy(obj.gameObject);
+        }
+
+        buttons.Clear();
+    }
+
     /// <summary>
     /// ボタンを取得
     /// </summary>

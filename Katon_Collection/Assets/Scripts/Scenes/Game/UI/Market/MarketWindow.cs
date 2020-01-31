@@ -121,6 +121,11 @@ public class MarketWindow : MonoBehaviour
         
     }
 
+    public void UpdateUnits(float time)
+    {
+        saleWindow.CreateUnitButtonProcess(time);
+    }
+
     /// <summary>
     /// 建築時の更新処理
     /// </summary>

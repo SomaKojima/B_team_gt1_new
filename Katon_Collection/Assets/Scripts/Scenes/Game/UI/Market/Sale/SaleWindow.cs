@@ -16,7 +16,7 @@ public class SaleWindow : MonoBehaviour
 
     // 項目の更新時間
     [SerializeField]
-    float refreshDuringTime = 60;
+    float refreshDuringTime = 10;
 
     bool isExchange = false;
 
@@ -34,13 +34,15 @@ public class SaleWindow : MonoBehaviour
     {
         owner_saleUnitButton.Initialize(_managerItem);
         managerItem = _managerItem;
+
+        common_Encode.Initialize();
+        common_Encode.EncodeToItem(csvFile.text);
     }
     // Start is called before the first frame update
     void Start()
     {
-        common_Encode.Initialize();
-        common_Encode.EncodeToItem(csvFile.text);
-        CreateUnitButtonProcess();
+        //CreateUnitButtonProcess(1);
+        //refreshTime = refreshDuringTime;
     }
 
     // Update is called once per frame
@@ -63,14 +65,8 @@ public class SaleWindow : MonoBehaviour
                 }
             }
         }
-
-        refreshTime += Time.deltaTime;
-        if (refreshTime > refreshDuringTime)
-        {
-            refreshTime = 0;
-
-            CreateUnitButtonProcess();
-        }
+        
+        
     }
 
 
@@ -99,8 +95,17 @@ public class SaleWindow : MonoBehaviour
     /// <summary>
     /// ボタンの作成処理
     /// </summary>
-    public void CreateUnitButtonProcess()
+    public void CreateUnitButtonProcess(float time)
     {
+
+        if (time < refreshTime)
+        {
+            return;
+        }
+
+        refreshTime = time + refreshDuringTime;
+        owner_saleUnitButton.AllDestory();
+
         // 仮提示
         // ランダム用のInt配列
         int[] randomIndex = new int[common_Encode.GetDateList().Count];
@@ -116,13 +121,15 @@ public class SaleWindow : MonoBehaviour
         // エンコードデータからボタンを作成
         for (int i = 0; i < 4; i++)
         {
-            CreateUnitButton(common_Encode.GetDateList()[i]);
+            int index = randomIndex[i];
+            CreateUnitButton(common_Encode.GetDateList()[index]);
         }
     }
 
     // ボタンの作成
     private void CreateUnitButton(CommonEncodeData data)
     {
+
         List<IItem> getItems = new List<IItem>();
 
         // 手に入るitemの設定
