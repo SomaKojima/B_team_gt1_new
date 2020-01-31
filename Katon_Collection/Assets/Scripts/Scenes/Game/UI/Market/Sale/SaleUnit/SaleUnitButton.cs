@@ -87,7 +87,6 @@ public class SaleUnitButton : UI_Button_Market
             );
             }
 
-            Debug.Log(item.GetPowerUpCount());
             if (item.GetPowerUpCount() < 0)
             {
                 managerPayCmnIcn.Add(

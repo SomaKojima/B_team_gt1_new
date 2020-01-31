@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraMove : MonoBehaviour
 {
-    const float OUT_RANGE_SPEED = 2.0f;
+    const float OUT_RANGE_SPEED = 10.0f;
     public enum CAMERA_MOVE_TYPE
     {
         SCROLL,             // scrollで移動
@@ -57,6 +57,8 @@ public class CameraMove : MonoBehaviour
     // フリック判定用経過時間計測
     private float duration = 0.0f;
     private const float DO_FLICK_TIME = 0.5f;
+
+    bool isFirstMouseOutRange = false;
 
     // Start is called before the first frame update
     void Start()
@@ -205,6 +207,8 @@ public class CameraMove : MonoBehaviour
         _position = new Vector3(_position.x, Move(_position.y, velocity.y, bottom, top), _position.z);
 
         moveObject.transform.localPosition = _position;
+
+        isFirstMouseOutRange = true;
     }
 
     /// <summary>
@@ -212,30 +216,37 @@ public class CameraMove : MonoBehaviour
     /// </summary>
     void MouseOutRange()
     {
+        if(isFirstMouseOutRange)
+        {
+            isFirstMouseOutRange = false;
+            mousePosStart = Input.mousePosition;
+        }
+        Vector3 mousePos = Input.mousePosition - new Vector3(Screen.width * 0.5f, Screen.height * 0.5f);
 
         Vector3 _position = moveObject.transform.localPosition;
         float screenHalfHeight = Screen.height * 0.5f;
         float screenHalfWidth = Screen.width * 0.5f;
-        float top = screenHalfHeight + (screenHalfHeight * 0.5f);
-        float bottom = screenHalfHeight - (screenHalfHeight * 0.5f);
-        float left = screenHalfWidth - (screenHalfWidth * 0.5f);
-        float right = screenHalfWidth + (screenHalfWidth * 0.5f);
-        float addSpeed = OUT_RANGE_SPEED;
+        float top = mousePosStart.y + (screenHalfHeight * 0.5f);
+        float bottom = mousePosStart.y - (screenHalfHeight * 0.5f);
+        float left = mousePosStart.x - (screenHalfWidth * 0.5f);
+        float right = mousePosStart.x + (screenHalfWidth * 0.5f);
 
         // 範囲内
-        if (IsRange(Input.mousePosition.x, left, right) &&
-            IsRange(Input.mousePosition.y, bottom, top))
-        {
-            // velocityを減衰させる
-            velocity = Vector3.zero;
-            return;
-        }
+        //if (IsRange(mousePos.x, left, right) &&
+        //    IsRange(mousePos.y, bottom, top))
+        //{
+        //    // velocityを減衰させる
+        //    velocity = Vector3.zero;
+        //    return;
+        //}
+
+        float addSpeed = OUT_RANGE_SPEED;
 
         // x軸
-        float tX = (Input.mousePosition.x - screenHalfWidth) / screenHalfWidth; 
+        float tX = mousePos.x / screenHalfWidth; 
         velocity.x = tX * addSpeed;
         // y軸
-        float tY = (Input.mousePosition.y - screenHalfHeight) / screenHalfHeight;
+        float tY = mousePos.y / screenHalfHeight;
         velocity.y = tY * addSpeed;
 
         // 速度の調整
@@ -249,7 +260,7 @@ public class CameraMove : MonoBehaviour
         float _top = 70;
         float _bottom = 20;
         float _left = -20;
-        float _right = 430;
+        float _right = 650;
 
         // x軸
         _position = new Vector3(Move(_position.x, velocity.x, _left, _right), _position.y, _position.z);

@@ -22,9 +22,11 @@ public class UI_Time : MonoBehaviour
 
     private Text timerText;
 
-    void Start()
+    float max;
+
+    public void Iniitalize()
     {
-        totalTime = minute * 60 + seconds;
+        max = totalTime = minute * 60 + seconds;
         oldSeconds = 0f;
         timerText = GetComponentInChildren<Text>();
 
@@ -61,6 +63,7 @@ public class UI_Time : MonoBehaviour
         }
     }
 
+    // 残り時間を取得
     public float GetTotalTime()
     {
         return totalTime;
@@ -77,5 +80,9 @@ public class UI_Time : MonoBehaviour
         return minute;
     }
 
-
+    // 経過時間を取得
+    public float GetCountTimer()
+    {
+        return max - totalTime;
+    }
 }
