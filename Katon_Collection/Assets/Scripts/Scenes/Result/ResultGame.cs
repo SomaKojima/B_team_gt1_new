@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class ResultGame : MonoBehaviour
 {
     [SerializeField]
-    Congratulation congratulation;
+    private Congratulation congratulation = null;
     [SerializeField]
     RankIcon rankIcon;
     [SerializeField]
@@ -15,6 +15,7 @@ public class ResultGame : MonoBehaviour
     CameraResultMove cameraResultMove;
     [SerializeField]
     Owner_Floor owner_Floor;
+    //ボタンを押した
     [SerializeField]
     private UI_Button_GoToTitle gototitle_button = null;
 
@@ -67,17 +68,19 @@ public class ResultGame : MonoBehaviour
                 owner_Floor.Building(Type.cave);
             }
 
-            if (count >= TopScore)
-            {
-                m_gotoTapButtonFlag = true;
-            }
+           
             time = 0;
         }
 
-       
-        if(m_gotoTapButtonFlag)
+        if (count >= TopScore)
+        {
+            m_gotoTapButtonFlag = true;
+        }
+
+        if (m_gotoTapButtonFlag)
         {
             gototitle_button.gameObject.SetActive(true);
+            congratulation.gameObject.SetActive(true);
         }
         landingFloor = owner_Floor.GetTopLandingOf(Type.cave);
         if (landingFloor != null)
