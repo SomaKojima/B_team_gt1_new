@@ -48,4 +48,5 @@ MonoBehaviour:
   - RPCGameStartFlagSet
   - RPCOthersChange
   - RPCMasterChange
+  - RPCExChange
   DisableAutoOpenWizard: 1

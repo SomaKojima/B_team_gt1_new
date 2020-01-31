@@ -11,18 +11,18 @@ public class Manage_SI_Player : Photon.MonoBehaviour
     private List<SI_Player> players = new List<SI_Player>();
 
     private bool changeFlag = false;
+    private PhotonView m_photonView = null;
 
-   
     // Start is called before the first frame update
     void Start()
     {
+        m_photonView = GetComponent<PhotonView>();
         UpdatePlayers();
     }
 
     // Update is called once per frame
     void Update()
     {
-        PhotonPlayer[] playerList = PhotonNetwork.playerList;
         if(players.Count > 1)
         {
             if(!PhotonNetwork.isMasterClient)
@@ -134,7 +134,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
 
     public void MasterChange()
     {
-        photonView.RPC("RPCMasterChange", PhotonTargets.MasterClient, GetMyPlayer());
+        m_photonView.RPC("RPCMasterChange", PhotonTargets.MasterClient, GetMyPlayer());
     }
 
     [PunRPC]
@@ -152,7 +152,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
 
     public void OthersChange()
     {
-        photonView.RPC("RPCOthersChange", PhotonTargets.Others,players);
+        m_photonView.RPC("RPCOthersChange", PhotonTargets.Others,players);
         changeFlag = false;
     }
 
@@ -176,5 +176,23 @@ public class Manage_SI_Player : Photon.MonoBehaviour
         }
 
         return my_player;
+    }
+
+    public void ExChangeInfo(int ID,bool isExchange)
+    {
+        m_photonView.RPC("RPCExChange", PhotonTargets.MasterClient,ID,isExchange);
+    }
+
+    [PunRPC]
+    private void RPCExChange(int ID, bool isExchange)
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (ID == this.players[i].ID)
+            {
+                this.players[i].IsExcange = isExchange;
+                changeFlag = true;
+            }
+        }
     }
 }
