@@ -9,12 +9,14 @@ public struct CommonEncodeData
     public int neccesaryCount;
     public List<IItem> get_items;
     public List<IItem> pay_items;
+    public bool is_item;
 
     public void Initailize()
 
     { 
         time = 0;
         neccesaryCount = 0;
+        is_item = false;
         get_items = new List<IItem>();
         pay_items = new List<IItem>();
     }
@@ -122,6 +124,10 @@ public class Common_Encode
             // 支払うアイテムの取得
             case "pay_item":
                 EncodeItems(valueStr, data.pay_items);
+                break;
+
+            case "is_item":
+                data.is_item = bool.Parse(valueStr[1]);
                 break;
         }
     }
