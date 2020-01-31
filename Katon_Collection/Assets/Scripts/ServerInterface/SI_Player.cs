@@ -32,6 +32,8 @@ public class SI_Player : Photon.MonoBehaviour
         return placePoint[index];
     }
 
+    
+
     public void SetPlacePoint(int point,int index)
     {
         placePoint[index] = point;
@@ -63,5 +65,17 @@ public class SI_Player : Photon.MonoBehaviour
     {
         get { return isExcange; }
         set { isExcange = value; }
+    }
+
+    public int[] PlacePoints
+    {
+        get { return placePoint; }
+        set { placePoint = value; }
+    }
+
+    public int[] ItemCounts
+    {
+        get { return itemCount; }
+        set { itemCount = value; }
     }
 }
