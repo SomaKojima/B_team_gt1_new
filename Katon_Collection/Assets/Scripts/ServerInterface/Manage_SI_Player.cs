@@ -25,8 +25,11 @@ public class Manage_SI_Player : Photon.MonoBehaviour
         PhotonPlayer[] playerList = PhotonNetwork.playerList;
         if(players.Count > 1)
         {
-            MasterChange();
-            if(PhotonNetwork.isMasterClient)
+            if(!PhotonNetwork.isMasterClient)
+            {
+                MasterChange();
+            }
+            else
             {
                 if(changeFlag)
                 {
@@ -131,26 +134,17 @@ public class Manage_SI_Player : Photon.MonoBehaviour
 
     public void MasterChange()
     {
-        SI_Player me_data = null;
-
-        for (int i = 0; i < players.Count; i++)
-        {
-            if (this.players[i].ID == PhotonNetwork.player.ID)
-            {
-                me_data = this.players[i];
-            }
-        }
-        photonView.RPC("RPCMasterChange", PhotonTargets.MasterClient,me_data);
+        photonView.RPC("RPCMasterChange", PhotonTargets.MasterClient, GetMyPlayer());
     }
 
     [PunRPC]
-    private void RPCMasterChange(SI_Player me_data)
+    private void RPCMasterChange(SI_Player data)
     {
         for (int i = 0; i < players.Count; i++)
         {
-            if (this.players[i].ID == me_data.ID)
+            if (data.ID == this.players[i].ID)
             {
-                this.players[i] = me_data;
+                this.players[i] = data;
                 changeFlag = true;
             }
         }
@@ -166,5 +160,21 @@ public class Manage_SI_Player : Photon.MonoBehaviour
     private void RPCOthersChange(List<SI_Player> master_data)
     {
         players = master_data;
+    }
+
+    public SI_Player GetMyPlayer()
+    {
+        SI_Player my_player = null;
+
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (this.players[i].ID == PhotonNetwork.player.ID)
+            {
+                my_player = this.players[i];
+                break;
+            }
+        }
+
+        return my_player;
     }
 }
