@@ -25,6 +25,8 @@ public class CommonWindow : MonoBehaviour
     bool isExhcnage = false;
     int exchangeCount = 0;
 
+    float time = 0;
+
     List<IItem> exchangeItemList = new List<IItem>();
 
     Common_Encode common_Encode = new Common_Encode();
@@ -41,7 +43,8 @@ public class CommonWindow : MonoBehaviour
     {
         common_Encode.Initialize();
         common_Encode.EncodeToItem(csvFile.text);
-        CreateUnitBotton();
+
+        CreateUnitBotton(time);
     }
 
     // Update is called once per frame
@@ -65,6 +68,7 @@ public class CommonWindow : MonoBehaviour
             isExhcnage = true;
             UpdateExchangeItemList();
         }
+
     }
 
     void UpdateExchangeItemList()
@@ -94,13 +98,17 @@ public class CommonWindow : MonoBehaviour
     {
         return isExhcnage;
     }
-
-    void CreateUnitBotton()
+    
+    void CreateUnitBotton(float time)
     {
-
         // 仮提示
+        List<CommonEncodeData> deleteData = new List<CommonEncodeData>();
         foreach (CommonEncodeData data in common_Encode.GetDateList())
         {
+            // 時間に達していない場合は作らない
+            //if (data.time > time) continue;
+            
+
             List<IItem> items = new List<IItem>();
 
             // 手に入るitemの設定
@@ -111,8 +119,15 @@ public class CommonWindow : MonoBehaviour
 
             // ボタンの作成
             owner_commonUnitButton.Create(items, data.neccesaryCount);
+            deleteData.Add(data);
         }
 
+        // 作ったボタンのデーターを破棄する
+        //foreach (CommonEncodeData data in deleteData)
+        //{
+        //    common_Encode.GetDateList().Remove(data);
+        //}
+        
 
         //List<IItem> items = new List<IItem>();
         //items.Add(new Item(10, ITEM_TYPE.WOOD));
@@ -151,5 +166,9 @@ public class CommonWindow : MonoBehaviour
     {
         return exchangeItemList;
     }
-    
+
+    public void SetTime(float _time)
+    {
+        time = _time;
+    }
 }

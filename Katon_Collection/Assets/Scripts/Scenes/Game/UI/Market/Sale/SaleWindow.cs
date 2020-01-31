@@ -14,6 +14,10 @@ public class SaleWindow : MonoBehaviour
     [SerializeField]
     TextAsset csvFile; // CSVファイル
 
+    // 項目の更新時間
+    [SerializeField]
+    float refreshDuringTime = 60;
+
     bool isExchange = false;
 
     List<IItem> exchangeItems = new List<IItem>();
@@ -21,6 +25,10 @@ public class SaleWindow : MonoBehaviour
     Manager_Item managerItem;
 
     Common_Encode common_Encode = new Common_Encode();
+
+    float time = 0;
+
+    float refreshTime = 0;
 
     public void Initialize(Manager_Item _managerItem)
     {
@@ -32,7 +40,7 @@ public class SaleWindow : MonoBehaviour
     {
         common_Encode.Initialize();
         common_Encode.EncodeToItem(csvFile.text);
-        CreateUnitButton();
+        CreateUnitButtonProcess();
     }
 
     // Update is called once per frame
@@ -54,6 +62,14 @@ public class SaleWindow : MonoBehaviour
                     exchangeItems = owner_saleUnitButton.GetSelectCommonUnitButton().GetExchangeItemList();
                 }
             }
+        }
+
+        refreshTime += Time.deltaTime;
+        if (refreshTime > refreshDuringTime)
+        {
+            refreshTime = 0;
+
+            CreateUnitButtonProcess();
         }
     }
 
@@ -80,30 +96,56 @@ public class SaleWindow : MonoBehaviour
         return exchangeItems;
     }
 
-    public void CreateUnitButton()
+    /// <summary>
+    /// ボタンの作成処理
+    /// </summary>
+    public void CreateUnitButtonProcess()
     {
         // 仮提示
-        foreach (CommonEncodeData data in common_Encode.GetDateList())
+        // ランダム用のInt配列
+        int[] randomIndex = new int[common_Encode.GetDateList().Count];
+        for (int i = 0; i < common_Encode.GetDateList().Count; i++)
         {
-            List<IItem> getItems = new List<IItem>();
-
-            // 手に入るitemの設定
-            foreach (IItem item in data.get_items)
-            {
-                getItems.Add(item);
-            }
-
-            List<IItem> payItems = new List<IItem>();
-
-            // 手に入るitemの設定
-            foreach (IItem item in data.pay_items)
-            {
-                payItems.Add(item);
-            }
-
-            // ボタンの作成
-            owner_saleUnitButton.Create(getItems, payItems);
+            randomIndex[i] = i;
         }
 
+        // 中身をshuffle
+        ShuffleArray.shuffle(randomIndex, randomIndex.Length);
+
+        // ランダム用のInt配列を最初から4番目までを取得
+        // エンコードデータからボタンを作成
+        for (int i = 0; i < 4; i++)
+        {
+            CreateUnitButton(common_Encode.GetDateList()[i]);
+        }
+    }
+
+    // ボタンの作成
+    private void CreateUnitButton(CommonEncodeData data)
+    {
+        List<IItem> getItems = new List<IItem>();
+
+        // 手に入るitemの設定
+        foreach (IItem item in data.get_items)
+        {
+            getItems.Add(item);
+        }
+
+        List<IItem> payItems = new List<IItem>();
+
+        // 手に入るitemの設定
+        foreach (IItem item in data.pay_items)
+        {
+            payItems.Add(item);
+        }
+
+        // ボタンの作成
+        owner_saleUnitButton.Create(getItems, payItems);
+    }
+
+    // 時間を取得
+    public void SetTime(float _time)
+    {
+        time = _time;
     }
 }

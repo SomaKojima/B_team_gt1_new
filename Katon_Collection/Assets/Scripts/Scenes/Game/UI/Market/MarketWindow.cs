@@ -31,10 +31,16 @@ public class MarketWindow : MonoBehaviour
 
     List<IItem> exchangeItemList = new List<IItem>();
 
-    public void Initialize(Manager_Item _managerItem)
+    float time = 0;
+
+    public void Initialize(Manager_Item _managerItem, float _time)
     {
         commonWindow.Initialize(_managerItem);
         saleWindow.Initialize(_managerItem);
+
+        SetTime(_time);
+        commonWindow.SetTime(time);
+        saleWindow.SetTime(time);
     }
 
     void Initialize()
@@ -80,6 +86,10 @@ public class MarketWindow : MonoBehaviour
             backButton.OnClickProcess();
             isBack = true;
         }
+
+        // 時間を教える
+        commonWindow.SetTime(time);
+        saleWindow.SetTime(time);
     }
 
     // 市場の選択メニューを取得
@@ -151,6 +161,11 @@ public class MarketWindow : MonoBehaviour
         bool buf = isBack;
         isBack = false;
         return buf;
+    }
+
+    public void SetTime(float _time)
+    {
+        time = _time;
     }
 
     /// <summary>

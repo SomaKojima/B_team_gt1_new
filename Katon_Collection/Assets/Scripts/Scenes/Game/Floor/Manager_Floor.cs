@@ -25,7 +25,6 @@ public class Manager_Floor
                 landingCount++;
             }
         }
-        Debug.Log(m_floors.Count + " : " + landingCount);
     }
 
     //リストへの追加
