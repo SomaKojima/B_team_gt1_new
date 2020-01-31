@@ -2,17 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UI_Button_GoToTitle : MonoBehaviour
+public class UI_Button_GoToTitle : UI_Button
 {
-    // Start is called before the first frame update
-    void Start()
+    //リザルトからタイトルボタンへ遷移する
+    [SerializeField]
+    private UI_Button m_goto_result_button = null;
+
+
+    private void Start()
     {
-        
+        m_goto_result_button.gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ClickgotoResultButton()
     {
-        
+        m_goto_result_button.IsClickEnter();
+        m_goto_result_button.OnClickProcess();
     }
+
+
+    public bool IsClickGotoTitle()
+    {
+        return m_goto_result_button.IsClick();
+    }
+
+
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ResultGame : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class ResultGame : MonoBehaviour
     CameraResultMove cameraResultMove;
     [SerializeField]
     Owner_Floor owner_Floor;
+    [SerializeField]
+    private UI_Button_GoToTitle gototitle_button = null;
 
     //吹き出し
     [SerializeField]
@@ -24,6 +27,9 @@ public class ResultGame : MonoBehaviour
 
     //プレイヤー数
     int[] playerResult = new int[4];
+
+    //表示フラグ
+    bool m_gotoTapButtonFlag = false;
 
     int TopScore = 8;
     int count = 0;
@@ -43,12 +49,14 @@ public class ResultGame : MonoBehaviour
         {
             playerResult[i] = i+i;
         }
+
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(Screen.currentResolution.height);
+       
        
         time++;
         if(time > 60)
@@ -58,7 +66,18 @@ public class ResultGame : MonoBehaviour
                 count++;
                 owner_Floor.Building(Type.cave);
             }
+
+            if (count >= TopScore)
+            {
+                m_gotoTapButtonFlag = true;
+            }
             time = 0;
+        }
+
+       
+        if(m_gotoTapButtonFlag)
+        {
+            gototitle_button.gameObject.SetActive(true);
         }
         landingFloor = owner_Floor.GetTopLandingOf(Type.cave);
         if (landingFloor != null)
@@ -85,5 +104,12 @@ public class ResultGame : MonoBehaviour
             cameraResultMove.SetTarget(landingFloor.transform.position);
             cameraResultMove.Move();
         }
+
+        //シーン切り替え
+        if(gototitle_button.IsClick())
+        {
+            SceneManager.LoadScene("TitleScene");
+        }
+        
     }
 }
