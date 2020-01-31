@@ -65,4 +65,9 @@ public class Owner_SaleUnitButton : MonoBehaviour
     {
 
     }
+
+    public void AllDestory()
+    {
+        manager.AllDestory();
+    }
 }

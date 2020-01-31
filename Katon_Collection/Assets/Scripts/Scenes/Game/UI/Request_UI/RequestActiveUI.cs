@@ -22,6 +22,7 @@ public enum ACTIVE_UI
     BUILDIGN_BOARD = 1 << 5,
     FIRST_TEXT = 1 << 6,
     SELECT_QR = 1 << 7,
+    INFO_WINDOW = 1 << 8, 
 
     MAX
 }

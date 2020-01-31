@@ -66,6 +66,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
                     GameObject playerObj = Instantiate(prefab);
                     SI_Player player = playerObj.GetComponent<SI_Player>();
                     player.transform.SetParent(gameObject.transform);
+                    player.Initialize();
                     players.Add(player);
                 }
                 players[i].ID = playerList[i].ID;

@@ -1,5 +1,9 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/Scenes/MatchingRoomScene.unity
+=======
+- path: Assets/Scenes/GameScene.unity
+>>>>>>> develop
   isLoaded: 1
   isActive: 1
   isSubScene: 0

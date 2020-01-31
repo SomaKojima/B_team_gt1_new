@@ -134,6 +134,7 @@ public class BuildingResources : MonoBehaviour
     /// <returns></returns>
     public bool IsCollectable(ITEM_TYPE _type)
     {
+        if (m_itemType == ITEM_TYPE.NONE) return false;
         return true;
     }
 }
