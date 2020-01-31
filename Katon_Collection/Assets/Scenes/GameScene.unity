@@ -2011,6 +2011,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3b9dd6e3861545740899038159813f8a, type: 3}
   - {fileID: 8300000, guid: 88d8b3dd9ba4f0447ba11c71e921adbf, type: 3}
   - {fileID: 8300000, guid: 9a9550c1c9feef54d9053aa6b674b34f, type: 3}
+  - {fileID: 8300000, guid: 15df28f4cd0083d409bd66454db5b1ad, type: 3}
+  - {fileID: 8300000, guid: f0be5795ba3098b4ebd1128e9b070a63, type: 3}
+  - {fileID: 8300000, guid: ecc797fcd6ea48b4a95b7f4ea5557123, type: 3}
+  - {fileID: 8300000, guid: e03aa5ff3055e4a439b2cfd627fa99a2, type: 3}
 --- !u!82 &578576165
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6415,6 +6419,21 @@ PrefabInstance:
       propertyPath: SI_Game
       value: 
       objectReference: {fileID: 2097668881}
+    - target: {fileID: 2672531374609840464, guid: 1f76ca872330bd84eaebff3a80fcb9cd,
+        type: 3}
+      propertyPath: sound
+      value: 
+      objectReference: {fileID: 578576164}
+    - target: {fileID: 2672531374609840464, guid: 1f76ca872330bd84eaebff3a80fcb9cd,
+        type: 3}
+      propertyPath: minute
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2672531374609840464, guid: 1f76ca872330bd84eaebff3a80fcb9cd,
+        type: 3}
+      propertyPath: seconds
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 2672531374609840466, guid: 1f76ca872330bd84eaebff3a80fcb9cd,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -6741,6 +6760,11 @@ PrefabInstance:
       propertyPath: itemManager
       value: 
       objectReference: {fileID: 1882679173}
+    - target: {fileID: 5850088736514815247, guid: 280cf28bc768a4147b91eea741235fcd,
+        type: 3}
+      propertyPath: sound
+      value: 
+      objectReference: {fileID: 578576164}
     - target: {fileID: 5850088736514815246, guid: 280cf28bc768a4147b91eea741235fcd,
         type: 3}
       propertyPath: m_LocalPosition.x

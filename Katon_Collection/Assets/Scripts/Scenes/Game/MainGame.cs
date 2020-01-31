@@ -57,7 +57,7 @@ public class MainGame : MonoBehaviour
     void Start()
     {
         // BGMを鳴らす
-        sound.PlaySound(SoundType_MainGame.BGM);
+        sound.PlaySound(SoundType_MainGame.BGM, 1.0f);
 
         manager_item.Initialize();
         owner_human.Intialize();
@@ -84,7 +84,7 @@ public class MainGame : MonoBehaviour
         if(Input.GetMouseButtonDown(0))
         {
             // クリック音を鳴らす
-            sound.PlaySound(SoundType_MainGame.Click);
+            sound.PlaySound(SoundType_MainGame.Click,1.0f);
         }
 
         // アイテムのマネージャと人間の数を合わせる
@@ -122,7 +122,8 @@ public class MainGame : MonoBehaviour
         // フェードインが始まるとき
         if (uiManager.IsStartFade())
         {
-            sound.PlaySound(SoundType_MainGame.Fade);
+            // フェードイン音
+            sound.PlaySound(SoundType_MainGame.Fade,1.7f); 
         }
     }
     
@@ -196,8 +197,7 @@ public class MainGame : MonoBehaviour
             if (_isExchange)
             {
                 // 建築音
-                sound.PlaySound(SoundType_MainGame.Bulid);
-
+                sound.PlaySound(SoundType_MainGame.Bulid,1.0f);
                 // 建築時に初期資源を手に入れる
                 if (!owner_floor.IsFirstBuilding())
                 {
@@ -213,7 +213,7 @@ public class MainGame : MonoBehaviour
             else
             {
                 // 交換失敗時の処理
-                sound.PlaySound(SoundType_MainGame.Error);
+                sound.PlaySound(SoundType_MainGame.Error,0.1f);
             }
 
 
@@ -277,7 +277,7 @@ public class MainGame : MonoBehaviour
                     if (uiManager.GetExchangeOtherID() == manager_SI_Player.GetPlayer(i).ID)
                     {
                         // トレード音
-                        sound.PlaySound(SoundType_MainGame.Trade);
+                        sound.PlaySound(SoundType_MainGame.Trade,1.0f);
 
                         manager_SI_Player.GetPlayer(i).IsExcange = false;
                     }
@@ -292,7 +292,7 @@ public class MainGame : MonoBehaviour
         if (_request.Flag.IsFlag(REQUEST.CREADED_QR))
         {
             // 生成音
-            sound.PlaySound(SoundType_MainGame.Qr);
+            sound.PlaySound(SoundType_MainGame.Qr,1.0f);
             for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
             {
                 if (PhotonNetwork.player.ID == manager_SI_Player.GetPlayer(i).ID)
@@ -344,13 +344,15 @@ public class MainGame : MonoBehaviour
                 // 強化成功
                 if (_isExchange)
                 {
+                    // 強化音
+                    sound.PlaySound(SoundType_MainGame.PowerUp,1.0f);
                     manager_item.GetItem(_request.PowerUpHumanType).AddPowerUpCount(1);
                 }
                 // 強化失敗
                 else
                 {
                     // 失敗音
-                    sound.PlaySound(SoundType_MainGame.Error);
+                    sound.PlaySound(SoundType_MainGame.Error,1.0f);
                 }
                 _request.FinalizePowerUp(_isExchange);
             }

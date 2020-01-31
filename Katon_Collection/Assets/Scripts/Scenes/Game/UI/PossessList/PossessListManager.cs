@@ -53,6 +53,10 @@ public class PossessListManager : MonoBehaviour
     [SerializeField]
     ItemContextTable table;
 
+    // サウンド
+    [SerializeField]
+    Sound_MainGame sound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -80,6 +84,9 @@ public class PossessListManager : MonoBehaviour
         // クリックされたら
         if (possessList.GetClick())
         {
+            // 開く音
+            sound.PlaySound(SoundType_MainGame.Open,2.5f);
+
             possessList.FinishClick();
             // フラグを反転
             moveState = !moveState;

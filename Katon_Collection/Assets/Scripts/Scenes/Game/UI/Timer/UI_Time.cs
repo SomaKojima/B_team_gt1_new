@@ -20,7 +20,12 @@ public class UI_Time : MonoBehaviour
     [SerializeField]
     GameObject SI_Game;
 
+    // サウンド
+    [SerializeField]
+    Sound_MainGame sound;
+
     private Text timerText;
+    int soundTime = 0;
 
     void Start()
     {
@@ -58,6 +63,19 @@ public class UI_Time : MonoBehaviour
         if (totalTime <= 0f)
         {
             Debug.Log("制限時間終了");
+            // タイムアップ
+            sound.PlaySound(SoundType_MainGame.TimeUp, 1.0f);
+        }
+
+        // カウントダウン
+        if ((int)GetSecond() != soundTime &&
+            (int)GetMinute() <= 0 &&
+            (int)GetSecond() <= 10)
+        {
+            // カウントダウン
+            Debug.Log("a");
+            sound.PlaySound(SoundType_MainGame.CountDown, 1.0f);
+            soundTime = (int)GetSecond();
         }
     }
 
@@ -65,7 +83,6 @@ public class UI_Time : MonoBehaviour
     {
         return totalTime;
     }
-
 
     public float GetSecond()
     {
@@ -76,6 +93,4 @@ public class UI_Time : MonoBehaviour
     {
         return minute;
     }
-
-
 }
