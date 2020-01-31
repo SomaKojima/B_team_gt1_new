@@ -13,6 +13,9 @@ public class CommonUnitButton : UI_Button_Market
     [SerializeField]
     private Text requiredText = null;
 
+    // 要求アイテムが資源化どうか
+    bool isBr = false;
+
     // アイコンを表示するための親オブジェクトの位置
     [SerializeField]
     Transform iconParent;
@@ -26,6 +29,12 @@ public class CommonUnitButton : UI_Button_Market
 
     [SerializeField]
     Image mask;
+
+    [SerializeField]
+    Image humanImage;
+
+    [SerializeField]
+    Image brImage;
 
     // Start is called before the first frame update
     void Start()
@@ -43,13 +52,13 @@ public class CommonUnitButton : UI_Button_Market
     /// </summary>
     /// <param name="_getItems">入手できるアイテムのリスト</param>
     /// <param name="_requiredNum">要求するアイテムの総数</param>
-    public void Initialize(List<IItem> _getItems, int _requiredNum)
+    public void Initialize(List<IItem> _getItems, int _requiredNum, bool _isBr)
     {
 
         // 値初期化
         requiredNum = _requiredNum;
         // ボタンのテキスト変更
-        requiredText.text = "必要数\n" + requiredNum.ToString();
+        requiredText.text = requiredNum.ToString();
         // リスト内の数だけ入手できるアイテムを生成する
         getItems.Clear();
         getItems = _getItems;
@@ -72,6 +81,19 @@ public class CommonUnitButton : UI_Button_Market
                     );
             }
         }
+
+        isBr = _isBr;
+
+        humanImage.gameObject.SetActive(false);
+        brImage.gameObject.SetActive(false);
+        if (isBr)
+        {
+            brImage.gameObject.SetActive(true);
+        }
+        else
+        {
+            humanImage.gameObject.SetActive(true);
+        }
     }
 
 
@@ -88,7 +110,7 @@ public class CommonUnitButton : UI_Button_Market
     public void ChangeGetItems(List<IItem> _getItems)
     {
         managerCmnIcn.AllDestory();
-        Initialize(_getItems, requiredNum);
+        Initialize(_getItems, requiredNum, isBr);
     }
 
     public void ChangeRequiredNum(int _requiredNum)
@@ -101,5 +123,10 @@ public class CommonUnitButton : UI_Button_Market
     public void UnActiveMask()
     {
         mask.gameObject.SetActive(false);
+    }
+
+    public bool IsBr()
+    {
+        return isBr;
     }
 }

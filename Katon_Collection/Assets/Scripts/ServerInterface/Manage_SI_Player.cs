@@ -16,6 +16,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("start");
         m_photonView = GetComponent<PhotonView>();
         UpdatePlayers();
     }
@@ -134,6 +135,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
 
     public void MasterChange()
     {
+        Debug.Log(m_photonView);
         m_photonView.RPC("RPCMasterChange", PhotonTargets.MasterClient, GetMyPlayer());
     }
 

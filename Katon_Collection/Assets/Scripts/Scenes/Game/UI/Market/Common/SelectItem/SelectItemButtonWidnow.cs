@@ -92,4 +92,16 @@ public class SelectItemButtonWidnow : MonoBehaviour
     {
         return exchangeItems;
     }
+
+    // 選択できるアイテムを制限する
+    public void ChangeOnlySelect(bool isBr)
+    {
+
+    }
+
+    // カウントを０にする
+    public void ClearCount()
+    {
+        //foreach(SelectItemsButton button in owner)
+    }
 }

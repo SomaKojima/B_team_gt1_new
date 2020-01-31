@@ -39,7 +39,6 @@ public class MatchingRoomGame : MonoBehaviour
         serverInterface.ConnectServer();
         serverInterface.EnterLobby();
         fade_CloudEffect.StartFadeOut();
-        managetSIPlayer.Initialize(true);
     }
 
     // Update is called once per frame

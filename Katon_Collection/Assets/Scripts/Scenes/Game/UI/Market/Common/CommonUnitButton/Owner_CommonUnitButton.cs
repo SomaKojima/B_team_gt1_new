@@ -29,7 +29,7 @@ public class Owner_CommonUnitButton : MonoBehaviour
         {
             humanGetItems.Add(new Item(1, (ITEM_TYPE)i));
             int necessary = HUMAN_NECESSARY;
-            CommonUnitButton button = factory.Create(humanGetItems[i], necessary);
+            CommonUnitButton button = factory.Create(humanGetItems[i], necessary, false);
             humanUnit.Add(button);
             manager.Add(button);
         }
@@ -53,9 +53,9 @@ public class Owner_CommonUnitButton : MonoBehaviour
         }
     }
 
-    public void Create(List<IItem> items, int requiredNum)
+    public void Create(List<IItem> items, int requiredNum, bool isBr)
     {
-        manager.Add(factory.Create(items, requiredNum));
+        manager.Add(factory.Create(items, requiredNum, isBr));
     }
 
     public CommonUnitButton GetSelectCommonUnitButton()
