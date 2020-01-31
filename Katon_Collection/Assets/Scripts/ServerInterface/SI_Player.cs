@@ -30,7 +30,6 @@ public class SI_Player : Photon.MonoBehaviour
 
     public int GetPlacePoint(int index)
     {
-        Debug.Log(placePoint.Length);
         return placePoint[index];
         ChangeFlag = true;
     }

@@ -6,21 +6,29 @@ using UnityEngine.UI;
 
 public class UI_Fukidashi : MonoBehaviour
 {
-
+    /*☆*☨*☆*★*☨*★*☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★*/
     //吹き出しのイメージ
+    /*☆*☨*☆*★*☨*★*☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★*/
     [SerializeField]
     private Image ui_Fukidashi = null;
 
+    /*☆*☨*☆*★*☨*★*☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★*/
     //場所指定
+    /*☆*☨*☆*★*☨*★*☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★*/
     [SerializeField]
     private Vector3 offset;
 
+    /*☆*☨*☆*★*☨*★*☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★*/
     //見切れた時のスプライト変更
+    /*☆*☨*☆*★*☨*★*☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★*/
     [SerializeField]
     private Sprite sprite = null;
 
+    /*☆*☨*☆*★*☨*★*☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★*/
     //建物のポジション取得
+    /*☆*☨*☆*★*☨*★*☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★**☆*☨*☆*★*☨*★*/
     private Vector3 target;  
+
 
     //更新
     private void Update()
@@ -29,6 +37,7 @@ public class UI_Fukidashi : MonoBehaviour
         //表示オン
         ui_Fukidashi.enabled = true;
 
+        
         //座標をワールドからスクリーンに変更
         ui_Fukidashi.rectTransform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, target + offset);
 
@@ -37,11 +46,12 @@ public class UI_Fukidashi : MonoBehaviour
             ui_Fukidashi.rectTransform.position.y < 0)
         {
 
-            //スプライトを丸に変更
-            ui_Fukidashi.sprite = sprite;
 
             //ポジションを固定する
             ui_Fukidashi.rectTransform.position = new Vector3(ui_Fukidashi.rectTransform.position.x,0+20,ui_Fukidashi.rectTransform.position.z);
+
+            //スプライトを丸に変更
+            ui_Fukidashi.sprite = sprite;
 
         }
        

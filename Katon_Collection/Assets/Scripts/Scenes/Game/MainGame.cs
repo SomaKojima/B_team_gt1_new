@@ -105,6 +105,8 @@ public class MainGame : MonoBehaviour
         UpdateUIRequest();
 
         UpdateRequest_UI();
+
+        UpdateServer();
     }
 
     void UpdateRequest_UI()
@@ -382,6 +384,27 @@ public class MainGame : MonoBehaviour
             }
             uiManager.SetPlaceHumanType(types);
             uiManager.SetPowerUpWindow(owner_floor.GetTotalFloor());
+        }
+    }
+
+    void UpdateServer()
+    {
+        for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
+        {
+            ITEM_TYPE type = (ITEM_TYPE)i;
+            ChangedItem(manager_item.GetItem(type).GetCount(), i);
+        }
+
+        for (int i = 0; i < (int)Type.Max; i++)
+        {
+            Type type = (Type)i;
+            for (int j = 0; j < manager_SI_Player.GetPlayers().Count; j++)
+            {
+                if (PhotonNetwork.player.ID == manager_SI_Player.GetPlayer(j).ID)
+                {
+                    manager_SI_Player.GetPlayer(j).SetPlacePoint(owner_floor.GetPlaceTotalFloor(type), (int)type);
+                }
+            }
         }
     }
 }
