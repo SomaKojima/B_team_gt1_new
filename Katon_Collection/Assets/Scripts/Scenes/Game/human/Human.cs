@@ -98,12 +98,8 @@ public class Human : MonoBehaviour
         // 場所を変更
         if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.POSITION_TO_PLACE_SUCCESS))
         {
-            if (request.ChangePlaceType != Type.fountain &&
-                request.ChangePlaceType != Type.market)
-            {
-                placeType = request.ChangePlaceType;
-                targetPosition = request.AreaCenterPosition;
-            }
+            placeType = request.ChangePlaceType;
+            targetPosition = request.AreaCenterPosition;
             //Debug.Log(request.AreaCenterPosition);
             //move.Change(this, MOVE_STATE_TYPE.GO_TO_TARGET);
         }

@@ -48,6 +48,7 @@ public class TransitionImage : MonoBehaviour
         // 実行中
         yield return Animate(m_transitionIn, m_fadeTime, true);
 
+        isExcuting = false;
         isProcess = false;
         // フェードイン終了
         yield return new WaitForEndOfFrame();
@@ -94,6 +95,8 @@ public class TransitionImage : MonoBehaviour
             yield return new WaitForEndOfFrame();
             current += Time.deltaTime;
         }
+
+        material.SetFloat("_Alpha", 1);
         if (isIn)
         {
             isProcess = true;

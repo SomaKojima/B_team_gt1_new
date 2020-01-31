@@ -47,4 +47,5 @@ MonoBehaviour:
   - TaggedPlayer
   - RPCGameStartFlagSet
   - RPCOthersChange
+  - RPCMasterChange
   DisableAutoOpenWizard: 1

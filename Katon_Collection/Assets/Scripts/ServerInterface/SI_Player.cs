@@ -12,7 +12,7 @@ public class SI_Player : Photon.MonoBehaviour
     public bool ChangeFlag = false;
 
     // Start is called before the first frame update
-    void Start()
+    public void Initialize()
     {
         placePoint = new int[(int)Type.Max];
 
@@ -30,7 +30,6 @@ public class SI_Player : Photon.MonoBehaviour
 
     public int GetPlacePoint(int index)
     {
-        Debug.Log(placePoint.Length);
         return placePoint[index];
         ChangeFlag = true;
     }
