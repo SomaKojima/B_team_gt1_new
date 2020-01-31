@@ -80,8 +80,7 @@ public class PLInfoWindow : MonoBehaviour
             obj.transform.Find("Icon").transform.Find("Icon").GetComponent<Image>().sprite =
                 table.GetItemContex((ITEM_TYPE)(i+ ItemType.HumanMax)).GetSprite();
             obj.transform.Find("CountText").GetComponent<Text>().text =
-                "×" + (data.GetPlacePoint(i+(int)2)).ToString();
-            //Debug.Log(data.GetPlacePoint(i + (int)2));
+                "  " + (data.GetPlacePoint(i+(int)2)).ToString() + "階";
             mansionLists.Add(obj);
         }
     }

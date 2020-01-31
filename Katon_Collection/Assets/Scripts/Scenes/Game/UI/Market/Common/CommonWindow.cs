@@ -29,6 +29,8 @@ public class CommonWindow : MonoBehaviour
 
     Common_Encode common_Encode = new Common_Encode();
 
+    
+
     public void Initialize(Manager_Item _managerItem)
     {
         owner_commonUnitButton.Initialize();
@@ -109,8 +111,9 @@ public class CommonWindow : MonoBehaviour
                 items.Add(item);
             }
 
-            // ボタンの作成
-            owner_commonUnitButton.Create(items, data.neccesaryCount);
+
+                // ボタンの作成
+                owner_commonUnitButton.Create(items, data.neccesaryCount);
         }
 
 
