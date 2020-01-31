@@ -8,8 +8,6 @@ public class ResultGame : MonoBehaviour
     [SerializeField]
     private Congratulation congratulation = null;
     [SerializeField]
-    RankIcon rankIcon;
-    [SerializeField]
     CameraResultMove cameraResultMove;
     [SerializeField]
     Owner_Floor owner_Floor;
