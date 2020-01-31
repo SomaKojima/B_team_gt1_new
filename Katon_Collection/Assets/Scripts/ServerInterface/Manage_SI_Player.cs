@@ -11,30 +11,25 @@ public class Manage_SI_Player : Photon.MonoBehaviour
     private List<SI_Player> players = new List<SI_Player>();
 
     private bool changeFlag = false;
-    SI_Player myPlayer = null;
-
-    bool matchingMode = false;
-
-    public void Initialize(bool _matchingMode)
-    {
-        matchingMode = _matchingMode;
-    }
+    private PhotonView m_photonView = null;
 
     // Start is called before the first frame update
     void Start()
     {
+        m_photonView = GetComponent<PhotonView>();
         UpdatePlayers();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (matchingMode) return;
-        PhotonPlayer[] playerList = PhotonNetwork.playerList;
         if(players.Count > 1)
         {
-            MasterChange();
-            if(PhotonNetwork.isMasterClient)
+            if(!PhotonNetwork.isMasterClient)
+            {
+                MasterChange();
+            }
+            else
             {
                 if(changeFlag)
                 {
@@ -139,27 +134,17 @@ public class Manage_SI_Player : Photon.MonoBehaviour
 
     public void MasterChange()
     {
-        SI_Player me_data = null;
-
-        for (int i = 0; i < players.Count; i++)
-        {
-            if (this.players[i].ID == PhotonNetwork.player.ID)
-            {
-                me_data = this.players[i];
-            }
-        }
-        Debug.Log(photonView);
-        photonView.RPC("RPCMasterChange", PhotonTargets.MasterClient,me_data);
+        m_photonView.RPC("RPCMasterChange", PhotonTargets.MasterClient, GetMyPlayer());
     }
 
     [PunRPC]
-    private void RPCMasterChange(SI_Player me_data)
+    private void RPCMasterChange(SI_Player data)
     {
         for (int i = 0; i < players.Count; i++)
         {
-            if (this.players[i].ID == me_data.ID)
+            if (data.ID == this.players[i].ID)
             {
-                this.players[i] = me_data;
+                this.players[i] = data;
                 changeFlag = true;
             }
         }
@@ -167,7 +152,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
 
     public void OthersChange()
     {
-        photonView.RPC("RPCOthersChange", PhotonTargets.Others, players);
+        m_photonView.RPC("RPCOthersChange", PhotonTargets.Others,players);
         changeFlag = false;
     }
 
@@ -179,18 +164,35 @@ public class Manage_SI_Player : Photon.MonoBehaviour
 
     public SI_Player GetMyPlayer()
     {
-        if (myPlayer == null)
+        SI_Player my_player = null;
+
+        for (int i = 0; i < players.Count; i++)
         {
-            for (int i = 0; i < GetPlayers().Count; i++)
+            if (this.players[i].ID == PhotonNetwork.player.ID)
             {
-                if (PhotonNetwork.player.ID == GetPlayer(i).ID)
-                {
-                    myPlayer = GetPlayer(i);
-                    break;
-                }
+                my_player = this.players[i];
+                break;
             }
         }
 
-        return myPlayer;
+        return my_player;
+    }
+
+    public void ExChangeInfo(int ID,bool isExchange)
+    {
+        m_photonView.RPC("RPCExChange", PhotonTargets.MasterClient,ID,isExchange);
+    }
+
+    [PunRPC]
+    private void RPCExChange(int ID, bool isExchange)
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (ID == this.players[i].ID)
+            {
+                this.players[i].IsExcange = isExchange;
+                changeFlag = true;
+            }
+        }
     }
 }
