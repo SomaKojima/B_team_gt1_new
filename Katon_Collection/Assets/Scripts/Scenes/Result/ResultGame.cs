@@ -1,19 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ResultGame : MonoBehaviour
 {
     [SerializeField]
-    Congratulation congratulation;
+    private Congratulation congratulation = null;
     [SerializeField]
     RankIcon rankIcon;
-    [SerializeField]
-    UI_Button_GoToTitle ui_Button_GoToTitle;
     [SerializeField]
     CameraResultMove cameraResultMove;
     [SerializeField]
     Owner_Floor owner_Floor;
+    //ボタンを押した
+    [SerializeField]
+    private UI_Button_GoToTitle gototitle_button = null;
 
     //吹き出し
     [SerializeField]
@@ -24,6 +26,9 @@ public class ResultGame : MonoBehaviour
 
     //プレイヤー数
     int[] playerResult = new int[4];
+
+    //表示フラグ
+    bool m_gotoTapButtonFlag = false;
 
     int TopScore = 8;
     int count = 0;
@@ -43,12 +48,14 @@ public class ResultGame : MonoBehaviour
         {
             playerResult[i] = i+i;
         }
+
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(Screen.currentResolution.height);
+       
        
         time++;
         if(time > 60)
@@ -58,8 +65,26 @@ public class ResultGame : MonoBehaviour
                 count++;
                 owner_Floor.Building(Type.cave);
             }
+
+           
             time = 0;
         }
+
+        //一番高く建てた人のスコアを超えたら
+        if (count >= TopScore)
+        {
+            m_gotoTapButtonFlag = true;
+        }
+
+        //勝利のパーティクル、テキスト、タイトルに戻るボタンを表示
+        if (m_gotoTapButtonFlag)
+        {
+            gototitle_button.gameObject.SetActive(true);
+            congratulation.gameObject.SetActive(true);
+
+            congratulation.SetPlayerNumber(1);
+        }
+
         landingFloor = owner_Floor.GetTopLandingOf(Type.cave);
         if (landingFloor != null)
         {
@@ -69,21 +94,25 @@ public class ResultGame : MonoBehaviour
             //Debug.Log(total);
             for (int i = 0; i < 4; i++)
             {
-                // 各プレイヤーの結果と同じ階だった場合
-                if (total == playerResult[i])
+                if(owner_Floor.GetPlaceTotalFloor(Type.cave)<=playerResult[i])
                 {
                     GameObject obj = landingFloor.gameObject;
                     //建った階数のところに吹き出しを出現させる
                     ui_Fukidashi[i].SetTarget(obj.transform.position);
-
-
-                    Debug.Log("a");
                 }
+              
             }
 
 
             cameraResultMove.SetTarget(landingFloor.transform.position);
             cameraResultMove.Move();
         }
+
+        //シーン切り替え
+        if(gototitle_button.IsClick())
+        {
+            SceneManager.LoadScene("TitleScene");
+        }
+        
     }
 }
