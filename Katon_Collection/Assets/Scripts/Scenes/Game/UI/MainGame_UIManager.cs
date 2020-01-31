@@ -325,10 +325,17 @@ public class MainGame_UIManager : MonoBehaviour
         // qr読み込みの交換処理
         if (qrReaderWindow.IsExchange())
         {
-            Debug.Log("qr");
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.EXCHANGE);
             request.ExchangeItems = qrReaderWindow.GetItems();
+
+            Debug.Log(qrReaderWindow.GetOtherID());
             otherID = qrReaderWindow.GetOtherID();
+        }
+
+        // 読み込んだ
+        if (qrReaderWindow.IsReader())
+        {
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.QR_READE);
         }
     }
 
@@ -353,8 +360,10 @@ public class MainGame_UIManager : MonoBehaviour
         // 交換
         if (fountainWindow.IsExchange())
         {
+            Debug.Log("qr exchage");
             exchangeItems = qrReaderWindow.GetItems();
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.EXCHANGE);
+            request.ExchangeItems = qrReaderWindow.GetItems();
         }
 
         // Qrコードを生成した
@@ -362,6 +371,7 @@ public class MainGame_UIManager : MonoBehaviour
         {
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CREADED_QR);
         }
+        
     }
 
     /// <summary>

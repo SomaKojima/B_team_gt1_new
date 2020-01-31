@@ -31,6 +31,8 @@ public class QR_ReaderWindow : MonoBehaviour
 
     int otherID = -1;
 
+    bool isReader = false;
+
     public void Initialize()
     {
         qr_encode.Initialize();
@@ -75,16 +77,16 @@ public class QR_ReaderWindow : MonoBehaviour
                 // 読み込み成功
                 correctResultWindow.Active();
             }
-
-            Debug.Log(qrReader.GetQRCode());
         }
 
         // 交換をする
+        isReader = false;
         if (correctResultWindow.IsClickYes())
         {
             qrReader.Initialize();
             correctResultWindow.Initialize();
             Exchange();
+            isReader = true;
         }
 
         // 読み込みエラーの場合と　成功時のキャンセルボタンの処理
@@ -135,5 +137,10 @@ public class QR_ReaderWindow : MonoBehaviour
     public int GetOtherID()
     {
         return otherID;
+    }
+
+    public bool IsReader()
+    {
+        return isReader;
     }
 }

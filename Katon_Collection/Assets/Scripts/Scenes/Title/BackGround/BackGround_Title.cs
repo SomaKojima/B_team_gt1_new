@@ -79,7 +79,6 @@ public class BackGround_Title : MonoBehaviour
         }
         else
         {
-            Debug.Log("b");
             //フェードアウトの処理
             m_fade_CloudEffect.StartFadeOut();
 

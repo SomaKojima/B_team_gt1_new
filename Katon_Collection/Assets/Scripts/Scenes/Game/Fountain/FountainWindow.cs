@@ -88,22 +88,23 @@ public class FountainWindow : MonoBehaviour
             isBack = true;
         }
 
-        for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
+        // qrを読み込まれたかどうかを判定
+        if (manager_SI_Player.GetMyPlayer() != null)
         {
-            if (PhotonNetwork.player.ID == manager_SI_Player.GetPlayer(i).ID)
+            isReaded = manager_SI_Player.GetMyPlayer().IsExcange;
+            Debug.Log("is : " + isReaded);
+            if (isReaded != isEndReaded && !isReaded)
             {
-                isEndReaded = isReaded;
-                isReaded = manager_SI_Player.GetPlayer(i).IsExcange;
-
-                if (isReaded != isEndReaded && !isExchange)
-                {
-                    isExchange = true;
-                    CreateExchangeList();
-                }
+                Debug.Log("読み込まれた");
+                isExchange = true;
+                CreateExchangeList();
+                UnActive();
             }
+            isEndReaded = isReaded;
         }
 
-        isCreateQR = isBufCreateQR != isEndCreateQR;
+        // QRが作られたかどうかを判定
+        isCreateQR = (isBufCreateQR != isEndCreateQR);
         isEndCreateQR = isBufCreateQR;
     }
 
@@ -132,6 +133,7 @@ public class FountainWindow : MonoBehaviour
 
         qrEncode.EncodeToQRCode(items, ref code);
         Debug.Log(code);
+        Debug.Log("id : " + manager_SI_Player.GetMyPlayer().ID);
         
         if (code != "")
         {
@@ -158,6 +160,7 @@ public class FountainWindow : MonoBehaviour
     public void UnActive()
     {
         gameObject.SetActive(false);
+        manager_SI_Player.GetMyPlayer().IsExcange = false;
     }
 
 

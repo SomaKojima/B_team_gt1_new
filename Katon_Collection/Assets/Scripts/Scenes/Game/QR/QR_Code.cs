@@ -54,8 +54,6 @@ public class QR_Code : MonoBehaviour
 
     static Color32[] Write(string content, int w, int h)
     {
-        Debug.Log(content + " / " + w + " / " + h);
-
         var writer = new BarcodeWriter
         {
             Format = BarcodeFormat.QR_CODE,

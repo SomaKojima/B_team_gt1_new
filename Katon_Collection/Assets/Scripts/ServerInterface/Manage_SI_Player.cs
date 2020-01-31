@@ -10,7 +10,9 @@ public class Manage_SI_Player : Photon.MonoBehaviour
     public const int MAX_MEMBER = 4;
     private List<SI_Player> players = new List<SI_Player>();
 
-   
+    SI_Player myPlayer = null;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +33,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
         //        if (players[i].GetChangeFlag())
         //        {
         //            //RPCOthersChange();
-                    
+
         //        }
         //    }
         //}
@@ -52,7 +54,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
     public void UpdatePlayers()
     {
         PhotonPlayer[] playerList = PhotonNetwork.playerList;
-        
+
 
         if (playerList.Length == 0)
         {
@@ -106,7 +108,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
                 for (int j = 0; j < (int)Type.Max; j++)
                 {
                     Debug.Log("受信");
-                    this.players[i].SetPlacePoint((int)stream.ReceiveNext(),j);
+                    this.players[i].SetPlacePoint((int)stream.ReceiveNext(), j);
                 }
                 for (int j = 0; j < (int)ITEM_TYPE.NUM; j++)
                 {
@@ -115,6 +117,22 @@ public class Manage_SI_Player : Photon.MonoBehaviour
                 this.players[i].IsExcange = (bool)stream.ReceiveNext();
             }
         }
+    }
+
+    public SI_Player GetMyPlayer()
+    {
+        if (myPlayer == null)
+        {
+            for (int i = 0; i < GetPlayers().Count; i++)
+            {
+                if (PhotonNetwork.player.ID == GetPlayer(i).ID)
+                {
+                    myPlayer = GetPlayer(i);
+                }
+            }
+        }
+
+        return myPlayer;
     }
 
     //public void OthersChange()

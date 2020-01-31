@@ -107,6 +107,8 @@ public class MainGame : MonoBehaviour
         UpdateRequest_UI();
 
         UpdateServer();
+
+        Debug.Log(manager_SI_Player.GetMyPlayer().IsExcange);
     }
 
     void UpdateRequest_UI()
@@ -269,11 +271,22 @@ public class MainGame : MonoBehaviour
 
                 Debug.Log(item.GetCount() + " : " + item.GetNormalCount() + " : " + item.GetPowerUpCount());
             }
+
             bool isExchangable = manager_item.AddItems(_request.ExchangeItems);
 
+            
+
+            // リクエストの返答
+            _request.FinalizeExchange(isExchangable);
+        }
+
+        // QRを読み取った
+        if (_request.Flag.IsFlag(REQUEST.QR_READE))
+        {
             // 交換終了したことを相手に伝える
-            if (isExchangable && uiManager.GetExchangeOtherID() >= 0)
+            if (uiManager.GetExchangeOtherID() >= 0)
             {
+                Debug.Log("伝える");
                 for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
                 {
                     if (uiManager.GetExchangeOtherID() == manager_SI_Player.GetPlayer(i).ID)
@@ -282,12 +295,10 @@ public class MainGame : MonoBehaviour
                         sound.PlaySound(SoundType_MainGame.Trade);
 
                         manager_SI_Player.GetPlayer(i).IsExcange = false;
+                        break;
                     }
                 }
             }
-
-            // リクエストの返答
-            _request.FinalizeExchange(isExchangable);
         }
 
         // QRの生成
@@ -295,13 +306,11 @@ public class MainGame : MonoBehaviour
         {
             // 生成音
             sound.PlaySound(SoundType_MainGame.Qr);
-            for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
+            if (manager_SI_Player.GetMyPlayer() != null)
             {
-                if (PhotonNetwork.player.ID == manager_SI_Player.GetPlayer(i).ID)
-                {
-                    manager_SI_Player.GetPlayer(i).IsExcange = true;
-                }
+                manager_SI_Player.GetMyPlayer().IsExcange = true;
             }
+            Debug.Log("create qr");
         }
 
         // 収集
@@ -398,12 +407,9 @@ public class MainGame : MonoBehaviour
         for (int i = 0; i < (int)Type.Max; i++)
         {
             Type type = (Type)i;
-            for (int j = 0; j < manager_SI_Player.GetPlayers().Count; j++)
+            if (manager_SI_Player.GetMyPlayer() != null)
             {
-                if (PhotonNetwork.player.ID == manager_SI_Player.GetPlayer(j).ID)
-                {
-                    manager_SI_Player.GetPlayer(j).SetPlacePoint(owner_floor.GetPlaceTotalFloor(type), (int)type);
-                }
+                manager_SI_Player.GetMyPlayer().SetPlacePoint(owner_floor.GetPlaceTotalFloor(type), (int)type);
             }
         }
     }
