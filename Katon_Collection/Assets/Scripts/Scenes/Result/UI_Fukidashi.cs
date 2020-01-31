@@ -37,6 +37,7 @@ public class UI_Fukidashi : MonoBehaviour
         //表示オン
         ui_Fukidashi.enabled = true;
 
+        
         //座標をワールドからスクリーンに変更
         ui_Fukidashi.rectTransform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, target + offset);
 
@@ -45,9 +46,6 @@ public class UI_Fukidashi : MonoBehaviour
             ui_Fukidashi.rectTransform.position.y < 0)
         {
 
-
-           
-          
 
             //ポジションを固定する
             ui_Fukidashi.rectTransform.position = new Vector3(ui_Fukidashi.rectTransform.position.x,0+20,ui_Fukidashi.rectTransform.position.z);

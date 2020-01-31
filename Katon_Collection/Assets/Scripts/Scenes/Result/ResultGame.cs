@@ -25,7 +25,7 @@ public class ResultGame : MonoBehaviour
     //プレイヤー数
     int[] playerResult = new int[4];
 
-    int TopScore = 50;
+    int TopScore = 8;
     int count = 0;
 
 
