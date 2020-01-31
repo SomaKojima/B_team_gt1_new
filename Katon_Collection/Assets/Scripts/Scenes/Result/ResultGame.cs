@@ -10,8 +10,6 @@ public class ResultGame : MonoBehaviour
     [SerializeField]
     RankIcon rankIcon;
     [SerializeField]
-    UI_Button_GoToTitle ui_Button_GoToTitle;
-    [SerializeField]
     CameraResultMove cameraResultMove;
     [SerializeField]
     Owner_Floor owner_Floor;
@@ -72,16 +70,21 @@ public class ResultGame : MonoBehaviour
             time = 0;
         }
 
+        //一番高く建てた人のスコアを超えたら
         if (count >= TopScore)
         {
             m_gotoTapButtonFlag = true;
         }
 
+        //勝利のパーティクル、テキスト、タイトルに戻るボタンを表示
         if (m_gotoTapButtonFlag)
         {
             gototitle_button.gameObject.SetActive(true);
             congratulation.gameObject.SetActive(true);
+
+            congratulation.SetPlayerNumber(1);
         }
+
         landingFloor = owner_Floor.GetTopLandingOf(Type.cave);
         if (landingFloor != null)
         {
