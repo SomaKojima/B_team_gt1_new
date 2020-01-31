@@ -84,7 +84,7 @@ public class MainGame : MonoBehaviour
         if(Input.GetMouseButtonDown(0))
         {
             // クリック音を鳴らす
-            sound.PlaySound(SoundType_MainGame.Click,1.0f);
+            sound.PlaySound(SoundType_MainGame.Click,1.5f);
         }
 
         // アイテムのマネージャと人間の数を合わせる
@@ -215,7 +215,7 @@ public class MainGame : MonoBehaviour
             else
             {
                 // 交換失敗時の処理
-                sound.PlaySound(SoundType_MainGame.Error,0.1f);
+                sound.PlaySound(SoundType_MainGame.Error,1.0f);
             }
 
 
@@ -294,7 +294,7 @@ public class MainGame : MonoBehaviour
         if (_request.Flag.IsFlag(REQUEST.CREADED_QR))
         {
             // 生成音
-            sound.PlaySound(SoundType_MainGame.Qr,1.0f);
+            sound.PlaySound(SoundType_MainGame.Qr,1.5f);
             for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
             {
                 if (PhotonNetwork.player.ID == manager_SI_Player.GetPlayer(i).ID)
@@ -354,7 +354,8 @@ public class MainGame : MonoBehaviour
                 else
                 {
                     // 失敗音
-                    sound.PlaySound(SoundType_MainGame.Error,1.0f);
+                    sound.PlaySound(SoundType_MainGame.Error,1.5f); 
+                    Debug.Log("A");
                 }
                 _request.FinalizePowerUp(_isExchange);
             }

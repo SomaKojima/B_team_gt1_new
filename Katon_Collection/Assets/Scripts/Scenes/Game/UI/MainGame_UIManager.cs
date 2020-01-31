@@ -83,7 +83,7 @@ public class MainGame_UIManager : MonoBehaviour
     /// <param name="_managerItem"></param>
     public void Initialize(Manager_Item _managerItem)
     {
-        timer.Iniitalize();
+        timer.Initialize();
 
         fountainWindow.Initialize(_managerItem);
         marketWindow.Initialize(_managerItem, timer.GetCountTimer());

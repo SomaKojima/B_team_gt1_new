@@ -31,7 +31,7 @@ public class MatchingRoomGame : MonoBehaviour
     void Start()
     {
         // BGMを鳴らす
-        sound.PlaySound(SoundType_MatchingRoom.BGM);
+        sound.PlaySound(SoundType_MatchingRoom.BGM,1.0f);
 
         serverInterface.ConnectServer();
         serverInterface.EnterLobby();
@@ -44,7 +44,7 @@ public class MatchingRoomGame : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             // クリック音を鳴らす
-            sound.PlaySound(SoundType_MatchingRoom.Click);
+            sound.PlaySound(SoundType_MatchingRoom.Click,1.7f);
         }
 
         if (selectRoomModeWindow.GetRoomMode() != ROOM_MODE.None &&
@@ -104,7 +104,7 @@ public class MatchingRoomGame : MonoBehaviour
         {
             Debug.Log("gamestart");
             // スタート音を鳴らす
-            sound.PlaySound(SoundType_MatchingRoom.Start);
+            sound.PlaySound(SoundType_MatchingRoom.Start,1.5f);
             SceneManager.LoadScene("GameScene");
         }
 
