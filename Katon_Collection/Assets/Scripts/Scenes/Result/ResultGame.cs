@@ -94,16 +94,13 @@ public class ResultGame : MonoBehaviour
             //Debug.Log(total);
             for (int i = 0; i < 4; i++)
             {
-                // 各プレイヤーの結果と同じ階だった場合
-                if (total == playerResult[i])
+                if(owner_Floor.GetPlaceTotalFloor(Type.cave)<=playerResult[i])
                 {
                     GameObject obj = landingFloor.gameObject;
                     //建った階数のところに吹き出しを出現させる
                     ui_Fukidashi[i].SetTarget(obj.transform.position);
-
-
-                    Debug.Log("a");
                 }
+              
             }
 
 
