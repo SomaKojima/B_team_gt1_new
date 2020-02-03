@@ -395,9 +395,12 @@ public class MainGame : MonoBehaviour
                 manager_item.GetItem(ITEM_TYPE.FARMER).SetCount(manager_item.GetItem(ITEM_TYPE.COAL_MINER).GetCount() + 1);
                 break;
         }
-        ItemType[] item = new ItemType[(int)ItemType.HumanMax];
-        //for(int i = 0;)
-        //ShuffleArray.shuffle();
+        int[] item = new int[(int)ItemType.HumanMax];
+        for(int i = 0;i< (int)ItemType.HumanMax;i++)
+        {
+            item[i] = i;
+        }
+        ShuffleArray.shuffle(item, item.Length);
         manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(manager_item.GetItem(ITEM_TYPE.LOOGER).GetCount() + 1);
         manager_item.GetItem(ITEM_TYPE.ENGINEER).SetCount(manager_item.GetItem(ITEM_TYPE.ENGINEER).GetCount() + 1);
     }
