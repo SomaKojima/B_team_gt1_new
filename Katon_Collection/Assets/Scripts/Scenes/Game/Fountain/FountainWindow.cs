@@ -155,14 +155,14 @@ public class FountainWindow : MonoBehaviour
     public void Active()
     {
         gameObject.SetActive(true);
-        manager_SI_Player.GetMyPlayer().IsExcange = false;
+        manager_SI_Player.ExChangeInfo(manager_SI_Player.GetMyPlayer().ID, false);
         Initailzie();
     }
 
     public void UnActive()
     {
         gameObject.SetActive(false);
-        manager_SI_Player.GetMyPlayer().IsExcange = false;
+        manager_SI_Player.ExChangeInfo(manager_SI_Player.GetMyPlayer().ID, false);
         qrWindow.UnActive();
     }
 

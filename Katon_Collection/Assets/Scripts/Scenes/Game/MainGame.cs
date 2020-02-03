@@ -297,8 +297,7 @@ public class MainGame : MonoBehaviour
                     {
                         // トレード音
                         sound.PlaySound(SoundType_MainGame.Trade);
-
-                        manager_SI_Player.GetPlayer(i).IsExcange = false;
+                        manager_SI_Player.ExChangeInfo(manager_SI_Player.GetPlayer(i).ID, false);
                         break;
                     }
                 }
@@ -312,9 +311,9 @@ public class MainGame : MonoBehaviour
             sound.PlaySound(SoundType_MainGame.Qr);
             if (manager_SI_Player.GetMyPlayer() != null)
             {
-                manager_SI_Player.GetMyPlayer().IsExcange = true;
+                manager_SI_Player.ExChangeInfo(manager_SI_Player.GetMyPlayer().ID, true);
+                Debug.Log("create qr");
             }
-            Debug.Log("create qr");
         }
 
         // 収集

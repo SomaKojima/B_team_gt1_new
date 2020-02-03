@@ -217,23 +217,21 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 9830}
+      Script: {instanceID: 9832}
     - Class: 114
-      Script: {instanceID: 9834}
+      Script: {instanceID: 9836}
     - Class: 114
-      Script: {instanceID: 9944}
+      Script: {instanceID: 9946}
     - Class: 114
-      Script: {instanceID: 9994}
+      Script: {instanceID: 9996}
     - Class: 114
-      Script: {instanceID: 10032}
+      Script: {instanceID: 10034}
     - Class: 114
-      Script: {instanceID: 10056}
+      Script: {instanceID: 10058}
     - Class: 114
-      Script: {instanceID: 10152}
+      Script: {instanceID: 10154}
     - Class: 114
-      Script: {instanceID: 10178}
-    - Class: 114
-      Script: {instanceID: 10218}
+      Script: {instanceID: 10180}
     - Class: 114
       Script: {instanceID: 10220}
     - Class: 114
@@ -440,6 +438,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 13674}
     - Class: 114
       Script: {instanceID: 13752}
+    - Class: 114
+      Script: {instanceID: 17596}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -500,9 +500,9 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 9834}
+      Script: {instanceID: 9836}
     - Class: 114
-      Script: {instanceID: 10218}
+      Script: {instanceID: 10220}
     - Class: 114
       Script: {instanceID: 10292}
     - Class: 114
@@ -623,9 +623,9 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 9830}
+      Script: {instanceID: 9832}
     - Class: 114
-      Script: {instanceID: 9834}
+      Script: {instanceID: 9836}
     - Class: 114
       Script: {instanceID: 10292}
     - Class: 114
@@ -730,27 +730,27 @@ ScriptsOnlyBuild:
     - Class: 109
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 9824}
+      Script: {instanceID: 9826}
     - Class: 114
-      Script: {instanceID: 9830}
+      Script: {instanceID: 9832}
     - Class: 114
-      Script: {instanceID: 9834}
+      Script: {instanceID: 9836}
     - Class: 114
-      Script: {instanceID: 9944}
+      Script: {instanceID: 9946}
     - Class: 114
-      Script: {instanceID: 9994}
+      Script: {instanceID: 9996}
     - Class: 114
-      Script: {instanceID: 10032}
+      Script: {instanceID: 10034}
     - Class: 114
-      Script: {instanceID: 10052}
+      Script: {instanceID: 10054}
     - Class: 114
-      Script: {instanceID: 10056}
+      Script: {instanceID: 10058}
     - Class: 114
-      Script: {instanceID: 10152}
+      Script: {instanceID: 10154}
     - Class: 114
-      Script: {instanceID: 10178}
+      Script: {instanceID: 10180}
     - Class: 114
-      Script: {instanceID: 10218}
+      Script: {instanceID: 10220}
     - Class: 114
       Script: {instanceID: 10224}
     - Class: 114
@@ -1004,13 +1004,13 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 13752}
     - Class: 114
-      Script: {instanceID: 58844}
+      Script: {instanceID: 50290}
     - Class: 114
-      Script: {instanceID: 58942}
+      Script: {instanceID: 50404}
     - Class: 114
-      Script: {instanceID: 58966}
+      Script: {instanceID: 50428}
     - Class: 114
-      Script: {instanceID: 59904}
+      Script: {instanceID: 51048}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1320,12 +1320,6 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: Text
-  - hash:
-      serializedVersion: 2
-      Hash: 17eb458e207765c11be8cd5cb5e4f789
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: LogDisplay
   - hash:
       serializedVersion: 2
       Hash: 499fd23433e68e265d153aa6b95d0047
@@ -3534,6 +3528,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 17eb458e207765c11be8cd5cb5e4f789
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: LogDisplay
   platform: 13
   scenePathNames:
   - Assets/Scenes/TitleScene.unity
