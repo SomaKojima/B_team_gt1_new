@@ -11,8 +11,6 @@ public class PLInfoManager : MonoBehaviour
     [SerializeField]
     private Manager_Item itemManager = null;
     [SerializeField]
-    private GameObject CloseBtn;
-    [SerializeField]
     private GameObject RightBtn;
     [SerializeField]
     private GameObject LeftBtn;
@@ -109,7 +107,6 @@ public class PLInfoManager : MonoBehaviour
 
     public void BtnSetActive(bool isActive)
     {
-        CloseBtn.SetActive(isActive);
         RightBtn.SetActive(isActive);
         LeftBtn.SetActive(isActive);
     }
