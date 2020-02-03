@@ -135,6 +135,21 @@ public class SaleWindow : MonoBehaviour
         // 手に入るitemの設定
         foreach (IItem item in data.get_items)
         {
+            ITEM_TYPE type = item.GetItemType();
+            switch (type)
+            {
+                case ITEM_TYPE.RANDOM_HUMAN:
+                    type = ItemType.RandomHuman();
+                    break;
+                case ITEM_TYPE.RANDOM_BUILIDNG_RESOURCE:
+                    type = ItemType.RandomBuildingResource();
+                    break;
+                case ITEM_TYPE.RANDOM:
+                    type = ItemType.Random();
+                    break;
+                default:
+                    break;
+            }
             getItems.Add(item);
         }
 
@@ -143,6 +158,21 @@ public class SaleWindow : MonoBehaviour
         // 手に入るitemの設定
         foreach (IItem item in data.pay_items)
         {
+            ITEM_TYPE type = item.GetItemType();
+            switch (type)
+            {
+                case ITEM_TYPE.RANDOM_HUMAN:
+                    type = ItemType.RandomHuman();
+                    break;
+                case ITEM_TYPE.RANDOM_BUILIDNG_RESOURCE:
+                    type = ItemType.RandomBuildingResource();
+                    break;
+                case ITEM_TYPE.RANDOM:
+                    type = ItemType.Random();
+                    break;
+                default:
+                    break;
+            }
             payItems.Add(item);
         }
 

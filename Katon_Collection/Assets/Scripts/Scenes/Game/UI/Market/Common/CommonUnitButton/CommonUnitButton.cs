@@ -117,7 +117,7 @@ public class CommonUnitButton : UI_Button_Market
     {
         requiredNum = _requiredNum;
         // ボタンのテキスト変更
-        requiredText.text = "必要数\n" + requiredNum.ToString();
+        requiredText.text = requiredNum.ToString();
     }
 
     public void UnActiveMask()

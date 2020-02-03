@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Owner_SelectItemButton : MonoBehaviour
 {
+    public enum SELECT_ITEM_TYPE
+    {
+        HUMAN,              // 人間のみ
+        BUILDING_RESOURCE,  // 資源のみ
+        BOTH                // 両方
+    }
+
     [SerializeField]
     Factory_SelectItemsButton factory;
 
@@ -14,6 +21,8 @@ public class Owner_SelectItemButton : MonoBehaviour
     bool isClick = false;
 
     int total = 0;
+
+    SELECT_ITEM_TYPE selectType = SELECT_ITEM_TYPE.HUMAN;
 
     // 個数を保存する用
     Manager_Item currentItem = new Manager_Item();
@@ -114,5 +123,14 @@ public class Owner_SelectItemButton : MonoBehaviour
     public Manager_Item GetManagerItem()
     {
         return currentItem;
+    }
+
+    /// <summary>
+    /// 選択できるアイテムを設定する
+    /// </summary>
+    /// <param name="type"></param>
+    public void SetSelectItemType(SELECT_ITEM_TYPE type)
+    {
+        selectType = type;
     }
 }
