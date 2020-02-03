@@ -17,7 +17,6 @@ public class TitleGame : MonoBehaviour
 
     void Awake()
     {
-        Application.targetFrameRate = 30; //30FPSに設定
     }
 
     // Start is called before the first frame update
@@ -25,6 +24,7 @@ public class TitleGame : MonoBehaviour
     {
         // BGMを鳴らす
         sound.PlaySound(SoundType_Title.BGM);
+        Application.targetFrameRate = 30; //30FPSに設定
     }
 
     // Update is called once per frame

@@ -50,12 +50,12 @@ public class MainGame : MonoBehaviour
 
     void Awake()
     {
-        Application.targetFrameRate = 30; //60FPSに設定
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        Application.targetFrameRate = 30; //60FPSに設定
         // BGMを鳴らす
         sound.PlaySound(SoundType_MainGame.BGM);
 

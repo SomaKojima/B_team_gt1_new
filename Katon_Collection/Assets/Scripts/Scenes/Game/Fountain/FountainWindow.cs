@@ -93,7 +93,8 @@ public class FountainWindow : MonoBehaviour
         {
             isReaded = manager_SI_Player.GetMyPlayer().IsExcange;
             Debug.Log("is : " + isReaded);
-            if (isReaded != isEndReaded && !isReaded)
+            if (isReaded != isEndReaded && !isReaded 
+                && qrWindow.gameObject.activeSelf)
             {
                 Debug.Log("読み込まれた");
                 isExchange = true;
@@ -154,6 +155,7 @@ public class FountainWindow : MonoBehaviour
     public void Active()
     {
         gameObject.SetActive(true);
+        manager_SI_Player.GetMyPlayer().IsExcange = false;
         Initailzie();
     }
 
