@@ -92,13 +92,12 @@ public class FountainWindow : MonoBehaviour
         if (manager_SI_Player.GetMyPlayer() != null)
         {
             isReaded = manager_SI_Player.GetMyPlayer().IsExcange;
-            Debug.Log("is : " + isReaded);
             if (isReaded != isEndReaded && !isReaded 
                 && qrWindow.gameObject.activeSelf)
             {
                 Debug.Log("読み込まれた");
                 isExchange = true;
-                CreateExchangeList();
+                //CreateExchangeList();
                 UnActive();
             }
             isEndReaded = isReaded;
@@ -117,24 +116,28 @@ public class FountainWindow : MonoBehaviour
         Manager_Item getButtonItems = getWindow.GetManagerItem();
         Manager_Item payButtonItems = payWindow.GetManagerItem();
 
+        List<IItem> qrItem = new List<IItem>();
+
         for (int i = 0; i< (int)ITEM_TYPE.NUM; i++)
         {
             ITEM_TYPE type = (ITEM_TYPE)i;
             
             if (getButtonItems.GetItem(type).GetCount() != 0)
             {
-                getButtonItems.GetItem(type).SetCount(-getButtonItems.GetItem(type).GetCount());
                 items.Add(getButtonItems.GetItem(type));
+                IItem item = new Item(-getButtonItems.GetItem(type).GetNormalCount(), -getButtonItems.GetItem(type).GetPowerUpCount(), type);
+                qrItem.Add(item);
             }
             if (payButtonItems.GetItem(type).GetCount() != 0)
             {
-                items.Add(payButtonItems.GetItem(type));
+                IItem item = new Item(-payButtonItems.GetItem(type).GetNormalCount(), -payButtonItems.GetItem(type).GetPowerUpCount(), type);
+                items.Add(item);
+                qrItem.Add(payButtonItems.GetItem(type));
             }
         }
-
-        qrEncode.EncodeToQRCode(items, ref code);
+        
+        qrEncode.EncodeToQRCode(qrItem, ref code);
         Debug.Log(code);
-        Debug.Log("id : " + manager_SI_Player.GetMyPlayer().ID);
         
         if (code != "")
         {
@@ -142,14 +145,7 @@ public class FountainWindow : MonoBehaviour
             isBufCreateQR = true;
         }
 
-        for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
-        {
-            ITEM_TYPE type = (ITEM_TYPE)i;
-            if (getButtonItems.GetItem(type).GetCount() != 0)
-            {
-                getButtonItems.GetItem(type).SetCount(-getButtonItems.GetItem(type).GetCount());
-            }
-        }
+        qrItem.Clear();
     }
 
     public void Active()
@@ -194,26 +190,26 @@ public class FountainWindow : MonoBehaviour
         return items;
     }
 
-    void CreateExchangeList()
-    {
-        items.Clear();
-        Manager_Item getButtonItems = getWindow.GetManagerItem();
-        Manager_Item payButtonItems = payWindow.GetManagerItem();
+    //void CreateExchangeList()
+    //{
+    //    items.Clear();
+    //    Manager_Item getButtonItems = getWindow.GetManagerItem();
+    //    Manager_Item payButtonItems = payWindow.GetManagerItem();
 
-        for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
-        {
-            ITEM_TYPE type = (ITEM_TYPE)i;
+    //    for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
+    //    {
+    //        ITEM_TYPE type = (ITEM_TYPE)i;
 
-            if (payButtonItems.GetItem(type).GetCount() != 0)
-            {
-                payButtonItems.GetItem(type).SetCount(-payButtonItems.GetItem(type).GetCount());
-                items.Add(payButtonItems.GetItem(type));
-            }
-            if (getButtonItems.GetItem(type).GetCount() != 0)
-            {
-                items.Add(getButtonItems.GetItem(type));
-            }
-        }
+    //        if (payButtonItems.GetItem(type).GetCount() != 0)
+    //        {
+    //            payButtonItems.GetItem(type).SetCount(-payButtonItems.GetItem(type).GetCount());
+    //            items.Add(payButtonItems.GetItem(type));
+    //        }
+    //        if (getButtonItems.GetItem(type).GetCount() != 0)
+    //        {
+    //            items.Add(getButtonItems.GetItem(type));
+    //        }
+    //    }
         
-    }
+    //}
 }

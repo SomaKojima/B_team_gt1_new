@@ -64,9 +64,6 @@ public class MainGame_UIManager : MonoBehaviour
 
     // UIのアクティブを管理するビットフラグ
     RequestActiveUI requestActiveUI = new RequestActiveUI();
-    
-    // 交換処理をするときに使うアイテムリスト
-    List<IItem> exchangeItems = new List<IItem>();
 
     // 交換相手のID
     int otherID = -1;
@@ -108,9 +105,6 @@ public class MainGame_UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        // 初期化
-        exchangeItems.Clear();
 
         // 返答のリクエスト処理
         UpdateReplayRequest();
@@ -360,8 +354,6 @@ public class MainGame_UIManager : MonoBehaviour
         // 交換
         if (fountainWindow.IsExchange())
         {
-            Debug.Log("count : " + fountainWindow.GetItems().Count);
-            exchangeItems = fountainWindow.GetItems();
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.EXCHANGE | REQUEST.CAMERA_START);
             request.ExchangeItems = fountainWindow.GetItems();
         }
@@ -666,13 +658,6 @@ public class MainGame_UIManager : MonoBehaviour
     public void AddLog(string _text)
     {
         logWindow.AddLog(_text, timer.GetTotalTime());
-    }
-
-    // 交換するかどうかのフラグを取得
-    public bool IsExchange(ref List<IItem> _items)
-    {
-        _items = exchangeItems;
-        return exchangeItems.Count != 0;
     }
 
     // カメラの移動先をTypeで取得

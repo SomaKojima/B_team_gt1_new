@@ -108,8 +108,6 @@ public class MainGame : MonoBehaviour
 
         UpdateServer();
 
-        Debug.Log(manager_SI_Player.GetMyPlayer().IsExcange);
-
         if (Input.GetKeyDown(KeyCode.Space))
         {
             manager_SI_Player.GetMyPlayer().IsExcange = false;
@@ -271,11 +269,6 @@ public class MainGame : MonoBehaviour
         {
             // アイテムのマネージャに追加・削除
 
-            foreach (IItem item in _request.ExchangeItems)
-            {
-                Debug.Log(item.GetCount() + " : " + item.GetNormalCount() + " : " + item.GetPowerUpCount());
-            }
-
             bool isExchangable = manager_item.AddItems(_request.ExchangeItems);
 
             
@@ -290,7 +283,6 @@ public class MainGame : MonoBehaviour
             // 交換終了したことを相手に伝える
             if (uiManager.GetExchangeOtherID() >= 0)
             {
-                Debug.Log("伝える");
                 for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++)
                 {
                     if (uiManager.GetExchangeOtherID() == manager_SI_Player.GetPlayer(i).ID)
@@ -312,7 +304,6 @@ public class MainGame : MonoBehaviour
             if (manager_SI_Player.GetMyPlayer() != null)
             {
                 manager_SI_Player.ExChangeInfo(manager_SI_Player.GetMyPlayer().ID, true);
-                Debug.Log("create qr");
             }
         }
 
