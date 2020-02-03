@@ -524,7 +524,7 @@ public class MainGame_UIManager : MonoBehaviour
         // 市場の処理
         if (marketWindow.IsExchange())
         {
-            marketWindow.FinishExchange();
+            marketWindow.FinishExchange(_isExchangable);
         }
         // QR読み込みの処理
         if (qrReaderWindow.IsExchange())

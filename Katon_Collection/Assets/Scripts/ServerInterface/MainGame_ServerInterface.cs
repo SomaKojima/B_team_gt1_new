@@ -52,6 +52,10 @@ public class MainGame_ServerInterface : MonoBehaviour
             PLInfoManager.SetPlInfo(manager_SI_Player.GetPlayers());
             PLInfoManager.CreatePLInfoWindow();
         }
+        else
+        {
+            PLInfoManager.DeleteWindow();
+        }
     }
 
     public void UpdateManager_SI_Player()

@@ -140,8 +140,9 @@ public class MarketWindow : MonoBehaviour
         return isExchange;
     }
 
-    public void FinishExchange()
+    public void FinishExchange(bool isExchangeable)
     {
+        commonWindow.FinalizeExchange(isExchangeable);
         isExchange = false;
     }
 
