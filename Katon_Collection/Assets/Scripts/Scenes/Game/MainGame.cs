@@ -371,16 +371,16 @@ public class MainGame : MonoBehaviour
                 manager_item.GetItem(ITEM_TYPE.COAL_MINER).SetCount(manager_item.GetItem(ITEM_TYPE.COAL_MINER).GetCount() + 1);
                 break;
             case Type.forest:
-                manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(manager_item.GetItem(ITEM_TYPE.COAL_MINER).GetCount() + 1);
+                manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(manager_item.GetItem(ITEM_TYPE.LOOGER).GetCount() + 1);
                 break;
             case Type.factory:
-                manager_item.GetItem(ITEM_TYPE.ENGINEER).SetCount(manager_item.GetItem(ITEM_TYPE.COAL_MINER).GetCount() + 1);
+                manager_item.GetItem(ITEM_TYPE.ENGINEER).SetCount(manager_item.GetItem(ITEM_TYPE.ENGINEER).GetCount() + 1);
                 break;
             case Type.cotton:
-                manager_item.GetItem(ITEM_TYPE.FARMER_COTTON).SetCount(manager_item.GetItem(ITEM_TYPE.COAL_MINER).GetCount() + 1);
+                manager_item.GetItem(ITEM_TYPE.FARMER_COTTON).SetCount(manager_item.GetItem(ITEM_TYPE.FARMER_COTTON).GetCount() + 1);
                 break;
             case Type.farm:
-                manager_item.GetItem(ITEM_TYPE.FARMER).SetCount(manager_item.GetItem(ITEM_TYPE.COAL_MINER).GetCount() + 1);
+                manager_item.GetItem(ITEM_TYPE.FARMER).SetCount(manager_item.GetItem(ITEM_TYPE.FARMER).GetCount() + 1);
                 break;
         }
         int[] item = new int[(int)ItemType.HumanMax];
@@ -389,8 +389,8 @@ public class MainGame : MonoBehaviour
             item[i] = i;
         }
         ShuffleArray.shuffle(item, item.Length);
-        manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(manager_item.GetItem(ITEM_TYPE.LOOGER).GetCount() + 1);
-        manager_item.GetItem(ITEM_TYPE.ENGINEER).SetCount(manager_item.GetItem(ITEM_TYPE.ENGINEER).GetCount() + 1);
+        manager_item.GetItem((ITEM_TYPE)item[0]).SetCount(manager_item.GetItem((ITEM_TYPE)item[0]).GetCount() + 1);
+        manager_item.GetItem((ITEM_TYPE)item[1]).SetCount(manager_item.GetItem((ITEM_TYPE)item[1]).GetCount() + 1);
     }
 
     void UpdateUIRequest()
