@@ -71,7 +71,35 @@ public class Owner_CommonUnitButton : MonoBehaviour
     {
         foreach (CommonUnitButton button in humanUnit)
         {
-            int necessary = HUMAN_NECESSARY * buildingTotal;
+            int necessary = 0;//HUMAN_NECESSARY * buildingTotal;
+            if (buildingTotal < 6)
+            {
+                switch (buildingTotal)
+                {
+                    case 0:
+                        necessary = 20;
+                        break;
+                    case 1:
+                        necessary = 50;
+                        break;
+                    case 2:
+                        necessary = 100;
+                        break;
+                    case 3:
+                        necessary = 160;
+                        break;
+                    case 4:
+                        necessary = 240;
+                        break;
+                    case 5:
+                        necessary = 300;
+                        break;
+                }
+            }
+            else
+            {
+                necessary = 300;
+            }
             button.ChangeRequiredNum(necessary);
         }
     }
