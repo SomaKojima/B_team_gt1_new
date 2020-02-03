@@ -6,6 +6,7 @@ public class Owner_Floor : MonoBehaviour
 {
     const int BUILDING_NECESSARY = 200;
     const int MAX_BUILDING_RESOURCE_NUM = 10;
+    const int MOVE_IN_COUNT = 5;
     
     Manager_Floor[] manager_floor = null;
 
@@ -26,6 +27,9 @@ public class Owner_Floor : MonoBehaviour
 
     int totalFloor = 0;
 
+    // 人間の入居可能数
+    int[] moveInCount = new int[(int)Type.Max];
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +43,8 @@ public class Owner_Floor : MonoBehaviour
         {
             manager_floor[i] = new Manager_Floor();
             manager_floor[i].Initialize();
+
+            moveInCount[i] = 0;
         }
 
         for (int i = 0; i < (int)Type.Max; i++)
@@ -140,6 +146,8 @@ public class Owner_Floor : MonoBehaviour
         isFirstBuilding = true;
         totalFloor++;
 
+        moveInCount[(int)type] = MOVE_IN_COUNT * totalFloor;
+
         // 開拓に必要な資源を更新
         UpdateReclamation(totalFloor);
     }
@@ -194,6 +202,15 @@ public class Owner_Floor : MonoBehaviour
             necessaryItems[i, 0].Add(new Item(-cost * 2, ITEM_TYPE.PARTS));
             necessaryItems[i, 0].Add(new Item(-cost, ITEM_TYPE.WHEAT));
         }
+    }
+
+    /// <summary>
+    /// 入居可能数を取得
+    /// </summary>
+    /// <returns></returns>
+    public int GetMoveInCount(Type type)
+    {
+        return moveInCount[(int)type];
     }
 
     public Floor GetTopOf(Type type)

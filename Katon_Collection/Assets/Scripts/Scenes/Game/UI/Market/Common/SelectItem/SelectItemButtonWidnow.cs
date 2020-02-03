@@ -42,7 +42,7 @@ public class SelectItemButtonWidnow : MonoBehaviour
         {
             IItem selectItem = owner_selectItemButton.GetItem();
             // アイテムが人間だった場合
-            if (selectItem.GetItemType() < ItemType.HumanMax)
+            if (ItemType.IsHumanType(selectItem.GetItemType()))
             {
                 powerUpWindow.Active();
                 powerUpWindow.Initialize(selectItem.GetItemType(), selectItem.GetPowerUpCount(), true);

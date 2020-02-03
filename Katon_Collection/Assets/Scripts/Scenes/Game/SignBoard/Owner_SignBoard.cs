@@ -17,17 +17,17 @@ public class Owner_SignBoard : MonoBehaviour
     GetPlaceCount getPlaceCountFanction;
 
 
-    public delegate int GetPlaceFloor(Type _placeType);
-    GetPlaceFloor getPlaceFloorFanction;
+    public delegate int GetMoveIn(Type _placeType);
+    GetMoveIn getMoveIn;
 
     // 視界内にいる看板を入れる変数
     SignBoard visibleSignBoard = null;
 
-    public void Initialize(IsVisible _isVisible, GetPlaceCount _getPlaceCountFanction, GetPlaceFloor _getPlaceFloor)
+    public void Initialize(IsVisible _isVisible, GetPlaceCount _getPlaceCountFanction, GetMoveIn _getMoveIn)
     {
         isVisibleFunction = _isVisible;
         getPlaceCountFanction = _getPlaceCountFanction;
-        getPlaceFloorFanction = _getPlaceFloor;
+        getMoveIn = _getMoveIn;
     }
 
     // Start is called before the first frame update
@@ -59,7 +59,7 @@ public class Owner_SignBoard : MonoBehaviour
         {
             if (board == null) continue;
             board.Num = getPlaceCountFanction(board.GetPlaceType());
-            board.Max = getPlaceFloorFanction(board.GetPlaceType()) * 5;
+            board.Max = getMoveIn(board.GetPlaceType());
         }
     }
 

@@ -62,7 +62,7 @@ public class MainGame : MonoBehaviour
         manager_item.Initialize();
         owner_human.Intialize();
         owner_floor.Initialize();
-        owner_signBoard.Initialize(mainCamera.IsSigneBoardInScreen, owner_human.GetPlaceCount, owner_floor.GetPlaceTotalFloor);
+        owner_signBoard.Initialize(mainCamera.IsSigneBoardInScreen, owner_human.GetPlaceCount, owner_floor.GetMoveInCount);
 
         manager_SI_Player.UpdatePlayers();
 
@@ -79,8 +79,6 @@ public class MainGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        debug.Update();
-
         if(Input.GetMouseButtonDown(0))
         {
             // クリック音を鳴らす
@@ -100,8 +98,6 @@ public class MainGame : MonoBehaviour
         // リクエストの処理
         UpdateRequestList();
         
-        UpdateRequest(debug.GetRequest());
-
         UpdateUIRequest();
 
         UpdateRequest_UI();
@@ -112,6 +108,10 @@ public class MainGame : MonoBehaviour
         {
             manager_SI_Player.GetMyPlayer().IsExcange = false;
         }
+
+        debug.Update();
+
+        UpdateRequest(debug.GetRequest());
     }
 
     void UpdateRequest_UI()
@@ -325,14 +325,22 @@ public class MainGame : MonoBehaviour
         if (_request.Flag.IsFlag(REQUEST.POSITION_TO_PLACE))
         {
             Type placeType = judgeField.ChangePositionToPlaceType(_request.ChangePosition);
-            bool isChange = (owner_floor.GetPlaceTotalFloor(placeType) != 0);
+            Debug.Log(placeType);
+            bool isChange = (owner_floor.GetPlaceTotalFloor(placeType) != 0 && 
+                owner_floor.GetMoveInCount(placeType) > owner_human.GetPlaceCount(placeType));
             if (isChange)
             {
                 _request.ChangePlaceType = judgeField.ChangePositionToPlaceType(_request.ChangePosition);
                 _request.AreaCenterPosition = judgeField.GetAreaCenterPosition(_request.ChangePlaceType);
-                
             }
-            _request.FinalizePositionToPlace(isChange);
+            else
+            {
+                _request.ChangePlaceType = Type.fountain;
+                _request.AreaCenterPosition = judgeField.GetAreaCenterPosition(_request.ChangePlaceType);
+            }
+
+            // 現状失敗したときは噴水に向かわせるから失敗をリクエスト所持オブジェクトに教えない
+            _request.FinalizePositionToPlace(true);
         }
 
         // 人間の強化

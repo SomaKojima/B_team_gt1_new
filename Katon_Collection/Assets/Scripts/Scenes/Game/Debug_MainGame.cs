@@ -50,9 +50,8 @@ public class Debug_MainGame
             _managerItem.GetItem(type).SetCount(1000);
         }
 
-        //humanTime.Add(45);
-        //HumanCount.Add(0);
-
+        humanTime.Add(5);
+        HumanCount.Add(5);
     }
 
     // Update is called once per frame

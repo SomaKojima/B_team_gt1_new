@@ -5,9 +5,9 @@ using UnityEngine;
 // 資源の種類
 public enum ITEM_TYPE
 {
-    RANDOM = -3,
-    RANDOM_HUMAN =-2,
-    RANDOM_BUILIDNG_RESOURCE = -1,
+    RANDOM = -4,
+    RANDOM_HUMAN =-3,
+    RANDOM_BUILIDNG_RESOURCE = -2,
 
     /// </summary>
     NONE = -1,
@@ -35,25 +35,59 @@ public class ItemType
         get { return ITEM_TYPE.RANDOM; }
     }
 
-    static public ITEM_TYPE HumanMax
+    // 人間のタイプの先頭を返す
+    static public ITEM_TYPE HumanHead
     {
-        get { return ITEM_TYPE.FARMER_COTTON + 1; }
+        get { return 0; }
     }
 
-    static public ITEM_TYPE BuildingResourceMax
+    // 人間のタイプの最後尾を返す
+    static public ITEM_TYPE HumanTail
     {
-        get { return ITEM_TYPE.COTTON + 1 - (int)HumanMax; }
+        get { return ITEM_TYPE.FARMER_COTTON; }
     }
 
+    // 人間のタイプの数を返す
+    static public int HumanMax
+    {
+        get { return (int)HumanTail + 1; }
+    }
+
+    static public ITEM_TYPE BuildingResourceHead
+    {
+        get { return ITEM_TYPE.COTTON; }
+    }
+
+    // 資源の最大値を取得
+    static public int BuildingResourceMax
+    {
+        get { return (int)ITEM_TYPE.COTTON + 1 - (int)HumanMax; }
+    }
+
+
+    ///------------------------------------------------------------------------------------------
+    /// 以下は判定や取得の関数
+    ///------------------------------------------------------------------------------------------
+
+    /// <summary>
+    /// 人間のタイプか判定
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
     static public bool IsHumanType(ITEM_TYPE type)
     {
-        if (type < ITEM_TYPE.WOOD) return true;
+        if (type >= 0 &&  type < ITEM_TYPE.WOOD) return true;
         return false;
     }
 
+    /// <summary>
+    /// 資源のタイプか判定
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
     static public bool IsBuildingResourceType(ITEM_TYPE type)
     {
-        if (type >= ITEM_TYPE.WOOD) return true;
+        if (type > HumanTail && type >= ITEM_TYPE.WOOD) return true;
         return false;
     }
 
@@ -74,6 +108,10 @@ public class ItemType
         return randomArray;
     }
 
+    /// <summary>
+    /// ランダムでタイプを取得
+    /// </summary>
+    /// <returns></returns>
     static public ITEM_TYPE RandomType()
     {
         return (ITEM_TYPE)Random.Range(0, (int)ITEM_TYPE.NUM);
@@ -88,6 +126,10 @@ public class ItemType
         return (ITEM_TYPE)Random.Range(0, (int)ItemType.HumanMax);
     }
 
+    /// <summary>
+    /// 資源のタイプをランダムで取得
+    /// </summary>
+    /// <returns></returns>
     static public ITEM_TYPE RandomBuildingResource()
     {
         return (ITEM_TYPE)Random.Range((int)ITEM_TYPE.WOOD, (int)ItemType.BuildingResourceMax);

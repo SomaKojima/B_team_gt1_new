@@ -64,7 +64,7 @@ public class Human : MonoBehaviour
         transform.position += Velocity;
         move.Excute(this);
 
-        if(isCollect)
+        if(isCollect&& PlaceType.IsCollectPlace(placeType))
         {
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.COLLECT);
             request.CollectItemType = ChangeItemType.HumanToBuildingResource(type);
@@ -88,6 +88,7 @@ public class Human : MonoBehaviour
             //Debug.Log(request.AreaCenterPosition);
             //move.Change(this, MOVE_STATE_TYPE.GO_TO_TARGET);
         }
+
         // 収集成功
         if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.COLLECT_SUCCESS))
         {
