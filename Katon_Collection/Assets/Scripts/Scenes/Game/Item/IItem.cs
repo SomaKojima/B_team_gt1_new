@@ -18,4 +18,6 @@ public interface IItem
     int GetCount();
     int GetPowerUpCount();
     int GetNormalCount();
+
+    void ClearCount();
 }

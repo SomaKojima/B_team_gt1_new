@@ -5,8 +5,6 @@ using UnityEngine;
 public class Manager_SelectItemsButton : MonoBehaviour
 {
     List<SelectItemsButton> itemList = new List<SelectItemsButton>();
-    List<SelectItemsButton> humanList = new List<SelectItemsButton>();
-    List<SelectItemsButton> brList = new List<SelectItemsButton>();
 
     [SerializeField]
     SelectItemsButton selectItmBtn;
@@ -26,14 +24,6 @@ public class Manager_SelectItemsButton : MonoBehaviour
     public void Add(SelectItemsButton btn)
     {
         itemList.Add(btn);
-        if (ItemType.IsHumanType(btn.GetItem().GetItemType()))
-        {
-            humanList.Add(btn);
-        }
-        else
-        {
-            brList.Add(btn);
-        }
     }
 
     public List<SelectItemsButton> GetItemList()

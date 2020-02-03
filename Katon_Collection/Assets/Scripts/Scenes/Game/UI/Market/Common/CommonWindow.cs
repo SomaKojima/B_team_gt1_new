@@ -81,6 +81,9 @@ public class CommonWindow : MonoBehaviour
                 brImage.gameObject.SetActive(false);
                 humanImage.gameObject.SetActive(true);
             }
+            bool isBr = owner_commonUnitButton.GetSelectCommonUnitButton().IsBr();
+            bool isHuman = !isBr;
+            selectItemButtonWindow.SetLimitSelectType(isHuman, isBr);
         }
 
         // 交換ボタンが押された
@@ -157,7 +160,7 @@ public class CommonWindow : MonoBehaviour
             }
 
             // ボタンの作成
-            owner_commonUnitButton.Create(items, data.neccesaryCount, data.is_item);
+            owner_commonUnitButton.Create(items, data.neccesaryCount, data.is_item, !data.is_item);
             deleteData.Add(data);
         }
 

@@ -94,14 +94,8 @@ public class SelectItemButtonWidnow : MonoBehaviour
     }
 
     // 選択できるアイテムを制限する
-    public void ChangeOnlySelect(bool isBr)
+    public void SetLimitSelectType(bool isHuman, bool isBr)
     {
-
-    }
-
-    // カウントを０にする
-    public void ClearCount()
-    {
-        //foreach(SelectItemsButton button in owner)
+        owner_selectItemButton.SetActiveButton(isHuman, isBr);
     }
 }

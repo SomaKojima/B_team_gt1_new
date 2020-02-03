@@ -4,25 +4,22 @@ using UnityEngine;
 
 public class Owner_SelectItemButton : MonoBehaviour
 {
-    public enum SELECT_ITEM_TYPE
-    {
-        HUMAN,              // 人間のみ
-        BUILDING_RESOURCE,  // 資源のみ
-        BOTH                // 両方
-    }
-
     [SerializeField]
     Factory_SelectItemsButton factory;
 
     [SerializeField]
-    Manager_SelectItemsButton manager;
+    Manager_SelectItemsButton brManager;
+
+    [SerializeField]
+    Manager_SelectItemsButton humanManager;
 
     SelectItemsButton clickButton = null;
     bool isClick = false;
 
     int total = 0;
 
-    SELECT_ITEM_TYPE selectType = SELECT_ITEM_TYPE.HUMAN;
+    bool isHumanButton = false;
+    bool isBrButton = false;
 
     // 個数を保存する用
     Manager_Item currentItem = new Manager_Item();
@@ -33,6 +30,8 @@ public class Owner_SelectItemButton : MonoBehaviour
         {
             Create((ITEM_TYPE)i);
         }
+        isHumanButton = true;
+        isBrButton = true;
         currentItem.Initialize();
     }
 
@@ -48,32 +47,48 @@ public class Owner_SelectItemButton : MonoBehaviour
         isClick = false;
         total = 0;
 
-        foreach (SelectItemsButton button in manager.GetItemList())
+        foreach (SelectItemsButton button in humanManager.GetItemList())
         {
-            // 選択した個数を保存する
-            int currentCount = button.GetItem().GetCount();
-            ITEM_TYPE buttonType = button.GetItem().GetItemType();
-            currentItem.GetItem(buttonType).SetCount(currentCount);
-
-            // ボタンが押されたかどうかを判定する
-            if (button.IsClick())
-            {
-                button.OnClickProcess();
-                if (clickButton == null)
-                {
-                    isClick = true;
-                    // 選択中のボタンを保存する
-                    clickButton = button;
-                }
-            }
-            total += button.GetItem().GetCount();
+            UpdateButton(button);
         }
+        foreach (SelectItemsButton button in brManager.GetItemList())
+        {
+            UpdateButton(button);
+        }
+    }
+
+    public void UpdateButton(SelectItemsButton button)
+    {
+        // 選択した個数を保存する
+        int currentCount = button.GetItem().GetCount();
+        ITEM_TYPE buttonType = button.GetItem().GetItemType();
+        currentItem.GetItem(buttonType).SetCount(currentCount);
+
+        // ボタンが押されたかどうかを判定する
+        if (button.IsClick())
+        {
+            button.OnClickProcess();
+            if (clickButton == null)
+            {
+                isClick = true;
+                // 選択中のボタンを保存する
+                clickButton = button;
+            }
+        }
+        total += button.GetItem().GetCount();
     }
 
     // ボタンを作成
     public void Create(ITEM_TYPE type)
     {
-        manager.Add(factory.Create(type));
+        if (ItemType.IsHumanType(type))
+        {
+            humanManager.Add(factory.Create(type));
+        }
+        if (ItemType.IsBuildingResourceType(type))
+        {
+            brManager.Add(factory.Create(type));
+        }
     }
 
     // 選択中のアイテムの個数を変更する
@@ -129,8 +144,48 @@ public class Owner_SelectItemButton : MonoBehaviour
     /// 選択できるアイテムを設定する
     /// </summary>
     /// <param name="type"></param>
-    public void SetSelectItemType(SELECT_ITEM_TYPE type)
+    public void SetActiveButton(bool isHuman, bool isBr)
     {
-        selectType = type;
+        if (isHumanButton != isHuman)
+        {
+            isHumanButton = isHuman;
+            foreach (SelectItemsButton button in humanManager.GetItemList())
+            {
+                button.gameObject.SetActive(isHuman);
+            }
+            ClearCount(true, false);
+        }
+        if (isBrButton != isBr)
+        {
+            isBrButton = isBr;
+
+            foreach (SelectItemsButton button in brManager.GetItemList())
+            {
+                button.gameObject.SetActive(isBr);
+            }
+            ClearCount(false, true);
+        }
+
+    }
+
+    /// <summary>
+    /// ボタンのカウントをすべてなくす
+    /// </summary>
+    public void ClearCount(bool isHuman, bool isBr)
+    {
+        if (isHuman)
+        {
+            foreach (SelectItemsButton button in humanManager.GetItemList())
+            {
+                button.ClearCount();
+            }
+        }
+        if (isBr)
+        {
+            foreach (SelectItemsButton button in brManager.GetItemList())
+            {
+                button.ClearCount();
+            }
+        }
     }
 }

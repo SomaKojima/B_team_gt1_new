@@ -5,10 +5,6 @@ using UnityEngine;
 // 資源の種類
 public enum ITEM_TYPE
 {
-    RANDOM = -4,
-    RANDOM_HUMAN =-3,
-    RANDOM_BUILIDNG_RESOURCE = -2,
-
     /// </summary>
     NONE = -1,
     LOOGER,             // 木こり
@@ -23,16 +19,22 @@ public enum ITEM_TYPE
     WHEAT,              // 麦
     COTTON,             // 綿
 
-    NUM
+    NUM,
+
+
+    RANDOM,
+    RANDOM_HUMAN,
+    RANDOM_BUILIDNG_RESOURCE,
+
 }
 
 public class ItemType
 {
 
-    // マイナス値の先頭
-    static public ITEM_TYPE MinusHead
+    // 他の要素の最大を取得
+    static public ITEM_TYPE OtherMax
     {
-        get { return ITEM_TYPE.RANDOM; }
+        get { return ITEM_TYPE.RANDOM_BUILIDNG_RESOURCE; }
     }
 
     // 人間のタイプの先頭を返す
