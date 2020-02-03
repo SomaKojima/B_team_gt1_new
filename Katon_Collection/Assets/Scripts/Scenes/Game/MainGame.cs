@@ -365,9 +365,32 @@ public class MainGame : MonoBehaviour
     // 初期資源を手に入れる
     void FirstGetResource()
     {
+        switch(currentPlaceType)
+        {
+            case Type.cave:
+                manager_item.GetItem(ITEM_TYPE.COAL_MINER).SetCount(manager_item.GetItem(ITEM_TYPE.COAL_MINER).GetCount() + 1);
+                break;
+            case Type.forest:
+                manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(manager_item.GetItem(ITEM_TYPE.COAL_MINER).GetCount() + 1);
+                break;
+            case Type.factory:
+                manager_item.GetItem(ITEM_TYPE.ENGINEER).SetCount(manager_item.GetItem(ITEM_TYPE.COAL_MINER).GetCount() + 1);
+                break;
+            case Type.cotton:
+                manager_item.GetItem(ITEM_TYPE.FARMER_COTTON).SetCount(manager_item.GetItem(ITEM_TYPE.COAL_MINER).GetCount() + 1);
+                break;
+            case Type.farm:
+                manager_item.GetItem(ITEM_TYPE.FARMER).SetCount(manager_item.GetItem(ITEM_TYPE.COAL_MINER).GetCount() + 1);
+                break;
+        }
+        int[] item = new int[(int)ItemType.HumanMax];
+        for(int i = 0;i< (int)ItemType.HumanMax;i++)
+        {
+            item[i] = i;
+        }
+        ShuffleArray.shuffle(item, item.Length);
         manager_item.GetItem(ITEM_TYPE.LOOGER).SetCount(manager_item.GetItem(ITEM_TYPE.LOOGER).GetCount() + 1);
         manager_item.GetItem(ITEM_TYPE.ENGINEER).SetCount(manager_item.GetItem(ITEM_TYPE.ENGINEER).GetCount() + 1);
-        manager_item.GetItem(ITEM_TYPE.COAL_MINER).SetCount(manager_item.GetItem(ITEM_TYPE.COAL_MINER).GetCount() + 1);
     }
 
     void UpdateUIRequest()

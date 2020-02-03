@@ -10,12 +10,18 @@ public class Manage_SI_Player : Photon.MonoBehaviour
     public const int MAX_MEMBER = 4;
     private List<SI_Player> players = new List<SI_Player>();
 
-    private bool changeFlag = false;
+    private bool[] changeFlag = new bool[MAX_MEMBER];
+    private bool[] QRchangeFlag = new bool[MAX_MEMBER];
     private PhotonView m_photonView = null;
 
     // Start is called before the first frame update
     void Start()
     {
+        for(int i = 0;i< MAX_MEMBER;i++)
+        {
+            changeFlag[i] = false;
+            QRchangeFlag[i] = false;
+        }
         m_photonView = GetComponent<PhotonView>();
         UpdatePlayers();
     }
@@ -23,17 +29,25 @@ public class Manage_SI_Player : Photon.MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(players.Count > 1)
+        
+    }
+
+    public void UpdateInfo()
+    {
+        if (players.Count > 1)
         {
-            if(!PhotonNetwork.isMasterClient)
+            if (!PhotonNetwork.isMasterClient)
             {
                 MasterChange();
             }
             else
             {
-                if(changeFlag)
+                for(int i = 0;i< players.Count;i++)
                 {
-                    OthersChange();
+                    if (changeFlag[i])
+                    {
+                        OthersChange(i);
+                    }
                 }
             }
         }
@@ -134,32 +148,58 @@ public class Manage_SI_Player : Photon.MonoBehaviour
 
     public void MasterChange()
     {
-        m_photonView.RPC("RPCMasterChange", PhotonTargets.MasterClient, GetMyPlayer());
+        int id = GetMyPlayer().ID;
+        int[] placePoints = GetMyPlayer().PlacePoints;
+        int[] itemCounts = GetMyPlayer().ItemCounts;
+        bool isExchange = GetMyPlayer().IsExcange;
+        m_photonView.RPC("RPCMasterChange", PhotonTargets.MasterClient, id, placePoints, itemCounts, isExchange);
     }
 
     [PunRPC]
-    private void RPCMasterChange(SI_Player data)
+    private void RPCMasterChange(int id,int[] placePoints,int[] itemCounts,bool isExchange)
     {
         for (int i = 0; i < players.Count; i++)
         {
-            if (data.ID == this.players[i].ID)
+            if (id == this.players[i].ID)
             {
-                this.players[i] = data;
-                changeFlag = true;
+                this.players[i].PlacePoints = placePoints;
+                this.players[i].ItemCounts = itemCounts;
+                //this.players[i].IsExcange = isExchange;
+
+                changeFlag[i] = true;
             }
         }
     }
 
-    public void OthersChange()
+    public void OthersChange(int index)
     {
-        m_photonView.RPC("RPCOthersChange", PhotonTargets.Others,players);
-        changeFlag = false;
+        //変更を受信したプレイヤーの更新、送信
+        changeFlag[index] = false;
+        int id = players[index].ID;
+        int[] placePoints = players[index].PlacePoints;
+        int[] itemCounts = players[index].ItemCounts;
+        bool isExchange = players[index].IsExcange;
+        m_photonView.RPC("RPCOthersChange", PhotonTargets.Others, id, placePoints, itemCounts, isExchange);
+        //マスタークライアントプレイヤーの更新、送信
+        id = GetMyPlayer().ID;
+        placePoints = GetMyPlayer().PlacePoints;
+        itemCounts = GetMyPlayer().ItemCounts;
+        isExchange = GetMyPlayer().IsExcange;
+        m_photonView.RPC("RPCOthersChange", PhotonTargets.Others, id, placePoints, itemCounts, isExchange);
     }
 
     [PunRPC]
-    private void RPCOthersChange(List<SI_Player> master_data)
+    private void RPCOthersChange(int id, int[] placePoints, int[] itemCounts, bool isExchange)
     {
-        players = master_data;
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (id == this.players[i].ID)
+            {
+                this.players[i].PlacePoints = placePoints;
+                this.players[i].ItemCounts = itemCounts;
+                //this.players[i].IsExcange = isExchange;
+            }
+        }
     }
 
     public SI_Player GetMyPlayer()
@@ -178,9 +218,23 @@ public class Manage_SI_Player : Photon.MonoBehaviour
         return my_player;
     }
 
-    public void ExChangeInfo(int ID,bool isExchange)
+    public void ExChangeInfo(int ID, bool isExchange)
     {
-        m_photonView.RPC("RPCExChange", PhotonTargets.MasterClient,ID,isExchange);
+        if (!PhotonNetwork.isMasterClient)
+        {
+            m_photonView.RPC("RPCExChange", PhotonTargets.MasterClient, ID, isExchange);
+        }
+        else
+        {
+            for (int i = 0; i < players.Count; i++)
+            {
+                if (ID == this.players[i].ID)
+                {
+                    this.players[i].IsExcange = isExchange;
+                    ExChangeOtherInfo(ID, isExchange);
+                }
+            }
+        }
     }
 
     [PunRPC]
@@ -191,7 +245,24 @@ public class Manage_SI_Player : Photon.MonoBehaviour
             if (ID == this.players[i].ID)
             {
                 this.players[i].IsExcange = isExchange;
-                changeFlag = true;
+                ExChangeOtherInfo(ID, isExchange);
+            }
+        }
+    }
+
+    public void ExChangeOtherInfo(int ID, bool isExchange)
+    {
+        m_photonView.RPC("RPCExChangeOther", PhotonTargets.MasterClient, ID, isExchange);
+    }
+
+    [PunRPC]
+    private void RPCExChangeOther(int ID, bool isExchange)
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (ID == this.players[i].ID)
+            {
+                this.players[i].IsExcange = isExchange;
             }
         }
     }

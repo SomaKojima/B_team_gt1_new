@@ -27,7 +27,7 @@ public class MainGame_ServerInterface : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        UpdateManager_SI_Player();
     }
 
     public bool LostConnection()
@@ -47,5 +47,10 @@ public class MainGame_ServerInterface : MonoBehaviour
             PLInfoManager.SetPlInfo(manager_SI_Player.GetPlayers());
             PLInfoManager.CreatePLInfoWindow();
         }
+    }
+
+    public void UpdateManager_SI_Player()
+    {
+        manager_SI_Player.UpdateInfo();
     }
 }
