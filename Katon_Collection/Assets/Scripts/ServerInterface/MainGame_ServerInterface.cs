@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainGame_ServerInterface : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class MainGame_ServerInterface : MonoBehaviour
 
     [SerializeField]
     PLInfoManager PLInfoManager;
+
+    [SerializeField]
+    GameObject RankUI;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +32,7 @@ public class MainGame_ServerInterface : MonoBehaviour
     void Update()
     {
         UpdateManager_SI_Player();
+        RankUpdate();
     }
 
     public bool LostConnection()
@@ -52,5 +57,66 @@ public class MainGame_ServerInterface : MonoBehaviour
     public void UpdateManager_SI_Player()
     {
         manager_SI_Player.UpdateInfo();
+    }
+
+    public void RankUpdate()
+    {
+        int myID = manager_SI_Player.GetMyPlayer().ID;
+        int myPoint = 0;
+        int[] otherPoint = new int[manager_SI_Player.GetPlayers().Count - 1];
+        bool flag = false;
+        for (int i = 0; i < manager_SI_Player.GetPlayers().Count; i++) 
+        {
+            int point = 0;
+            if (myID == manager_SI_Player.GetPlayer(i).ID)
+            {
+                for (int j = 0; j < (int)Type.Max; j++)
+                {
+                    point += manager_SI_Player.GetPlayer(i).placePoint[j];
+                }
+                myPoint = point;
+                flag = true;
+            }
+            else
+            {
+                for (int j = 0; j < (int)Type.Max; j++)
+                {
+                    point += manager_SI_Player.GetPlayer(i).placePoint[j];
+                }
+                if (flag)
+                {
+                    otherPoint[i - 1] = point;
+                }
+                else
+                {
+                    otherPoint[i] = point;
+                }
+            }
+        }
+
+        int rank = 1;
+        for(int i = 0; i < otherPoint.Length; i++)
+        {
+            if(otherPoint[i] > myPoint)
+            {
+                rank++;
+            }
+        }
+
+        switch(rank)
+        {
+            case 1:
+                RankUI.GetComponent<Text>().text = "1st";
+                break;
+            case 2:
+                RankUI.GetComponent<Text>().text = "2nd";
+                break;
+            case 3:
+                RankUI.GetComponent<Text>().text = "3rd";
+                break;
+            case 4:
+                RankUI.GetComponent<Text>().text = "4th";
+                break;
+        }
     }
 }
