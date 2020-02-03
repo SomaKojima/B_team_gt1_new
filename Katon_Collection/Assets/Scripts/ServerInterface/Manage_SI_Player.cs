@@ -10,7 +10,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
     public const int MAX_MEMBER = 4;
     private List<SI_Player> players = new List<SI_Player>();
 
-    private bool[] changeFlag;
+    private bool[] changeFlag = new bool[MAX_MEMBER];
     private PhotonView m_photonView = null;
 
     // Start is called before the first frame update
