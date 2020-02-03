@@ -218,9 +218,16 @@ public class Manage_SI_Player : Photon.MonoBehaviour
         return my_player;
     }
 
-    public void ExChangeInfo(int ID,bool isExchange)
+    public void ExChangeInfo(int ID, bool isExchange)
     {
-        m_photonView.RPC("RPCExChange", PhotonTargets.MasterClient,ID,isExchange);
+        if (!PhotonNetwork.isMasterClient)
+        {
+            m_photonView.RPC("RPCExChange", PhotonTargets.MasterClient, ID, isExchange);
+        }
+        else
+        {
+            ExChangeOtherInfo(ID, isExchange);
+        }
     }
 
     [PunRPC]
