@@ -11,6 +11,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
     private List<SI_Player> players = new List<SI_Player>();
 
     private bool[] changeFlag = new bool[MAX_MEMBER];
+    private bool[] QRchangeFlag = new bool[MAX_MEMBER];
     private PhotonView m_photonView = null;
 
     // Start is called before the first frame update
@@ -19,6 +20,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
         for(int i = 0;i< MAX_MEMBER;i++)
         {
             changeFlag[i] = false;
+            QRchangeFlag[i] = false;
         }
         m_photonView = GetComponent<PhotonView>();
         UpdatePlayers();
@@ -162,7 +164,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
             {
                 this.players[i].PlacePoints = placePoints;
                 this.players[i].ItemCounts = itemCounts;
-                this.players[i].IsExcange = isExchange;
+                //this.players[i].IsExcange = isExchange;
 
                 changeFlag[i] = true;
             }
@@ -195,7 +197,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
             {
                 this.players[i].PlacePoints = placePoints;
                 this.players[i].ItemCounts = itemCounts;
-                this.players[i].IsExcange = isExchange;
+                //this.players[i].IsExcange = isExchange;
             }
         }
     }
@@ -229,7 +231,24 @@ public class Manage_SI_Player : Photon.MonoBehaviour
             if (ID == this.players[i].ID)
             {
                 this.players[i].IsExcange = isExchange;
-                changeFlag[i] = true;
+                ExChangeOtherInfo(ID, isExchange);
+            }
+        }
+    }
+
+    public void ExChangeOtherInfo(int ID, bool isExchange)
+    {
+        m_photonView.RPC("RPCExChangeOther", PhotonTargets.MasterClient, ID, isExchange);
+    }
+
+    [PunRPC]
+    private void RPCExChangeOther(int ID, bool isExchange)
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (ID == this.players[i].ID)
+            {
+                this.players[i].IsExcange = isExchange;
             }
         }
     }
