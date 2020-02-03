@@ -226,7 +226,14 @@ public class Manage_SI_Player : Photon.MonoBehaviour
         }
         else
         {
-            ExChangeOtherInfo(ID, isExchange);
+            for (int i = 0; i < players.Count; i++)
+            {
+                if (ID == this.players[i].ID)
+                {
+                    this.players[i].IsExcange = isExchange;
+                    ExChangeOtherInfo(ID, isExchange);
+                }
+            }
         }
     }
 
