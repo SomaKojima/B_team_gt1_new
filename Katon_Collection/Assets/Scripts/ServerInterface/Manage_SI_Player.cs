@@ -252,7 +252,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
 
     public void ExChangeOtherInfo(int ID, bool isExchange)
     {
-        m_photonView.RPC("RPCExChangeOther", PhotonTargets.MasterClient, ID, isExchange);
+        m_photonView.RPC("RPCExChangeOther", PhotonTargets.Others, ID, isExchange);
     }
 
     [PunRPC]

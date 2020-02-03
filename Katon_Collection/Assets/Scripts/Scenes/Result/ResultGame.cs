@@ -8,8 +8,6 @@ public class ResultGame : MonoBehaviour
     [SerializeField]
     private Congratulation congratulation = null;
     [SerializeField]
-    RankIcon rankIcon;
-    [SerializeField]
     CameraResultMove cameraResultMove;
     [SerializeField]
     Owner_Floor owner_Floor;
@@ -30,6 +28,10 @@ public class ResultGame : MonoBehaviour
     //表示フラグ
     bool m_gotoTapButtonFlag = false;
 
+
+    int max = 0;
+
+
     int TopScore = 8;
     int count = 0;
 
@@ -46,10 +48,42 @@ public class ResultGame : MonoBehaviour
         owner_Floor.Initialize();
         for (int i = 0; i < 4; i++)
         {
-            playerResult[i] = i+i;
+            playerResult[i] = i + i;
         }
 
+        
+    }
+
+    //プレイヤの結果
+    public void PlayerResult(int _1p, int _2p, int _3p,int _4p)
+    {
+        //プレイヤの結果を代入
+        playerResult[0] = _1p;
+        playerResult[1] = _2p;
+        playerResult[2] = _3p;
+        playerResult[3] = _4p;
+
+
        
+
+        max = playerResult[0];
+
+         
+        for (int i =0; i < 4; i++)
+        {
+            if (playerResult[i] > max)
+            {
+                max = playerResult[i];
+            }
+            if(playerResult[i]<0)
+            {
+                ui_Fukidashi[i].gameObject.SetActive(false);
+            }
+        }
+
+        TopScore = max;
+
+        congratulation.SetPlayerNumber(max);
     }
 
     // Update is called once per frame
@@ -82,7 +116,7 @@ public class ResultGame : MonoBehaviour
             gototitle_button.gameObject.SetActive(true);
             congratulation.gameObject.SetActive(true);
 
-            congratulation.SetPlayerNumber(1);
+            
         }
 
         landingFloor = owner_Floor.GetTopLandingOf(Type.cave);
