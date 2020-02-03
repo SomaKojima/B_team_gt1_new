@@ -28,6 +28,10 @@ public class ResultGame : MonoBehaviour
     //表示フラグ
     bool m_gotoTapButtonFlag = false;
 
+
+    int max = 0;
+
+
     int TopScore = 8;
     int count = 0;
 
@@ -47,7 +51,7 @@ public class ResultGame : MonoBehaviour
             playerResult[i] = i + i;
         }
 
-
+        
     }
 
     //プレイヤの結果
@@ -60,7 +64,7 @@ public class ResultGame : MonoBehaviour
         playerResult[3] = _4p;
 
 
-        int max = 0;
+       
 
         max = playerResult[0];
 
@@ -76,6 +80,8 @@ public class ResultGame : MonoBehaviour
                 ui_Fukidashi[i].gameObject.SetActive(false);
             }
         }
+
+        TopScore = max;
 
         congratulation.SetPlayerNumber(max);
     }
