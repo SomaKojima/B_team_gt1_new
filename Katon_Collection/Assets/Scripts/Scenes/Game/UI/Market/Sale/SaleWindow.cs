@@ -60,17 +60,16 @@ public class SaleWindow : MonoBehaviour
             applyButton.OnClickProcess();
             if (owner_saleUnitButton.GetSelectCommonUnitButton() != null)
             {
+                successWindow.gameObject.SetActive(true);
                 // アイテムの数が足りている場合
                 if (owner_saleUnitButton.GetSelectCommonUnitButton().IsEnough())
                 {
                     isExchange = true;
                     exchangeItems = owner_saleUnitButton.GetSelectCommonUnitButton().GetExchangeItemList();
-                    successWindow.gameObject.SetActive(true);
                     successWindow.Success();
                 }
                 else
                 {
-                    successWindow.gameObject.SetActive(true);
                     successWindow.Field();
                 }
             }

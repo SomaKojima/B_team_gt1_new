@@ -20,6 +20,9 @@ public class CommonWindow : MonoBehaviour
     [SerializeField]
     TextAsset csvFile; // CSVファイル
 
+    [SerializeField]
+    SuccessWindow successWindow;
+
     // 選択している項目の必要な資源のタイプを表す画像
     [SerializeField]
     Image humanImage;
@@ -190,5 +193,18 @@ public class CommonWindow : MonoBehaviour
     public void SetTime(float _time)
     {
         time = _time;
+    }
+
+    public void FinalizeExchange(bool isExchangeable)
+    {
+        successWindow.gameObject.SetActive(true);
+        if(isExchangeable)
+        {
+            successWindow.Success();
+        }
+        else
+        {
+            successWindow.Field();
+        }
     }
 }
