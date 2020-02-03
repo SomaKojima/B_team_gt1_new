@@ -154,11 +154,12 @@ public class SaleWindow : MonoBehaviour
                     type = ItemType.RandomBuildingResource();
                     break;
                 case ITEM_TYPE.RANDOM:
-                    type = ItemType.Random();
+                    type = ItemType.RandomType();
                     break;
                 default:
                     break;
             }
+            item.SetType(type);
             getItems.Add(item);
         }
 
@@ -177,11 +178,12 @@ public class SaleWindow : MonoBehaviour
                     type = ItemType.RandomBuildingResource();
                     break;
                 case ITEM_TYPE.RANDOM:
-                    type = ItemType.Random();
+                    type = ItemType.RandomType();
                     break;
                 default:
                     break;
             }
+            item.SetType(type);
             payItems.Add(item);
         }
 

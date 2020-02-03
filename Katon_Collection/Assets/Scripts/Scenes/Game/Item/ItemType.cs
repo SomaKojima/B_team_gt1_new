@@ -29,6 +29,12 @@ public enum ITEM_TYPE
 public class ItemType
 {
 
+    // マイナス値の先頭
+    static public ITEM_TYPE MinusHead
+    {
+        get { return ITEM_TYPE.RANDOM; }
+    }
+
     static public ITEM_TYPE HumanMax
     {
         get { return ITEM_TYPE.FARMER_COTTON + 1; }
@@ -68,7 +74,7 @@ public class ItemType
         return randomArray;
     }
 
-    static public ITEM_TYPE Random()
+    static public ITEM_TYPE RandomType()
     {
         return (ITEM_TYPE)Random.Range(0, (int)ITEM_TYPE.NUM);
     }
@@ -84,6 +90,6 @@ public class ItemType
 
     static public ITEM_TYPE RandomBuildingResource()
     {
-        return (ITEM_TYPE)Random.Range((int)ITEM_TYPE.WOOD, (int)ItemType.);
+        return (ITEM_TYPE)Random.Range((int)ITEM_TYPE.WOOD, (int)ItemType.BuildingResourceMax);
     }
 }

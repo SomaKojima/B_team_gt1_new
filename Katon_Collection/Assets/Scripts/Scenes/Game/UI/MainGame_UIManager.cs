@@ -292,7 +292,6 @@ public class MainGame_UIManager : MonoBehaviour
         //　フェードインが終わった時の処理
         if (fade_CloudEffect.GetIsProcess)
         {
-            Debug.Log("a");
             isFinishFadeIn = true;
             //フェードアウトの処理
             fade_CloudEffect.StartFadeOut();

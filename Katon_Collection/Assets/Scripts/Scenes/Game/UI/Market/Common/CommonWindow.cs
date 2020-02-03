@@ -147,11 +147,12 @@ public class CommonWindow : MonoBehaviour
                         type = ItemType.RandomBuildingResource();
                         break;
                     case ITEM_TYPE.RANDOM:
-                        type = ItemType.Random();
+                        type = ItemType.RandomType();
                         break;
                     default:
                         break;
                 }
+                item.SetType(type);
                 items.Add(item);
             }
 

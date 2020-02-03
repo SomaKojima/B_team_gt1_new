@@ -30,7 +30,7 @@ public class Common_Encode
 
     public void Initialize()
     {
-        for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
+        for (int i = (int)ItemType.MinusHead; i < (int)ITEM_TYPE.NUM; i++)
         {
             string name = ((ITEM_TYPE)i).ToString();
             itemTypeTable.Add(name, (ITEM_TYPE)i);
