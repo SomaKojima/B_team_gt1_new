@@ -14,6 +14,9 @@ public class SaleWindow : MonoBehaviour
     [SerializeField]
     TextAsset csvFile; // CSVファイル
 
+    [SerializeField]
+    SuccessWindow successWindow;
+
     // 項目の更新時間
     [SerializeField]
     float refreshDuringTime = 10;
@@ -57,11 +60,17 @@ public class SaleWindow : MonoBehaviour
             applyButton.OnClickProcess();
             if (owner_saleUnitButton.GetSelectCommonUnitButton() != null)
             {
+                successWindow.gameObject.SetActive(true);
                 // アイテムの数が足りている場合
                 if (owner_saleUnitButton.GetSelectCommonUnitButton().IsEnough())
                 {
                     isExchange = true;
                     exchangeItems = owner_saleUnitButton.GetSelectCommonUnitButton().GetExchangeItemList();
+                    successWindow.Success();
+                }
+                else
+                {
+                    successWindow.Field();
                 }
             }
         }

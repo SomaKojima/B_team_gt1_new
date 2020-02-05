@@ -20,6 +20,15 @@ public class CommonWindow : MonoBehaviour
     [SerializeField]
     TextAsset csvFile; // CSVファイル
 
+    [SerializeField]
+    SuccessWindow successWindow;
+
+    // 選択している項目の必要な資源のタイプを表す画像
+    [SerializeField]
+    Image humanImage;
+    [SerializeField]
+    Image brImage;
+
     Manager_Item managerItem = null;
 
     bool isExhcnage = false;
@@ -36,6 +45,8 @@ public class CommonWindow : MonoBehaviour
         owner_commonUnitButton.Initialize();
         selectItemButtonWindow.Initialize(_managerItem);
         managerItem = _managerItem;
+        humanImage.gameObject.SetActive(false);
+        brImage.gameObject.SetActive(false);
     }
 
     // Start is called before the first frame update
@@ -58,6 +69,18 @@ public class CommonWindow : MonoBehaviour
             int total = selectItemButtonWindow.GetTotal();
             exchangeCount = total / requiredNum;
             totalExchageNumText.text = exchangeCount.ToString();
+
+            // 必要な資源のタイプを表す画像をこうしんする
+            if (owner_commonUnitButton.GetSelectCommonUnitButton().IsBr())
+            {
+                brImage.gameObject.SetActive(true);
+                humanImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                brImage.gameObject.SetActive(false);
+                humanImage.gameObject.SetActive(true);
+            }
         }
 
         // 交換ボタンが押された
@@ -118,7 +141,7 @@ public class CommonWindow : MonoBehaviour
             }
 
             // ボタンの作成
-            owner_commonUnitButton.Create(items, data.neccesaryCount);
+            owner_commonUnitButton.Create(items, data.neccesaryCount, data.is_item);
             deleteData.Add(data);
         }
 
@@ -170,5 +193,18 @@ public class CommonWindow : MonoBehaviour
     public void SetTime(float _time)
     {
         time = _time;
+    }
+
+    public void FinalizeExchange(bool isExchangeable)
+    {
+        successWindow.gameObject.SetActive(true);
+        if(isExchangeable)
+        {
+            successWindow.Success();
+        }
+        else
+        {
+            successWindow.Field();
+        }
     }
 }

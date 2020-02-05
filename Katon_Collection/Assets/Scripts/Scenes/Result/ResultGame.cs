@@ -8,8 +8,6 @@ public class ResultGame : MonoBehaviour
     [SerializeField]
     private Congratulation congratulation = null;
     [SerializeField]
-    RankIcon rankIcon;
-    [SerializeField]
     CameraResultMove cameraResultMove;
     [SerializeField]
     Owner_Floor owner_Floor;
@@ -21,10 +19,6 @@ public class ResultGame : MonoBehaviour
     [SerializeField]
     UI_Fukidashi[] ui_Fukidashi = new UI_Fukidashi[4];
 
-    // サウンド
-    [SerializeField]
-    Sound_Result sound;
-
     float time = 0;
     Floor landingFloor = null;
 
@@ -34,9 +28,13 @@ public class ResultGame : MonoBehaviour
     //表示フラグ
     bool m_gotoTapButtonFlag = false;
 
+
+    int max = 0;
+
+
     int TopScore = 8;
     int count = 0;
-    
+
 
     void Awake()
     {
@@ -47,19 +45,52 @@ public class ResultGame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // BGM
-        sound.PlaySound(SoundType_Result.BGM, 1.5f);
-
         owner_Floor.Initialize();
         for (int i = 0; i < 4; i++)
         {
-            playerResult[i] = i+i;
+            playerResult[i] = i + i;
         }
+
+        
+    }
+
+    //プレイヤの結果
+    public void PlayerResult(int _1p, int _2p, int _3p,int _4p)
+    {
+        //プレイヤの結果を代入
+        playerResult[0] = _1p;
+        playerResult[1] = _2p;
+        playerResult[2] = _3p;
+        playerResult[3] = _4p;
+
+
+       
+
+        max = playerResult[0];
+
+         
+        for (int i =0; i < 4; i++)
+        {
+            if (playerResult[i] > max)
+            {
+                max = playerResult[i];
+            }
+            if(playerResult[i]<0)
+            {
+                ui_Fukidashi[i].gameObject.SetActive(false);
+            }
+        }
+
+        TopScore = max;
+
+        congratulation.SetPlayerNumber(max);
     }
 
     // Update is called once per frame
     void Update()
     {
+       
+       
         time++;
         if(time > 60)
         {
@@ -68,15 +99,14 @@ public class ResultGame : MonoBehaviour
                 count++;
                 owner_Floor.Building(Type.cave);
             }
+
+           
             time = 0;
         }
-       
-        //一番高く建てた人のスコアを超えたら
-        if (count >= TopScore && !m_gotoTapButtonFlag)
-        {
-            // 勝利BGM
-            sound.PlaySound(SoundType_Result.WinBGM, 1.0f);
 
+        //一番高く建てた人のスコアを超えたら
+        if (count >= TopScore)
+        {
             m_gotoTapButtonFlag = true;
         }
 
@@ -86,7 +116,7 @@ public class ResultGame : MonoBehaviour
             gototitle_button.gameObject.SetActive(true);
             congratulation.gameObject.SetActive(true);
 
-            congratulation.SetPlayerNumber(1);
+            
         }
 
         landingFloor = owner_Floor.GetTopLandingOf(Type.cave);
@@ -95,7 +125,7 @@ public class ResultGame : MonoBehaviour
 
             // 現在建築された回数
             int total = owner_Floor.GetTotalLandingFloor(Type.cave);
-            Debug.Log(total);
+            //Debug.Log(total);
             for (int i = 0; i < 4; i++)
             {
                 if(owner_Floor.GetPlaceTotalFloor(Type.cave)<=playerResult[i])
@@ -106,7 +136,8 @@ public class ResultGame : MonoBehaviour
                 }
               
             }
-            
+
+
             cameraResultMove.SetTarget(landingFloor.transform.position);
             cameraResultMove.Move();
         }
@@ -114,9 +145,6 @@ public class ResultGame : MonoBehaviour
         //シーン切り替え
         if(gototitle_button.IsClick())
         {
-            // UIクリック音
-            sound.PlaySound(SoundType_Result.Change, 1.0f);
-
             SceneManager.LoadScene("TitleScene");
         }
         

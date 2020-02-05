@@ -17,14 +17,14 @@ public class TitleGame : MonoBehaviour
 
     void Awake()
     {
-        Application.targetFrameRate = 30; //30FPSに設定
     }
 
     // Start is called before the first frame update
     void Start()
     {
         // BGMを鳴らす
-        sound.PlaySound(SoundType_Title.BGM, 1.0f);
+        sound.PlaySound(SoundType_Title.BGM);
+        Application.targetFrameRate = 30; //30FPSに設定
     }
 
     // Update is called once per frame
@@ -45,7 +45,7 @@ public class TitleGame : MonoBehaviour
         if(m_uI_Title_Button.IsClick())
         {
             // スタート音を鳴らす
-            sound.PlaySound(SoundType_Title.Start,1.6f);
+            sound.PlaySound(SoundType_Title.Start);
 
             m_backGround_Title.ChangeFlag = true;
             m_uI_Title_Button.OnClickProcess();

@@ -101,6 +101,7 @@ public class IconMove : MonoBehaviour
 
     void ChangeMaterial(ITEM_TYPE _type)
     {
+        if (ITEM_TYPE.NONE == _type || ITEM_TYPE.WOOD > _type) return;
         renderer.material = itemContextTable.GetItemContex(_type).GetMaterial();
     }
 }

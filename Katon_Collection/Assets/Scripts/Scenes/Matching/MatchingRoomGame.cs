@@ -27,6 +27,9 @@ public class MatchingRoomGame : MonoBehaviour
     [SerializeField]
     Sound_MatchingRoom sound;
 
+    [SerializeField]
+    Manage_SI_Player managetSIPlayer;
+
     // Start is called before the first frame update
     void Start()
     {

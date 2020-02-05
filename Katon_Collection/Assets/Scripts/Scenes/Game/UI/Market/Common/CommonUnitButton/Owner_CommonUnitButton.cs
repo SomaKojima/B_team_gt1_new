@@ -29,7 +29,7 @@ public class Owner_CommonUnitButton : MonoBehaviour
         {
             humanGetItems.Add(new Item(1, (ITEM_TYPE)i));
             int necessary = HUMAN_NECESSARY;
-            CommonUnitButton button = factory.Create(humanGetItems[i], necessary);
+            CommonUnitButton button = factory.Create(humanGetItems[i], necessary, false);
             humanUnit.Add(button);
             manager.Add(button);
         }
@@ -53,9 +53,9 @@ public class Owner_CommonUnitButton : MonoBehaviour
         }
     }
 
-    public void Create(List<IItem> items, int requiredNum)
+    public void Create(List<IItem> items, int requiredNum, bool isBr)
     {
-        manager.Add(factory.Create(items, requiredNum));
+        manager.Add(factory.Create(items, requiredNum, isBr));
     }
 
     public CommonUnitButton GetSelectCommonUnitButton()
@@ -71,7 +71,35 @@ public class Owner_CommonUnitButton : MonoBehaviour
     {
         foreach (CommonUnitButton button in humanUnit)
         {
-            int necessary = HUMAN_NECESSARY * buildingTotal;
+            int necessary = 0;//HUMAN_NECESSARY * buildingTotal;
+            if (buildingTotal < 6)
+            {
+                switch (buildingTotal)
+                {
+                    case 0:
+                        necessary = 20;
+                        break;
+                    case 1:
+                        necessary = 50;
+                        break;
+                    case 2:
+                        necessary = 100;
+                        break;
+                    case 3:
+                        necessary = 160;
+                        break;
+                    case 4:
+                        necessary = 240;
+                        break;
+                    case 5:
+                        necessary = 300;
+                        break;
+                }
+            }
+            else
+            {
+                necessary = 300;
+            }
             button.ChangeRequiredNum(necessary);
         }
     }
