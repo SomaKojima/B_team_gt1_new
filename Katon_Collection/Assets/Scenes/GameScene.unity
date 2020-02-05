@@ -6855,6 +6855,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager_SI_Player: {fileID: 728197125}
+  sI_Game: {fileID: 2097668884}
   manager_ServerInterface: {fileID: 1225714052}
   PLInfoManager: {fileID: 1446438059}
   RankUI: {fileID: 198436430}

@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class SI_Game : MonoBehaviour
 {
     float rimitTime;
+    bool isGameSet = false;
+    public static int[] Scores;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,9 +46,29 @@ public class SI_Game : MonoBehaviour
 
     void GameSet()
     {
-        if(rimitTime<0)
+        if(isGameSet)
         {
             SceneManager.LoadScene("ResultScene");
         }
+    }
+
+    public void SetScore(int[] PLPoint)
+    {
+        Scores = new int[PLPoint.Length];
+        for (int i = 0; i < PLPoint.Length; i++) 
+        {
+            Scores[i] = PLPoint[i];
+        }
+    }
+
+    public bool IsGameSet
+    {
+        get { return isGameSet; }
+        set { isGameSet = value; }
+    }
+
+    public static int[] GetScore()
+    {
+        return Scores;
     }
 }
