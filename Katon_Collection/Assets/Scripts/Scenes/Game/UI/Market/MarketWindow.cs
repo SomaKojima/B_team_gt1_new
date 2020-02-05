@@ -66,10 +66,7 @@ public class MarketWindow : MonoBehaviour
         if (commonWindow.IsExchange())
         {
             exchangeItemList = commonWindow.GetExchangeItemList();
-            foreach (IItem item in exchangeItemList)
-            {
-                Debug.Log(item.GetItemType() + " : " + item.GetCount());
-            }
+            
             isExchange = true;
         }
 

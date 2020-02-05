@@ -103,4 +103,5 @@ public class Owner_CommonUnitButton : MonoBehaviour
             button.ChangeRequiredNum(necessary);
         }
     }
+    
 }
