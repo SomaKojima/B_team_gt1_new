@@ -22,6 +22,8 @@ public class SelectItemButtonWidnow : MonoBehaviour
 
     Manager_Item refItem = null;
 
+    List<IItem> seletItems = new List<IItem>();
+
     public void Initialize(Manager_Item _managerItem)
     {
         managerItem = _managerItem;
@@ -49,6 +51,8 @@ public class SelectItemButtonWidnow : MonoBehaviour
             }
             normalWindow.Active();
             normalWindow.Initialize(selectItem.GetItemType(), selectItem.GetNormalCount(), false);
+
+            AddSelectItems(selectItem);
         }
 
         // 支払い素材の個数を選択中に、選択画面の最大所持数を更新する
@@ -98,4 +102,38 @@ public class SelectItemButtonWidnow : MonoBehaviour
     {
         owner_selectItemButton.SetActiveButton(isHuman, isBr);
     }
+
+    void AddSelectItems(IItem item)
+    {
+        if (seletItems.Count != 0)
+        {
+            if (seletItems[seletItems.Count - 1] == item)
+            {
+                return;
+            }
+        }
+        seletItems.Add(item);
+
+        if (seletItems.Count > 10)
+        {
+            seletItems.RemoveAt(0);
+        }
+    }
+
+    List<IItem> GetSelectItems()
+    {
+        return seletItems;
+    }
+
+    public IItem GetLastSelectItem()
+    {
+        if (seletItems.Count == 0) return null;
+        if (seletItems[seletItems.Count - 1].GetCount() == 0) seletItems.RemoveAt(seletItems.Count - 1);
+        if (seletItems.Count != 0)
+        {
+            return seletItems[seletItems.Count - 1];
+        }
+        return null;
+    }
+
 }

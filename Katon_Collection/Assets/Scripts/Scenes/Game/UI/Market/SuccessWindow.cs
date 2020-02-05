@@ -26,7 +26,7 @@ public class SuccessWindow : MonoBehaviour
 
     public void Success()
     {
-        text.text = "せいこうした";
+        text.text = "こうかんした";
     }
     public void Field()
     {

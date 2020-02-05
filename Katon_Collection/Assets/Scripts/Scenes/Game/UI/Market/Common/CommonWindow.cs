@@ -36,6 +36,9 @@ public class CommonWindow : MonoBehaviour
 
     float time = 0;
 
+    int requiredNum = 0;
+    int total = 0;
+
     List<IItem> exchangeItemList = new List<IItem>();
 
     Common_Encode common_Encode = new Common_Encode();
@@ -65,8 +68,8 @@ public class CommonWindow : MonoBehaviour
         // 合計交換回数を更新する
         if (owner_commonUnitButton.GetSelectCommonUnitButton() != null)
         {
-            int requiredNum = owner_commonUnitButton.GetSelectCommonUnitButton().GetRequiredNum();
-            int total = selectItemButtonWindow.GetTotal();
+            requiredNum = owner_commonUnitButton.GetSelectCommonUnitButton().GetRequiredNum();
+            total = selectItemButtonWindow.GetTotal();
             exchangeCount = total / requiredNum;
             totalExchageNumText.text = exchangeCount.ToString();
 
@@ -104,8 +107,26 @@ public class CommonWindow : MonoBehaviour
         {
             exchangeItemList.AddRange(owner_commonUnitButton.GetSelectCommonUnitButton().GetGetItems());
         }
+
+        // 余りは残す
+        int different = total - (exchangeCount * requiredNum);
+        Debug.Log(different);
+        while (different > 0)
+        {
+            if (selectItemButtonWindow.GetLastSelectItem() == null) break;
+            int count = selectItemButtonWindow.GetLastSelectItem().GetCount() - different;
+            if (count < 0)
+            {
+                count = 0;
+            }
+            different -= (selectItemButtonWindow.GetLastSelectItem().GetCount() - count);
+            Debug.Log(count);
+            selectItemButtonWindow.GetLastSelectItem().SetCount(count);
+        }
+
         foreach (IItem item in selectItemButtonWindow.GetManagerItem().GetItemList())
         {
+            Debug.Log(item.GetNormalCount() + " : " + item.GetPowerUpCount());
             exchangeItemList.Add(new Item(-item.GetNormalCount(), -item.GetPowerUpCount(), item.GetItemType()));
         }
     }
