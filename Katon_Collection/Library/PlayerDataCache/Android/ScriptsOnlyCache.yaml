@@ -156,6 +156,7 @@ ScriptsOnlyBuild:
     - TMPro.TextMeshProUGUI
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
+    - UnityEditor.TestTools.TestRunner.TestListCacheData
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
     - UnityEngine.EventSystems.EventTrigger
@@ -653,17 +654,11 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10546}
     - Class: 114
-      Script: {instanceID: 10590}
-    - Class: 114
       Script: {instanceID: 10654}
     - Class: 114
       Script: {instanceID: 11064}
     - Class: 114
-      Script: {instanceID: 11878}
-    - Class: 114
       Script: {instanceID: 11932}
-    - Class: 114
-      Script: {instanceID: 12044}
     - Class: 114
       Script: {instanceID: 12132}
     - Class: 114
@@ -683,15 +678,9 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 13238}
     - Class: 114
-      Script: {instanceID: 13494}
-    - Class: 114
-      Script: {instanceID: 13508}
-    - Class: 114
-      Script: {instanceID: 13516}
-    - Class: 114
       Script: {instanceID: 13630}
     - Class: 114
-      Script: {instanceID: 43428}
+      Script: {instanceID: 46474}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -814,8 +803,6 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10542}
     - Class: 114
-      Script: {instanceID: 10590}
-    - Class: 114
       Script: {instanceID: 10662}
     - Class: 114
       Script: {instanceID: 10668}
@@ -897,8 +884,6 @@ ScriptsOnlyBuild:
       Script: {instanceID: 11832}
     - Class: 114
       Script: {instanceID: 11874}
-    - Class: 114
-      Script: {instanceID: 11878}
     - Class: 114
       Script: {instanceID: 11932}
     - Class: 114
@@ -1024,15 +1009,9 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 13452}
     - Class: 114
-      Script: {instanceID: 13494}
-    - Class: 114
       Script: {instanceID: 13500}
     - Class: 114
       Script: {instanceID: 13502}
-    - Class: 114
-      Script: {instanceID: 13508}
-    - Class: 114
-      Script: {instanceID: 13516}
     - Class: 114
       Script: {instanceID: 13524}
     - Class: 114
@@ -1058,13 +1037,13 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 13766}
     - Class: 114
-      Script: {instanceID: 34380}
+      Script: {instanceID: 37456}
     - Class: 114
-      Script: {instanceID: 34748}
+      Script: {instanceID: 37824}
     - Class: 114
-      Script: {instanceID: 35026}
+      Script: {instanceID: 38078}
     - Class: 114
-      Script: {instanceID: 35972}
+      Script: {instanceID: 39024}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1580,7 +1559,7 @@ ScriptsOnlyBuild:
     className: PostProcessProfile
   - hash:
       serializedVersion: 2
-      Hash: f0225211780ca5b4fac3f6d3b9e3f2ef
+      Hash: 273f826541c083baba3bdc828a052136
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ResultGame
@@ -3630,4 +3609,4 @@ ScriptsOnlyBuild:
   - Assets/Scenes/MatchingRoomScene.unity
   - Assets/Scenes/GameScene.unity
   - Assets/Scenes/ResultScene.unity
-  playerPath: C:/Users/s172025/Desktop/hgjkgk/test.apk
+  playerPath: C:/Users/s172179/Desktop/test.apk

@@ -77,7 +77,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
         {
             for (int i = 0; i < playerList.Length; i++)
             {
-                if (playerList.Length >= MAX_MEMBER) break;
+                if (playerList.Length > MAX_MEMBER) break;
                 if (playerList.Length > players.Count)
                 {
                     GameObject playerObj = Instantiate(prefab);
