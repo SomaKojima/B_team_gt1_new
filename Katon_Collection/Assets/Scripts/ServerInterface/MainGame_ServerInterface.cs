@@ -9,6 +9,9 @@ public class MainGame_ServerInterface : MonoBehaviour
     Manage_SI_Player manager_SI_Player;
 
     [SerializeField]
+    SI_Game sI_Game;
+
+    [SerializeField]
     Manager_ServerInterface manager_ServerInterface;
 
     [SerializeField]
@@ -33,6 +36,21 @@ public class MainGame_ServerInterface : MonoBehaviour
     {
         UpdateManager_SI_Player();
         RankUpdate();
+        if(sI_Game.GetTime()<0)
+        {
+            int[] PLpoint = new int[manager_SI_Player.GetPlayers().Count];
+            for(int i=0;i< manager_SI_Player.GetPlayers().Count;i++)
+            {
+                int point = 0;
+                for (int j = 0; j < (int)Type.Max; j++)
+                {
+                    point += manager_SI_Player.GetPlayer(i).GetPlacePoint(j);
+                }
+                PLpoint[i] = point;
+            }
+            sI_Game.SetScore(PLpoint);
+            sI_Game.IsGameSet = true;
+        }
     }
 
     public bool LostConnection()
