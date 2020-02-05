@@ -5,48 +5,29 @@ using UnityEngine.UI;
 
 public class Manager_PlaceBar : MonoBehaviour
 {
-    //拠点の個数
-    const int BASE_NUM = 5;
-
-
-    Type m_placeType = Type.none;
-
+    enum PlaceBarButtonType
+    {
+        NONE,
+        HUMAN,
+        MARKET,
+        CAMERA
+    }
     [SerializeField]
     GameObject placeBar;
 
     [SerializeField]
-    Image m_pencil;
-
-    [SerializeField]
-    //拠点ボタン
-    UI_Button m_bases;
+    //人間ボタン
+    UI_Button m_human;
 
     [SerializeField]
     //市場ボタン
     UI_Button m_ichiba;
 
     [SerializeField]
-    //噴水ボタン
-    UI_Button m_fountain;
-
-    [SerializeField]
     //カメラボタン
     UI_Button m_camera;
 
-    [SerializeField]
-    //拠点の場所
-    UI_Button[] m_placeButtons = new UI_Button[BASE_NUM];
-
-    //カメラが押されたか
-    bool m_isQRLeader = false;
-
-    //アクティブな状態か
-    bool m_active = false;
-
-    // 移動するボタンを押したかどうか
-    bool isClickButton = false;
-    
-
+    PlaceBarButtonType buttonType = PlaceBarButtonType.NONE;
 
     // Update is called once per frame
     void Update() {
@@ -58,123 +39,70 @@ public class Manager_PlaceBar : MonoBehaviour
     //ボタンをクリックしたときにタイプを設定
     void ClickEvent()
     {
+        buttonType = PlaceBarButtonType.NONE;
+
+
         //拠点をクリックしたら
-        if (m_bases.IsClick())
+        if (m_human.IsClick())
         {
-            m_bases.OnClickProcess();
-
-            m_active = !m_active;
-
-            SetActiveBase(m_active);
+            m_human.OnClickProcess();
+            buttonType = PlaceBarButtonType.HUMAN;
         }
-
-        isClickButton = false;
-
-        //森
-        if (m_placeButtons[0].IsClick())
-        {
-            m_placeButtons[0].OnClickProcess();
-            
-            ClickButton(Type.forest);
-
-        }
-
-        //洞窟
-        if (m_placeButtons[1].IsClick())
-        {
-            m_placeButtons[1].OnClickProcess();
-            
-            ClickButton(Type.cave);
-        }
-
-        //工場
-        if (m_placeButtons[2].IsClick())
-        {
-            m_placeButtons[2].OnClickProcess();
-            
-            ClickButton(Type.factory);
-
-        }
-
-        //牧場
-        if (m_placeButtons[3].IsClick())
-        {
-            m_placeButtons[3].OnClickProcess();
-            
-            ClickButton(Type.farm);
-
-        }
-
-        //綿
-        if (m_placeButtons[4].IsClick())
-        {
-            m_placeButtons[4].OnClickProcess();
-
-            ClickButton(Type.cotton);
-
-        }
-
-
+        
         //市場ボタンを押したら
         if (m_ichiba.IsClick())
         {
             m_ichiba.OnClickProcess();
-            
-            ClickButton(Type.market);
-
-        }
-
-        //噴水ボタンを押したら
-        if (m_fountain.IsClick())
-        {
-            m_fountain.OnClickProcess();
-            
-            ClickButton(Type.fountain);
-
+            buttonType = PlaceBarButtonType.MARKET;
         }
 
         //カメラボタンを押したら
-        m_isQRLeader = false;
         if (m_camera.IsClick())
         {
             m_camera.OnClickProcess();
 
-            m_isQRLeader = true;
+            buttonType = PlaceBarButtonType.CAMERA;
         }
     }
     
-    //タイプの取得
-    public Type GetchangeType()
+    /// <summary>
+    /// 人間のボタンが押されたかどうか
+    /// </summary>
+    /// <returns></returns>
+    public bool IsClickHuman()
     {
-        return m_placeType;
+        return IsClickButton(PlaceBarButtonType.HUMAN);
     }
 
-    public bool IsChangeCameraPosiiton()
+    /// <summary>
+    /// 市場のボタンが押されたかどうか
+    /// </summary>
+    /// <returns></returns>
+    public bool IsClickMarket()
     {
-        if (m_placeType != Type.none && isClickButton) return true;
+        return IsClickButton(PlaceBarButtonType.MARKET);
+    }
+
+    /// <summary>
+    /// カメラのボタンが押されたかどうか
+    /// </summary>
+    /// <returns></returns>
+    public bool IsClickCamera()
+    {
+        return IsClickButton(PlaceBarButtonType.CAMERA);
+    }
+
+    /// <summary>
+    /// 特定のボタンが押されたかどうか 
+    /// </summary>
+    /// <param name="_buttonType"></param>
+    /// <returns></returns>
+    bool IsClickButton(PlaceBarButtonType _buttonType)
+    {
+        if (buttonType == _buttonType) return true;
         return false;
     }
 
-    public bool IsActiveShop()
-    {
-        if (m_placeType == Type.market && isClickButton) return true;
-        return false;
-    }
-
-    public bool IsActiveFountain()
-    {
-        if (m_placeType == Type.fountain && isClickButton)
-        {
-            return true;
-        }
-        return false;
-    }
-
-    //カメラを起動したかを取得
-    public bool GetIsQRLeader()
-    {
-        return m_isQRLeader;
-    }
 
     public void Active()
     {
@@ -186,43 +114,5 @@ public class Manager_PlaceBar : MonoBehaviour
     {
         if (!placeBar.activeSelf) return;
         placeBar.SetActive(false);
-    }
-
-    /// <summary>
-    /// 移動ボタンを押した時の処理
-    /// </summary>
-    /// <param name="_placeType"></param>
-    void ClickButton(Type _placeType)
-    {
-        m_placeType = _placeType;
-        isClickButton = true;
-    }
-
-    /// <summary>
-    /// 拠点ボタンが有効化かどうか
-    /// </summary>
-    /// <returns></returns>
-    public bool IsActiveBase()
-    {
-        return m_active;
-    }
-
-    public void SetActiveBase(bool _isActive)
-    {
-        m_active = _isActive;
-        for (int i = 0; i < BASE_NUM; i++)
-        {
-            if (m_active)
-            {
-                m_placeButtons[i].gameObject.SetActive(true);
-                m_pencil.gameObject.SetActive(true);
-            }
-            else
-            {
-                m_placeButtons[i].gameObject.SetActive(false);
-                m_pencil.gameObject.SetActive(false);
-            }
-
-        }
     }
 }

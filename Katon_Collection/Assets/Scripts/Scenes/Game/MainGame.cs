@@ -97,8 +97,6 @@ public class MainGame : MonoBehaviour
         
         // リクエストの処理
         UpdateRequestList();
-        
-        UpdateUIRequest();
 
         UpdateRequest_UI();
 
@@ -231,7 +229,6 @@ public class MainGame : MonoBehaviour
         // カメラの移動
         if (_request.Flag.IsFlag(REQUEST.CAMERA_MOVE_PLACE))
         {
-            mainCamera.Move(uiManager.GetPlaceType());
         }
 
         // カメラをひとつ前に戻す
@@ -368,6 +365,21 @@ public class MainGame : MonoBehaviour
                 _request.FinalizePowerUp(_isExchange);
             }
         }
+
+        // 現在地の人間の情報が欲しい
+        if (_request.Flag.IsFlag(REQUEST.GET_CURRENT_PLACE_HUMAN_INFO))
+        {
+            List<ITEM_TYPE> types = new List<ITEM_TYPE>();
+            foreach (Human human in owner_human.GetPlaceHuman(currentPlaceType))
+            {
+                if (!human.IsPowerUp())
+                {
+                    types.Add(human.GetItemType());
+                }
+            }
+            _request.CurrentPlaceHumanType = types;
+            _request.FinalizeGetHumanInfo();
+        }
         
 
         _request.FinalizeRequest();
@@ -403,24 +415,7 @@ public class MainGame : MonoBehaviour
         manager_item.GetItem((ITEM_TYPE)item[0]).SetCount(manager_item.GetItem((ITEM_TYPE)item[0]).GetCount() + 1);
         manager_item.GetItem((ITEM_TYPE)item[1]).SetCount(manager_item.GetItem((ITEM_TYPE)item[1]).GetCount() + 1);
     }
-
-    void UpdateUIRequest()
-    {
-        if (uiManager.IsSetPlaceHumanType())
-        {
-            List<ITEM_TYPE> types = new List<ITEM_TYPE>();
-            foreach (Human human in owner_human.GetPlaceHuman(currentPlaceType))
-            {
-                if (!human.IsPowerUp())
-                {
-                    types.Add(human.GetItemType());
-                }
-            }
-            uiManager.SetPlaceHumanType(types);
-            uiManager.SetPowerUpWindow(owner_floor.GetTotalFloor());
-        }
-    }
-
+    
     void UpdateServer()
     {
         for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
