@@ -8,6 +8,8 @@ public class UI_Button_Title : UI_Button
     [SerializeField]
     UI_Button m_title_button = null;
 
+    
+
 
     //タイトルボタンが押された
     public void ClickTitileButton()
@@ -22,5 +24,7 @@ public class UI_Button_Title : UI_Button
     {
         return m_title_button.IsClick();
     }
+
+   
 
 }
