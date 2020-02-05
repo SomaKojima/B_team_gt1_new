@@ -380,7 +380,24 @@ public class MainGame : MonoBehaviour
             _request.CurrentPlaceHumanType = types;
             _request.FinalizeGetHumanInfo();
         }
-        
+
+        // 人間の雇用
+        if (_request.Flag.IsFlag(REQUEST.EMPLOYMENT))
+        {
+            // 建築に必要な素材を取得
+            List<IItem> _items = _request.EmploymentItems;
+            // 資源が足りているか確認
+            bool _isExchange = manager_item.IsExchange(_items);
+
+            // 雇用成功
+            if (_isExchange && _items != null)
+            {
+                IItem addHuman = new Item(1, ItemType.RandomHuman());
+                _items.Add(addHuman);
+                manager_item.AddItems(_items);
+                _items.Clear();
+            }
+        }
 
         _request.FinalizeRequest();
     }

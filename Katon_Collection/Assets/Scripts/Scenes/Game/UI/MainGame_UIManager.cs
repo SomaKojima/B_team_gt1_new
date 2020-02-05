@@ -542,11 +542,19 @@ public class MainGame_UIManager : MonoBehaviour
     /// </summary>
     void UpdateRequest_HumanWindow()
     {
+        // 強化の処理
         if (humanWindow.IsPowerUp())
         {
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.POWER_UP_HUMAN);
             request.PowerUpHumanType = humanWindow.GetPowerUpItemType();
             request.PowerUpItems = humanWindow.GetPowerUpResource();
+        }
+
+        // 雇用の処理
+        if(humanWindow.IsEmployment())
+        {
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.EMPLOYMENT);
+            request.EmploymentItems = humanWindow.GetEmploymentResource();
         }
 
         // 戻るボタンの処理

@@ -29,6 +29,8 @@ public class Request
 
     List<ITEM_TYPE> currentPlaceHumanType = new List<ITEM_TYPE>();
 
+    List<IItem> employmentItems = null;
+
     /// <summary>
     /// 初期化
     /// </summary>
@@ -124,6 +126,12 @@ public class Request
     {
         get { return currentPlaceHumanType; }
         set { currentPlaceHumanType = value; }
+    }
+
+    public List<IItem> EmploymentItems
+    {
+        get { return employmentItems; }
+        set { employmentItems = value; }
     }
 
     /// <summary>

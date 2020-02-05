@@ -12,6 +12,10 @@ public class HumanWindow : MonoBehaviour
     [SerializeField]
     PowerUpWindow powerUpWindow;
 
+    // 雇用ウィンドウ
+    [SerializeField]
+    EmploymentWindow employmentWindow;
+
     // 戻るボタンが押されたかどうか
     bool isBack = false;
 
@@ -22,6 +26,8 @@ public class HumanWindow : MonoBehaviour
         powerUpWindow.UnActive();
         powerUpWindow.Initialize();
 
+        employmentWindow.UnActive();
+        employmentWindow.Initialize();
     }
 
     // Start is called before the first frame update
@@ -44,6 +50,15 @@ public class HumanWindow : MonoBehaviour
         if (selectHumanAction.IsActiveEmploymentWindow())
         {
             selectHumanAction.UnActive();
+            employmentWindow.Active();
+        }
+
+        // ウィンドウを閉じる処理
+        if (powerUpWindow.IsClose() || employmentWindow.IsClose())
+        {
+            powerUpWindow.UnActive();
+            employmentWindow.UnActive();
+            isBack = true;
         }
 
         isBack = false;
@@ -96,6 +111,24 @@ public class HumanWindow : MonoBehaviour
         return powerUpWindow.GetResources();
     }
 
+    /// <summary>
+    /// 雇用に必要な資源
+    /// </summary>
+    /// <returns></returns>
+    public List<IItem> GetEmploymentResource()
+    {
+        return employmentWindow.GetResources();
+    }
+
+    /// <summary>
+    /// 雇用するかどうか
+    /// </summary>
+    /// <returns></returns>
+    public bool IsEmployment()
+    {
+        return employmentWindow.IsEmployment();
+    }
+
 
     /// <summary>
     /// 強化成功時の処理
@@ -111,6 +144,7 @@ public class HumanWindow : MonoBehaviour
     public void OnBuilding(int _totalFloor)
     {
         powerUpWindow.OnBuilding(_totalFloor);
+        employmentWindow.OnBuilding(_totalFloor);
     }
 
     /// <summary>

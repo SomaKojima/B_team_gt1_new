@@ -2,31 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUpWindow : MonoBehaviour
+public class EmploymentWindow : MonoBehaviour
 {
     const int MAX_POWER_UP_RESOURCE_NUM = 7;
-
-    [SerializeField]
-    Owner_PowerUpUnit owner_powerUpUnit;
-
-    [SerializeField]
-    JudgeClickUI judgeClickUI;
 
     /// <summary>
     /// 必要な資源を表示させる項目オブジェクト
     /// </summary>
     [SerializeField]
     Owner_BuildingItemUnit resourceUnit;
-    
-    bool isClickPowerUp = false;
-    
-    RectTransform rectTransform;
+
+    /// 雇用ボタン
+    [SerializeField]
+    UI_Button employmentButton;
+
+    [SerializeField]
+    JudgeClickUI judgeClickUI;
 
     List<IItem>[] necessaryItems = new List<IItem>[MAX_POWER_UP_RESOURCE_NUM];
     int totalFloor = 0;
 
-    // ウィンドウを閉じる
     bool isClose = false;
+
+    // 雇用する
+    bool isEmployment = false;
 
     public void Initialize()
     {
@@ -37,7 +36,6 @@ public class PowerUpWindow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rectTransform = this.gameObject.GetComponent<RectTransform>();
     }
 
     // Update is called once per frame
@@ -49,13 +47,19 @@ public class PowerUpWindow : MonoBehaviour
         {
             isClose = true;
         }
+
+        isEmployment = false;
+        if (employmentButton.IsClick())
+        {
+            employmentButton.OnClickProcess();
+            isEmployment = true;
+        }
     }
 
     public void Active()
     {
         if (this.gameObject.activeSelf) return;
         this.gameObject.SetActive(true);
-        // 必要な資源を設定する
         resourceUnit.SetUnits(necessaryItems[totalFloor]);
     }
 
@@ -63,27 +67,28 @@ public class PowerUpWindow : MonoBehaviour
     {
         if (!this.gameObject.activeSelf) return;
         this.gameObject.SetActive(false);
-        judgeClickUI.Initialize();
         isClose = false;
+        isEmployment = false;
     }
 
     /// <summary>
-    /// 強化することを教える
+    /// ウィンドウを閉じる処理
     /// </summary>
     /// <returns></returns>
-    public bool IsPowerUp()
+    public bool IsClose()
     {
-        return owner_powerUpUnit.IsPowerUp();
+        return isClose;
     }
 
     /// <summary>
-    /// 強化する人間のタイプを取得
+    /// 雇用するかどうか
     /// </summary>
     /// <returns></returns>
-    public ITEM_TYPE GetPowerUpItemType()
+    public bool IsEmployment()
     {
-        return owner_powerUpUnit.GetPowerUpItemType();
+        return isEmployment;    
     }
+
 
     /// <summary>
     /// 強化に必要な資源を取得
@@ -94,27 +99,6 @@ public class PowerUpWindow : MonoBehaviour
         return necessaryItems[totalFloor];
     }
 
-    /// <summary>
-    /// 人間の項目を設定、生成する
-    /// </summary>
-    /// <param name="_itemTypes"></param>
-    public void SetUnit(List<ITEM_TYPE> _itemTypes)
-    {
-        owner_powerUpUnit.AllDestroy();
-        foreach (ITEM_TYPE type in _itemTypes)
-        {
-            owner_powerUpUnit.Create(type);
-        }
-    }
-
-
-    /// <summary>
-    /// 強化成功時の処理
-    /// </summary>
-    public void OnCorrectPowerUp()
-    {
-        owner_powerUpUnit.CorrectPowerUp();
-    }
 
     /// <summary>
     /// 建築時に呼ぶ処理
@@ -124,15 +108,6 @@ public class PowerUpWindow : MonoBehaviour
         totalFloor = _totalFloor;
         if (totalFloor < 0) totalFloor = 0;
         if (totalFloor >= MAX_POWER_UP_RESOURCE_NUM) totalFloor = MAX_POWER_UP_RESOURCE_NUM - 1;
-    }
-
-    /// <summary>
-    /// ウィンドウを閉じる処理
-    /// </summary>
-    /// <returns></returns>
-    public bool IsClose()
-    {
-        return isClose;
     }
 
     /// <summary>
