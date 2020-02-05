@@ -22,8 +22,8 @@ public class Sound_MatchingRoom : MonoBehaviour
         
     }
 
-    public void PlaySound(SoundType_MatchingRoom _type)
+    public void PlaySound(SoundType_MatchingRoom _type, float volumeScale)
     {
-        auditoSource.PlayOneShot(audioClips[(int)_type]);
+        auditoSource.PlayOneShot(audioClips[(int)_type], volumeScale);
     }
 }

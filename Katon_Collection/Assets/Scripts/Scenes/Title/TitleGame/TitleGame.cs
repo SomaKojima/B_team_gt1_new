@@ -23,7 +23,7 @@ public class TitleGame : MonoBehaviour
     void Start()
     {
         // BGMを鳴らす
-        sound.PlaySound(SoundType_Title.BGM);
+        sound.PlaySound(SoundType_Title.BGM,1.0f);
         Application.targetFrameRate = 30; //30FPSに設定
     }
 
@@ -45,7 +45,7 @@ public class TitleGame : MonoBehaviour
         if(m_uI_Title_Button.IsClick())
         {
             // スタート音を鳴らす
-            sound.PlaySound(SoundType_Title.Start);
+            sound.PlaySound(SoundType_Title.Start,1.0f);
 
             m_backGround_Title.ChangeFlag = true;
             m_uI_Title_Button.OnClickProcess();

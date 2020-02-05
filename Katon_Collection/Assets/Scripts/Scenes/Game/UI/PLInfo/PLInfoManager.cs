@@ -73,10 +73,15 @@ public class PLInfoManager : MonoBehaviour
 
     public void RightBtnOnClick()
     {
-        if(currentNumber< PLInfoWindows.Length-1)
+        if (currentNumber + 1 < PLInfoWindows.Length) 
         {
             currentNumber++;
             PLInfoActives();
+            LeftBtn.SetActive(true);
+            if (currentNumber + 1 == PLInfoWindows.Length)
+            {
+                RightBtn.SetActive(false);
+            }
         }
     }
 
@@ -86,6 +91,11 @@ public class PLInfoManager : MonoBehaviour
         {
             currentNumber--;
             PLInfoActives();
+            RightBtn.SetActive(true);
+            if (currentNumber == 0)
+            {
+                LeftBtn.SetActive(false);
+            }
         }
     }
 
@@ -109,5 +119,16 @@ public class PLInfoManager : MonoBehaviour
     {
         RightBtn.SetActive(isActive);
         LeftBtn.SetActive(isActive);
+        if(isActive)
+        {
+            if(currentNumber == 0)
+            {
+                LeftBtn.SetActive(false);
+            }
+            if(currentNumber+1== PLInfoWindows.Length)
+            {
+                RightBtn.SetActive(false);
+            }
+        }
     }
 }

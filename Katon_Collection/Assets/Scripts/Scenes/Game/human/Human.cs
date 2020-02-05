@@ -19,6 +19,10 @@ public class Human : MonoBehaviour
     [SerializeField]
     Renderer crown;
 
+    // サウンド
+    [SerializeField]
+    Sound_Human sound;
+
     ContextMoveState move = new ContextMoveState();
     bool isCollect = false;
     bool isPick = false;
@@ -34,6 +38,9 @@ public class Human : MonoBehaviour
     Vector3 targetPosition = Vector3.zero;
 
     bool isPowerUp = false;
+
+    float soundTime = 0;
+    float soundDuringTime = 1.0f;
 
     /// <summary>
     /// 初期化
@@ -76,6 +83,14 @@ public class Human : MonoBehaviour
         crown.gameObject.SetActive(isPowerUp);
 
         UpdateReplayRequest();
+
+        soundTime += Time.deltaTime;
+        if (soundTime > soundDuringTime)
+        {
+            soundTime = 0;
+            // 足音
+            sound.PlaySound(SoundType_Human.WalkingVoice, 0.1f);
+        }
     }
 
     void UpdateReplayRequest()
@@ -92,13 +107,16 @@ public class Human : MonoBehaviour
         // 収集成功
         if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.COLLECT_SUCCESS))
         {
+            // 収穫音
+            sound.PlaySound(SoundType_Human.CollectionVoice, 0.1f);
+
             icon.Initialize(ChangeItemType.HumanToBuildingResource(type));
         }
 
         // 収集失敗
         if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.COLLECT_FALIED))
         {
-
+           
         }
         request.ReplayFlag.Clear();
     }
@@ -178,6 +196,9 @@ public class Human : MonoBehaviour
 
     void OnMouseDown()
     {
+        // 掴まれた声
+        sound.PlaySound(SoundType_Human.GrabVoice, 1.0f);
+
         isPick = true;
     }
 
