@@ -104,7 +104,8 @@ public class MatchingRoomGame : MonoBehaviour
         {
             Debug.Log("gamestart");
             // スタート音を鳴らす
-            sound.PlaySound(SoundType_MatchingRoom.Start,1.5f);
+            sound.PlaySound(SoundType_MatchingRoom.Start,1.8f);
+
             SceneManager.LoadScene("GameScene");
         }
 

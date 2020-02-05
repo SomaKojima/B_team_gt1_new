@@ -66,7 +66,7 @@ public class UI_Time : MonoBehaviour
         {
             Debug.Log("制限時間終了");
             // タイムアップ
-            sound.PlaySound(SoundType_MainGame.TimeUp, 1.0f);
+            sound.PlaySound(SoundType_MainGame.TimeUp, 1.6f);
         }
 
         // カウントダウン
@@ -76,7 +76,7 @@ public class UI_Time : MonoBehaviour
         {
             // カウントダウン
             Debug.Log("a");
-            sound.PlaySound(SoundType_MainGame.CountDown, 1.0f);
+            sound.PlaySound(SoundType_MainGame.CountDown, 1.1f);
             soundTime = (int)GetSecond();
         }
     }

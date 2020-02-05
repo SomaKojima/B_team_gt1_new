@@ -21,6 +21,10 @@ public class ResultGame : MonoBehaviour
     [SerializeField]
     UI_Fukidashi[] ui_Fukidashi = new UI_Fukidashi[4];
 
+    // サウンド
+    [SerializeField]
+    Sound_Result sound;
+
     float time = 0;
     Floor landingFloor = null;
 
@@ -32,7 +36,7 @@ public class ResultGame : MonoBehaviour
 
     int TopScore = 8;
     int count = 0;
-
+    
 
     void Awake()
     {
@@ -43,20 +47,19 @@ public class ResultGame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // BGM
+        sound.PlaySound(SoundType_Result.BGM, 1.5f);
+
         owner_Floor.Initialize();
         for (int i = 0; i < 4; i++)
         {
             playerResult[i] = i+i;
         }
-
-       
     }
 
     // Update is called once per frame
     void Update()
     {
-       
-       
         time++;
         if(time > 60)
         {
@@ -65,14 +68,15 @@ public class ResultGame : MonoBehaviour
                 count++;
                 owner_Floor.Building(Type.cave);
             }
-
-           
             time = 0;
         }
-
+       
         //一番高く建てた人のスコアを超えたら
-        if (count >= TopScore)
+        if (count >= TopScore && !m_gotoTapButtonFlag)
         {
+            // 勝利BGM
+            sound.PlaySound(SoundType_Result.WinBGM, 1.0f);
+
             m_gotoTapButtonFlag = true;
         }
 
@@ -91,7 +95,7 @@ public class ResultGame : MonoBehaviour
 
             // 現在建築された回数
             int total = owner_Floor.GetTotalLandingFloor(Type.cave);
-            //Debug.Log(total);
+            Debug.Log(total);
             for (int i = 0; i < 4; i++)
             {
                 if(owner_Floor.GetPlaceTotalFloor(Type.cave)<=playerResult[i])
@@ -102,8 +106,7 @@ public class ResultGame : MonoBehaviour
                 }
               
             }
-
-
+            
             cameraResultMove.SetTarget(landingFloor.transform.position);
             cameraResultMove.Move();
         }
@@ -111,6 +114,9 @@ public class ResultGame : MonoBehaviour
         //シーン切り替え
         if(gototitle_button.IsClick())
         {
+            // UIクリック音
+            sound.PlaySound(SoundType_Result.Change, 1.0f);
+
             SceneManager.LoadScene("TitleScene");
         }
         

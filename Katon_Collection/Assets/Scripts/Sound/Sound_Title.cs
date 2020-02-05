@@ -22,8 +22,8 @@ public class Sound_Title : MonoBehaviour
         
     }
 
-    public void PlaySound(SoundType_Title _type)
+    public void PlaySound(SoundType_Title _type, float volumeScale)
     {
-        auditoSource.PlayOneShot(audioClips[(int)_type]);
+        auditoSource.PlayOneShot(audioClips[(int)_type], volumeScale);
     }
 }
