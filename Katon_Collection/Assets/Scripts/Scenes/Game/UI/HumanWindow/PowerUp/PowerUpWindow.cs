@@ -168,7 +168,7 @@ public class PowerUpWindow : MonoBehaviour
                     cost = 300;
                     break;
             }
-            necessaryItems[i].Add(new Item(-cost, ITEM_TYPE.WOOD));
+            necessaryItems[i].Add(new Item(-cost, ITEM_TYPE.ORE));
             necessaryItems[i].Add(new Item(-cost / 2, ITEM_TYPE.WHEAT));
             necessaryItems[i].Add(new Item(-cost, ITEM_TYPE.COTTON));
         }

@@ -122,29 +122,28 @@ public class EmploymentWindow : MonoBehaviour
             switch (i)
             {
                 case 0:
-                    cost = 20;
+                    cost = 10;
                     break;
                 case 1:
-                    cost = 20;
-                    break;
-                case 2:
                     cost = 50;
                     break;
-                case 3:
+                case 2:
                     cost = 100;
                     break;
-                case 4:
+                case 3:
                     cost = 160;
                     break;
-                case 5:
+                case 4:
                     cost = 240;
+                    break;
+                case 5:
+                    cost = 300;
                     break;
                 case 6:
                     cost = 300;
                     break;
             }
-            necessaryItems[i].Add(new Item(-cost, ITEM_TYPE.WOOD));
-            necessaryItems[i].Add(new Item(-cost / 2, ITEM_TYPE.WHEAT));
+            necessaryItems[i].Add(new Item(-cost, ITEM_TYPE.WHEAT));
             necessaryItems[i].Add(new Item(-cost, ITEM_TYPE.COTTON));
         }
     }
