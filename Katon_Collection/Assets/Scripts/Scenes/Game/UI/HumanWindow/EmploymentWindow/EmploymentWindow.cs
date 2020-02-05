@@ -125,21 +125,24 @@ public class EmploymentWindow : MonoBehaviour
                     cost = 10;
                     break;
                 case 1:
-                    cost = 50;
+                    cost = 10;
                     break;
                 case 2:
-                    cost = 100;
+                    cost = 50;
                     break;
                 case 3:
-                    cost = 160;
+                    cost = 100;
                     break;
                 case 4:
-                    cost = 240;
+                    cost = 160;
                     break;
                 case 5:
-                    cost = 300;
+                    cost = 240;
                     break;
                 case 6:
+                    cost = 300;
+                    break;
+                case 7:
                     cost = 300;
                     break;
             }
