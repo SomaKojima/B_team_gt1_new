@@ -10,16 +10,16 @@ public class NameManager : MonoBehaviour
     Manage_SI_Player si_player = null;
 
     [SerializeField]
-    GameObject name1;
+    Text name1;
 
     [SerializeField]
-    GameObject name2;
+    Text name2;
 
     [SerializeField]
-    GameObject name3;
+    Text name3;
 
     [SerializeField]
-    GameObject name4;
+    Text name4;
 
     [SerializeField]
     GameObject fukidasi1;
@@ -44,16 +44,16 @@ public class NameManager : MonoBehaviour
             switch (i)
             {
                 case 0:
-                    name1.GetComponent<TMPro.TextMeshProUGUI>().text = si_player.GetPlayer(i).Name;
+                    name1.text = si_player.GetPlayer(i).Name;
                     break;
                 case 1:
-                    name2.GetComponent<TMPro.TextMeshProUGUI>().text = si_player.GetPlayer(i).Name;
+                    name2.text = si_player.GetPlayer(i).Name;
                     break;
                 case 2:
-                    name3.GetComponent<TMPro.TextMeshProUGUI>().text = si_player.GetPlayer(i).Name;
+                    name3.text = si_player.GetPlayer(i).Name;
                     break;
                 case 3:
-                    name4.GetComponent<TMPro.TextMeshProUGUI>().text = si_player.GetPlayer(i).Name;
+                    name4.text = si_player.GetPlayer(i).Name;
                     break;
             }
         }
