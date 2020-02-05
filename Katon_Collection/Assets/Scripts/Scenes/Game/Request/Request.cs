@@ -31,6 +31,8 @@ public class Request
 
     List<IItem> employmentItems = null;
 
+    Type changeCameraPlaceType = Type.none;
+
     /// <summary>
     /// 初期化
     /// </summary>
@@ -132,6 +134,12 @@ public class Request
     {
         get { return employmentItems; }
         set { employmentItems = value; }
+    }
+
+    public Type ChangeCameraPlaceType
+    {
+        get { return changeCameraPlaceType; }
+        set { changeCameraPlaceType = value; }
     }
 
     /// <summary>

@@ -188,4 +188,17 @@ public class Owner_SelectItemButton : MonoBehaviour
             }
         }
     }
+
+
+    public void AllButtonUpdate()
+    {
+        foreach (SelectItemsButton button in humanManager.GetItemList())
+        {
+            button.GetItem().SetCount(currentItem.GetItem(button.GetItem().GetItemType()).GetCount());
+        }
+        foreach (SelectItemsButton button in brManager.GetItemList())
+        {
+            button.GetItem().SetCount(currentItem.GetItem(button.GetItem().GetItemType()).GetCount());
+        }
+    }
 }

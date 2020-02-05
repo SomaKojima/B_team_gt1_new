@@ -136,4 +136,11 @@ public class SelectItemButtonWidnow : MonoBehaviour
         return null;
     }
 
+    /// <summary>
+    /// セレクトウィンドウの更新処理
+    /// </summary>
+    public void AllUpdate()
+    {
+        owner_selectItemButton.AllButtonUpdate();
+    }
 }

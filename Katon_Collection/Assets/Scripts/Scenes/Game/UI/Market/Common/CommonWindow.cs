@@ -110,25 +110,42 @@ public class CommonWindow : MonoBehaviour
 
         // 余りは残す
         int different = total - (exchangeCount * requiredNum);
+        int[] differentType = new int[(int)ITEM_TYPE.NUM];
+        for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
+        {
+            differentType[i] = 0;
+        }
         Debug.Log(different);
         while (different > 0)
         {
             if (selectItemButtonWindow.GetLastSelectItem() == null) break;
-            int count = selectItemButtonWindow.GetLastSelectItem().GetCount() - different;
+            ITEM_TYPE type = selectItemButtonWindow.GetLastSelectItem().GetItemType();
+            IItem item = selectItemButtonWindow.GetManagerItem().GetItem(type);
+            int count = item.GetCount() - different;
             if (count < 0)
             {
+                different = count * -1;
                 count = 0;
             }
-            different -= (selectItemButtonWindow.GetLastSelectItem().GetCount() - count);
-            Debug.Log(count);
-            selectItemButtonWindow.GetLastSelectItem().SetCount(count);
+            else
+            {
+                different -= item.GetCount();
+            }
+            differentType[(int)type] = selectItemButtonWindow.GetManagerItem().GetItem(type).GetCount() - count;
+            selectItemButtonWindow.GetManagerItem().GetItem(type).SetCount(count);
         }
 
         foreach (IItem item in selectItemButtonWindow.GetManagerItem().GetItemList())
         {
-            Debug.Log(item.GetNormalCount() + " : " + item.GetPowerUpCount());
             exchangeItemList.Add(new Item(-item.GetNormalCount(), -item.GetPowerUpCount(), item.GetItemType()));
         }
+        for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)
+        {
+            ITEM_TYPE type = (ITEM_TYPE)i;
+            selectItemButtonWindow.GetManagerItem().GetItem(type).SetCount(differentType[i]);
+        }
+
+        selectItemButtonWindow.AllUpdate();
     }
 
     public void Active()
@@ -222,7 +239,6 @@ public class CommonWindow : MonoBehaviour
     /// </summary>
     public void UpdateBuilding(int buildingTotal)
     {
-        owner_commonUnitButton.UpdateBuilding(buildingTotal);
     }
 
     public List<IItem> GetExchangeItemList()

@@ -89,6 +89,7 @@ public class Item : IItem
     public void SetCount(int _count)
     {
         count = _count;
+        if (count < powerUpCount) SetPowerUpCount(count);
     }
 
     public void SetType(ITEM_TYPE _type)
