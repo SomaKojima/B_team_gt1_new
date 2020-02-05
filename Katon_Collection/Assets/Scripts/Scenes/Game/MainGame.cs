@@ -57,12 +57,12 @@ public class MainGame : MonoBehaviour
     {
         Application.targetFrameRate = 30; //60FPSに設定
         // BGMを鳴らす
-        sound.PlaySound(SoundType_MainGame.BGM);
+        sound.PlaySound(SoundType_MainGame.BGM, 1.0f);
 
         manager_item.Initialize();
         owner_human.Intialize();
         owner_floor.Initialize();
-        owner_signBoard.Initialize(mainCamera.IsSigneBoardInScreen, owner_human.GetPlaceCount, owner_floor.GetPlaceTotalFloor);
+        owner_signBoard.Initialize(mainCamera.IsSigneBoardInScreen, owner_human.GetPlaceCount, owner_floor.GetMoveInCount);
 
         manager_SI_Player.UpdatePlayers();
 
@@ -79,12 +79,10 @@ public class MainGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        debug.Update();
-
         if(Input.GetMouseButtonDown(0))
         {
             // クリック音を鳴らす
-            sound.PlaySound(SoundType_MainGame.Click);
+            sound.PlaySound(SoundType_MainGame.Click,1.0f);
         }
 
         // アイテムのマネージャと人間の数を合わせる
@@ -99,10 +97,6 @@ public class MainGame : MonoBehaviour
         
         // リクエストの処理
         UpdateRequestList();
-        
-        UpdateRequest(debug.GetRequest());
-
-        UpdateUIRequest();
 
         UpdateRequest_UI();
 
@@ -112,6 +106,10 @@ public class MainGame : MonoBehaviour
         {
             manager_SI_Player.GetMyPlayer().IsExcange = false;
         }
+
+        debug.Update();
+
+        UpdateRequest(debug.GetRequest());
     }
 
     void UpdateRequest_UI()
@@ -129,7 +127,7 @@ public class MainGame : MonoBehaviour
         // フェードインが始まるとき
         if (uiManager.IsStartFade())
         {
-            sound.PlaySound(SoundType_MainGame.Fade);
+            sound.PlaySound(SoundType_MainGame.Fade,1.0f);
         }
     }
     
@@ -203,7 +201,7 @@ public class MainGame : MonoBehaviour
             if (_isExchange)
             {
                 // 建築音
-                sound.PlaySound(SoundType_MainGame.Bulid);
+                sound.PlaySound(SoundType_MainGame.Bulid,1.0f);
 
                 // 建築時に初期資源を手に入れる
                 if (!owner_floor.IsFirstBuilding())
@@ -220,7 +218,7 @@ public class MainGame : MonoBehaviour
             else
             {
                 // 交換失敗時の処理
-                sound.PlaySound(SoundType_MainGame.Error);
+                sound.PlaySound(SoundType_MainGame.Error,1.0f);
             }
 
 
@@ -231,7 +229,6 @@ public class MainGame : MonoBehaviour
         // カメラの移動
         if (_request.Flag.IsFlag(REQUEST.CAMERA_MOVE_PLACE))
         {
-            mainCamera.Move(uiManager.GetPlaceType());
         }
 
         // カメラをひとつ前に戻す
@@ -288,7 +285,7 @@ public class MainGame : MonoBehaviour
                     if (uiManager.GetExchangeOtherID() == manager_SI_Player.GetPlayer(i).ID)
                     {
                         // トレード音
-                        sound.PlaySound(SoundType_MainGame.Trade);
+                        sound.PlaySound(SoundType_MainGame.Trade,1.0f);
                         manager_SI_Player.ExChangeInfo(manager_SI_Player.GetPlayer(i).ID, false);
                         break;
                     }
@@ -300,7 +297,7 @@ public class MainGame : MonoBehaviour
         if (_request.Flag.IsFlag(REQUEST.CREADED_QR))
         {
             // 生成音
-            sound.PlaySound(SoundType_MainGame.Qr);
+            sound.PlaySound(SoundType_MainGame.Qr,1.5f);
             if (manager_SI_Player.GetMyPlayer() != null)
             {
                 manager_SI_Player.ExChangeInfo(manager_SI_Player.GetMyPlayer().ID, true);
@@ -325,14 +322,22 @@ public class MainGame : MonoBehaviour
         if (_request.Flag.IsFlag(REQUEST.POSITION_TO_PLACE))
         {
             Type placeType = judgeField.ChangePositionToPlaceType(_request.ChangePosition);
-            bool isChange = (owner_floor.GetPlaceTotalFloor(placeType) != 0);
+            Debug.Log(placeType);
+            bool isChange = (owner_floor.GetPlaceTotalFloor(placeType) != 0 && 
+                owner_floor.GetMoveInCount(placeType) > owner_human.GetPlaceCount(placeType));
             if (isChange)
             {
                 _request.ChangePlaceType = judgeField.ChangePositionToPlaceType(_request.ChangePosition);
                 _request.AreaCenterPosition = judgeField.GetAreaCenterPosition(_request.ChangePlaceType);
-                
             }
-            _request.FinalizePositionToPlace(isChange);
+            else
+            {
+                _request.ChangePlaceType = Type.fountain;
+                _request.AreaCenterPosition = judgeField.GetAreaCenterPosition(_request.ChangePlaceType);
+            }
+
+            // 現状失敗したときは噴水に向かわせるから失敗をリクエスト所持オブジェクトに教えない
+            _request.FinalizePositionToPlace(true);
         }
 
         // 人間の強化
@@ -349,18 +354,52 @@ public class MainGame : MonoBehaviour
                 // 強化成功
                 if (_isExchange)
                 {
+                    // 強化音
+                    sound.PlaySound(SoundType_MainGame.PowerUp, 1.1f);
                     manager_item.GetItem(_request.PowerUpHumanType).AddPowerUpCount(1);
                 }
                 // 強化失敗
                 else
                 {
                     // 失敗音
-                    sound.PlaySound(SoundType_MainGame.Error);
+                    sound.PlaySound(SoundType_MainGame.Error, 1.0f);
                 }
                 _request.FinalizePowerUp(_isExchange);
             }
         }
-        
+
+        // 現在地の人間の情報が欲しい
+        if (_request.Flag.IsFlag(REQUEST.GET_CURRENT_PLACE_HUMAN_INFO))
+        {
+            List<ITEM_TYPE> types = new List<ITEM_TYPE>();
+            foreach (Human human in owner_human.GetPlaceHuman(currentPlaceType))
+            {
+                if (!human.IsPowerUp())
+                {
+                    types.Add(human.GetItemType());
+                }
+            }
+            _request.CurrentPlaceHumanType = types;
+            _request.FinalizeGetHumanInfo();
+        }
+
+        // 人間の雇用
+        if (_request.Flag.IsFlag(REQUEST.EMPLOYMENT))
+        {
+            // 建築に必要な素材を取得
+            List<IItem> _items = _request.EmploymentItems;
+            // 資源が足りているか確認
+            bool _isExchange = manager_item.IsExchange(_items);
+
+            // 雇用成功
+            if (_isExchange && _items != null)
+            {
+                IItem addHuman = new Item(1, ItemType.RandomHuman());
+                _items.Add(addHuman);
+                manager_item.AddItems(_items);
+                _items.Clear();
+            }
+        }
 
         _request.FinalizeRequest();
     }
@@ -395,24 +434,7 @@ public class MainGame : MonoBehaviour
         manager_item.GetItem((ITEM_TYPE)item[0]).SetCount(manager_item.GetItem((ITEM_TYPE)item[0]).GetCount() + 1);
         manager_item.GetItem((ITEM_TYPE)item[1]).SetCount(manager_item.GetItem((ITEM_TYPE)item[1]).GetCount() + 1);
     }
-
-    void UpdateUIRequest()
-    {
-        if (uiManager.IsSetPlaceHumanType())
-        {
-            List<ITEM_TYPE> types = new List<ITEM_TYPE>();
-            foreach (Human human in owner_human.GetPlaceHuman(currentPlaceType))
-            {
-                if (!human.IsPowerUp())
-                {
-                    types.Add(human.GetItemType());
-                }
-            }
-            uiManager.SetPlaceHumanType(types);
-            uiManager.SetPowerUpWindow(owner_floor.GetTotalFloor());
-        }
-    }
-
+    
     void UpdateServer()
     {
         for (int i = 0; i < (int)ITEM_TYPE.NUM; i++)

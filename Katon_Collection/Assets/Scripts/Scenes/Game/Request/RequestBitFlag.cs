@@ -32,6 +32,8 @@ public enum REQUEST
     POSITION_TO_PLACE = 1 << 11,   // 座標から場所のタイプに変換処理
     POWER_UP_HUMAN = 1 << 12,       // 人間の強化
     QR_READE,                       // QRを読み込んだ
+    GET_CURRENT_PLACE_HUMAN_INFO,   // 現在地の人間の情報を知りたい
+    EMPLOYMENT,                     // ランダムで人間を雇用する
 
     MAX
 }

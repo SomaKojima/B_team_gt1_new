@@ -7,7 +7,7 @@ public class ChangeItemType
     static public ITEM_TYPE BuildintResourceToHuman(ITEM_TYPE _type)
     {
         // もともと人間のタイプの場合
-        if (_type < ItemType.HumanMax)
+        if (ItemType.IsHumanType(_type))
         {
             return _type;
         }
@@ -28,7 +28,7 @@ public class ChangeItemType
     static public ITEM_TYPE HumanToBuildingResource(ITEM_TYPE _type)
     {
         // もともと資源のタイプの場合
-        if (_type >= ItemType.HumanMax && _type < ItemType.BuildingResourceMax)
+        if (ItemType.IsBuildingResourceType(_type))
         {
             return _type;
         }

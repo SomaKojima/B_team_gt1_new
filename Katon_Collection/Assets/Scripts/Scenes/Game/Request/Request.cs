@@ -27,6 +27,10 @@ public class Request
     ITEM_TYPE powerUpHumanType = ITEM_TYPE.NONE;
     List<IItem> powerUpItems = null;
 
+    List<ITEM_TYPE> currentPlaceHumanType = new List<ITEM_TYPE>();
+
+    List<IItem> employmentItems = null;
+
     /// <summary>
     /// 初期化
     /// </summary>
@@ -118,6 +122,18 @@ public class Request
         set { powerUpItems = value; }
     }
 
+    public List<ITEM_TYPE> CurrentPlaceHumanType
+    {
+        get { return currentPlaceHumanType; }
+        set { currentPlaceHumanType = value; }
+    }
+
+    public List<IItem> EmploymentItems
+    {
+        get { return employmentItems; }
+        set { employmentItems = value; }
+    }
+
     /// <summary>
     /// 終了処理
     /// </summary>
@@ -202,5 +218,10 @@ public class Request
         {
             replayFlag.OnFlag(REPLAY_REQUEST.POWER_UP_FAILED);
         }
+    }
+
+    public void FinalizeGetHumanInfo()
+    {
+        replayFlag.OnFlag(REPLAY_REQUEST.GET_CURRENT_PLACE_HUMAN_INFO_SUCCESS);
     }
 }

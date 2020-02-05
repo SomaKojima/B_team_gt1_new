@@ -105,4 +105,11 @@ public class Item : IItem
     {
         return count - powerUpCount;
     }
+
+    public void ClearCount()
+    {
+        SetPowerUpCount(0);
+        SetNormalCount(0);
+        SetCount(0);
+    }
 }

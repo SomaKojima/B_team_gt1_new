@@ -34,4 +34,10 @@ public class SelectItemsButton : UI_Button
     {
         return item;
     }
+
+    public void ClearCount()
+    {
+        item.ClearCount();
+        text.text = "0";
+    }
 }

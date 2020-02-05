@@ -44,7 +44,7 @@ public class SelectItemButtonWidnow : MonoBehaviour
         {
             IItem selectItem = owner_selectItemButton.GetItem();
             // アイテムが人間だった場合
-            if (selectItem.GetItemType() < ItemType.HumanMax)
+            if (ItemType.IsHumanType(selectItem.GetItemType()))
             {
                 powerUpWindow.Active();
                 powerUpWindow.Initialize(selectItem.GetItemType(), selectItem.GetPowerUpCount(), true);
@@ -98,15 +98,9 @@ public class SelectItemButtonWidnow : MonoBehaviour
     }
 
     // 選択できるアイテムを制限する
-    public void ChangeOnlySelect(bool isBr)
+    public void SetLimitSelectType(bool isHuman, bool isBr)
     {
-
-    }
-
-    // カウントを０にする
-    public void ClearCount()
-    {
-        //foreach(SelectItemsButton button in owner)
+        owner_selectItemButton.SetActiveButton(isHuman, isBr);
     }
 
     void AddSelectItems(IItem item)

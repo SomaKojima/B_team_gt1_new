@@ -17,12 +17,14 @@ public enum REPLAY_REQUEST
 
     COLLECT_FALIED = 1 << 5,        // 収集失敗
     COLLECT_SUCCESS = 1 << 6,       // 収集成功
+ 
+    POSITION_TO_PLACE_FAILED = 1 << 7,  // 座標を場所のタイプに変換失敗
+    POSITION_TO_PLACE_SUCCESS = 1 << 8, // 座標を場所のタイプに変換成功    
 
-    POSITION_TO_PLACE_SUCCESS = 1 << 7, // 座標を場所のタイプに変換成功     
-    POSITION_TO_PLACE_FAILED = 1 << 8,  // 座標を場所のタイプに変換失敗
+    POWER_UP_FAILED = 1 << 9,           // 強化成功
+    POWER_UP_SUCCESS = 1 << 10,         // 強化失敗
 
-    POWER_UP_SUCCESS = 1 << 9,
-    POWER_UP_FAILED = 1 << 10,
+    GET_CURRENT_PLACE_HUMAN_INFO_SUCCESS = 1 << 11,    // 現在地の人間の情報を取得成功
 
     MAX
 }

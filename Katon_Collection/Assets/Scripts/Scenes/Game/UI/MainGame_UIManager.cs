@@ -49,9 +49,9 @@ public class MainGame_UIManager : MonoBehaviour
     [SerializeField]
     FirstText firstText;
 
-    // パワーアップ関係
+    // 人間関係
     [SerializeField]
-    UI_PowerUp ui_powerUp;
+    HumanWindow humanWindow;
 
     [SerializeField]
     SelectQrReaderOrFountain selectQrReaderOrFountain;
@@ -71,8 +71,11 @@ public class MainGame_UIManager : MonoBehaviour
     // フェードインが終了したかどうかのフラグ
     bool isFinishFadeIn = false;
 
-    bool isSetPlaceHuman = false;
-
+    /// <summary>
+    /// 現在の場所の人間の情報が欲しい
+    /// </summary>
+    bool isGetPlaceHuman = false;
+    List<ITEM_TYPE> humaPlaceType = new List<ITEM_TYPE>();
 
     /// <summary>
     /// 初期化
@@ -80,7 +83,7 @@ public class MainGame_UIManager : MonoBehaviour
     /// <param name="_managerItem"></param>
     public void Initialize(Manager_Item _managerItem)
     {
-        timer.Iniitalize();
+        timer.Initialize();
 
         fountainWindow.Initialize(_managerItem);
         marketWindow.Initialize(_managerItem, timer.GetCountTimer());
@@ -94,7 +97,7 @@ public class MainGame_UIManager : MonoBehaviour
 
         request.Initialize();
 
-        ui_powerUp.Initialzie();
+        humanWindow.Initialize();
     }
 
     // Start is called before the first frame update
@@ -130,7 +133,7 @@ public class MainGame_UIManager : MonoBehaviour
         // ログウィンドウのリクエスト処理
         UpdateRequest_LogWindow();
 
-        UpdateRequest_PowerUp();
+        UpdateRequest_HumanWindow();
 
         UpdateRequest_selectQrReaderOrFountain();
 
@@ -153,7 +156,6 @@ public class MainGame_UIManager : MonoBehaviour
         if (requestActiveUI.IsActive(ACTIVE_UI.PLACE_BAR))
         {
             manager_placeBar.Active();
-            ui_powerUp.Active();
             infoBtn.SetActive(true);
         }
 
@@ -193,9 +195,17 @@ public class MainGame_UIManager : MonoBehaviour
             firstText.Active();
         }
 
+        // 情報ウィンドウの有効化
         if (requestActiveUI.IsActive(ACTIVE_UI.INFO_WINDOW))
         {
             infoBtn.SetActive(true);
+        }
+
+        // 人間ウィンドウの有効化
+        if (requestActiveUI.IsActive(ACTIVE_UI.HUMAN_WINDOW))
+        {
+            humanWindow.Active();
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.GET_CURRENT_PLACE_HUMAN_INFO);
         }
 
         // フラグをすべて初期化する
@@ -211,7 +221,6 @@ public class MainGame_UIManager : MonoBehaviour
         if (requestActiveUI.IsUnActive(ACTIVE_UI.PLACE_BAR))
         {
             manager_placeBar.UnActive();
-            ui_powerUp.UnActive();
             infoBtn.SetActive(false);
         }
 
@@ -250,10 +259,16 @@ public class MainGame_UIManager : MonoBehaviour
             firstText.UnActive();
         }
 
-
+        // 情報ウィンドウの無効化
         if (requestActiveUI.IsUnActive(ACTIVE_UI.INFO_WINDOW))
         {
             infoBtn.SetActive(false);
+        }
+
+        // 人間ウィンドウの無効化
+        if (requestActiveUI.IsUnActive(ACTIVE_UI.HUMAN_WINDOW))
+        {
+            humanWindow.UnActive();
         }
 
         // フラグをすべて初期化する
@@ -292,7 +307,6 @@ public class MainGame_UIManager : MonoBehaviour
         //　フェードインが終わった時の処理
         if (fade_CloudEffect.GetIsProcess)
         {
-            Debug.Log("a");
             isFinishFadeIn = true;
             //フェードアウトの処理
             fade_CloudEffect.StartFadeOut();
@@ -399,24 +413,17 @@ public class MainGame_UIManager : MonoBehaviour
     /// </summary>
     private void UpdateRequest_PlaceBar()
     {
-        // 拠点ボタンが有効化どうか
-        if (manager_placeBar.IsActiveBase())
+        // 人間のボタンが押された
+        if (manager_placeBar.IsClickHuman())
         {
-            requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.BUILDIGN_BOARD);
-        }
-
-        // 噴水ウィンドウを表示
-        if (manager_placeBar.IsActiveFountain())
-        {
-            requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.FOUNTAIN);
-            requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.PLACE_BAR);
-
+            requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.HUMAN_WINDOW);
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_STOP);
         }
 
         // 市場ウィンドウを表示
-        if (manager_placeBar.IsActiveShop())
+        if (manager_placeBar.IsClickMarket())
         {
+            fade_CloudEffect.StartFadeIn();
             requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.MARKET);
             requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.PLACE_BAR);
 
@@ -424,20 +431,10 @@ public class MainGame_UIManager : MonoBehaviour
         }
 
         // QRリーダーを起動
-        if (manager_placeBar.GetIsQRLeader())
+        if (manager_placeBar.IsClickCamera())
         {
             requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.SELECT_QR);
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_STOP);
-        }
-
-        // 移動する
-        if (manager_placeBar.IsChangeCameraPosiiton())
-        {
-            fade_CloudEffect.StartFadeIn();
-
-            // フェードインが終わったら
-            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.FADE, REQUEST.CAMERA_MOVE_PLACE);
-            manager_placeBar.SetActiveBase(false);
         }
     }
 
@@ -499,7 +496,13 @@ public class MainGame_UIManager : MonoBehaviour
         // 強化成功
         if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.POWER_UP_SUCCESS))
         {
-            ui_powerUp.CorrectPowerUp();
+            humanWindow.OnCorrectPowerUp();
+        }
+
+        // 人間の情報を取得成功
+        if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.GET_CURRENT_PLACE_HUMAN_INFO_SUCCESS))
+        {
+            humanWindow.OnGetCurrentPlaceHumanInfo(request.CurrentPlaceHumanType);
         }
 
         request.ReplayFlag.Clear();
@@ -537,26 +540,28 @@ public class MainGame_UIManager : MonoBehaviour
     /// <summary>
     /// 強化画面のリクエスト処理
     /// </summary>
-    void UpdateRequest_PowerUp()
+    void UpdateRequest_HumanWindow()
     {
-        isSetPlaceHuman = ui_powerUp.IsSetPlaceHuman();
-
-        if (ui_powerUp.IsPowerUp())
+        // 強化の処理
+        if (humanWindow.IsPowerUp())
         {
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.POWER_UP_HUMAN);
-            request.PowerUpHumanType = ui_powerUp.GetPowerUpItemType();
-            request.PowerUpItems = ui_powerUp.GetResources();
+            request.PowerUpHumanType = humanWindow.GetPowerUpItemType();
+            request.PowerUpItems = humanWindow.GetPowerUpResource();
         }
-        if (ui_powerUp.IsChangeActive())
+
+        // 雇用の処理
+        if(humanWindow.IsEmployment())
         {
-            //if (ui_powerUp.IsActive())
-            //{
-            //    request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_STOP);
-            //}
-            //else
-            //{
-            //    request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_START);
-            //}
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.EMPLOYMENT);
+            request.EmploymentItems = humanWindow.GetEmploymentResource();
+        }
+
+        // 戻るボタンの処理
+        if (humanWindow.IsBack())
+        {
+            humanWindow.UnActive();
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_START);
         }
     }
 
@@ -619,6 +624,7 @@ public class MainGame_UIManager : MonoBehaviour
     {
         marketWindow.UpdateBuilding(buildingTotal);
         firstText.SetFirstBuilding(true);
+        humanWindow.OnBuilding(buildingTotal);
     }
 
     //リザルトに行くときのフェード
@@ -645,29 +651,14 @@ public class MainGame_UIManager : MonoBehaviour
         }
     }
 
-    public void SetPowerUpWindow(int totalFloor)
-    {
-        ui_powerUp.SetTotalFloor(totalFloor);
-    }
-
     public void SetPlaceHumanType(List<ITEM_TYPE> _humaType)
     {
-        ui_powerUp.SetPlaceHuman(_humaType);
+        
     }
 
     public void AddLog(string _text)
     {
         logWindow.AddLog(_text, timer.GetTotalTime());
-    }
-
-    // カメラの移動先をTypeで取得
-    public Type GetPlaceType()
-    {
-        if (request.Flag.IsFlag(REQUEST.CAMERA_MOVE_PLACE))
-        {
-            return manager_placeBar.GetchangeType();
-        }
-        return Type.none;
     }
 
     /// <summary>
@@ -697,9 +688,9 @@ public class MainGame_UIManager : MonoBehaviour
         return request;
     }
 
-    public bool IsSetPlaceHumanType()
+    public bool IsGetPlaceHumanType()
     {
-        return isSetPlaceHuman;
+        return isGetPlaceHuman;
     }
 
     public bool IsStartFade()

@@ -14,3 +14,15 @@ public enum Type
 
     Max,
 }
+
+public class PlaceType
+{
+    static public bool IsCollectPlace(Type _type)
+    {
+        if (_type == Type.market || _type == Type.fountain)
+        {
+            return false;
+        }
+        return true;
+    }
+}

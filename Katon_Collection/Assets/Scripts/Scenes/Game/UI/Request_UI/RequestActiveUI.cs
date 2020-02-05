@@ -23,6 +23,7 @@ public enum ACTIVE_UI
     FIRST_TEXT = 1 << 6,
     SELECT_QR = 1 << 7,
     INFO_WINDOW = 1 << 8, 
+    HUMAN_WINDOW = 1 << 9,
 
     MAX
 }

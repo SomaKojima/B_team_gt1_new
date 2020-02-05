@@ -13,8 +13,11 @@ public class CommonUnitButton : UI_Button_Market
     [SerializeField]
     private Text requiredText = null;
 
-    // 要求アイテムが資源化どうか
+    // 要求アイテムが資源かどうか
     bool isBr = false;
+
+    // 要求アイテムが人間かどうか
+    bool isHuman = false;
 
     // アイコンを表示するための親オブジェクトの位置
     [SerializeField]
@@ -29,6 +32,9 @@ public class CommonUnitButton : UI_Button_Market
 
     [SerializeField]
     Image mask;
+
+    [SerializeField]
+    Image BothImage;
 
     [SerializeField]
     Image humanImage;
@@ -52,7 +58,7 @@ public class CommonUnitButton : UI_Button_Market
     /// </summary>
     /// <param name="_getItems">入手できるアイテムのリスト</param>
     /// <param name="_requiredNum">要求するアイテムの総数</param>
-    public void Initialize(List<IItem> _getItems, int _requiredNum, bool _isBr)
+    public void Initialize(List<IItem> _getItems, int _requiredNum, bool _isBr, bool _isHuman)
     {
 
         // 値初期化
@@ -83,14 +89,20 @@ public class CommonUnitButton : UI_Button_Market
         }
 
         isBr = _isBr;
+        isHuman = _isHuman;
 
+        BothImage.gameObject.SetActive(false);
         humanImage.gameObject.SetActive(false);
         brImage.gameObject.SetActive(false);
-        if (isBr)
+        if (isBr && isHuman)
+        {
+            BothImage.gameObject.SetActive(true);
+        }
+        else if (isBr)
         {
             brImage.gameObject.SetActive(true);
         }
-        else
+        else if(isHuman)
         {
             humanImage.gameObject.SetActive(true);
         }
@@ -110,14 +122,14 @@ public class CommonUnitButton : UI_Button_Market
     public void ChangeGetItems(List<IItem> _getItems)
     {
         managerCmnIcn.AllDestory();
-        Initialize(_getItems, requiredNum, isBr);
+        Initialize(_getItems, requiredNum, isBr, isHuman);
     }
 
     public void ChangeRequiredNum(int _requiredNum)
     {
         requiredNum = _requiredNum;
         // ボタンのテキスト変更
-        requiredText.text = "必要数\n" + requiredNum.ToString();
+        requiredText.text = requiredNum.ToString();
     }
 
     public void UnActiveMask()
