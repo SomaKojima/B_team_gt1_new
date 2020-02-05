@@ -48,6 +48,7 @@ public class SI_Game : MonoBehaviour
     {
         if(isGameSet)
         {
+
             SceneManager.LoadScene("ResultScene");
         }
     }
