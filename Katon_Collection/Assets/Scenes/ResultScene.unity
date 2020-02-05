@@ -931,6 +931,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
+    - target: {fileID: 2864351793342184853, guid: 48a57341e3a1f3943b2277029b373d51,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 6826921445961979407, guid: 48a57341e3a1f3943b2277029b373d51,
         type: 3}
       propertyPath: m_Enabled
@@ -965,11 +970,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2864351793342184853, guid: 48a57341e3a1f3943b2277029b373d51,
-        type: 3}
-      propertyPath: m_TagString
-      value: Ground
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48a57341e3a1f3943b2277029b373d51, type: 3}
@@ -2440,7 +2440,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1683695135
 MonoBehaviour:
@@ -3143,7 +3143,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d75d6047c7fdae84a866f921bdace72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPosition: {x: 0, y: 0, z: 0}
 --- !u!224 &1961842023
 RectTransform:
   m_ObjectHideFlags: 0

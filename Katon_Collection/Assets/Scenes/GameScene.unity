@@ -2329,6 +2329,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3b9dd6e3861545740899038159813f8a, type: 3}
   - {fileID: 8300000, guid: 88d8b3dd9ba4f0447ba11c71e921adbf, type: 3}
   - {fileID: 8300000, guid: 9a9550c1c9feef54d9053aa6b674b34f, type: 3}
+  - {fileID: 8300000, guid: 15df28f4cd0083d409bd66454db5b1ad, type: 3}
+  - {fileID: 8300000, guid: f0be5795ba3098b4ebd1128e9b070a63, type: 3}
+  - {fileID: 8300000, guid: ecc797fcd6ea48b4a95b7f4ea5557123, type: 3}
+  - {fileID: 8300000, guid: e03aa5ff3055e4a439b2cfd627fa99a2, type: 3}
 --- !u!82 &578576165
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4253,6 +4257,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 743888285449495869, guid: 48a57341e3a1f3943b2277029b373d51,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 743888285449495870, guid: 48a57341e3a1f3943b2277029b373d51,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4317,6 +4326,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 743888284663032035, guid: 48a57341e3a1f3943b2277029b373d51,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 3751779927203952893, guid: 48a57341e3a1f3943b2277029b373d51,
         type: 3}
@@ -6926,6 +6940,21 @@ PrefabInstance:
       propertyPath: SI_Game
       value: 
       objectReference: {fileID: 2097668881}
+    - target: {fileID: 2672531374609840464, guid: 1f76ca872330bd84eaebff3a80fcb9cd,
+        type: 3}
+      propertyPath: minute
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2672531374609840464, guid: 1f76ca872330bd84eaebff3a80fcb9cd,
+        type: 3}
+      propertyPath: seconds
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2672531374609840464, guid: 1f76ca872330bd84eaebff3a80fcb9cd,
+        type: 3}
+      propertyPath: sound
+      value: 
+      objectReference: {fileID: 578576164}
     - target: {fileID: 2672531374609840466, guid: 1f76ca872330bd84eaebff3a80fcb9cd,
         type: 3}
       propertyPath: m_StaticEditorFlags
