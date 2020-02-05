@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 public class ResultGame : MonoBehaviour
 {
     [SerializeField]
+    Manage_SI_Player si_player = null;
+
+    [SerializeField]
     private Congratulation congratulation = null;
     [SerializeField]
     CameraResultMove cameraResultMove;
@@ -46,10 +49,27 @@ public class ResultGame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         owner_Floor.Initialize();
-        for (int i = 0; i < 4; i++)
+
+        for (int i = 0; i <4; i++)
         {
-            playerResult[i] = i + i;
+            playerResult[i] = 0;
+        }
+            
+
+        //人数分取得！！！
+        for (int i = 0; i < si_player.GetPlayers().Count; i++)
+        {
+            int count = 0;
+
+            for(int j=0;j<(int)Type.Max;j++)
+            {
+                //建てた数の合計
+               count += si_player.GetPlayer(i).GetPlacePoint(j);
+            }
+
+            playerResult[i] = count;
         }
 
         sound.PlaySound(SoundType_Result.BGM, 1.0f);
