@@ -11,6 +11,8 @@ public class TitleGame : MonoBehaviour
     [SerializeField]
     private UI_Button_Title m_uI_Title_Button = null;
 
+    float time = 0.0f;
+
     // サウンド
     [SerializeField]
     Sound_Title sound;
@@ -25,6 +27,8 @@ public class TitleGame : MonoBehaviour
         // BGMを鳴らす
         sound.PlaySound(SoundType_Title.BGM,1.0f);
         Application.targetFrameRate = 30; //30FPSに設定
+
+        m_uI_Title_Button.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -39,6 +43,16 @@ public class TitleGame : MonoBehaviour
         {
             m_backGround_Title.ChangeRobyScene();
         }
+
+
+        time += Time.deltaTime;
+
+        Debug.Log(time);
+        if (time > 2)
+        {
+            m_uI_Title_Button.gameObject.SetActive(true);
+        }
+
        
 
 
