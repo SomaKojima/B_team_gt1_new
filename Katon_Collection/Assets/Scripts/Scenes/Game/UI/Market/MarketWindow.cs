@@ -156,6 +156,14 @@ public class MarketWindow : MonoBehaviour
         gameObject.SetActive(true);
         Initialize();
         isActive = true;
+        if (marketType == MARKET_TYPE.COMMON)
+        {
+            commonWindow.Active();
+        }
+        else
+        {
+            saleWindow.Active();
+        }
     }
 
     public void UnActive()
@@ -163,6 +171,8 @@ public class MarketWindow : MonoBehaviour
         if (!gameObject.activeSelf) return;
         gameObject.SetActive(false);
         isActive = true;
+        commonWindow.UnActive();
+        saleWindow.UnActive();
     }
 
     public bool IsBack()

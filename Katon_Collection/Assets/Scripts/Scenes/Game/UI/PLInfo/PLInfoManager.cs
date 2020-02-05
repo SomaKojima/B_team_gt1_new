@@ -146,7 +146,13 @@ public class PLInfoManager : MonoBehaviour
     {
         if (PLInfoWindowComponets == null) return false;
         if (PLInfoWindowComponets[currentNumber] == null) return false;
-        if (PLInfoWindowComponets[currentNumber].IsClickOutSide()) return true;
+        if (PLInfoWindowComponets[currentNumber].IsClickOutSide())
+        {
+            return true;
+        }
+
+
+
         return false;
     }
 }

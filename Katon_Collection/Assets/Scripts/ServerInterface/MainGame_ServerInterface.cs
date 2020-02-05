@@ -65,14 +65,10 @@ public class MainGame_ServerInterface : MonoBehaviour
 
     public void OnClick()
     {
-        if (!PLInfoManager.GetWindowIsActive())
+        if (!PLInfoManager.GetWindowIsActive() && !PLInfoManager.IsBack())
         {
             PLInfoManager.SetPlInfo(manager_SI_Player.GetPlayers());
             PLInfoManager.CreatePLInfoWindow();
-        }
-        else
-        {
-            PLInfoManager.DeleteWindow();
         }
     }
 

@@ -30,6 +30,5 @@ public class UI_Button : MonoBehaviour
        return m_click; 
     }
 
-   
 
 }
