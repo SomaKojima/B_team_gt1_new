@@ -9,6 +9,9 @@ public class ResultGame : MonoBehaviour
     Manage_SI_Player si_player = null;
 
     [SerializeField]
+    SI_Game si_game = null;
+
+    [SerializeField]
     private Congratulation congratulation = null;
     [SerializeField]
     CameraResultMove cameraResultMove;
@@ -37,7 +40,7 @@ public class ResultGame : MonoBehaviour
 
     int max = 0;
 
-    int TopScore = 8;
+    int TopScore = 0;
     int count = 0;
 
 
@@ -56,21 +59,18 @@ public class ResultGame : MonoBehaviour
         {
             playerResult[i] = 0;
         }
-            
+
+        int[] score = SI_Game.GetScore();
+
 
         //人数分取得！！！
         for (int i = 0; i < si_player.GetPlayers().Count; i++)
         {
-            int count = 0;
-
-            for(int j=0;j<(int)Type.Max;j++)
-            {
-                //建てた数の合計
-               count += si_player.GetPlayer(i).GetPlacePoint(j);
-            }
-
-            playerResult[i] = count;
+            Debug.Log(score[i]);
+            playerResult[i] = score[i];
         }
+
+        PlayerResult(playerResult[0], playerResult[1], playerResult[2], playerResult[3]);
 
         sound.PlaySound(SoundType_Result.BGM, 1.0f);
     }

@@ -2168,7 +2168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ui_Fukidashi: {fileID: 1204512299}
-  offset: {x: -10, y: 0, z: 0}
+  offset: {x: -10, y: 10, z: 0}
   sprite: {fileID: 21300000, guid: faf0cec09e8bbd34e8b020de18726e1b, type: 3}
 --- !u!114 &1204512299
 MonoBehaviour:
@@ -2391,6 +2391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   si_player: {fileID: 795589898}
+  si_game: {fileID: 0}
   congratulation: {fileID: 2093048538}
   cameraResultMove: {fileID: 106993217}
   owner_Floor: {fileID: 1701619140}
@@ -3316,7 +3317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ui_Fukidashi: {fileID: 1976351898}
-  offset: {x: 20, y: 0, z: 0}
+  offset: {x: 20, y: 10, z: 0}
   sprite: {fileID: 21300000, guid: faf0cec09e8bbd34e8b020de18726e1b, type: 3}
 --- !u!114 &1976351898
 MonoBehaviour:
@@ -3406,7 +3407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ui_Fukidashi: {fileID: 1980193626}
-  offset: {x: 10, y: 0, z: 0}
+  offset: {x: 10, y: 10, z: 0}
   sprite: {fileID: 21300000, guid: faf0cec09e8bbd34e8b020de18726e1b, type: 3}
 --- !u!114 &1980193626
 MonoBehaviour:
@@ -3496,7 +3497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ui_Fukidashi: {fileID: 2027220180}
-  offset: {x: -20, y: 0, z: 0}
+  offset: {x: -20, y: 10, z: 0}
   sprite: {fileID: 21300000, guid: faf0cec09e8bbd34e8b020de18726e1b, type: 3}
 --- !u!114 &2027220180
 MonoBehaviour:
