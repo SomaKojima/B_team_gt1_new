@@ -19,6 +19,10 @@ public class ResultGame : MonoBehaviour
     [SerializeField]
     UI_Fukidashi[] ui_Fukidashi = new UI_Fukidashi[4];
 
+    // サウンド
+    [SerializeField]
+    Sound_Result sound;
+
     float time = 0;
     Floor landingFloor = null;
 
@@ -28,9 +32,7 @@ public class ResultGame : MonoBehaviour
     //表示フラグ
     bool m_gotoTapButtonFlag = false;
 
-
     int max = 0;
-
 
     int TopScore = 8;
     int count = 0;
@@ -41,7 +43,6 @@ public class ResultGame : MonoBehaviour
         Application.targetFrameRate = 30; //60FPSに設定
     }
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -51,7 +52,7 @@ public class ResultGame : MonoBehaviour
             playerResult[i] = i + i;
         }
 
-        
+        sound.PlaySound(SoundType_Result.BGM, 1.0f);
     }
 
     //プレイヤの結果
@@ -62,13 +63,9 @@ public class ResultGame : MonoBehaviour
         playerResult[1] = _2p;
         playerResult[2] = _3p;
         playerResult[3] = _4p;
-
-
-       
-
+        
         max = playerResult[0];
-
-         
+        
         for (int i =0; i < 4; i++)
         {
             if (playerResult[i] > max)
@@ -80,7 +77,6 @@ public class ResultGame : MonoBehaviour
                 ui_Fukidashi[i].gameObject.SetActive(false);
             }
         }
-
         TopScore = max;
 
         congratulation.SetPlayerNumber(max);
@@ -89,8 +85,6 @@ public class ResultGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
-       
         time++;
         if(time > 60)
         {
@@ -99,24 +93,24 @@ public class ResultGame : MonoBehaviour
                 count++;
                 owner_Floor.Building(Type.cave);
             }
-
-           
             time = 0;
         }
 
         //一番高く建てた人のスコアを超えたら
         if (count >= TopScore)
         {
+            if (!m_gotoTapButtonFlag)
+            {
+                sound.PlaySound(SoundType_Result.WinBGM, 1.0f);
+            }
             m_gotoTapButtonFlag = true;
         }
-
+        
         //勝利のパーティクル、テキスト、タイトルに戻るボタンを表示
         if (m_gotoTapButtonFlag)
         {
             gototitle_button.gameObject.SetActive(true);
             congratulation.gameObject.SetActive(true);
-
-            
         }
 
         landingFloor = owner_Floor.GetTopLandingOf(Type.cave);
@@ -136,8 +130,7 @@ public class ResultGame : MonoBehaviour
                 }
               
             }
-
-
+            
             cameraResultMove.SetTarget(landingFloor.transform.position);
             cameraResultMove.Move();
         }
@@ -145,6 +138,8 @@ public class ResultGame : MonoBehaviour
         //シーン切り替え
         if(gototitle_button.IsClick())
         {
+            sound.PlaySound(SoundType_Result.Change, 1.5f);
+
             SceneManager.LoadScene("TitleScene");
         }
         
