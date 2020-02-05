@@ -44,4 +44,9 @@ public class Manager_RoomNameButton : MonoBehaviour
     {
         return enter;
     }
+
+    public void ClearSelect()
+    {
+        enter = null;
+    }
 }
