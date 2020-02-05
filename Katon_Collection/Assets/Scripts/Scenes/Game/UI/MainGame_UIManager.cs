@@ -59,6 +59,9 @@ public class MainGame_UIManager : MonoBehaviour
     [SerializeField]
     GameObject infoBtn;
 
+    [SerializeField]
+    PLInfoManager infoManager;
+
     // リクエスト用のビットフラグ
     Request request = new Request();
 
@@ -83,6 +86,7 @@ public class MainGame_UIManager : MonoBehaviour
     /// <param name="_managerItem"></param>
     public void Initialize(Manager_Item _managerItem)
     {
+        qrReaderWindow.Initialize();
         timer.Initialize();
 
         fountainWindow.Initialize(_managerItem);
@@ -114,6 +118,9 @@ public class MainGame_UIManager : MonoBehaviour
         
         // フェードのリクエスト処理
         UpdateRequest_Fade();
+
+        // 情報ウィンドウのリクエスト処理
+        UpdateRequest_InfoManager();
 
         // 建築のボードのリクエスト処理
         UpdateRequest_BuildingBoard();
@@ -180,7 +187,7 @@ public class MainGame_UIManager : MonoBehaviour
         // QRリーダーを有効化
         if (requestActiveUI.IsActive(ACTIVE_UI.QR_READER))
         {
-            qrReaderWindow.Initialize();
+            qrReaderWindow.Active();
         }
 
         // 建築ボードを有効化
@@ -245,6 +252,7 @@ public class MainGame_UIManager : MonoBehaviour
         // QRリーダーを無効化
         if (requestActiveUI.IsUnActive(ACTIVE_UI.QR_READER))
         {
+            qrReaderWindow.UnActive();
         }
 
         // 建築ボードを無効化
@@ -273,6 +281,17 @@ public class MainGame_UIManager : MonoBehaviour
 
         // フラグをすべて初期化する
         requestActiveUI.ClearUnActiveFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY);
+    }
+
+    /// <summary>
+    /// 情報ウィンドウの更新処理
+    /// </summary>
+    void UpdateRequest_InfoManager()
+    {
+        if (infoManager.IsBack())
+        {
+            infoManager.DeleteWindow();
+        }
     }
 
     /// <summary>
@@ -344,6 +363,11 @@ public class MainGame_UIManager : MonoBehaviour
         if (qrReaderWindow.IsReader())
         {
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.QR_READE);
+        }
+
+        if(qrReaderWindow.IsBack())
+        {
+            requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.QR_READER);
         }
     }
 
@@ -697,5 +721,17 @@ public class MainGame_UIManager : MonoBehaviour
     public bool IsStartFade()
     {
         return fade_CloudEffect.IsStartProcess;
+    }
+
+    public bool IsActiveWindow()
+    {
+        if (infoManager.IsActive()) return true;
+        if (selectQrReaderOrFountain.IsActive()) return true;
+        if (humanWindow.IsActive()) return true;
+        if (marketWindow.IsActive()) return true;
+        if (fountainWindow.IsActive()) return true;
+        if (qrReaderWindow.IsActive()) return true;
+
+        return false;
     }
 }

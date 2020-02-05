@@ -40,6 +40,8 @@ public class FountainWindow : MonoBehaviour
     bool isBufCreateQR = false;
     bool isEndCreateQR = false;
 
+    bool isActive = false;
+
     public void Initialize(Manager_Item _pay)
     {
         payWindow.Initialize(_pay);
@@ -153,6 +155,7 @@ public class FountainWindow : MonoBehaviour
         gameObject.SetActive(true);
         manager_SI_Player.ExChangeInfo(manager_SI_Player.GetMyPlayer().ID, false);
         Initailzie();
+        isActive = true;
     }
 
     public void UnActive()
@@ -160,6 +163,7 @@ public class FountainWindow : MonoBehaviour
         gameObject.SetActive(false);
         manager_SI_Player.ExChangeInfo(manager_SI_Player.GetMyPlayer().ID, false);
         qrWindow.UnActive();
+        isActive = false;
     }
 
 
@@ -188,6 +192,11 @@ public class FountainWindow : MonoBehaviour
     public List<IItem> GetItems()
     {
         return items;
+    }
+
+    public bool IsActive()
+    {
+        return isActive;
     }
 
     //void CreateExchangeList()

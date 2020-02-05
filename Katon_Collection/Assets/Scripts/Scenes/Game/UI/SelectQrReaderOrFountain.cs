@@ -25,6 +25,8 @@ public class SelectQrReaderOrFountain : MonoBehaviour
 
     bool isBack = false;
 
+    bool isActive = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,6 +62,7 @@ public class SelectQrReaderOrFountain : MonoBehaviour
     public void Active()
     {
         gameObject.SetActive(true);
+        isActive = true;
     }
 
     public void UnActive()
@@ -67,6 +70,7 @@ public class SelectQrReaderOrFountain : MonoBehaviour
         gameObject.SetActive(false);
         isSelectQrReader = false;
         isSelectFountain = false;
+        isActive = false;
     }
 
     public bool IsSelectQrReader()
@@ -82,5 +86,10 @@ public class SelectQrReaderOrFountain : MonoBehaviour
     public bool IsBack()
     {
         return isBack;
+    }
+
+    public bool IsActive()
+    {
+        return isActive;
     }
 }

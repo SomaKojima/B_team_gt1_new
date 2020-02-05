@@ -42,6 +42,9 @@ public class Human : MonoBehaviour
     float soundTime = 0;
     float soundDuringTime = 1.0f;
 
+    // 掴めるかどうか
+    bool isPickable = false;
+
     /// <summary>
     /// 初期化
     /// </summary>
@@ -196,6 +199,7 @@ public class Human : MonoBehaviour
 
     void OnMouseDown()
     {
+        if (!isPickable) return;
         // 掴まれた声
         sound.PlaySound(SoundType_Human.GrabVoice, 1.0f);
 
@@ -210,5 +214,10 @@ public class Human : MonoBehaviour
     public bool IsPowerUp()
     {
         return isPowerUp;
+    }
+
+    public void SetIsPickable(bool _isPickable)
+    {
+        isPickable = _isPickable;
     }
 }

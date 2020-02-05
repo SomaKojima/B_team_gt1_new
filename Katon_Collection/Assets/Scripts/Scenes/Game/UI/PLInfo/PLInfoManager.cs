@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PLInfoManager : MonoBehaviour
 {
     private GameObject[] PLInfoWindows;
+    private PLInfoWindow[] PLInfoWindowComponets = null;
     private List<SI_Player> data = new List<SI_Player>();
     private int currentNumber = 0;
     [SerializeField]
@@ -36,6 +37,7 @@ public class PLInfoManager : MonoBehaviour
         //Prefabの読み込み
         GameObject prefab = (GameObject)Resources.Load("Prefabs/Scenes/Game/UI/PLInfo/PLInfoWindow");
         PLInfoWindows = new GameObject[data.Count];
+        PLInfoWindowComponets = new PLInfoWindow[data.Count];
 
         for (int i = 0; i < data.Count; i++)
         {
@@ -47,7 +49,9 @@ public class PLInfoManager : MonoBehaviour
             PLInfoWindows[i].GetComponent<PLInfoWindow>().DataSet(data[i]);
             PLInfoWindows[i].GetComponent<PLInfoWindow>().createList();
 
-            if(data[i].ID == PhotonNetwork.player.ID)
+            PLInfoWindowComponets[i] = PLInfoWindows[i].GetComponent<PLInfoWindow>();
+
+            if (data[i].ID == PhotonNetwork.player.ID)
             {
                 currentNumber = i;
             }
@@ -130,5 +134,19 @@ public class PLInfoManager : MonoBehaviour
                 RightBtn.SetActive(false);
             }
         }
+    }
+
+    public bool IsActive()
+    {
+        if(playerWindows.transform.childCount != 0) return true;
+        return false;
+    }
+
+    public bool IsBack()
+    {
+        if (PLInfoWindowComponets == null) return false;
+        if (PLInfoWindowComponets[currentNumber] == null) return false;
+        if (PLInfoWindowComponets[currentNumber].IsClickOutSide()) return true;
+        return false;
     }
 }

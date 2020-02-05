@@ -33,6 +33,8 @@ public class MarketWindow : MonoBehaviour
 
     float time = 0;
 
+    bool isActive = false;
+
     public void Initialize(Manager_Item _managerItem, float _time)
     {
         commonWindow.Initialize(_managerItem);
@@ -150,13 +152,17 @@ public class MarketWindow : MonoBehaviour
 
     public void Active()
     {
+        if (gameObject.activeSelf) return;
         gameObject.SetActive(true);
         Initialize();
+        isActive = true;
     }
 
     public void UnActive()
     {
+        if (!gameObject.activeSelf) return;
         gameObject.SetActive(false);
+        isActive = true;
     }
 
     public bool IsBack()
@@ -182,4 +188,8 @@ public class MarketWindow : MonoBehaviour
     //    return items;
     //}
 
+    public bool IsActive()
+    {
+        return isActive;
+    }
 }
