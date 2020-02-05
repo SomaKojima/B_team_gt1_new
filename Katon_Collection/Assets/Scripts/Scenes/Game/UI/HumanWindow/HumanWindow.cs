@@ -39,6 +39,9 @@ public class HumanWindow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        isBack = false;
+
         // 強化を選択
         if (selectHumanAction.IsActivePowerUpWindow())
         {
@@ -61,7 +64,6 @@ public class HumanWindow : MonoBehaviour
             isBack = true;
         }
 
-        isBack = false;
         if (selectHumanAction.IsBack())
         {
             selectHumanAction.UnActive();

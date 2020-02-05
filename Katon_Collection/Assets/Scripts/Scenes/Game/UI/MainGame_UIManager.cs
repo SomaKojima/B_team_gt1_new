@@ -427,7 +427,8 @@ public class MainGame_UIManager : MonoBehaviour
             requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.MARKET);
             requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.PLACE_BAR);
 
-            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_STOP);
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_STOP | REQUEST.CAMERA_MOVE_PLACE);
+            request.ChangeCameraPlaceType = Type.market;
         }
 
         // QRリーダーを起動

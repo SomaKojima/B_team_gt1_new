@@ -239,7 +239,6 @@ public class CommonWindow : MonoBehaviour
     /// </summary>
     public void UpdateBuilding(int buildingTotal)
     {
-        owner_commonUnitButton.UpdateBuilding(buildingTotal);
     }
 
     public List<IItem> GetExchangeItemList()

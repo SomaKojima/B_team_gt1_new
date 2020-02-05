@@ -229,6 +229,7 @@ public class MainGame : MonoBehaviour
         // カメラの移動
         if (_request.Flag.IsFlag(REQUEST.CAMERA_MOVE_PLACE))
         {
+            //mainCamera.Move(_request.ChangeCameraPlaceType);
         }
 
         // カメラをひとつ前に戻す
