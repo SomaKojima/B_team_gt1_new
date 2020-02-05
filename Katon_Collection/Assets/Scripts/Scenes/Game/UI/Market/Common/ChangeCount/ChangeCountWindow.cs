@@ -22,6 +22,12 @@ public class ChangeCountWindow : MonoBehaviour
 
     bool isApply = false;
 
+    float addFrame = 0;
+    float addFrameScale = 0.9f;
+    float addFrameDuring = 1.0f;
+    float addFrameMinDuring = 0.2f;
+    bool isAddCount = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -98,6 +104,12 @@ public class ChangeCountWindow : MonoBehaviour
     public bool IsAplly()
     {
         return isApply;
+    }
+
+    void UpdateAddFrame()
+    {
+        addFrame += Time.deltaTime;
+
     }
 
     /// <summary>
