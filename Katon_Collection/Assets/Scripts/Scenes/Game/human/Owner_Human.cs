@@ -25,8 +25,10 @@ public class Owner_Human : MonoBehaviour
 
     bool isCollect = false;
 
+    // 掴めるかどうか
+    bool isPickable = false;
+
     // 強化された人間の数
-    int[] powerUpCount = new int[(int)ItemType.HumanMax];
     int[] bufPowerUpCount = new int[(int)ItemType.HumanMax];
 
     public void Intialize()
@@ -35,7 +37,6 @@ public class Owner_Human : MonoBehaviour
         request.Initialize();
         for(int i = 0; i < (int)ItemType.HumanMax; i++)
         {
-            powerUpCount[i] = 0;
             bufPowerUpCount[i] = 0;
         }
     }
@@ -86,6 +87,8 @@ public class Owner_Human : MonoBehaviour
             {
                 bufPowerUpCount[(int)type]++;
             }
+
+            human.SetIsPickable(isPickable);
 
             // リクエストを追加
             bufRequests.Add(human.GetRequest());
@@ -230,4 +233,8 @@ public class Owner_Human : MonoBehaviour
         return manager_human.GetListOf(_placeType);
     }
 
+    public void SetIsPickable(bool _isPickable)
+    {
+        isPickable = _isPickable;
+    }
 }

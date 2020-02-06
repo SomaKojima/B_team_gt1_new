@@ -34,6 +34,10 @@ public class Owner_CommonUnitButton : MonoBehaviour
             {
                 button.ActiveMask();
             }
+            else
+            {
+                button.UnActiveMask();
+            }
             if (button.IsClick())
             {
                 button.OnClickProcess();
@@ -51,5 +55,10 @@ public class Owner_CommonUnitButton : MonoBehaviour
     public CommonUnitButton GetSelectCommonUnitButton()
     {
         return selectButton;
+    }
+
+    public void ClearSelect()
+    {
+        selectButton = null;
     }
 }

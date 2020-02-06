@@ -63,4 +63,9 @@ public class EnterRoom_Window : MonoBehaviour
             manager_RoomNameButton.Add(factory_RoomNameButton.Create(room.RoomName));
         }
     }
+
+    public void ClearSelect()
+    {
+        manager_RoomNameButton.ClearSelect();
+    }
 }

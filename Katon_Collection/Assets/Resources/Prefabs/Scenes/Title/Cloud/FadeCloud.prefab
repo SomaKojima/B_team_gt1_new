@@ -91,8 +91,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 118.2, y: 241.8}
-  m_SizeDelta: {x: 1089.6, y: 1966}
+  m_AnchoredPosition: {x: 111.3, y: 253.9}
+  m_SizeDelta: {x: 1095.4, y: 1915.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2851103905623665545
 CanvasRenderer:
@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -308,6 +308,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1791789844136823598, guid: f9e45870c70a8dd4c97395eb8edcdfcb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -62
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f9e45870c70a8dd4c97395eb8edcdfcb, type: 3}
 --- !u!224 &4561179658985290966 stripped
@@ -489,6 +494,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791789844136823598, guid: f9e45870c70a8dd4c97395eb8edcdfcb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -76
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f9e45870c70a8dd4c97395eb8edcdfcb, type: 3}
@@ -1045,6 +1055,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791789844136823598, guid: f9e45870c70a8dd4c97395eb8edcdfcb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f9e45870c70a8dd4c97395eb8edcdfcb, type: 3}

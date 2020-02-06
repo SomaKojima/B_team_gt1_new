@@ -129,6 +129,16 @@ public class MainGame : MonoBehaviour
         {
             sound.PlaySound(SoundType_MainGame.Fade,1.0f);
         }
+
+        // UIの何かしらがアクティブの時
+        if (uiManager.IsActiveWindow())
+        {
+            owner_human.SetIsPickable(false);
+        }
+        else
+        {
+            owner_human.SetIsPickable(true);
+        }
     }
     
     /// <summary>

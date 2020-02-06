@@ -33,6 +33,9 @@ public class PLInfoWindow : MonoBehaviour
 
     [SerializeField]
     ItemContextTable table;
+    
+    [SerializeField]
+    JudgeClickUI judgeClickUI;
 
     // Start is called before the first frame update
     void Start()
@@ -88,5 +91,14 @@ public class PLInfoWindow : MonoBehaviour
     public void SetItemData(Manager_Item itemManager)
     {
         this.itemManager = itemManager;
+    }
+
+    /// <summary>
+    /// ウィンドウ以外の場所をクリックしたかどうか
+    /// </summary>
+    /// <returns></returns>
+    public bool IsClickOutSide()
+    {
+        return judgeClickUI.IsClickOutSide();
     }
 }

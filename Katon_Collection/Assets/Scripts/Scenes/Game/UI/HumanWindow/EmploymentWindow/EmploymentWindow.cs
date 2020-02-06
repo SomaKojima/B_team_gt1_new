@@ -67,6 +67,7 @@ public class EmploymentWindow : MonoBehaviour
     {
         if (!this.gameObject.activeSelf) return;
         this.gameObject.SetActive(false);
+        judgeClickUI.Initialize();
         isClose = false;
         isEmployment = false;
     }

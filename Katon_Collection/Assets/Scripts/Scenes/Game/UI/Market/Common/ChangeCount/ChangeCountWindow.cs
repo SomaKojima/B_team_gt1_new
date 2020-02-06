@@ -22,10 +22,18 @@ public class ChangeCountWindow : MonoBehaviour
 
     bool isApply = false;
 
+    float addFrame = 0;
+    float addFrameScale = 0.5f;
+    float addFrameDuring = 0.5f;
+    float addFrameMaxDuring = 0.0f;
+    float addFrameMinDuring = 0.02f;
+    bool isAddCount = false;
+    int addCount = 0;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        addFrameMaxDuring = addFrameDuring;
     }
 
     // Update is called once per frame
@@ -35,16 +43,30 @@ public class ChangeCountWindow : MonoBehaviour
         if(countUpBtn.IsClick())
         {
             countUpBtn.OnClickProcess();
-
-            AddCount(1);
         }
 
         // 個数を減らす
         if (countDownBtn.IsClick())
         {
             countDownBtn.OnClickProcess();
+        }
 
-            AddCount(-1);
+        // ボタンを離した時
+        if (Input.GetMouseButtonUp(0))
+        {
+            addFrameDuring = addFrameMaxDuring;
+            addFrame = 0;
+            isAddCount = false;
+            addCount = 0;
+        }
+        // ボタンが押されていれば
+        if(Input.GetMouseButton(0) && addCount != 0)
+        {
+            if (isAddCount)
+            {
+                AddCount(addCount);
+            }
+            UpdateAddFrame();
         }
 
         // 決定ボタン
@@ -55,6 +77,7 @@ public class ChangeCountWindow : MonoBehaviour
         }
         
         icon.SetNum(count);
+
 
     }
 
@@ -100,12 +123,28 @@ public class ChangeCountWindow : MonoBehaviour
         return isApply;
     }
 
+    void UpdateAddFrame()
+    {
+        addFrame += Time.deltaTime;
+        if (addFrame > addFrameDuring)
+        {
+            addFrame = 0;
+            addFrameDuring = addFrameDuring * addFrameScale;
+            if (addFrameDuring < addFrameMinDuring)
+            {
+                addFrameDuring = addFrameMinDuring;
+            }
+            isAddCount = true;
+        }
+    }
+
     /// <summary>
     /// 個数の追加
     /// </summary>
     /// <param name="cnt"></param>
     private void AddCount(int cnt)
     {
+        isAddCount = false;
         count += cnt;
         if (count < 0)
         {
@@ -116,6 +155,18 @@ public class ChangeCountWindow : MonoBehaviour
             count = maxCount;
         }
         UpdateSliderValue();
+    }
+
+    public void OnPlusButton()
+    {
+        isAddCount = true;
+        addCount = 1;
+    }
+
+    public void OnMinusButton()
+    {
+        isAddCount = true;
+        addCount = -1;
     }
 
     /// <summary>

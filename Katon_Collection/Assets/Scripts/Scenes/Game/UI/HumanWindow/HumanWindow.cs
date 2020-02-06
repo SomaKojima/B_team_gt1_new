@@ -19,6 +19,8 @@ public class HumanWindow : MonoBehaviour
     // 戻るボタンが押されたかどうか
     bool isBack = false;
 
+    bool isActive = false;
+
     public void Initialize()
     {
         selectHumanAction.Initialize();
@@ -76,7 +78,9 @@ public class HumanWindow : MonoBehaviour
         if (selectHumanAction.gameObject.activeSelf) return;
         selectHumanAction.Active();
         powerUpWindow.UnActive();
+        employmentWindow.UnActive();
         isBack = false;
+        isActive = true;
     }
     
     public void UnActive()
@@ -84,6 +88,7 @@ public class HumanWindow : MonoBehaviour
         if (!selectHumanAction.gameObject.activeSelf) return;
 
         selectHumanAction.UnActive();
+        isActive = false;
     }
 
     /// <summary>
@@ -165,6 +170,11 @@ public class HumanWindow : MonoBehaviour
     public bool IsBack()
     {
         return isBack;
+    }
+
+    public bool IsActive()
+    {
+        return isActive;
     }
 }
     

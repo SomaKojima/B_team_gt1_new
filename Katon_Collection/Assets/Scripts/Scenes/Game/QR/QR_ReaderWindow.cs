@@ -33,14 +33,13 @@ public class QR_ReaderWindow : MonoBehaviour
 
     bool isReader = false;
 
+    bool isActive = false;
+
+    bool isBack = false;
+
     public void Initialize()
     {
-        qr_encode.Initialize();
-        gameObject.SetActive(true);
-        qrReader.Initialize();
-        correctResultWindow.Initialize();
-        missResultWindow.Initialize();
-        isExchange = false;
+        
     }
 
     // Start is called before the first frame update
@@ -56,10 +55,11 @@ public class QR_ReaderWindow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        isBack = false;
         if (backButton.IsClick())
         {
             backButton.OnClickProcess();
-            gameObject.SetActive(false);
+            isBack = true;
         }
 
         if (qrReader.IsCorrectRead() && !qrReader.IsStop())
@@ -99,6 +99,26 @@ public class QR_ReaderWindow : MonoBehaviour
             missResultWindow.Initialize();
             missExchangeResultWindow.Initialize();
         }
+    }
+
+    public void Active()
+    {
+        if (gameObject.activeSelf) return;
+        gameObject.SetActive(true);
+        qr_encode.Initialize();
+        qrReader.Initialize();
+        correctResultWindow.Initialize();
+        missResultWindow.Initialize();
+        isExchange = false;
+        isActive = true;
+        isBack = false;
+    }
+
+    public void UnActive()
+    {
+        if (!gameObject.activeSelf) return;
+        gameObject.SetActive(false);
+        isActive = false;
     }
 
     
@@ -142,5 +162,15 @@ public class QR_ReaderWindow : MonoBehaviour
     public bool IsReader()
     {
         return isReader;
+    }
+
+    public bool IsActive()
+    {
+        return isActive;
+    }
+
+    public bool IsBack()
+    {
+        return isBack;
     }
 }

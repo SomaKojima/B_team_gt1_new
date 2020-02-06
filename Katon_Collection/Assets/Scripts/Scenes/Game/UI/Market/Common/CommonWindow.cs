@@ -151,11 +151,15 @@ public class CommonWindow : MonoBehaviour
     public void Active()
     {
         gameObject.SetActive(true);
+        selectItemButtonWindow.SetLimitSelectType(true, true);
     }
 
     public void UnActive()
     {
+        Debug.Log("unActive");
         gameObject.SetActive(false);
+        selectItemButtonWindow.SetLimitSelectType(false, false);
+        owner_commonUnitButton.ClearSelect();
     }
 
     public bool IsExchange()
