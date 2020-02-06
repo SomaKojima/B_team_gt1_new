@@ -30,6 +30,12 @@ public class MatchingRoomGame : MonoBehaviour
     [SerializeField]
     UI_Button backButton;
 
+    [SerializeField]
+    GameObject missWindow;
+
+    [SerializeField]
+    UI_Button missWindow_yesButton;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,6 +70,8 @@ public class MatchingRoomGame : MonoBehaviour
 
         // 戻るボタン
         Update_Back();
+
+        Update_MissWindow();
 
         //ゲームを開始する
         if (serverInterface.GetGameStartFlag())
@@ -145,6 +153,11 @@ public class MatchingRoomGame : MonoBehaviour
     {
         if (entryRoom_Window.GetEnterRoomName() != null)
         {
+            if (entryRoom_Window.GetEnterRoomName().GetRoomName() == "")
+            {
+                missWindow.SetActive(true);
+                return;
+            }
             waitRoom_Window.gameObject.SetActive(true);
             entryRoom_Window.gameObject.SetActive(false);
             EntoryRoom();
@@ -155,6 +168,12 @@ public class MatchingRoomGame : MonoBehaviour
     {
         if (makeRoom_Window.IsMakeRoom())
         {
+            if (makeRoom_Window.GetInputRoomName() == "" ||
+                makeRoom_Window.GetInputPlayerName() == "")
+            {
+                missWindow.SetActive(true);
+                return;
+            }
             waitRoom_Window.gameObject.SetActive(true);
             makeRoom_Window.gameObject.SetActive(false);
             CreateRoom();
@@ -222,6 +241,16 @@ public class MatchingRoomGame : MonoBehaviour
                 serverInterface.LeaveRoom();
             }
 
+        }
+    }
+
+
+    void Update_MissWindow()
+    {
+        if (missWindow_yesButton.IsClick())
+        {
+            missWindow_yesButton.OnClickProcess();
+            missWindow.SetActive(false);
         }
     }
 }

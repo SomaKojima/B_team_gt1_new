@@ -170,7 +170,7 @@ public class MarketWindow : MonoBehaviour
     {
         if (!gameObject.activeSelf) return;
         gameObject.SetActive(false);
-        isActive = true;
+        isActive = false;
         commonWindow.UnActive();
         saleWindow.UnActive();
     }

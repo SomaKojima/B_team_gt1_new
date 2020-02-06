@@ -75,7 +75,6 @@ public class HumanWindow : MonoBehaviour
 
     public void Active()
     {
-        if (selectHumanAction.gameObject.activeSelf) return;
         selectHumanAction.Active();
         powerUpWindow.UnActive();
         employmentWindow.UnActive();
@@ -85,8 +84,6 @@ public class HumanWindow : MonoBehaviour
     
     public void UnActive()
     {
-        if (!selectHumanAction.gameObject.activeSelf) return;
-
         selectHumanAction.UnActive();
         isActive = false;
     }

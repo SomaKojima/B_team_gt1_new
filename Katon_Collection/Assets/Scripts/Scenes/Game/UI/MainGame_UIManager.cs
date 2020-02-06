@@ -585,7 +585,7 @@ public class MainGame_UIManager : MonoBehaviour
         // 戻るボタンの処理
         if (humanWindow.IsBack())
         {
-            humanWindow.UnActive();
+            requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.HUMAN_WINDOW);
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_START);
         }
     }
