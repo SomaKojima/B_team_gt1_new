@@ -524,6 +524,8 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10218}
     - Class: 114
+      Script: {instanceID: 10266}
+    - Class: 114
       Script: {instanceID: 10294}
     - Class: 114
       Script: {instanceID: 10434}
@@ -691,7 +693,7 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 13632}
     - Class: 114
-      Script: {instanceID: 35922}
+      Script: {instanceID: 35468}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1058,13 +1060,13 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 13768}
     - Class: 114
-      Script: {instanceID: 53644}
+      Script: {instanceID: 42340}
     - Class: 114
-      Script: {instanceID: 53808}
+      Script: {instanceID: 42752}
     - Class: 114
-      Script: {instanceID: 54086}
+      Script: {instanceID: 43020}
     - Class: 114
-      Script: {instanceID: 54670}
+      Script: {instanceID: 43970}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1526,7 +1528,7 @@ ScriptsOnlyBuild:
     className: ScreenSpaceReflections
   - hash:
       serializedVersion: 2
-      Hash: 7b02e5e0391c756fc3f699b98b2765ad
+      Hash: f50b38a5677a63c52052618ef3b0afe5
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MatchingRoomGame
@@ -2480,7 +2482,7 @@ ScriptsOnlyBuild:
     className: RawImage
   - hash:
       serializedVersion: 2
-      Hash: cc1e3d218ea6483e09da3d818206f2f2
+      Hash: a3781750994fb243a56bccaf1494a823
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PLInfoWindow
@@ -3170,7 +3172,7 @@ ScriptsOnlyBuild:
     className: PickupItemSimple
   - hash:
       serializedVersion: 2
-      Hash: fd4c25b56bc97ef7f93a205c84dd0e80
+      Hash: 79f881938064cafaa884f2ea424178db
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MainGame_UIManager
