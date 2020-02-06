@@ -368,6 +368,7 @@ public class MainGame_UIManager : MonoBehaviour
         if(qrReaderWindow.IsBack())
         {
             requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.QR_READER);
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_START);
         }
     }
 

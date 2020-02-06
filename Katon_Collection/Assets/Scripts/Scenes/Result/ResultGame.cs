@@ -99,6 +99,7 @@ public class ResultGame : MonoBehaviour
 
 
     float appearTitleButtonTime = 0.0f;
+    int topLanding = 0;
 
     // Update is called once per frame
     void Update()
@@ -117,10 +118,6 @@ public class ResultGame : MonoBehaviour
         //一番高く建てた人のスコアを超えたら
         if (count >= TopScore)
         {
-            if (!m_gotoTapButtonFlag)
-            {
-                sound.PlaySound(SoundType_Result.WinBGM, 1.0f);
-            }
             m_gotoTapButtonFlag = true;
         }
         
@@ -140,6 +137,11 @@ public class ResultGame : MonoBehaviour
         }
 
         landingFloor = owner_Floor.GetTopLandingOf(Type.cave);
+        if (m_gotoTapButtonFlag && owner_Floor.GetTotalLandingFloor(Type.cave) != topLanding)
+        {
+            sound.PlaySound(SoundType_Result.WinBGM, 1.0f);
+        }
+        topLanding = owner_Floor.GetTotalLandingFloor(Type.cave);
         if (landingFloor != null)
         {
 

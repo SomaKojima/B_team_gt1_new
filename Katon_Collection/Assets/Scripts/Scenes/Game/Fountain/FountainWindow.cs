@@ -22,6 +22,9 @@ public class FountainWindow : MonoBehaviour
     [SerializeField]
     Manage_SI_Player manager_SI_Player;
 
+    [SerializeField]
+    UI_Button resetButton;
+
     Manager_Item manager_getItem = new Manager_Item();
 
     QR_Encode qrEncode = new QR_Encode();
@@ -41,6 +44,7 @@ public class FountainWindow : MonoBehaviour
     bool isEndCreateQR = false;
 
     bool isActive = false;
+
 
     public void Initialize(Manager_Item _pay)
     {
@@ -103,6 +107,13 @@ public class FountainWindow : MonoBehaviour
                 UnActive();
             }
             isEndReaded = isReaded;
+        }
+
+        if (resetButton.IsClick())
+        {
+            resetButton.OnClickProcess();
+            getWindow.AllClear();
+            payWindow.AllClear();
         }
 
         // QRが作られたかどうかを判定

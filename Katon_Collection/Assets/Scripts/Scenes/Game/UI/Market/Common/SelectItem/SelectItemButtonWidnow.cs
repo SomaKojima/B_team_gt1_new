@@ -143,4 +143,9 @@ public class SelectItemButtonWidnow : MonoBehaviour
     {
         owner_selectItemButton.AllButtonUpdate();
     }
+
+    public void AllClear()
+    {
+        owner_selectItemButton.ClearCount(true, true);
+    }
 }
