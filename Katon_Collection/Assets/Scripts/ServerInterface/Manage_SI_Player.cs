@@ -15,7 +15,7 @@ public class Manage_SI_Player : Photon.MonoBehaviour
     private PhotonView m_photonView = null;
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         for(int i = 0;i< MAX_MEMBER;i++)
         {

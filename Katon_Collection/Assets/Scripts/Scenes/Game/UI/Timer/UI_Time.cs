@@ -75,7 +75,6 @@ public class UI_Time : MonoBehaviour
             (int)GetSecond() <= 10)
         {
             // カウントダウン
-            Debug.Log("a");
             sound.PlaySound(SoundType_MainGame.CountDown, 1.1f);
             soundTime = (int)GetSecond();
         }

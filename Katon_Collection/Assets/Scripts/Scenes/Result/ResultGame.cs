@@ -9,9 +9,6 @@ public class ResultGame : MonoBehaviour
     Manage_SI_Player si_player = null;
 
     [SerializeField]
-    SI_Game si_game = null;
-
-    [SerializeField]
     private Congratulation congratulation = null;
     [SerializeField]
     CameraResultMove cameraResultMove;
@@ -52,7 +49,6 @@ public class ResultGame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
         owner_Floor.Initialize();
 
         for (int i = 0; i <4; i++)
@@ -66,10 +62,9 @@ public class ResultGame : MonoBehaviour
         //人数分取得！！！
         for (int i = 0; i < si_player.GetPlayers().Count; i++)
         {
-            Debug.Log(score[i]);
             playerResult[i] = score[i];
         }
-
+        
         PlayerResult(playerResult[0], playerResult[1], playerResult[2], playerResult[3]);
 
         sound.PlaySound(SoundType_Result.BGM, 1.0f);
