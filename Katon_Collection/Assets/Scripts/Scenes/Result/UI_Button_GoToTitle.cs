@@ -7,6 +7,8 @@ public class UI_Button_GoToTitle : UI_Button
     //リザルトからタイトルボタンへ遷移する
     [SerializeField]
     private UI_Button m_goto_result_button = null;
+    [SerializeField]
+    Manager_ServerInterface server = null;
 
     //最初はボタンを非表示にしておく
     private void Start()
@@ -18,6 +20,8 @@ public class UI_Button_GoToTitle : UI_Button
     public void ClickgotoResultButton()
     {
         m_goto_result_button.IsClickEnter();
+        server.LeaveRoom();
+        PhotonNetwork.LeaveLobby();
         m_goto_result_button.OnClickProcess();
     }
 

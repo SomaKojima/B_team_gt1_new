@@ -97,6 +97,9 @@ public class ResultGame : MonoBehaviour
         congratulation.SetPlayerNumber(max);
     }
 
+
+    float appearTitleButtonTime = 0.0f;
+
     // Update is called once per frame
     void Update()
     {
@@ -124,8 +127,16 @@ public class ResultGame : MonoBehaviour
         //勝利のパーティクル、テキスト、タイトルに戻るボタンを表示
         if (m_gotoTapButtonFlag)
         {
+            appearTitleButtonTime += Time.deltaTime;
+
+           
+        }
+
+        if(appearTitleButtonTime>3)
+        {
             gototitle_button.gameObject.SetActive(true);
             congratulation.gameObject.SetActive(true);
+            appearTitleButtonTime = 0.0f;
         }
 
         landingFloor = owner_Floor.GetTopLandingOf(Type.cave);
