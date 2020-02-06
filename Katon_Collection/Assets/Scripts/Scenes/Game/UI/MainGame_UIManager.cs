@@ -579,6 +579,11 @@ public class MainGame_UIManager : MonoBehaviour
         if(humanWindow.IsEmployment())
         {
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.EMPLOYMENT);
+            
+            foreach (Item item in humanWindow.GetEmploymentResource())
+            {
+                Debug.Log(item.GetItemType() + " : " + item.GetCount());
+            }
             request.EmploymentItems = humanWindow.GetEmploymentResource();
         }
 

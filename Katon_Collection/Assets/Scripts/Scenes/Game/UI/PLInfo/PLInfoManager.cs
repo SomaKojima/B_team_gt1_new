@@ -18,6 +18,8 @@ public class PLInfoManager : MonoBehaviour
     [SerializeField]
     private GameObject playerWindows;
     private bool isActive = false;
+
+    bool isNext = false;
     
 
     // Start is called before the first frame update
@@ -29,7 +31,7 @@ public class PLInfoManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        isNext = false;
     }
 
     public void CreatePLInfoWindow()
@@ -87,6 +89,7 @@ public class PLInfoManager : MonoBehaviour
                 RightBtn.SetActive(false);
             }
         }
+        isNext = true;
     }
 
     public void LeftBtnOnClick()
@@ -101,6 +104,7 @@ public class PLInfoManager : MonoBehaviour
                 LeftBtn.SetActive(false);
             }
         }
+        isNext = true;
     }
 
     public void DeleteWindow()
@@ -148,6 +152,7 @@ public class PLInfoManager : MonoBehaviour
         if (PLInfoWindowComponets[currentNumber] == null) return false;
         if (PLInfoWindowComponets[currentNumber].IsClickOutSide())
         {
+            if (isNext) return false;
             return true;
         }
 

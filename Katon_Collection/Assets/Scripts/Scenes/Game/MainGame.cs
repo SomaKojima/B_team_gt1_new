@@ -193,7 +193,7 @@ public class MainGame : MonoBehaviour
 
         UpdateRequest(owner_human.GetRequest());
     }
-
+    bool a = false;
     /// <summary>
     /// リクエストの処理
     /// </summary>
@@ -318,12 +318,23 @@ public class MainGame : MonoBehaviour
         // 収集
         if (_request.Flag.IsFlag(REQUEST.COLLECT))
         {
+            Debug.Log(_request.CollectPlaceType);
             bool isCollectable = owner_buildingResource.GetBuildingResource(_request.CollectPlaceType).IsCollectable(_request.CollectItemType);
 
             if (isCollectable)
             {
                 // 資源の追加
                 List<IItem> _items = owner_buildingResource.GetBuildingResource(_request.CollectPlaceType).GetItems(_request.CollectItemType, _request.IsDoubleCollect);
+
+                if (!a)
+                {
+                    a = true;
+
+                    foreach (IItem item in _items)
+                    {
+                        Debug.Log(item.GetItemType() + " : " + item.GetCount());
+                    }
+                }
                 manager_item.AddItems(_items);
             }
             _request.FinalizeCollect(isCollectable);
@@ -356,7 +367,6 @@ public class MainGame : MonoBehaviour
         {
             if (_request.PowerUpHumanType != ITEM_TYPE.NONE)
             {
-
                 // 建築に必要な素材を取得
                 List<IItem> _items = _request.PowerUpItems;
                 // 資源が足りているか確認
@@ -367,6 +377,7 @@ public class MainGame : MonoBehaviour
                 {
                     // 強化音
                     sound.PlaySound(SoundType_MainGame.PowerUp, 1.1f);
+                    manager_item.AddItems(_items);
                     manager_item.GetItem(_request.PowerUpHumanType).AddPowerUpCount(1);
                 }
                 // 強化失敗
@@ -401,14 +412,15 @@ public class MainGame : MonoBehaviour
             List<IItem> _items = _request.EmploymentItems;
             // 資源が足りているか確認
             bool _isExchange = manager_item.IsExchange(_items);
-
+            
             // 雇用成功
             if (_isExchange && _items != null)
             {
                 IItem addHuman = new Item(1, ItemType.RandomHuman());
+                manager_item.AddItems(_items);
+                _items = new List<IItem>();
                 _items.Add(addHuman);
                 manager_item.AddItems(_items);
-                _items.Clear();
             }
         }
 

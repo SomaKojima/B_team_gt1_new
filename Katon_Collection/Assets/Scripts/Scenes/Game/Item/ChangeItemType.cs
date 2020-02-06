@@ -21,6 +21,11 @@ public class ChangeItemType
                 return ITEM_TYPE.COAL_MINER;
             case ITEM_TYPE.PARTS:
                 return ITEM_TYPE.ENGINEER;
+            case ITEM_TYPE.WHEAT:
+                return ITEM_TYPE.FARMER;
+            case ITEM_TYPE.COTTON:
+                return ITEM_TYPE.FARMER_COTTON;
+
         }
         return ITEM_TYPE.NONE;
     }
@@ -41,6 +46,10 @@ public class ChangeItemType
                 return ITEM_TYPE.ORE;
             case ITEM_TYPE.ENGINEER:
                 return ITEM_TYPE.PARTS;
+            case ITEM_TYPE.FARMER:
+                return ITEM_TYPE.WHEAT;
+            case ITEM_TYPE.FARMER_COTTON:
+                return ITEM_TYPE.COTTON;
         }
 
         return ITEM_TYPE.NONE;
@@ -56,6 +65,10 @@ public class ChangeItemType
                 return ITEM_TYPE.WOOD;
             case Type.factory:
                 return ITEM_TYPE.PARTS;
+            case Type.farm:
+                return ITEM_TYPE.WHEAT;
+            case Type.cotton:
+                return ITEM_TYPE.COTTON;
         }
 
         return ITEM_TYPE.NONE;

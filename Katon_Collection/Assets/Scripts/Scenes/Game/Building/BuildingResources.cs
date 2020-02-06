@@ -24,7 +24,7 @@ public class BuildingResources : MonoBehaviour
     List<IItem> bufCorrectItems = new List<IItem>();
 
     // 収集アイテムのタイプを決めるときに使う変数
-    ITEM_TYPE[] randomBuf = new ITEM_TYPE[(int)ItemType.BuildingResourceMax];
+    int[] randomBuf = new int[(int)ItemType.BuildingResourceMax];
 
     private void Start()
     {
@@ -46,10 +46,9 @@ public class BuildingResources : MonoBehaviour
         // 初期化
         for (int i = 0; i < (int)ItemType.BuildingResourceMax; i++)
         {
-            randomBuf[i] = (ITEM_TYPE)(i + (int)ItemType.HumanMax);
+            randomBuf[i] = i + (int)ItemType.BuildingResourceHead;
         }
-
-        ShuffleRandomType();
+        
     }
 
     //カウントの取得
@@ -57,48 +56,31 @@ public class BuildingResources : MonoBehaviour
     {
         correctItems.Clear();
 
-        ShuffleRandomType();
-
         // 確定枠
         if (_type != ITEM_TYPE.NONE)
         {
-            int itemCount = GetItemCount(_type, isDouble);
-            bufCorrectItems[(int)_type].SetCount(itemCount);
-            correctItems.Add(bufCorrectItems[(int)_type]);
+            ITEM_TYPE type = ChangeItemType.HumanToBuildingResource(_type);
+            int itemCount = GetItemCount(type, isDouble);
+            bufCorrectItems[(int)type].SetCount(itemCount);
+            correctItems.Add(bufCorrectItems[(int)type]);
         }
 
         // 取得アイテムの素材を計算
-        int i = 0;
-        while (correctItems.Count < 3)
+        
+        ShuffleArray.shuffle(randomBuf, randomBuf.Length);
+        for (int i = 0; correctItems.Count < 3; i++)
         {
             // 確定枠と同じ場合は飛ばす
-            if (randomBuf[i] == _type)
+            if ((ITEM_TYPE)randomBuf[i] == _type)
             {
-                i++;
                 continue;
             }
-            int itemCount = GetItemCount(randomBuf[i], isDouble);
-            bufCorrectItems[(int)randomBuf[i]].SetCount(itemCount);
-            correctItems.Add(bufCorrectItems[(int)randomBuf[i]]);
-            i++;
+            int itemCount = GetItemCount((ITEM_TYPE)randomBuf[i], isDouble);
+            bufCorrectItems[randomBuf[i]].SetCount(itemCount);
+            correctItems.Add(bufCorrectItems[randomBuf[i]]);
         }
 
         return correctItems;
-    }
-
-    public void ShuffleRandomType()
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            int maxNum = (int)ItemType.BuildingResourceMax;
-            int randomOne = Random.Range(0, (maxNum - 1) * 100) % maxNum;
-            int randomTwo = Random.Range(0, (maxNum - 1) * 100) % maxNum;
-
-            // 入れ替え処理
-            ITEM_TYPE buf = randomBuf[randomOne];
-            randomBuf[randomOne] = randomBuf[randomTwo];
-            randomBuf[randomTwo] = buf;
-        }
     }
 
     private int GetItemCount(ITEM_TYPE _type, bool isDouble)
@@ -134,7 +116,7 @@ public class BuildingResources : MonoBehaviour
     /// <returns></returns>
     public bool IsCollectable(ITEM_TYPE _type)
     {
-        if (ItemType.IsBuildingResourceType(m_itemType)) return false;
+        if (ItemType.IsHumanType(m_itemType)) return false;
         return true;
     }
 }

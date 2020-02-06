@@ -153,11 +153,13 @@ public class MatchingRoomGame : MonoBehaviour
     {
         if (entryRoom_Window.GetEnterRoomName() != null)
         {
-            if (entryRoom_Window.GetEnterRoomName().GetRoomName() == "")
+            if (entryRoom_Window.GetInputPlayerName() == "")
             {
                 missWindow.SetActive(true);
+                entryRoom_Window.ClearSelect();
                 return;
             }
+            missWindow.SetActive(false);
             waitRoom_Window.gameObject.SetActive(true);
             entryRoom_Window.gameObject.SetActive(false);
             EntoryRoom();
@@ -174,6 +176,8 @@ public class MatchingRoomGame : MonoBehaviour
                 missWindow.SetActive(true);
                 return;
             }
+
+            missWindow.SetActive(false);
             waitRoom_Window.gameObject.SetActive(true);
             makeRoom_Window.gameObject.SetActive(false);
             CreateRoom();

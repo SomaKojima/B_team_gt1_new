@@ -21,6 +21,7 @@ public class Manager_RoomNameButton : MonoBehaviour
         {
             if(button.IsClick() == true)
             {
+                button.OnClickProcess();
                 enter = button;
             }
         }

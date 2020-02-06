@@ -57,6 +57,11 @@ public class ItemType
 
     static public ITEM_TYPE BuildingResourceHead
     {
+        get { return ITEM_TYPE.WOOD; }
+    }
+
+    static public ITEM_TYPE BuildingResourceTail
+    {
         get { return ITEM_TYPE.COTTON; }
     }
 
@@ -78,7 +83,7 @@ public class ItemType
     /// <returns></returns>
     static public bool IsHumanType(ITEM_TYPE type)
     {
-        if (type >= 0 &&  type < ITEM_TYPE.WOOD) return true;
+        if (type >= HumanHead &&  type < HumanTail) return true;
         return false;
     }
 
@@ -89,7 +94,7 @@ public class ItemType
     /// <returns></returns>
     static public bool IsBuildingResourceType(ITEM_TYPE type)
     {
-        if (type > HumanTail && type >= ITEM_TYPE.WOOD) return true;
+        if (type >= BuildingResourceHead && type <= BuildingResourceTail ) return true;
         return false;
     }
 

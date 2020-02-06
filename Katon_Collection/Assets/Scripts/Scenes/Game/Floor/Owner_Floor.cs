@@ -146,7 +146,7 @@ public class Owner_Floor : MonoBehaviour
         isFirstBuilding = true;
         totalFloor++;
 
-        moveInCount[(int)type] = MOVE_IN_COUNT * totalFloor;
+        moveInCount[(int)type] = MOVE_IN_COUNT * GetPlaceTotalFloor(type);
 
         // 開拓に必要な資源を更新
         UpdateReclamation(totalFloor);

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: cotton
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: b18f6b3b914ce98418877af73715bcc4, type: 3}
-  material: {fileID: 0}
+  material: {fileID: 2100000, guid: c3200c51839dbfb419d2c3a50ca89c9c, type: 2}
   powerUpSprite: {fileID: 21300000, guid: b18f6b3b914ce98418877af73715bcc4, type: 3}
