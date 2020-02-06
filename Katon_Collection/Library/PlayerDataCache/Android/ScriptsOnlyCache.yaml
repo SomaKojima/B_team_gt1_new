@@ -687,11 +687,13 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 13240}
     - Class: 114
+      Script: {instanceID: 13496}
+    - Class: 114
       Script: {instanceID: 13518}
     - Class: 114
       Script: {instanceID: 13632}
     - Class: 114
-      Script: {instanceID: 37204}
+      Script: {instanceID: 35468}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1058,13 +1060,13 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 13768}
     - Class: 114
-      Script: {instanceID: 28200}
+      Script: {instanceID: 42340}
     - Class: 114
-      Script: {instanceID: 30014}
+      Script: {instanceID: 42752}
     - Class: 114
-      Script: {instanceID: 32794}
+      Script: {instanceID: 43020}
     - Class: 114
-      Script: {instanceID: 35620}
+      Script: {instanceID: 43970}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -2564,7 +2566,7 @@ ScriptsOnlyBuild:
     className: VerticalLayoutGroup
   - hash:
       serializedVersion: 2
-      Hash: 1edcaaa61c122b97cb07d8bae4a67ecd
+      Hash: b3edabf25e411ccac604923eb8285900
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: UI_Button_GoToTitle
@@ -3636,4 +3638,4 @@ ScriptsOnlyBuild:
   - Assets/Scenes/MatchingRoomScene.unity
   - Assets/Scenes/GameScene.unity
   - Assets/Scenes/ResultScene.unity
-  playerPath: C:/Users/s172074/Desktop/R_I_B_E_.apk
+  playerPath: C:/Users/s172025/Desktop/hgjkgk/test.apk
