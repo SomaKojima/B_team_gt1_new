@@ -68,9 +68,6 @@ public class HumanWindow : MonoBehaviour
             // 結果ウィンドウの内側をクリックした場合は無視する
             if (!(!humanResultWindow.IsClickOutSide() && humanResultWindow.IsActive()))
             {
-                humanResultWindow.UnActive();
-                powerUpWindow.UnActive();
-                employmentWindow.UnActive();
                 isBack = true;
             }
         }
@@ -88,6 +85,7 @@ public class HumanWindow : MonoBehaviour
 
         if (selectHumanAction.IsBack())
         {
+            Debug.Log("a");
             selectHumanAction.UnActive();
             isBack = true;
         }
@@ -107,6 +105,8 @@ public class HumanWindow : MonoBehaviour
     {
         selectHumanAction.UnActive();
         humanResultWindow.UnActive();
+        powerUpWindow.UnActive();
+        employmentWindow.UnActive();
         isActive = false;
     }
 
@@ -223,6 +223,15 @@ public class HumanWindow : MonoBehaviour
     public bool IsActive()
     {
         return isActive;
+    }
+
+    /// <summary>
+    /// 選択中かどうか
+    /// </summary>
+    /// <returns></returns>
+    public bool IsSelect()
+    {
+        return selectHumanAction.gameObject.activeSelf;
     }
 }
     

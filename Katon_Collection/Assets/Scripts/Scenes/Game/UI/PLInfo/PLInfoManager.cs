@@ -20,7 +20,9 @@ public class PLInfoManager : MonoBehaviour
     private bool isActive = false;
 
     bool isNext = false;
-    
+    bool isBack = false;
+
+    bool isWindowActive = false;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +34,14 @@ public class PLInfoManager : MonoBehaviour
     void Update()
     {
         isNext = false;
+
+        isBack = IsJudgeBack();
+
+        isWindowActive = false;
+        if (playerWindows.transform.childCount != 0)
+        {
+            isWindowActive = true;
+        }
     }
 
     public void CreatePLInfoWindow()
@@ -116,6 +126,7 @@ public class PLInfoManager : MonoBehaviour
         {
             Destroy(PLInfoWindows[i]);
         }
+        isWindowActive = false;
     }
 
     public bool GetWindowIsActive()
@@ -142,11 +153,10 @@ public class PLInfoManager : MonoBehaviour
 
     public bool IsActive()
     {
-        if(playerWindows.transform.childCount != 0) return true;
-        return false;
+        return isWindowActive;
     }
 
-    public bool IsBack()
+    public bool IsJudgeBack()
     {
         if (PLInfoWindowComponets == null) return false;
         if (PLInfoWindowComponets[currentNumber] == null) return false;
@@ -156,8 +166,11 @@ public class PLInfoManager : MonoBehaviour
             return true;
         }
 
-
-
         return false;
+    }
+
+    public bool IsBack()
+    {
+        return isBack;
     }
 }

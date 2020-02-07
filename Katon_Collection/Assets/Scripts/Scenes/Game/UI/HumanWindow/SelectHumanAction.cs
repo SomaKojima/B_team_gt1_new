@@ -57,6 +57,7 @@ public class SelectHumanAction : MonoBehaviour
         isBack = false;
         if (backBtn.IsClick())
         {
+            Debug.Log("b");
             backBtn.OnClickProcess();
             isBack = true;
         }

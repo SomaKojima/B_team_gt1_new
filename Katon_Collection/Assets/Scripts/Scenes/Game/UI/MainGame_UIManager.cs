@@ -57,7 +57,7 @@ public class MainGame_UIManager : MonoBehaviour
     SelectQrReaderOrFountain selectQrReaderOrFountain;
 
     [SerializeField]
-    GameObject infoBtn;
+    Image infoBtn;
 
     [SerializeField]
     PLInfoManager infoManager;
@@ -121,9 +121,6 @@ public class MainGame_UIManager : MonoBehaviour
         // フェードのリクエスト処理
         UpdateRequest_Fade();
 
-        // 情報ウィンドウのリクエスト処理
-        UpdateRequest_InfoManager();
-
         // 建築のボードのリクエスト処理
         UpdateRequest_BuildingBoard();
 
@@ -136,17 +133,23 @@ public class MainGame_UIManager : MonoBehaviour
         // 噴水のリクエスト処理
         UpdateRequest_Fountain();
 
-        // 移動バーのリクエスト処理
-        UpdateRequest_PlaceBar();
-
         // ログウィンドウのリクエスト処理
         UpdateRequest_LogWindow();
 
+        // 人間ウィンドウ
         UpdateRequest_HumanWindow();
 
+        // QRリーダーと噴水を選ぶ
         UpdateRequest_selectQrReaderOrFountain();
 
+        // 時間
         UpdateRequest_Timer();
+
+        // 情報ウィンドウのリクエスト処理
+        UpdateRequest_InfoManager();
+
+        // 移動バーのリクエスト処理
+        UpdateRequest_PlaceBar();
 
         // UIを有効化する処理
         UpdateActive();
@@ -167,13 +170,13 @@ public class MainGame_UIManager : MonoBehaviour
         if (requestActiveUI.IsActive(ACTIVE_UI.PLACE_BAR))
         {
             manager_placeBar.Active();
-            infoBtn.SetActive(true);
         }
 
         // 市場を有効化
         if (requestActiveUI.IsActive(ACTIVE_UI.MARKET))
         {
             marketWindow.Active();
+            fountainWindow.UnActive();
         }
 
         // 噴水を有効化
@@ -192,6 +195,7 @@ public class MainGame_UIManager : MonoBehaviour
         if (requestActiveUI.IsActive(ACTIVE_UI.QR_READER))
         {
             qrReaderWindow.Active();
+            fountainWindow.UnActive();
         }
 
         // 建築ボードを有効化
@@ -209,13 +213,14 @@ public class MainGame_UIManager : MonoBehaviour
         // 情報ウィンドウの有効化
         if (requestActiveUI.IsActive(ACTIVE_UI.INFO_WINDOW))
         {
-            infoBtn.SetActive(true);
+            infoManager.CreatePLInfoWindow();
         }
 
         // 人間ウィンドウの有効化
         if (requestActiveUI.IsActive(ACTIVE_UI.HUMAN_WINDOW))
         {
             humanWindow.Active();
+            fountainWindow.UnActive();
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.GET_CURRENT_PLACE_HUMAN_INFO);
         }
 
@@ -232,7 +237,6 @@ public class MainGame_UIManager : MonoBehaviour
         if (requestActiveUI.IsUnActive(ACTIVE_UI.PLACE_BAR))
         {
             manager_placeBar.UnActive();
-            infoBtn.SetActive(false);
         }
 
         // 市場を無効化
@@ -274,7 +278,7 @@ public class MainGame_UIManager : MonoBehaviour
         // 情報ウィンドウの無効化
         if (requestActiveUI.IsUnActive(ACTIVE_UI.INFO_WINDOW))
         {
-            infoBtn.SetActive(false);
+            infoManager.DeleteWindow();
         }
 
         // 人間ウィンドウの無効化
@@ -386,8 +390,7 @@ public class MainGame_UIManager : MonoBehaviour
         // 戻るボタン
         if (fountainWindow.IsBack())
         {
-            requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.PLACE_BAR);
-            requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.FADE, ACTIVE_UI.FOUNTAIN);
+            //requestActiveUI.Active_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.PLACE_BAR);
 
             // カメラの挙動リクエスト
 
@@ -606,8 +609,13 @@ public class MainGame_UIManager : MonoBehaviour
             request.EmploymentItems = humanWindow.GetEmploymentResource();
         }
 
+        //if (humanWindow.IsSelect())
+        //{
+        //    infoBtn.enabled = false;
+        //}
+
         // 戻るボタンの処理
-        if (humanWindow.IsBack())
+        if (humanWindow.IsBack() && !infoManager.IsActive())
         {
             requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.HUMAN_WINDOW);
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_START);

@@ -119,6 +119,7 @@ public class QR_ReaderWindow : MonoBehaviour
         if (!gameObject.activeSelf) return;
         gameObject.SetActive(false);
         isActive = false;
+        isBack = false;
     }
 
     

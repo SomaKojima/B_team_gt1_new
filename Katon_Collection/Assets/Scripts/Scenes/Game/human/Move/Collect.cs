@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Collect : MoveState
 {
-    float width = 10.0f;
-    float depth = 10.0f;
+    float width = 20.0f;
+    float depth = 15.0f;
 
     float frame = 0.0f;
     float duringFrame = 5.0f;
