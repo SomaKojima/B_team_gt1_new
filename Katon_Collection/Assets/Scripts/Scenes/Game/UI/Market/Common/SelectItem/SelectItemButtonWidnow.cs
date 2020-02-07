@@ -6,9 +6,7 @@ using UnityEngine.UI;
 public class SelectItemButtonWidnow : MonoBehaviour
 {
     [SerializeField]
-    ChangeCountWindow normalWindow = null;
-    [SerializeField]
-    ChangeCountWindow powerUpWindow = null;
+    ChangeCountWindow1 tenKey = null;
 
     [SerializeField]
     Owner_SelectItemButton owner_selectItemButton;
@@ -43,14 +41,8 @@ public class SelectItemButtonWidnow : MonoBehaviour
         if (owner_selectItemButton.IsClick())
         {
             IItem selectItem = owner_selectItemButton.GetItem();
-            // アイテムが人間だった場合
-            if (ItemType.IsHumanType(selectItem.GetItemType()))
-            {
-                powerUpWindow.Active();
-                powerUpWindow.Initialize(selectItem.GetItemType(), selectItem.GetPowerUpCount(), true);
-            }
-            normalWindow.Active();
-            normalWindow.Initialize(selectItem.GetItemType(), selectItem.GetNormalCount(), false);
+            tenKey.Active();
+            tenKey.Initialize(selectItem.GetItemType(), selectItem.GetNormalCount(), selectItem.GetPowerUpCount());
 
             AddSelectItems(selectItem);
         }
@@ -60,21 +52,20 @@ public class SelectItemButtonWidnow : MonoBehaviour
         {
             IItem selectItem = owner_selectItemButton.GetItem();
             int currentCount = managerItem.GetItem(selectItem.GetItemType()).GetNormalCount();
-            normalWindow.SetMaxCount(currentCount);
+            tenKey.SetNormalMaxCount(currentCount);
 
             currentCount = managerItem.GetItem(selectItem.GetItemType()).GetPowerUpCount();
-            powerUpWindow.SetMaxCount(currentCount);
+            tenKey.SetPowerUpMaxCount(currentCount);
         }
 
         // 支払い素材の個数を変更
-        owner_selectItemButton.ChangeNormalCountOfClickButton(normalWindow.GetCount());
-        owner_selectItemButton.ChangePowerUpCountOfClickButton(powerUpWindow.GetCount());
-        if (normalWindow.IsAplly() || powerUpWindow.IsAplly())
+        owner_selectItemButton.ChangeNormalCountOfClickButton(tenKey.GetNormalCount());
+        owner_selectItemButton.ChangePowerUpCountOfClickButton(tenKey.GetPoerUpCount());
+        if (tenKey.IsAplly())
         {
             owner_selectItemButton.FinishChangeCount();
 
-            powerUpWindow.UnActive();
-            normalWindow.UnActive();
+            tenKey.UnActive();
         }
 
         // 合計値を更新する

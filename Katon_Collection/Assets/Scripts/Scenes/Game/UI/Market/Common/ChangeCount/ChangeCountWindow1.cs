@@ -25,7 +25,8 @@ public class ChangeCountWindow1 : MonoBehaviour
 
     int normalCount = 0;
     int powerUpCount = 0;
-    int maxCount = 0;
+    int normalMaxCount = 0;
+    int powerUpMaxCount = 0;
 
     bool isApply = false;
     bool isSelectNormal = true;
@@ -33,7 +34,6 @@ public class ChangeCountWindow1 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Initialize(ITEM_TYPE.LOOGER, 0, 0);
     }
 
     // Update is called once per frame
@@ -89,10 +89,18 @@ public class ChangeCountWindow1 : MonoBehaviour
         if (isSelectNormal)
         {
             normalCount = AddNum(normalCount, addNum);
+            if (normalCount > normalMaxCount)
+            {
+                normalCount = normalMaxCount;
+            }
         }
         else
         {
             powerUpCount = AddNum(powerUpCount, addNum);
+            if (powerUpCount > powerUpMaxCount)
+            {
+                powerUpCount = powerUpMaxCount;
+            }
         }
     }
 
@@ -140,20 +148,33 @@ public class ChangeCountWindow1 : MonoBehaviour
         powerUpCount = currentPowerUpCnt;
         if (ItemType.IsHumanType(type))
         {
+            powerUpicon.gameObject.SetActive(true);
             powerUpicon.Initialize(type, true);
+        }
+        else
+        {
+            powerUpicon.gameObject.SetActive(false);
         }
         normalIcon.Initialize(type, false);
 
         isApply = false;
+        selectFrameImage.transform.position = normalIcon.transform.position;
+        isSelectNormal = true;
+
     }
 
     /// <summary>
     /// 最大値の設定
     /// </summary>
     /// <param name="_maxCount"></param>
-    public void SetMaxCount(int _maxCount)
+    public void SetNormalMaxCount(int _maxCount)
     {
-        maxCount = _maxCount;
+        normalMaxCount = _maxCount;
+    }
+
+    public void SetPowerUpMaxCount(int _maxCount)
+    {
+        powerUpMaxCount = _maxCount;
     }
 
     /// <summary>
