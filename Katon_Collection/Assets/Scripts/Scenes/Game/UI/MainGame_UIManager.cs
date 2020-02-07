@@ -80,6 +80,8 @@ public class MainGame_UIManager : MonoBehaviour
     bool isGetPlaceHuman = false;
     List<ITEM_TYPE> humaPlaceType = new List<ITEM_TYPE>();
 
+    bool isActiveWindow = false;
+
     /// <summary>
     /// 初期化
     /// </summary>
@@ -151,6 +153,8 @@ public class MainGame_UIManager : MonoBehaviour
 
         // UIを無効化する処理
         UpdateUnActive();
+        
+        isActiveWindow = IsJudgeActionWindow();
 
     }
 
@@ -275,7 +279,7 @@ public class MainGame_UIManager : MonoBehaviour
 
         // 人間ウィンドウの無効化
         if (requestActiveUI.IsUnActive(ACTIVE_UI.HUMAN_WINDOW))
-        {
+        {;
             humanWindow.UnActive();
         }
 
@@ -299,6 +303,7 @@ public class MainGame_UIManager : MonoBehaviour
     /// </summary>
     void UpdateRequest_BuildingBoard()
     {
+        buildingBoard.SetNoAction(IsActiveWindow());
         // 建築ボタン
         if (buildingBoard.IsClickBuildingButton())
         {
@@ -524,11 +529,26 @@ public class MainGame_UIManager : MonoBehaviour
         {
             humanWindow.OnCorrectPowerUp();
         }
+        if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.POWER_UP_FAILED))
+        {
+            humanWindow.OnFailedPowerUp();
+        }
 
         // 人間の情報を取得成功
         if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.GET_CURRENT_PLACE_HUMAN_INFO_SUCCESS))
         {
             humanWindow.OnGetCurrentPlaceHumanInfo(request.CurrentPlaceHumanType);
+        }
+
+        // 雇用できた場合
+        if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.EMPLOYMENT_SUCCESS))
+        {
+            humanWindow.OnEmploymentSuccess(request.EmploymentType);
+        }
+        // 雇用が失敗
+        if (request.ReplayFlag.IsFlag(REPLAY_REQUEST.EMPLOYMENT_FAILED))
+        {
+            humanWindow.OnEmploymentFailed(request.EmploymentType);
         }
 
         request.ReplayFlag.Clear();
@@ -580,11 +600,7 @@ public class MainGame_UIManager : MonoBehaviour
         if(humanWindow.IsEmployment())
         {
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.EMPLOYMENT);
-            
-            foreach (Item item in humanWindow.GetEmploymentResource())
-            {
-                Debug.Log(item.GetItemType() + " : " + item.GetCount());
-            }
+
             request.EmploymentItems = humanWindow.GetEmploymentResource();
         }
 
@@ -729,7 +745,7 @@ public class MainGame_UIManager : MonoBehaviour
         return fade_CloudEffect.IsStartProcess;
     }
 
-    public bool IsActiveWindow()
+    bool IsJudgeActionWindow()
     {
         if (infoManager.IsActive()) return true;
         if (selectQrReaderOrFountain.IsActive()) return true;
@@ -739,5 +755,10 @@ public class MainGame_UIManager : MonoBehaviour
         if (qrReaderWindow.IsActive()) return true;
 
         return false;
+    }
+
+    public bool IsActiveWindow()
+    {
+        return isActiveWindow;
     }
 }

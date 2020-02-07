@@ -26,6 +26,9 @@ public enum REPLAY_REQUEST
 
     GET_CURRENT_PLACE_HUMAN_INFO_SUCCESS = 1 << 11,    // 現在地の人間の情報を取得成功
 
+    EMPLOYMENT_FAILED = 1 << 12,
+    EMPLOYMENT_SUCCESS = 1 << 13,
+
     MAX
 }
 

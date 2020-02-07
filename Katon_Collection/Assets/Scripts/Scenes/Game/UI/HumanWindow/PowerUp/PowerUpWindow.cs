@@ -24,10 +24,7 @@ public class PowerUpWindow : MonoBehaviour
 
     List<IItem>[] necessaryItems = new List<IItem>[MAX_POWER_UP_RESOURCE_NUM];
     int totalFloor = 0;
-
-    // ウィンドウを閉じる
-    bool isClose = false;
-
+    
     public void Initialize()
     {
         InitializeResouce();
@@ -43,12 +40,6 @@ public class PowerUpWindow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // ウィンドウ以外をクリックした場合
-        isClose = false;
-        if (judgeClickUI.IsClickOutSide())
-        {
-            isClose = true;
-        }
     }
 
     public void Active()
@@ -64,7 +55,6 @@ public class PowerUpWindow : MonoBehaviour
         if (!this.gameObject.activeSelf) return;
         this.gameObject.SetActive(false);
         judgeClickUI.Initialize();
-        isClose = false;
     }
 
     /// <summary>
@@ -127,12 +117,12 @@ public class PowerUpWindow : MonoBehaviour
     }
 
     /// <summary>
-    /// ウィンドウを閉じる処理
+    /// ウィンドウを以外をクリックしたかどうか
     /// </summary>
     /// <returns></returns>
-    public bool IsClose()
+    public bool IsClickOutSide()
     {
-        return isClose;
+        return judgeClickUI.IsClickOutSide();
     }
 
     /// <summary>

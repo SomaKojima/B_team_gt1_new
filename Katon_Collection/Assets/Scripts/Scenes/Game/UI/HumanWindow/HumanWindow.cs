@@ -16,6 +16,10 @@ public class HumanWindow : MonoBehaviour
     [SerializeField]
     EmploymentWindow employmentWindow;
 
+    // 結果表示用のウィンドウ
+    [SerializeField]
+    HumanResuletWindow humanResultWindow;
+
     // 戻るボタンが押されたかどうか
     bool isBack = false;
 
@@ -59,11 +63,27 @@ public class HumanWindow : MonoBehaviour
         }
 
         // ウィンドウを閉じる処理
-        if (powerUpWindow.IsClose() || employmentWindow.IsClose())
+        if ((powerUpWindow.IsClickOutSide() || employmentWindow.IsClickOutSide()))
         {
-            powerUpWindow.UnActive();
-            employmentWindow.UnActive();
-            isBack = true;
+            // 結果ウィンドウの内側をクリックした場合は無視する
+            if (!(!humanResultWindow.IsClickOutSide() && humanResultWindow.IsActive()))
+            {
+                humanResultWindow.UnActive();
+                powerUpWindow.UnActive();
+                employmentWindow.UnActive();
+                isBack = true;
+            }
+        }
+
+        if(humanResultWindow.IsClickYes() || humanResultWindow.IsClickOutSide())
+        {
+            humanResultWindow.UnActive();
+
+            // 全てのウィンドウが閉じられていたら戻る
+            if (!powerUpWindow.gameObject.activeSelf && !employmentWindow.gameObject.activeSelf)
+            {
+                isBack = true;
+            }
         }
 
         if (selectHumanAction.IsBack())
@@ -78,6 +98,7 @@ public class HumanWindow : MonoBehaviour
         selectHumanAction.Active();
         powerUpWindow.UnActive();
         employmentWindow.UnActive();
+        humanResultWindow.UnActive();
         isBack = false;
         isActive = true;
     }
@@ -85,6 +106,7 @@ public class HumanWindow : MonoBehaviour
     public void UnActive()
     {
         selectHumanAction.UnActive();
+        humanResultWindow.UnActive();
         isActive = false;
     }
 
@@ -140,6 +162,15 @@ public class HumanWindow : MonoBehaviour
     public void OnCorrectPowerUp()
     {
         powerUpWindow.OnCorrectPowerUp();
+        humanResultWindow.Active(powerUpWindow.GetPowerUpItemType(), HumanResuletWindow.RESULT.POWER_UP_SUCCESS);
+    }
+
+    /// <summary>
+    /// 強化失敗時の処理
+    /// </summary>
+    public void OnFailedPowerUp()
+    {
+        humanResultWindow.Active(powerUpWindow.GetPowerUpItemType(), HumanResuletWindow.RESULT.NOT_HAVE_RESOUTCE);
     }
 
     /// <summary>
@@ -158,6 +189,26 @@ public class HumanWindow : MonoBehaviour
     public void OnGetCurrentPlaceHumanInfo(List<ITEM_TYPE> _humanType)
     {
         powerUpWindow.SetUnit(_humanType);
+    }
+
+
+
+    /// <summary>
+    /// 雇用できた場合
+    /// </summary>
+    public void OnEmploymentSuccess(ITEM_TYPE type)
+    {
+        humanResultWindow.Active(type, HumanResuletWindow.RESULT.EMPLOYMENT_SUCCESS);
+        employmentWindow.UnActive();
+    }
+
+    /// <summary>
+    /// 雇用が失敗したときの処理
+    /// </summary>
+    /// <param name="type"></param>
+    public void OnEmploymentFailed(ITEM_TYPE type)
+    {
+        humanResultWindow.Active(type, HumanResuletWindow.RESULT.NOT_HAVE_RESOUTCE);
     }
 
     /// <summary>

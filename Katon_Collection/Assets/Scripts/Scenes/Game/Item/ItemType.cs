@@ -83,7 +83,7 @@ public class ItemType
     /// <returns></returns>
     static public bool IsHumanType(ITEM_TYPE type)
     {
-        if (type >= HumanHead &&  type < HumanTail) return true;
+        if (type >= HumanHead &&  type < HumanTail+1) return true;
         return false;
     }
 

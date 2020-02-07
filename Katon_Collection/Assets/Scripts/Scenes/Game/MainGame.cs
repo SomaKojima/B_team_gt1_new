@@ -193,7 +193,7 @@ public class MainGame : MonoBehaviour
 
         UpdateRequest(owner_human.GetRequest());
     }
-    bool a = false;
+
     /// <summary>
     /// リクエストの処理
     /// </summary>
@@ -318,23 +318,13 @@ public class MainGame : MonoBehaviour
         // 収集
         if (_request.Flag.IsFlag(REQUEST.COLLECT))
         {
-            Debug.Log(_request.CollectPlaceType);
             bool isCollectable = owner_buildingResource.GetBuildingResource(_request.CollectPlaceType).IsCollectable(_request.CollectItemType);
 
             if (isCollectable)
             {
                 // 資源の追加
                 List<IItem> _items = owner_buildingResource.GetBuildingResource(_request.CollectPlaceType).GetItems(_request.CollectItemType, _request.IsDoubleCollect);
-
-                if (!a)
-                {
-                    a = true;
-
-                    foreach (IItem item in _items)
-                    {
-                        Debug.Log(item.GetItemType() + " : " + item.GetCount());
-                    }
-                }
+                
                 manager_item.AddItems(_items);
             }
             _request.FinalizeCollect(isCollectable);
@@ -344,7 +334,6 @@ public class MainGame : MonoBehaviour
         if (_request.Flag.IsFlag(REQUEST.POSITION_TO_PLACE))
         {
             Type placeType = judgeField.ChangePositionToPlaceType(_request.ChangePosition);
-            Debug.Log(placeType);
             bool isChange = (owner_floor.GetPlaceTotalFloor(placeType) != 0 && 
                 owner_floor.GetMoveInCount(placeType) > owner_human.GetPlaceCount(placeType));
             if (isChange)
@@ -412,16 +401,20 @@ public class MainGame : MonoBehaviour
             List<IItem> _items = _request.EmploymentItems;
             // 資源が足りているか確認
             bool _isExchange = manager_item.IsExchange(_items);
-            
+
+            ITEM_TYPE type = ITEM_TYPE.NONE;
             // 雇用成功
             if (_isExchange && _items != null)
             {
-                IItem addHuman = new Item(1, ItemType.RandomHuman());
+                type = ItemType.RandomHuman();
+                IItem addHuman = new Item(1, type);
                 manager_item.AddItems(_items);
                 _items = new List<IItem>();
                 _items.Add(addHuman);
                 manager_item.AddItems(_items);
             }
+
+            _request.FinalizeEmployment(type);
         }
 
         _request.FinalizeRequest();

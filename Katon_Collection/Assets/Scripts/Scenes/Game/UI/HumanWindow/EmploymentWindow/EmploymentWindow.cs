@@ -21,9 +21,7 @@ public class EmploymentWindow : MonoBehaviour
 
     List<IItem>[] necessaryItems = new List<IItem>[MAX_POWER_UP_RESOURCE_NUM];
     int totalFloor = 0;
-
-    bool isClose = false;
-
+    
     // 雇用する
     bool isEmployment = false;
 
@@ -41,12 +39,6 @@ public class EmploymentWindow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // ウィンドウ以外をクリックした場合
-        isClose = false;
-        if (judgeClickUI.IsClickOutSide())
-        {
-            isClose = true;
-        }
 
         isEmployment = false;
         if (employmentButton.IsClick())
@@ -68,17 +60,16 @@ public class EmploymentWindow : MonoBehaviour
         if (!this.gameObject.activeSelf) return;
         this.gameObject.SetActive(false);
         judgeClickUI.Initialize();
-        isClose = false;
         isEmployment = false;
     }
 
     /// <summary>
-    /// ウィンドウを閉じる処理
+    /// ウィンドウ以外をクリックしたかどうか
     /// </summary>
     /// <returns></returns>
-    public bool IsClose()
+    public bool IsClickOutSide()
     {
-        return isClose;
+        return judgeClickUI.IsClickOutSide();
     }
 
     /// <summary>
@@ -110,7 +101,7 @@ public class EmploymentWindow : MonoBehaviour
         if (totalFloor < 0) totalFloor = 0;
         if (totalFloor >= MAX_POWER_UP_RESOURCE_NUM) totalFloor = MAX_POWER_UP_RESOURCE_NUM - 1;
     }
-
+    
     /// <summary>
     /// 必要な資源の初期化
     /// </summary>

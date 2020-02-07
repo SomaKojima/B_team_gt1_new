@@ -30,6 +30,7 @@ public class Request
     List<ITEM_TYPE> currentPlaceHumanType = new List<ITEM_TYPE>();
 
     List<IItem> employmentItems = null;
+    ITEM_TYPE employmentType = ITEM_TYPE.NONE;
 
     Type changeCameraPlaceType = Type.none;
 
@@ -142,6 +143,11 @@ public class Request
         set { changeCameraPlaceType = value; }
     }
 
+    public ITEM_TYPE EmploymentType
+    {
+        get { return employmentType; }
+    }
+
     /// <summary>
     /// 終了処理
     /// </summary>
@@ -231,5 +237,18 @@ public class Request
     public void FinalizeGetHumanInfo()
     {
         replayFlag.OnFlag(REPLAY_REQUEST.GET_CURRENT_PLACE_HUMAN_INFO_SUCCESS);
+    }
+
+    public void FinalizeEmployment(ITEM_TYPE type)
+    {
+        employmentType = type;
+        if (employmentType != ITEM_TYPE.NONE)
+        {
+            replayFlag.OnFlag(REPLAY_REQUEST.EMPLOYMENT_SUCCESS);
+        }
+        else
+        {
+            replayFlag.OnFlag(REPLAY_REQUEST.EMPLOYMENT_FAILED);
+        }
     }
 }

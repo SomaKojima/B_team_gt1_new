@@ -48,6 +48,8 @@ public class BuildingBoard : MonoBehaviour
 
     bool isMiss = false;
 
+    bool isNoAction = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -70,17 +72,11 @@ public class BuildingBoard : MonoBehaviour
         if (button.IsClick())
         {
             button.OnClickProcess();
-            UpdateMode();
-            //mode = mode + 1;
-            //if (mode == MODE.MAX) mode = MODE.MAX - 1;
+            if(!isNoAction)
+            {
+                isClickBuildingButton = true;
+            }
         }
-        //// ボタン以外をクリックした場合
-        //else if (Input.GetMouseButtonDown(0))
-        //{
-        //    missMessage.SetActive(false);
-        //    mode = MODE.ONE;
-        //    board.SetActive(false);
-        //}
 
         // 素材が足らないウィンドウの処理
         if (missMessage.activeSelf)
@@ -121,24 +117,6 @@ public class BuildingBoard : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    /// <summary>
-    /// モードごとの更新処理
-    /// </summary>
-    void UpdateMode()
-    {
-        switch (mode)
-        {
-            case MODE.ONE:
-                //if(!board.activeSelf)
-                    isClickBuildingButton = true;
-                //board.SetActive(true);
-                break;
-            case MODE.TWO:
-                isClickBuildingButton = true;
-                break;
-        }
-    }
-
     // 建築するかどうかを判定
     public bool IsClickBuildingButton()
     {
@@ -160,5 +138,10 @@ public class BuildingBoard : MonoBehaviour
     public bool IsActiveBoard()
     {
         return board.activeSelf;
+    }
+
+    public void SetNoAction(bool _isNoAction)
+    {
+        isNoAction = _isNoAction;
     }
 }
