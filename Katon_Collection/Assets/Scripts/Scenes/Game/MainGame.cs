@@ -273,20 +273,19 @@ public class MainGame : MonoBehaviour
         }
 
         // 交換
+        bool isExchangable = false;
         if (_request.Flag.IsFlag(REQUEST.EXCHANGE))
         {
             // アイテムのマネージャに追加・削除
 
-            bool isExchangable = manager_item.AddItems(_request.ExchangeItems);
-
+            isExchangable = manager_item.AddItems(_request.ExchangeItems);
             
-
             // リクエストの返答
             _request.FinalizeExchange(isExchangable);
         }
 
         // QRを読み取った
-        if (_request.Flag.IsFlag(REQUEST.QR_READE))
+        if (_request.Flag.IsFlag(REQUEST.QR_READE) && isExchangable)
         {
             // 交換終了したことを相手に伝える
             if (uiManager.GetExchangeOtherID() >= 0)

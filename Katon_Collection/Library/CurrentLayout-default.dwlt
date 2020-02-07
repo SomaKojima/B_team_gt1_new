@@ -114,7 +114,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 444}
   m_MaxSize: {x: 22012, y: 10022}
   vertical: 0
-  controlID: 179
+  controlID: 194
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_MinSize: {x: 640, y: 444}
   m_MaxSize: {x: 18010, y: 10022}
   vertical: 0
-  controlID: 142
+  controlID: 131
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 444}
   m_MaxSize: {x: 4002, y: 8044}
   vertical: 1
-  controlID: 56
+  controlID: 172
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -212,8 +212,8 @@ MonoBehaviour:
     y: 439
     width: 470
     height: 548
-  m_MinSize: {x: 202, y: 222}
-  m_MaxSize: {x: 4002, y: 4022}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
@@ -471,7 +471,7 @@ MonoBehaviour:
     m_DynamicClip: 1
     m_OcclusionCulling: 0
   m_ShowGlobalGrid: 1
-  m_LastSceneViewRotation: {x: 0.24416569, y: 0.10398823, z: -0.027808463, w: 0.96374077}
+  m_LastSceneViewRotation: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
   m_LastSceneViewOrtho: 0
   m_ReplacementShader: {fileID: 0}
   m_ReplacementString: 
@@ -543,20 +543,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources/Prefabs/Scenes/Game/UI/HumanWindow/HumanResulltWindow
+    - Assets/Scripts/Scenes/Game/UI
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Resources/Prefabs/Scenes/Game/UI/HumanWindow/HumanResulltWindow
+  - Assets/Scripts/Scenes/Game/UI
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\s172074\Documents\SourceTree\b_team_new\Katon_Collection
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 112}
-    m_SelectedIDs: e4dd0400
-    m_LastClickedID: 318948
-    m_ExpandedIDs: 00000000dc390000003a0000463a0000c03a0000ce3a0000cc3b0000e23c0000883d0000a23d0000c23e0000143f00008e41000028430000ce43000026450000a2450000ac460000384700009a470000ae470000bc470000fe470000c848000016490000d6490000224a00003e4a0000d44a0000324b00005a4b0000284c00009a4c0000ba4c0000445000006c7900006e79000070790000727900007479000076790000787900007a7900007c7900007e7900008079000082790000847900008679000000ca9a3b
+    scrollPos: {x: 0, y: 352}
+    m_SelectedIDs: 504a0000
+    m_LastClickedID: 19024
+    m_ExpandedIDs: 00000000d8360000fc36000042370000c2370000d0370000d6380000f8390000a83a0000c23a0000e63b0000383c0000c63e000064400000124100008a4200000a4300001e440000ba4400001e4500003245000040450000864500005c460000aa46000072470000c0470000e24700007e480000e24800000a490000da490000504a0000704a0000004e0000be780000c0780000c2780000c4780000c6780000c8780000ca780000cc780000ce780000d0780000d2780000d4780000d6780000d878000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -584,7 +584,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000dc390000003a0000463a0000c03a0000ce3a0000cc3b0000e23c0000883d00008a3d0000a23d0000c23e0000143f000028430000ce4300000444000026450000a2450000384700009a470000ae470000bc470000fe470000c8480000d6490000224a00003e4a0000324b00005a4b0000284c00009a4c0000ba4c00006c7900006e79000070790000727900007479000076790000787900007a7900007c7900007e79000080790000827900008479000086790000
+    m_ExpandedIDs: 00000000d8360000fc36000042370000c2370000d0370000d6380000f8390000a83a0000c23a0000e63b0000383c0000c63e000064400000124100008a4200000a4300001e440000ba4400001e4500003245000040450000864500005c46000072470000c0470000e24700007e480000e24800000a490000da490000504a0000704a0000004e0000be780000c0780000c2780000c4780000c6780000c8780000ca780000cc780000ce780000d0780000d2780000d4780000d6780000d8780000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -669,9 +669,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 60d4feff
-      m_LastClickedID: -76704
-      m_ExpandedIDs: 10aefeff82d3feff5ad4feff76defeff4ce2feffe8fbfeff2800ffff6000ffff9a0cffffac26ffffb426ffff3831ffffb081ffff74baffff02c5ffffcec8fffffef5ffffbaf9ffffd4f9ffff
+      m_SelectedIDs: 32330000
+      m_LastClickedID: 0
+      m_ExpandedIDs: 8ef7ffff64fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

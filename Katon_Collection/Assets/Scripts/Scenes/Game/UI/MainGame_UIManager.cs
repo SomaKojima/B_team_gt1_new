@@ -370,6 +370,7 @@ public class MainGame_UIManager : MonoBehaviour
             request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.QR_READE);
         }
 
+        // 戻る
         if(qrReaderWindow.IsBack())
         {
             requestActiveUI.UnActive_OnFlag(ACTIVE_BIT_FLAG_TYPE.IMMEDIATELY, ACTIVE_UI.QR_READER);
@@ -398,7 +399,7 @@ public class MainGame_UIManager : MonoBehaviour
         // 交換
         if (fountainWindow.IsExchange())
         {
-            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.EXCHANGE | REQUEST.CAMERA_START);
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.EXCHANGE);
             request.ExchangeItems = fountainWindow.GetItems();
         }
 
@@ -580,6 +581,7 @@ public class MainGame_UIManager : MonoBehaviour
         {
             otherID = -1;
             qrReaderWindow.FinishExchange(_isExchangable);
+            request.Flag.OnFlag(REQUEST_BIT_FLAG_TYPE.IMMEDIATELY, REQUEST.CAMERA_START);
         }
     }
 

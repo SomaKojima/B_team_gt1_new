@@ -1,7 +1,7 @@
 DATA_START,,
 time,0,
 necessary,2,
-get_item,RANDOM_HUMAN,1,0
+get_item,LOOGER,1,0
 pay_item,,
 is_item,false,
 DATA_END,,
