@@ -13,6 +13,9 @@ public class ChangeCountIcon : MonoBehaviour
     [SerializeField]
     Text text;
 
+    [SerializeField]
+    JudgeClickUI judgeClickUI;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,5 +40,10 @@ public class ChangeCountIcon : MonoBehaviour
     public void SetNum(int num)
     {
         text.text = num.ToString();
+    }
+
+    public bool IsClick()
+    {
+        return judgeClickUI.IsClickInSizde();
     }
 }

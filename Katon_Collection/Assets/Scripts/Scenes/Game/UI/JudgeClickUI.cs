@@ -53,7 +53,7 @@ public class JudgeClickUI : MonoBehaviour
         // ヒットしたUIの名前
         foreach (RaycastResult target in results)
         {
-            if (target.gameObject.name == _name) return true;
+            if (target.gameObject.GetComponent<RectTransform>() == rectTransform) return true;
         }
 
         return false;
